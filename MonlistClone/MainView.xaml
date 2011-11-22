@@ -1,0 +1,144 @@
+﻿<Window x:Class="MonlistClone.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainView"
+        Height="500"
+        Width="600"
+        Closing="mv_Closing"
+        x:Name="mv">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="50"></ColumnDefinition>
+      <ColumnDefinition Width="2*"></ColumnDefinition>
+      <ColumnDefinition Width="50"></ColumnDefinition>
+      <ColumnDefinition Width="*"></ColumnDefinition>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="*"></RowDefinition>
+    </Grid.RowDefinitions>
+
+    <TextBlock Grid.Column="0"
+               Grid.ColumnSpan="3"
+               Grid.Row="0"
+               HorizontalAlignment="Center"
+               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.Month}"></TextBlock>
+    <TextBlock Grid.Column="0"
+               Grid.ColumnSpan="3"
+               Grid.Row="1"
+               HorizontalAlignment="Center"
+               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat=Woche 0}"></TextBlock>
+    <Button Grid.Column="0"
+            Grid.Row="2"
+            Content="&lt;"
+            Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}"></Button>
+    <ItemsControl Grid.Row="2"
+                  Grid.Column="1"
+                  ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}"
+                  Grid.IsSharedSizeScope="True">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Border BorderThickness="1"
+                  BorderBrush="Black"
+                  CornerRadius="2"
+                  Margin="1"
+                  SnapsToDevicePixels="True">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"
+                                  SharedSizeGroup="Labels"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+              </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+              </Grid.RowDefinitions>
+
+              <TextBlock Grid.Column="0"
+                         Grid.Row="0"
+                         Text="{Binding DayOfWeek}"
+                         Foreground="Gray"
+                         HorizontalAlignment="Center"></TextBlock>
+              <TextBlock Grid.Column="0"
+                         Grid.Row="1"
+                         Text="{Binding Day}"
+                         FontWeight="Bold"
+                         HorizontalAlignment="Center"></TextBlock>              
+              <TextBlock Grid.Column="0"
+                         Grid.Row="2"
+                         Text="{Binding HoursDuration, StringFormat=0 h}"
+                         FontWeight="Bold"
+                         Foreground="Gray"
+                         HorizontalAlignment="Center"></TextBlock>
+
+              <TextBox Grid.Column="1"
+                       Grid.Row="0"
+                       Grid.RowSpan="2"
+                       Margin="3,2,2,2"
+                       Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+              <ItemsControl Grid.Column="1"
+                            Grid.Row="2"
+                            Grid.RowSpan="2"
+                            Margin="3,2,2,2"
+                            ItemsSource="{Binding Items}"
+                            Grid.IsSharedSizeScope="True">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="1" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="2" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="3" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="4" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="5" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="6" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="7" />
+                      </Grid.ColumnDefinitions>
+                      <TextBlock Grid.Column="0"
+                                 TextAlignment="Right"
+                                 Text="{Binding Start}" />
+                      <TextBlock Grid.Column="1"
+                                 Text=" => " />
+                      <TextBlock Grid.Column="2"
+                                 TextAlignment="Right"
+                                 Text="{Binding End}" />
+                      <TextBlock Grid.Column="3"
+                                 Text=" : " />
+                      <TextBlock Grid.Column="4"
+                                 Text="{Binding Project}" />
+                      <TextBlock Grid.Column="5"
+                                 Text="-" />
+                      <TextBlock Grid.Column="6"
+                                 Text="{Binding Position}" />
+                      </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <Button Grid.Column="2"
+            Grid.Row="2"
+            Content="&gt;"
+            Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}"></Button>
+
+    <TextBlock Grid.Column="3"
+               Grid.Row="1"
+               HorizontalAlignment="Center">Shortcuts</TextBlock>
+    <ListBox Grid.Column="3"
+             Grid.Row="2"
+             ItemsSource="{Binding ElementName=mv, Path=ViewModel.WeekDayParserSettings.ProjectAbbreviations}"></ListBox>
+  </Grid>
+</Window>
