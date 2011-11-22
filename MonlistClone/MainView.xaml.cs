@@ -29,5 +29,22 @@ namespace MonlistClone
     private void mv_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
       this.ViewModel.Save();
     }
+
+    private void mv_PreviewKeyDown(object sender, KeyEventArgs e) {
+      if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) {
+        switch (e.Key) {
+          case Key.Left:
+            if (this.ViewModel.PreviousWeekCommand.CanExecute(null)) {
+              this.ViewModel.PreviousWeekCommand.Execute(null);
+            }
+            break;
+          case Key.Right:
+            if (this.ViewModel.NextWeekCommand.CanExecute(null)) {
+              this.ViewModel.NextWeekCommand.Execute(null);
+            }
+            break;
+        }
+      }
+    }
   }
 }

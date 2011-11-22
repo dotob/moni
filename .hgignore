@@ -1,0 +1,7 @@
+_ReSharper.MonlistClone
+bin
+obj
+syntax: glob
+MonlistClone.1.1.dotCover
+MonlistClone.6.0.ReSharper.user
+MonlistClone.suo

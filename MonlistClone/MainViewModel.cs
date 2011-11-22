@@ -98,6 +98,8 @@ namespace MonlistClone {
 
     public void Save() {
       this.persistenceLayer.SaveData(this.workYear, this.persistenceFileName);
+      CSVExporter ce = new CSVExporter();
+      ce.Export(this.WorkMonth, "monlist.txt");
     }
   }
 }

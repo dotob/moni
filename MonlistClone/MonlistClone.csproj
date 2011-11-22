@@ -56,6 +56,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\CSVExporter.cs" />
     <Compile Include="Data\TextFilePersistenceLayer.cs" />
     <Compile Include="Tests\PersistentTester.cs" />
     <Compile Include="Tests\WorkDayParserTester.cs" />

@@ -29,7 +29,7 @@ namespace MonlistClone.Data {
     }
 
     public WorkDay GetDay(int month, int day) {
-      return this.Months.ElementAt(month-1).Days.ElementAt(day);
+      return this.Months.ElementAt(month-1).Days.ElementAt(day-1);
     }
   }
 }

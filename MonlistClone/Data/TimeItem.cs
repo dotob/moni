@@ -111,5 +111,9 @@ namespace MonlistClone.Data {
     public override string ToString() {
       return string.Format("{0}:{1:00}", this.Hour, this.Minute);
     }
+
+    public string ToMonlistString() {
+      return string.Format("{0:00}{1:00}", this.Hour, this.Minute);
+    }
   }
 }

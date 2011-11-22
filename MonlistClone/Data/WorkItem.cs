@@ -11,6 +11,7 @@
     public TimeItem End { get; set; }
     public string Project { get; set; }
     public string Position { get; set; }
+    public string Description { get; set; }
 
     public override bool Equals(object obj) {
       WorkItem ti = obj as WorkItem;
