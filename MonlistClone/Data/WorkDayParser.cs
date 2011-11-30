@@ -68,21 +68,26 @@ namespace MonlistClone.Data {
       List<WorkItem> resultListTmp = new List<WorkItem>();
       TimeItem lastTime = dayStartTime;
       foreach (var workItemTemp in tmpList) {
-        // TODO: fail when timeitem stuff fails...
-        var currentEndTime = lastTime + workItemTemp.HourCount;
-        // check for split
-        if (this.settings != null && this.settings.InsertDayBreak) {
-          if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
-            // insert new item
-            resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString));
-            lastTime = this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes/60d;
-            // fixup currentEndTime, need to add the dayshiftbreak
-            currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes / 60d;
+        // check for pause
+        if (workItemTemp.IsPause) {
+          lastTime += workItemTemp.HourCount;
+        } else {
+          // TODO: fail when timeitem stuff fails...
+          var currentEndTime = lastTime + workItemTemp.HourCount;
+          // check for split
+          if (this.settings != null && this.settings.InsertDayBreak) {
+            if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
+              // insert new item
+              resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString));
+              lastTime = this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes/60d;
+              // fixup currentEndTime, need to add the dayshiftbreak
+              currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes/60d;
+            }
           }
+          resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString));
+          lastTime = currentEndTime;
+          success = true;
         }
-        resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString));
-        lastTime = currentEndTime;
-        success = true;
       }
       resultList = resultListTmp;
       return success;
@@ -92,38 +97,49 @@ namespace MonlistClone.Data {
       bool success = false;
       workItem = null;
       error = string.Empty;
-      // workitem: <count of hours>;<projectnumber>-<positionnumber>
-      var timeString = wdItemString.Token(this.hourProjectInfoSeparator, 1).Trim();
-      if (!string.IsNullOrEmpty(timeString)) {
-        double hours;
-        if (double.TryParse(timeString, NumberStyles.Float, CultureInfo.InvariantCulture, out hours)) {
+      // check for pause item
+      if (wdItemString.EndsWith("!")) {
+        double pauseDuration;
+        if (double.TryParse(wdItemString.Substring(0, wdItemString.Length - 1), NumberStyles.Float, CultureInfo.InvariantCulture, out pauseDuration)) {
           workItem = new WorkItemTemp();
-          workItem.HourCount = hours;
-
-          var projectPosString = wdItemString.Token(this.hourProjectInfoSeparator, 2).Trim();
-          if (!string.IsNullOrEmpty(projectPosString)) {
-            // expand abbreviations
-            if (this.settings != null && this.settings.ProjectAbbreviations != null && this.settings.ProjectAbbreviations.Any()) {
-              string expanded;
-              if (this.settings.ProjectAbbreviations.TryGetValue(projectPosString, out expanded)) {
-                projectPosString = expanded;
-              }
-            }
-
-            var parts = projectPosString.Split('-').Select(s => s.Trim()).ToList();
-            if (parts.Any()) {
-              workItem.ProjectString = parts.ElementAtOrDefault(0);
-              workItem.PosString = parts.ElementAtOrDefault(1) ?? string.Empty;
-              success = true;
-            } else {
-              error = string.Format("could not parse projectstring {0}", projectPosString);
-            }
-          } else {
-            error = string.Format("projectstring was empty in {0}", wdItemString);
-          }
+          workItem.HourCount = pauseDuration;
+          workItem.IsPause = true;
+          success = true;
         }
       } else {
-        error = string.Format("could not parse hourstring from {0}", wdItemString);
+        // workitem: <count of hours>;<projectnumber>-<positionnumber>
+        var timeString = wdItemString.Token(this.hourProjectInfoSeparator, 1).Trim();
+        if (!string.IsNullOrEmpty(timeString)) {
+          double hours;
+          if (double.TryParse(timeString, NumberStyles.Float, CultureInfo.InvariantCulture, out hours)) {
+            workItem = new WorkItemTemp();
+            workItem.HourCount = hours;
+
+            var projectPosString = wdItemString.Token(this.hourProjectInfoSeparator, 2).Trim();
+            if (!string.IsNullOrEmpty(projectPosString)) {
+              // expand abbreviations
+              if (this.settings != null && this.settings.ProjectAbbreviations != null && this.settings.ProjectAbbreviations.Any()) {
+                string expanded;
+                if (this.settings.ProjectAbbreviations.TryGetValue(projectPosString, out expanded)) {
+                  projectPosString = expanded;
+                }
+              }
+
+              var parts = projectPosString.Split('-').Select(s => s.Trim()).ToList();
+              if (parts.Any()) {
+                workItem.ProjectString = parts.ElementAtOrDefault(0);
+                workItem.PosString = parts.ElementAtOrDefault(1) ?? string.Empty;
+                success = true;
+              } else {
+                error = string.Format("could not parse projectstring {0}", projectPosString);
+              }
+            } else {
+              error = string.Format("projectstring was empty in {0}", wdItemString);
+            }
+          }
+        } else {
+          error = string.Format("could not parse hourstring from {0}", wdItemString);
+        }
       }
       return success;
     }
@@ -170,6 +186,7 @@ namespace MonlistClone.Data {
   }
 
   internal class WorkItemTemp {
+    public bool IsPause { get; set; }
     public double HourCount { get; set; }
     public string ProjectString { get; set; }
     public string PosString { get; set; }

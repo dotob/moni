@@ -105,5 +105,20 @@ namespace MonlistClone.Tests {
       CollectionAssert.AreEqual(new[] {new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111"), new WorkItem(new TimeItem(11, 0), new TimeItem(12, 00), "33333", "333")}, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }
+
+
+    [Test]
+    public void WDParser_InsertPauseItem_LeavePause() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDayParser wdp = new WorkDayParser();
+      var workItemParserResult = wdp.Parse("7,1;11111-111,2!,2;11111-111", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(7, 0), new TimeItem(8, 0), "11111", "111"),
+                                        new WorkItem(new TimeItem(10, 0), new TimeItem(12, 0), "11111", "111")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+    }
   }
 }

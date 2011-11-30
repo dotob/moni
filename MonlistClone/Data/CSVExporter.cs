@@ -15,7 +15,8 @@ namespace MonlistClone.Data {
     private void AddData(WorkMonth month, List<string> data) {
       foreach (var day in month.Days) {
         foreach (var item in day.Items) {
-          data.Add(string.Format(CultureInfo.InvariantCulture, " {0:00}     {1}    {2}    {3:00.00}   {4}    {5}      {6}", day.Day, item.Start.ToMonlistString(), item.End.ToMonlistString(), day.HoursDuration, item.Project, item.Position, item.Description));
+          var description = string.IsNullOrEmpty(item.Description)?"-":item.Description;
+          data.Add(string.Format(CultureInfo.InvariantCulture, " {0:00}     {1}    {2}    {3:00.00}   {4}    {5}      {6}", day.Day, item.Start.ToMonlistString(), item.End.ToMonlistString(), day.HoursDuration, item.Project, item.Position, description));
         }
       }
     }
