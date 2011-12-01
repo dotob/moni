@@ -77,6 +77,10 @@ namespace MonlistClone.Data {
       int partBeforeKomma = (int) Math.Truncate(hours);
       double partAfterKomma = hours - partBeforeKomma;
       int minutes = (int) (Math.Round(partAfterKomma*60) + ti.Minute);
+      if(minutes>=60) {
+        partBeforeKomma++;
+        minutes -= 60;
+      }
       return new TimeItem(ti.Hour + partBeforeKomma, minutes);
     }
 

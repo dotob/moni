@@ -106,7 +106,6 @@ namespace MonlistClone.Tests {
       Assert.IsEmpty(workItemParserResult.Error);
     }
 
-
     [Test]
     public void WDParser_InsertPauseItem_LeavePause() {
       WorkDay wd = new WorkDay(1, 1, 1);
@@ -117,6 +116,32 @@ namespace MonlistClone.Tests {
       CollectionAssert.AreEqual(new[] {
                                         new WorkItem(new TimeItem(7, 0), new TimeItem(8, 0), "11111", "111"),
                                         new WorkItem(new TimeItem(10, 0), new TimeItem(12, 0), "11111", "111")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+    }
+
+    [Test]
+    public void WDParser_ParseHourFragment_MultiplyBy60() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDayParser wdp = new WorkDayParser();
+      var workItemParserResult = wdp.Parse("7,1.75;11111-111", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(7, 0), new TimeItem(8, 45), "11111", "111")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+    }
+
+    [Test]
+    public void WDParser_ParseHourFragment2_MultiplyBy60() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDayParser wdp = new WorkDayParser();
+      var workItemParserResult = wdp.Parse("9:15,7.25;11111-111", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(9, 15), new TimeItem(16, 30), "11111", "111")
                                       }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }

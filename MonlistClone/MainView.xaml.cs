@@ -46,5 +46,9 @@ namespace MonlistClone
         }
       }
     }
+
+    private void Button_Click(object sender, RoutedEventArgs e) {
+      this.ViewModel.Save();
+    }
   }
 }

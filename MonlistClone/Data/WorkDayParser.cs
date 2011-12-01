@@ -62,7 +62,7 @@ namespace MonlistClone.Data {
       return ret;
     }
 
-    private bool ProcessTempWorkItems(TimeItem dayStartTime, List<WorkItemTemp> tmpList, out IEnumerable<WorkItem> resultList, out string error) {
+    private bool ProcessTempWorkItems(TimeItem dayStartTime, IEnumerable<WorkItemTemp> tmpList, out IEnumerable<WorkItem> resultList, out string error) {
       bool success = false;
       error = string.Empty;
       List<WorkItem> resultListTmp = new List<WorkItem>();

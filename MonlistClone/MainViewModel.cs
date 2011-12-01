@@ -25,7 +25,7 @@ namespace MonlistClone {
       this.WeekDayParserSettings = new WorkDayParserSettings();
       this.WeekDayParserSettings.ProjectAbbreviations.Add("ktl", "25710-420");
       this.WeekDayParserSettings.ProjectAbbreviations.Add("ctb", "25482-420");
-      this.WeekDayParserSettings.ProjectAbbreviations.Add("u", "20030");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("u", "20030-000");
       this.WeekDayParserSettings.InsertDayBreak = true;
       this.WeekDayParserSettings.DayBreakTime = new TimeItem(12);
       this.WeekDayParserSettings.DayBreakDurationInMinutes = 30;
@@ -90,10 +90,12 @@ namespace MonlistClone {
 
     private void SelectPreviousWeek() {
       this.WorkWeek = this.workYear.Weeks.ElementAt(this.workYear.Weeks.IndexOf(this.workWeek) - 1);
+      this.WorkMonth = this.workWeek.Month;
     }
 
     private void SelectNextWeek() {
       this.WorkWeek = this.workYear.Weeks.ElementAt(this.workYear.Weeks.IndexOf(this.workWeek) + 1);
+      this.WorkMonth = this.workWeek.Month;
     }
 
     public void Save() {

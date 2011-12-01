@@ -53,6 +53,22 @@ namespace MonlistClone.Tests {
     }
 
     [Test]
+    public void PlusOperator_AddMinutes_HourOverflowWork() {
+      TimeItem ti = new TimeItem(1,30);
+      var timeItem = ti + 0.75;
+      Assert.AreEqual(2, timeItem.Hour);
+      Assert.AreEqual(15, timeItem.Minute);
+    }
+
+    [Test]
+    public void PlusOperator_AddMinutesExact60_HourOverflowWork() {
+      TimeItem ti = new TimeItem(1,30);
+      var timeItem = ti + 0.5;
+      Assert.AreEqual(2, timeItem.Hour);
+      Assert.AreEqual(0, timeItem.Minute);
+    }
+
+    [Test]
     public void PlusOperator_AddHoursAndMinutes_Work() {
       TimeItem ti = new TimeItem(1,0);
       var timeItem = ti + 1.5;
