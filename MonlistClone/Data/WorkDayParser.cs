@@ -78,13 +78,13 @@ namespace MonlistClone.Data {
           if (this.settings != null && this.settings.InsertDayBreak) {
             if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
               // insert new item
-              resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString));
+              resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description));
               lastTime = this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes/60d;
               // fixup currentEndTime, need to add the dayshiftbreak
               currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes/60d;
             }
           }
-          resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString));
+          resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description));
           lastTime = currentEndTime;
           success = true;
         }
@@ -107,7 +107,7 @@ namespace MonlistClone.Data {
           success = true;
         }
       } else {
-        // workitem: <count of hours>;<projectnumber>-<positionnumber>
+        // workitem: <count of hours>;<projectnumber>-<positionnumber>[(<description>)]
         var timeString = wdItemString.Token(this.hourProjectInfoSeparator, 1).Trim();
         if (!string.IsNullOrEmpty(timeString)) {
           double hours;
@@ -115,23 +115,34 @@ namespace MonlistClone.Data {
             workItem = new WorkItemTemp();
             workItem.HourCount = hours;
 
-            var projectPosString = wdItemString.Token(this.hourProjectInfoSeparator, 2).Trim();
-            if (!string.IsNullOrEmpty(projectPosString)) {
+            var projectPosDescString = wdItemString.Token(this.hourProjectInfoSeparator, 2).Trim();
+            if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
               if (this.settings != null && this.settings.ProjectAbbreviations != null && this.settings.ProjectAbbreviations.Any()) {
                 string expanded;
-                if (this.settings.ProjectAbbreviations.TryGetValue(projectPosString, out expanded)) {
-                  projectPosString = expanded;
+                var abbrevString = projectPosDescString.TokenReturnInputIfFail('(', 1);
+                if (this.settings.ProjectAbbreviations.TryGetValue(abbrevString, out expanded)) {
+                  // if there is an desc given use its value instead of the one in the abbrev
+                  if(!string.IsNullOrEmpty(projectPosDescString.Token('(', 2).Token(')',1))) {
+                    // replace desc in expanded
+                    expanded = expanded.TokenReturnInputIfFail('(', 1) + "(" + projectPosDescString.Token('(', 2).Token(')', 1) + ")";
+                  }
+                  projectPosDescString = expanded;
                 }
               }
 
+              var projectPosString = projectPosDescString.TokenReturnInputIfFail('(', 1);
               var parts = projectPosString.Split('-').Select(s => s.Trim()).ToList();
               if (parts.Any()) {
                 workItem.ProjectString = parts.ElementAtOrDefault(0);
                 workItem.PosString = parts.ElementAtOrDefault(1) ?? string.Empty;
                 success = true;
               } else {
-                error = string.Format("could not parse projectstring {0}", projectPosString);
+                error = string.Format("could not parse projectstring {0}", projectPosDescString);
+              }
+              var descString = projectPosDescString.Token('(', 2).Token(')',1);
+              if(!string.IsNullOrEmpty(descString)) {
+                workItem.Description = descString;
               }
             } else {
               error = string.Format("projectstring was empty in {0}", wdItemString);
@@ -190,5 +201,6 @@ namespace MonlistClone.Data {
     public double HourCount { get; set; }
     public string ProjectString { get; set; }
     public string PosString { get; set; }
+    public string Description { get; set; }
   }
 }

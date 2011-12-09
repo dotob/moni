@@ -90,6 +90,7 @@ namespace MonlistClone.Tests {
       Assert.IsEmpty(workItemParserResult.Error);
     }
 
+
     [Test]
     public void WDParser_UseAbbreviations_ExpandAbbreviations() {
       WorkDay wd = new WorkDay(1, 1, 1);
@@ -143,6 +144,34 @@ namespace MonlistClone.Tests {
       CollectionAssert.AreEqual(new[] {
                                         new WorkItem(new TimeItem(9, 15), new TimeItem(16, 30), "11111", "111")
                                       }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+    }
+
+    [Test]
+    public void WDParser_ParseDescription_GetDesc() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDayParser wdp = new WorkDayParser();
+      var workItemParserResult = wdp.Parse("9:15,7.25;11111-111(lalala)", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(9, 15), new TimeItem(16, 30), "11111", "111","lalala")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+    }
+
+    [Test]
+    public void WDParser_UseAbbreviationsAndDesc_ExpandAbbreviationsAndOverwriteDescFromAbbr() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      Dictionary<string, string> abbr = new Dictionary<string, string>();
+      abbr.Add("ctb", "11111-111(donotuseme)");
+      abbr.Add("ktl", "22222-222(useme)");
+      WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ProjectAbbreviations = abbr };
+      WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+      var workItemParserResult = wdp.Parse("9:00,2;ctb(useme),2;ktl", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] { new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111","useme"), new WorkItem(new TimeItem(11, 0), new TimeItem(13, 0), "22222", "222","useme") }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }
   }

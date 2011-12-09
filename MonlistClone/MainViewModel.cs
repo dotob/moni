@@ -23,9 +23,23 @@ namespace MonlistClone {
       this.WorkMonth = this.WorkYear.Months.ElementAt(now.Month - 1);
       this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == cal.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
       this.WeekDayParserSettings = new WorkDayParserSettings();
-      this.WeekDayParserSettings.ProjectAbbreviations.Add("ktl", "25710-420");
-      this.WeekDayParserSettings.ProjectAbbreviations.Add("ctb", "25482-420");
-      this.WeekDayParserSettings.ProjectAbbreviations.Add("u", "20030-000");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("ctbn", "25482-420(features)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("ctbp", "25482-811(performanceverbesserungen)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("ctbf", "25482-811(tracker)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("ctbm", "25482-140(meeting)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("ctbr", "25482-050(ac-hh-ac)");
+
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("ktln", "25710-420(feature)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("ktlf", "25710-811(tracker)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("ktlm", "25710-140(meeting)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("ktlr", "25710-050(reise)");
+
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("u", "20030-000(urlaub)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("krank", "20020-000(krank/doc)");
+
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("monatsmeeting", "20018-000");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("swe", "20308-000(swe projekt)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("jmb", "20308-000(jean-marie)");
       this.WeekDayParserSettings.InsertDayBreak = true;
       this.WeekDayParserSettings.DayBreakTime = new TimeItem(12);
       this.WeekDayParserSettings.DayBreakDurationInMinutes = 30;

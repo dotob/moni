@@ -3,16 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainView"
         Height="800"
-        Width="600"
+        Width="900"
         Closing="mv_Closing"
         PreviewKeyDown="mv_PreviewKeyDown"
         x:Name="mv">
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="50"></ColumnDefinition>
-      <ColumnDefinition Width="2*"></ColumnDefinition>
+      <ColumnDefinition Width="3*"></ColumnDefinition>
       <ColumnDefinition Width="50"></ColumnDefinition>
-      <ColumnDefinition Width="*"></ColumnDefinition>
+      <ColumnDefinition Width="2*"></ColumnDefinition>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"></RowDefinition>
@@ -128,6 +128,10 @@
                                           SharedSizeGroup="6" />
                         <ColumnDefinition Width="Auto"
                                           SharedSizeGroup="7" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="8" />
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="9" />
                       </Grid.ColumnDefinitions>
                       <TextBlock Grid.Column="0"
                                  TextAlignment="Right"
@@ -145,6 +149,10 @@
                                  Text="-" />
                       <TextBlock Grid.Column="6"
                                  Text="{Binding Position}" />
+                      <TextBlock Grid.Column="7"
+                                 Text="=>" />
+                      <TextBlock Grid.Column="8"
+                                 Text="{Binding Description}" />
                     </Grid>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>

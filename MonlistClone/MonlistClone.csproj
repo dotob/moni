@@ -58,6 +58,7 @@
     </ApplicationDefinition>
     <Compile Include="Data\CSVExporter.cs" />
     <Compile Include="Data\TextFilePersistenceLayer.cs" />
+    <Compile Include="Tests\HoursDuration_Tester.cs" />
     <Compile Include="Tests\PersistentTester.cs" />
     <Compile Include="Tests\WorkDayParserTester.cs" />
     <Compile Include="Util\DelegateCommand.cs" />

@@ -7,6 +7,19 @@
       this.Position = position;
     }
 
+    public WorkItem(TimeItem start, TimeItem end, string project, string position, string description) {
+      this.Start = start;
+      this.End = end;
+      this.Project = project;
+      this.Position = position;
+      this.Description = description;
+    }
+
+    public WorkItem(TimeItem start, TimeItem end) {
+      Start = start;
+      End = end;
+    }
+
     public TimeItem Start { get; set; }
     public TimeItem End { get; set; }
     public string Project { get; set; }
