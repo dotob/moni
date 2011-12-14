@@ -174,5 +174,39 @@ namespace MonlistClone.Tests {
       CollectionAssert.AreEqual(new[] { new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111","useme"), new WorkItem(new TimeItem(11, 0), new TimeItem(13, 0), "22222", "222","useme") }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }
+
+    [Test]
+    public void WDParser_InsteadOfHoursICanTellAnEndTime_UseEndTime() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      Dictionary<string, string> abbr = new Dictionary<string, string>();
+      abbr.Add("ctb", "11111-111");
+      abbr.Add("ktl", "22222-222");
+      WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ProjectAbbreviations = abbr };
+      WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+      var workItemParserResult = wdp.Parse("9:00,-12;ctb,-15;ktl", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] { new WorkItem(new TimeItem(9, 0), new TimeItem(12, 0), "11111", "111"), new WorkItem(new TimeItem(12, 0), new TimeItem(15, 0), "22222", "222") }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+    }
+
+    [Test]
+    public void WDParser_UsingEndTimeAndBreak_CalculateBreak() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      Dictionary<string, string> abbr = new Dictionary<string, string>();
+      abbr.Add("ctb", "11111-111");
+      abbr.Add("ktl", "22222-222");
+      WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ProjectAbbreviations = abbr,DayBreakDurationInMinutes = 30, InsertDayBreak = true, DayBreakTime = new TimeItem(12)};
+      WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+      var workItemParserResult = wdp.Parse("9:00,-14;ctb,-16;ktl", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(9, 0), new TimeItem(12, 0), "11111", "111"),
+                                        new WorkItem(new TimeItem(12, 30), new TimeItem(14, 0), "11111", "111"), 
+                                        new WorkItem(new TimeItem(14, 0), new TimeItem(16, 0), "22222", "222")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+    }
   }
 }

@@ -53,7 +53,7 @@ namespace MonlistClone.Data {
       bool success = false;
       ti = null;
       if (!string.IsNullOrEmpty(s)) {
-        var parts = s.Split(':').Select(p=>p.Trim()).ToList();
+        var parts = s.Split(':').Select(p => p.Trim()).ToList();
         if (parts.Any()) {
           int hour;
           if (int.TryParse(parts.ElementAt(0), out hour)) {
@@ -77,7 +77,7 @@ namespace MonlistClone.Data {
       int partBeforeKomma = (int) Math.Truncate(hours);
       double partAfterKomma = hours - partBeforeKomma;
       int minutes = (int) (Math.Round(partAfterKomma*60) + ti.Minute);
-      if(minutes>=60) {
+      if (minutes >= 60) {
         partBeforeKomma++;
         minutes -= 60;
       }
@@ -90,10 +90,10 @@ namespace MonlistClone.Data {
           return 0;
         }
         if (a.CompareTo(b) > 0) {
-          return b-a;
+          return b - a;
         }
         // do the real math, we know a is smaller than b here
-        if(a.Hour==b.Hour) {
+        if (a.Hour == b.Hour) {
           return (b.Minute - a.Minute)/60d;
         }
         var minutes = 60 - a.Minute + b.Minute;

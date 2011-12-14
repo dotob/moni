@@ -72,16 +72,24 @@ namespace MonlistClone.Data {
         if (workItemTemp.IsPause) {
           lastTime += workItemTemp.HourCount;
         } else {
-          // TODO: fail when timeitem stuff fails...
-          var currentEndTime = lastTime + workItemTemp.HourCount;
+          bool endTimeMode = false; // if endTimeMode do not add but substract break!
+          TimeItem currentEndTime;
+          if (workItemTemp.DesiredEndtime != null) {
+            currentEndTime = workItemTemp.DesiredEndtime;
+            endTimeMode = true;
+          }else {
+            currentEndTime = lastTime + workItemTemp.HourCount;
+          }
           // check for split
           if (this.settings != null && this.settings.InsertDayBreak) {
             if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
               // insert new item
               resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description));
               lastTime = this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes/60d;
-              // fixup currentEndTime, need to add the dayshiftbreak
-              currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes/60d;
+              if (!endTimeMode) {
+                // fixup currentEndTime, need to add the dayshiftbreak
+                currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes/60d;
+              }
             }
           }
           resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description));
@@ -107,14 +115,27 @@ namespace MonlistClone.Data {
           success = true;
         }
       } else {
-        // workitem: <count of hours>;<projectnumber>-<positionnumber>[(<description>)]
+        // workitem: <count of hours|-endtime>;<projectnumber>-<positionnumber>[(<description>)]
         var timeString = wdItemString.Token(this.hourProjectInfoSeparator, 1).Trim();
         if (!string.IsNullOrEmpty(timeString)) {
-          double hours;
-          if (double.TryParse(timeString, NumberStyles.Float, CultureInfo.InvariantCulture, out hours)) {
-            workItem = new WorkItemTemp();
-            workItem.HourCount = hours;
-
+          if (timeString.StartsWith("-")) {
+            TimeItem ti;
+            if (TimeItem.TryParse(timeString.Substring(1), out ti)) {
+              workItem = new WorkItemTemp();
+              workItem.DesiredEndtime = ti;
+            } else {
+              error = string.Format("could not parse endtime string from {0}", timeString);
+            }
+          } else {
+            double hours;
+            if (double.TryParse(timeString, NumberStyles.Float, CultureInfo.InvariantCulture, out hours)) {
+              workItem = new WorkItemTemp();
+              workItem.HourCount = hours;
+            } else {
+              error = string.Format("could not parse hour string from {0}", timeString);
+            }
+          }
+          if (workItem != null) {
             var projectPosDescString = wdItemString.Token(this.hourProjectInfoSeparator, 2).Trim();
             if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
@@ -123,7 +144,7 @@ namespace MonlistClone.Data {
                 var abbrevString = projectPosDescString.TokenReturnInputIfFail('(', 1);
                 if (this.settings.ProjectAbbreviations.TryGetValue(abbrevString, out expanded)) {
                   // if there is an desc given use its value instead of the one in the abbrev
-                  if(!string.IsNullOrEmpty(projectPosDescString.Token('(', 2).Token(')',1))) {
+                  if (!string.IsNullOrEmpty(projectPosDescString.Token('(', 2).Token(')', 1))) {
                     // replace desc in expanded
                     expanded = expanded.TokenReturnInputIfFail('(', 1) + "(" + projectPosDescString.Token('(', 2).Token(')', 1) + ")";
                   }
@@ -140,8 +161,8 @@ namespace MonlistClone.Data {
               } else {
                 error = string.Format("could not parse projectstring {0}", projectPosDescString);
               }
-              var descString = projectPosDescString.Token('(', 2).Token(')',1);
-              if(!string.IsNullOrEmpty(descString)) {
+              var descString = projectPosDescString.Token('(', 2).Token(')', 1);
+              if (!string.IsNullOrEmpty(descString)) {
                 workItem.Description = descString;
               }
             } else {
@@ -199,6 +220,7 @@ namespace MonlistClone.Data {
   internal class WorkItemTemp {
     public bool IsPause { get; set; }
     public double HourCount { get; set; }
+    public TimeItem DesiredEndtime { get; set; }
     public string ProjectString { get; set; }
     public string PosString { get; set; }
     public string Description { get; set; }
