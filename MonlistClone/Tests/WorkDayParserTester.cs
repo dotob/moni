@@ -208,5 +208,37 @@ namespace MonlistClone.Tests {
                                       }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }
+
+    [Test]
+    public void WDParser_BrokenHours_CalculateCorrectly() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDayParser wdp = new WorkDayParser();
+      var workItemParserResult = wdp.Parse("8:15,-15:30;11111-111,1;11111-111", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(8, 15), new TimeItem(15, 30), "11111", "111"),
+                                        new WorkItem(new TimeItem(15, 30), new TimeItem(16, 30), "11111", "111")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+      Assert.AreEqual(8.25, wd.HoursDuration);
+    }
+
+    [Test]
+    public void WDParser_BrokenHoursWithBreak_CalculateCorrectly() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { DayBreakDurationInMinutes = 30, InsertDayBreak = true, DayBreakTime = new TimeItem(12) };
+      WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+      var workItemParserResult = wdp.Parse("8:15,-15:30;11111-111,1;11111-111", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(8, 15), new TimeItem(12, 00), "11111", "111"),
+                                        new WorkItem(new TimeItem(12, 30), new TimeItem(15, 30), "11111", "111"),
+                                        new WorkItem(new TimeItem(15, 30), new TimeItem(16, 30), "11111", "111")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+      Assert.AreEqual(7.75, wd.HoursDuration);
+    }
   }
 }

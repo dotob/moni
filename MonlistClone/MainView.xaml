@@ -35,7 +35,7 @@
                  Text=", "></TextBlock>
       <TextBlock HorizontalAlignment="Center"
                  FontWeight="Bold"
-                 Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.HoursDuration, StringFormat=0 h}"></TextBlock>
+                 Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.HoursDuration, StringFormat='{}{0:f} h'}"></TextBlock>
     </StackPanel>
     <StackPanel Grid.Column="0"
                 Grid.ColumnSpan="3"
@@ -51,7 +51,7 @@
                  Text=", "></TextBlock>
       <TextBlock HorizontalAlignment="Center"
                  FontWeight="Bold"
-                 Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.HoursDuration, StringFormat=0 h}"></TextBlock>
+                 Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.HoursDuration, StringFormat='{}{0:f} h'}"></TextBlock>
     </StackPanel>
     <Button Grid.Column="0"
             Grid.Row="2"
@@ -92,7 +92,7 @@
                          HorizontalAlignment="Center"></TextBlock>
               <TextBlock Grid.Column="0"
                          Grid.Row="2"
-                         Text="{Binding HoursDuration, StringFormat=0 h}"
+                         Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}"
                          FontWeight="Bold"
                          Foreground="Gray"
                          HorizontalAlignment="Center"></TextBlock>
