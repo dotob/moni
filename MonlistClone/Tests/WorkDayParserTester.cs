@@ -25,6 +25,20 @@ namespace MonlistClone.Tests {
     }
 
     [Test]
+    public void WDParser_SetEmptyStringAfterSuccessfulParsing_DeleteItems() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDayParser wdp = new WorkDayParser();
+      var workItemParserResult = wdp.Parse("7,2;11111", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {new WorkItem(new TimeItem(7, 0), new TimeItem(9, 0), "11111", string.Empty)}, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+      wd.OriginalString = string.Empty;
+      CollectionAssert.IsEmpty(wd.Items);
+      Assert.AreEqual(0, wd.HoursDuration);
+    }
+
+    [Test]
     public void WDParser_SingleItemWithDayStartTimeAndPos_ReturnWorkItemWithOneItem() {
       WorkDay wd = new WorkDay(1, 1, 1);
       WorkDayParser wdp = new WorkDayParser();

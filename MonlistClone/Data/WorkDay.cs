@@ -45,17 +45,18 @@ namespace MonlistClone.Data {
           return;
         }
         this.originalString = value;
-        // do parsing
-        if (WorkDayParser.Instance != null) {
-          WorkDay wd = this;
-          var result = WorkDayParser.Instance.Parse(value, ref wd);
-          if (!result.Success) {
-            // todo what now?
-          } else {
-            var tmp = this.PropertyChanged;
-            if (tmp != null) {
-              tmp(this, new PropertyChangedEventArgs("OriginalString"));
-              tmp(this, new PropertyChangedEventArgs("HoursDuration"));
+        if (string.IsNullOrEmpty(this.originalString)) {
+          this.Items.Clear();
+          this.ImportantStuffChanged();
+        } else {
+          // do parsing
+          if (WorkDayParser.Instance != null) {
+            WorkDay wd = this;
+            var result = WorkDayParser.Instance.Parse(value, ref wd);
+            if (!result.Success) {
+              // todo what now?
+            } else {
+              this.ImportantStuffChanged();
             }
           }
         }
@@ -74,6 +75,14 @@ namespace MonlistClone.Data {
     public event PropertyChangedEventHandler PropertyChanged;
 
     #endregion
+
+    private void ImportantStuffChanged() {
+      var tmp = this.PropertyChanged;
+      if (tmp != null) {
+        tmp(this, new PropertyChangedEventArgs("OriginalString"));
+        tmp(this, new PropertyChangedEventArgs("HoursDuration"));
+      }
+    }
 
     public override string ToString() {
       return string.Format("{0},items:{1},origString:{2}", this.DayOfWeek, this.Items.Count, this.OriginalString);
