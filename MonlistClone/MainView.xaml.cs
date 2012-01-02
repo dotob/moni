@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MonlistClone.Data;
 
 namespace MonlistClone
 {
@@ -49,6 +50,21 @@ namespace MonlistClone
 
     private void Button_Click(object sender, RoutedEventArgs e) {
       this.ViewModel.Save();
+    }
+
+    private void mv_Loaded(object sender, RoutedEventArgs e) {
+
+    }
+
+    private void TextBox_Loaded(object sender, RoutedEventArgs e) {
+      var textBox = sender as TextBox;
+      if (textBox != null) {
+        WorkDay workDay = textBox.Tag as WorkDay;
+        if(workDay!=null && workDay.Name=="today") {
+          textBox.Focus();
+          textBox.Select(textBox.Text.Length, 0);
+        }
+      }
     }
   }
 }

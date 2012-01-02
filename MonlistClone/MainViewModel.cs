@@ -9,7 +9,7 @@ using MonlistClone.Util;
 namespace MonlistClone {
   public class MainViewModel : INotifyPropertyChanged {
     private ICommand nextWeekCommand;
-    private string persistenceFileName = "data.txt";
+    private string persistenceFileName;
     private TextFilePersistenceLayer persistenceLayer;
     private ICommand previousWeekCommand;
     private WorkMonth workMonth;
@@ -20,6 +20,7 @@ namespace MonlistClone {
       var now = DateTime.Now;
       var cal = new GregorianCalendar();
       this.WorkYear = new WorkYear(now.Year);
+      persistenceFileName = string.Format("data_{0}.txt", this.workYear.Year);
       this.WorkMonth = this.WorkYear.Months.ElementAt(now.Month - 1);
       this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == cal.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
       this.WeekDayParserSettings = new WorkDayParserSettings();

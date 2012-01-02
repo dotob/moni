@@ -24,6 +24,16 @@ namespace MonlistClone.Data {
       this.DayOfWeek = cal.GetDayOfWeek(dt);
     }
 
+    public string Name {
+      get {
+        var now = DateTime.Now;
+        if (now.Day == day && now.Month == month && now.Year == year) {
+          return "today";
+        }
+        return string.Format("{0}_{1}_{2}", this.year, this.month, this.day);
+      }
+    }
+
     public int Month {
       get { return this.month; }
     }
