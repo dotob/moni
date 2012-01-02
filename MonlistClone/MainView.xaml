@@ -27,7 +27,8 @@
                 Orientation="Horizontal"
                 HorizontalAlignment="Center">
       <TextBlock HorizontalAlignment="Center"
-                 Text="Monat: "></TextBlock>
+                 Text="Monat: "
+                 Foreground="Gray"></TextBlock>
       <TextBlock HorizontalAlignment="Center"
                  FontWeight="Bold"
                  Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.Month}"></TextBlock>
@@ -43,7 +44,8 @@
                 Orientation="Horizontal"
                 HorizontalAlignment="Center">
       <TextBlock HorizontalAlignment="Center"
-                 Text="Woche: "></TextBlock>
+                 Text="Woche: "
+                 Foreground="Gray"></TextBlock>
       <TextBlock HorizontalAlignment="Center"
                  FontWeight="Bold"
                  Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear}"></TextBlock>
@@ -56,6 +58,7 @@
     <Button Grid.Column="0"
             Grid.Row="2"
             Content="&lt;"
+            Margin="10 1 1 1"
             Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}"></Button>
     <ItemsControl Grid.Row="2"
                   Grid.Column="1"
@@ -64,9 +67,10 @@
       <ItemsControl.ItemTemplate>
         <DataTemplate>
           <Border BorderThickness="1"
-                  BorderBrush="Black"
+                  BorderBrush="DarkGray"
                   CornerRadius="2"
                   Margin="1"
+                  Padding="1"
                   SnapsToDevicePixels="True">
             <Grid>
               <Grid.ColumnDefinitions>
@@ -135,24 +139,33 @@
                       </Grid.ColumnDefinitions>
                       <TextBlock Grid.Column="0"
                                  TextAlignment="Right"
-                                 Text="{Binding Start}" />
+                                 Text="{Binding Start}"
+                                 FontWeight="Bold"/>
                       <TextBlock Grid.Column="1"
-                                 Text=" => " />
+                                 Text=" => "
+                                 Foreground="Gray" />
                       <TextBlock Grid.Column="2"
                                  TextAlignment="Right"
-                                 Text="{Binding End}" />
+                                 Text="{Binding End}"
+                                 FontWeight="Bold" />
                       <TextBlock Grid.Column="3"
-                                 Text=" : " />
+                                 Text=" : "
+                                 Foreground="Gray" />
                       <TextBlock Grid.Column="4"
-                                 Text="{Binding Project}" />
+                                 Text="{Binding Project}"
+                                 FontWeight="Bold" />
                       <TextBlock Grid.Column="5"
-                                 Text="-" />
+                                 Text="-"
+                                 Foreground="Gray" />
                       <TextBlock Grid.Column="6"
-                                 Text="{Binding Position}" />
+                                 Text="{Binding Position}"
+                                 FontWeight="Bold" />
                       <TextBlock Grid.Column="7"
-                                 Text="=>" />
+                                 Text="=>"
+                                 Foreground="Gray" />
                       <TextBlock Grid.Column="8"
-                                 Text="{Binding Description}" />
+                                 Text="{Binding Description}"
+                                 Foreground="Gray" />
                     </Grid>
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -165,14 +178,43 @@
     <Button Grid.Column="2"
             Grid.Row="2"
             Content="&gt;"
+            Margin="1 1 10 1"
             Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}"></Button>
 
     <TextBlock Grid.Column="3"
                Grid.Row="1"
                HorizontalAlignment="Center">Shortcuts</TextBlock>
-    <ListBox Grid.Column="3"
+    <ItemsControl Grid.Column="3"
              Grid.Row="2"
-             ItemsSource="{Binding ElementName=mv, Path=ViewModel.WeekDayParserSettings.ProjectAbbreviations}"></ListBox>
+             ItemsSource="{Binding ElementName=mv, Path=ViewModel.WeekDayParserSettings.ProjectAbbreviations}"
+             HorizontalContentAlignment="Stretch">
+      <ItemsControl.ItemTemplate>
+        <DataTemplate>
+          <Border BorderThickness="1"
+                  BorderBrush="DarkGray"
+                  CornerRadius="2"
+                  Margin="1"
+                  Padding="1"
+                  SnapsToDevicePixels="True">
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+              </Grid.RowDefinitions>
+              <TextBlock Grid.Row="0"
+                         Text="{Binding Key}"
+                         FontWeight="Bold"
+                         FontSize="14"/>
+              <TextBlock Grid.Row="1"
+                         Text="{Binding Value}"
+                         Foreground="Gray"
+                         FontSize="10"
+                         Margin="10 0 0 0"/>
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
     <Button Grid.Column="0"
             Grid.ColumnSpan="4"
             Grid.Row="3"
