@@ -61,6 +61,7 @@
     <Compile Include="Tests\HoursDuration_Tester.cs" />
     <Compile Include="Tests\PersistentTester.cs" />
     <Compile Include="Tests\WorkDayParserTester.cs" />
+    <Compile Include="Util\DayTypeColorConverter.cs" />
     <Compile Include="Util\DelegateCommand.cs" />
     <Compile Include="Util\StringParserHelper.cs" />
     <Compile Include="Data\WorkDayParser.cs" />
@@ -111,7 +112,9 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\clock.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

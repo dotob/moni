@@ -1,13 +1,18 @@
 ﻿<Window x:Class="MonlistClone.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="monlist clone"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Util="clr-namespace:MonlistClone.Util"
+        Title="myMonlist"
         Height="800"
         Width="900"
         Loaded="mv_Loaded"
         Closing="mv_Closing"
         PreviewKeyDown="mv_PreviewKeyDown"
-        x:Name="mv">
+        x:Name="mv"
+        Icon="/MonlistClone;component/Resources/clock.png">
+  
+  <Window.Resources>
+    <Util:DayTypeColorConverter x:Key="dayTypeColorConverter" />
+  </Window.Resources>
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="50"></ColumnDefinition>
@@ -66,9 +71,10 @@
                   ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}"
                   Grid.IsSharedSizeScope="True">
       <ItemsControl.ItemTemplate>
+        <!-- this is a day -->
         <DataTemplate>
           <Border BorderThickness="1"
-                  BorderBrush="DarkGray"
+                  BorderBrush="{Binding DayType, Converter={StaticResource dayTypeColorConverter}}"
                   CornerRadius="2"
                   Margin="1"
                   Padding="1"

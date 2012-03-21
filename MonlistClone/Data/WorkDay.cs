@@ -10,6 +10,7 @@ namespace MonlistClone.Data {
     private readonly int month;
     private readonly int year;
     private string originalString;
+    private DayType dayType;
 
     private WorkDay() {
       this.Items = new ObservableCollection<WorkItem>();
@@ -22,6 +23,32 @@ namespace MonlistClone.Data {
       var dt = new DateTime(year, month, day);
       var cal = new GregorianCalendar();
       this.DayOfWeek = cal.GetDayOfWeek(dt);
+      this.DayType = calculateDayType(dt, this.DayOfWeek);
+    }
+
+    private DayType calculateDayType(DateTime dt, DayOfWeek dayOfWeek) {
+      DayType ret = DayType.Unknown;
+      switch (dayOfWeek) {
+        case DayOfWeek.Monday:
+        case DayOfWeek.Tuesday:
+        case DayOfWeek.Wednesday:
+        case DayOfWeek.Thursday:
+        case DayOfWeek.Friday:
+          ret = DayType.Working;
+          break;
+        case DayOfWeek.Saturday:
+        case DayOfWeek.Sunday:
+          ret = DayType.Weekend;
+          break;
+      }
+
+      // TODO: more calculations required...
+      return ret;
+    }
+
+    public DayType DayType {
+      get { return this.dayType; }
+      set { this.dayType = value; }
     }
 
     public string Name {
@@ -47,7 +74,6 @@ namespace MonlistClone.Data {
     }
 
     // HACK
-
     public string OriginalString {
       get { return this.originalString; }
       set {
@@ -97,5 +123,12 @@ namespace MonlistClone.Data {
     public override string ToString() {
       return string.Format("{0},items:{1},origString:{2}", this.DayOfWeek, this.Items.Count, this.OriginalString);
     }
+  }
+
+  public enum DayType {
+    Unknown,
+    Working,
+    Weekend,
+    Holiday // means feiertag
   }
 }

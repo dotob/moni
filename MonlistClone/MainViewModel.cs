@@ -38,9 +38,11 @@ namespace MonlistClone {
       this.WeekDayParserSettings.ProjectAbbreviations.Add("u", "20030-000(urlaub)");
       this.WeekDayParserSettings.ProjectAbbreviations.Add("krank", "20020-000(krank/doc)");
 
-      this.WeekDayParserSettings.ProjectAbbreviations.Add("monatsmeeting", "20018-000");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("tm", "20018-140(terminalmeeting)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("mm", "20018-140(tess/monatsmeeting)");
       this.WeekDayParserSettings.ProjectAbbreviations.Add("swe", "20308-000(swe projekt)");
-      this.WeekDayParserSettings.ProjectAbbreviations.Add("jmb", "20308-000(jean-marie)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("jmb", "20308-000(jean-marie ausbildungsbetreuung)");
+      this.WeekDayParserSettings.ProjectAbbreviations.Add("w", "20180-000(weiterbildung)");
       this.WeekDayParserSettings.InsertDayBreak = true;
       this.WeekDayParserSettings.DayBreakTime = new TimeItem(12);
       this.WeekDayParserSettings.DayBreakDurationInMinutes = 30;
