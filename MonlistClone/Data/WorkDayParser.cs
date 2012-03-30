@@ -72,7 +72,7 @@ namespace MonlistClone.Data {
         if (workItemTemp.IsPause) {
           lastTime += workItemTemp.HourCount;
         } else {
-          bool endTimeMode = false; // if endTimeMode do not add but substract break!
+          bool endTimeMode = false; // if endTimeMode do not add, but substract break!
           TimeItem currentEndTime;
           if (workItemTemp.DesiredEndtime != null) {
             currentEndTime = workItemTemp.DesiredEndtime;
@@ -82,6 +82,7 @@ namespace MonlistClone.Data {
           }
           // check for split
           if (this.settings != null && this.settings.InsertDayBreak) {
+            // the break is in an item
             if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
               // insert new item
               resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description));
@@ -90,6 +91,8 @@ namespace MonlistClone.Data {
                 // fixup currentEndTime, need to add the dayshiftbreak
                 currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes/60d;
               }
+            } else if(this.settings.DayBreakTime.Equals(lastTime)) {
+              lastTime = lastTime + this.settings.DayBreakDurationInMinutes / 60d;
             }
           }
           resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description));

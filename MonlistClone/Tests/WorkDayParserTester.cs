@@ -254,5 +254,21 @@ namespace MonlistClone.Tests {
       Assert.IsEmpty(workItemParserResult.Error);
       Assert.AreEqual(7.75, wd.HoursDuration);
     }
+
+    [Test]
+    public void WDParser_PartEndsAtBreakTime_AddBreakCorrectly() {
+      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { DayBreakDurationInMinutes = 30, InsertDayBreak = true, DayBreakTime = new TimeItem(12) };
+      WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+      var workItemParserResult = wdp.Parse("8,4;11111-111,-17:00;11111-111", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(8), new TimeItem(12, 00), "11111", "111"),
+                                        new WorkItem(new TimeItem(12, 30), new TimeItem(17), "11111", "111")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+      Assert.AreEqual(8.5, wd.HoursDuration);
+    }
   }
 }

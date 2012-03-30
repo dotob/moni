@@ -31,6 +31,20 @@ namespace MonlistClone.Data {
       }
     }
 
+    private double previewHours;
+    public double PreviewHours {
+      get { return this.previewHours; }
+      set {
+        if(this.previewHours == value) {
+          return;
+        }
+        this.previewHours = value;
+        var tmp = this.PropertyChanged;
+        if (tmp != null) {
+          tmp(this, new PropertyChangedEventArgs("PreviewHours"));
+        }
+      }
+    }
 
     public double HoursDuration {
       get { return this.Weeks.Sum(i => i.HoursDuration); }
@@ -55,7 +69,12 @@ namespace MonlistClone.Data {
         if (tmp != null) {
           tmp(this, new PropertyChangedEventArgs("HoursDuration"));
         }
+        CalcPreviewHours();
       }
+    }
+
+    private void CalcPreviewHours() {
+      this.PreviewHours = this.HoursDuration + this.Weeks.SelectMany(w => w.Days).Where(d => d.DayType == DayType.Working && d.HoursDuration==0).Count()*8;
     }
 
     public override string ToString() {

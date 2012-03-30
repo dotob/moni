@@ -12,7 +12,7 @@ namespace MonlistClone.Util {
       switch (dt) {
         case DayType.Unknown:
         case DayType.Working:
-          b = Brushes.DarkGray;
+          b = new SolidColorBrush(Color.FromArgb(255, 243, 237, 237));
           break;
         case DayType.Weekend:
           b = Brushes.LightGreen;
