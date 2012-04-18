@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace MonlistClone.Data {
   public class TimeItem : IComparable<TimeItem> {
+
+    [JsonConstructor]
+    private TimeItem() {
+      
+    }
+
     public TimeItem(int hour) : this(hour, 0) {}
 
     public TimeItem(int hour, int minute) {

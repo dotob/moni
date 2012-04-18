@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.5.8.10295, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -57,10 +60,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\CSVExporter.cs" />
+    <Compile Include="Data\MonlistSettings.cs" />
     <Compile Include="Data\TextFilePersistenceLayer.cs" />
     <Compile Include="Tests\HoursDuration_Tester.cs" />
     <Compile Include="Tests\PersistentTester.cs" />
+    <Compile Include="Tests\SettingsTester.cs" />
     <Compile Include="Tests\WorkDayParserTester.cs" />
+    <Compile Include="Util\NullToCollapsedConverter.cs" />
     <Compile Include="Util\DayTypeColorConverter.cs" />
     <Compile Include="Util\DelegateCommand.cs" />
     <Compile Include="Util\StringParserHelper.cs" />

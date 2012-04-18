@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MonlistClone.Data;
 using NUnit.Framework;
 
@@ -6,7 +7,7 @@ namespace MonlistClone.Tests {
   public class WorkDayParserTester {
     [Test]
     public void WDParser_EmptyString_ReturnError() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse(string.Empty, ref wd);
       Assert.IsFalse(workItemParserResult.Success);
@@ -15,7 +16,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_SingleItemWithDayStartTime_ReturnWorkItemWithOneItem() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7,2;11111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -26,7 +27,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_SetEmptyStringAfterSuccessfulParsing_DeleteItems() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7,2;11111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -40,7 +41,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_SingleItemWithDayStartTimeAndPos_ReturnWorkItemWithOneItem() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7,2;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -51,7 +52,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_SingleItemWithOddDayStartTime_ReturnWorkItemWithOneItem() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7:30,2;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -62,7 +63,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_SingleItemWithOddDayStartTimeAndOddHourCount_ReturnWorkItemWithOneItem() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7:30,1.5;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -73,7 +74,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_MoreItems_ReturnWorkItemWithMoreItems() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7:30,1.5;11111-111,3;22222-222", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -84,7 +85,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_MoreItemsAndDayBreak_ReturnWorkItemWithSplittedItems() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser(new WorkDayParserSettings {InsertDayBreak = true, DayBreakTime = new TimeItem(12, 00), DayBreakDurationInMinutes = 30});
       var workItemParserResult = wdp.Parse("9:00,2;11111-111,3;22222-222", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -95,7 +96,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_WhiteSpace_StillWork() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser(new WorkDayParserSettings {InsertDayBreak = true, DayBreakTime = new TimeItem(12, 00), DayBreakDurationInMinutes = 30});
       var workItemParserResult = wdp.Parse("9 : 00 , 2; 11111   -111 , 3;   22222-222", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -107,7 +108,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_UseAbbreviations_ExpandAbbreviations() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       Dictionary<string, string> abbr = new Dictionary<string, string>();
       abbr.Add("ctb", "11111-111");
       abbr.Add("ktl", "22222-222");
@@ -123,7 +124,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_InsertPauseItem_LeavePause() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7,1;11111-111,2!,2;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -137,7 +138,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_ParseHourFragment_MultiplyBy60() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7,1.75;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -150,7 +151,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_ParseHourFragment2_MultiplyBy60() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("9:15,7.25;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -163,7 +164,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_ParseDescription_GetDesc() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("9:15,7.25;11111-111(lalala)", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -176,7 +177,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_UseAbbreviationsAndDesc_ExpandAbbreviationsAndOverwriteDescFromAbbr() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       Dictionary<string, string> abbr = new Dictionary<string, string>();
       abbr.Add("ctb", "11111-111(donotuseme)");
       abbr.Add("ktl", "22222-222(useme)");
@@ -191,7 +192,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_InsteadOfHoursICanTellAnEndTime_UseEndTime() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       Dictionary<string, string> abbr = new Dictionary<string, string>();
       abbr.Add("ctb", "11111-111");
       abbr.Add("ktl", "22222-222");
@@ -206,7 +207,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_UsingEndTimeAndBreak_CalculateBreak() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       Dictionary<string, string> abbr = new Dictionary<string, string>();
       abbr.Add("ctb", "11111-111");
       abbr.Add("ktl", "22222-222");
@@ -225,7 +226,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_BrokenHours_CalculateCorrectly() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("8:15,-15:30;11111-111,1;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -240,7 +241,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_BrokenHoursWithBreak_CalculateCorrectly() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { DayBreakDurationInMinutes = 30, InsertDayBreak = true, DayBreakTime = new TimeItem(12) };
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       var workItemParserResult = wdp.Parse("8:15,-15:30;11111-111,1;11111-111", ref wd);
@@ -257,7 +258,7 @@ namespace MonlistClone.Tests {
 
     [Test]
     public void WDParser_PartEndsAtBreakTime_AddBreakCorrectly() {
-      WorkDay wd = new WorkDay(1, 1, 1);
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { DayBreakDurationInMinutes = 30, InsertDayBreak = true, DayBreakTime = new TimeItem(12) };
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       var workItemParserResult = wdp.Parse("8,4;11111-111,-17:00;11111-111", ref wd);

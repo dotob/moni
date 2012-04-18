@@ -7,7 +7,7 @@ namespace MonlistClone.Tests {
   public class CalendarInitTester {
     [Test]
     public void WorkYear_ctor_CreateWholeYear() {
-      WorkYear wy = new WorkYear(2011);
+      WorkYear wy = new WorkYear(2011, Enumerable.Empty<SpecialDate>());
       Assert.AreEqual(12, wy.Months.Count);
       //test sample month
       var march = wy.Months.ElementAt(2);

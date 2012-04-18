@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
@@ -9,7 +10,7 @@ namespace MonlistClone.Data {
     private readonly int month;
     private readonly int year;
 
-    public WorkMonth(int year, int month) {
+    public WorkMonth(int year, int month, IEnumerable<SpecialDate> specialDates) {
       this.year = year;
       this.month = month;
       this.Weeks = new ObservableCollection<WorkWeek>();
@@ -19,7 +20,8 @@ namespace MonlistClone.Data {
       WorkWeek lastWeek = null;
       for (int day = 1; day <= cal.GetDaysInMonth(year, month); day++) {
         var dt = new DateTime(year, month, day);
-        WorkDay wd = new WorkDay(year, month, day);
+
+        WorkDay wd = new WorkDay(year, month, day, specialDates);
         this.Days.Add(wd);
         var weekOfYear = cal.GetWeekOfYear(dt, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
         if (lastWeek == null || lastWeek.WeekOfYear != weekOfYear) {

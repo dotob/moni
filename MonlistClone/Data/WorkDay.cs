@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
@@ -16,17 +17,25 @@ namespace MonlistClone.Data {
       this.Items = new ObservableCollection<WorkItem>();
     }
 
-    public WorkDay(int year, int month, int day) : this() {
+    public WorkDay(int year, int month, int day, IEnumerable<SpecialDate> specialDates) : this() {
       this.year = year;
       this.month = month;
       this.day = day;
       var dt = new DateTime(year, month, day);
       var cal = new GregorianCalendar();
       this.DayOfWeek = cal.GetDayOfWeek(dt);
-      this.DayType = calculateDayType(dt, this.DayOfWeek);
+      SpecialDate specialDate;
+      this.DayType = calculateDayType(dt, this.DayOfWeek, specialDates, out specialDate);
+      this.SpecialDate = specialDate;
     }
 
-    private DayType calculateDayType(DateTime dt, DayOfWeek dayOfWeek) {
+
+    private DayType calculateDayType(DateTime dt, DayOfWeek dayOfWeek, IEnumerable<SpecialDate> specialDates, out SpecialDate foundSpecialDate) {
+      foundSpecialDate = specialDates.FirstOrDefault(sp => sp.Date == dt);
+      if(foundSpecialDate!=null) {
+        return DayType.Holiday;
+      }
+
       DayType ret = DayType.Unknown;
       switch (dayOfWeek) {
         case DayOfWeek.Monday:
@@ -71,6 +80,10 @@ namespace MonlistClone.Data {
 
     public int Day {
       get { return this.day; }
+    }
+
+    public SpecialDate SpecialDate {
+      get; set;
     }
 
     // HACK

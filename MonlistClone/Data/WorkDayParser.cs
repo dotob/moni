@@ -209,16 +209,7 @@ namespace MonlistClone.Data {
     public string Error { get; set; }
   }
 
-  public class WorkDayParserSettings {
-    public WorkDayParserSettings() {
-      this.ProjectAbbreviations = new Dictionary<string, string>();
-    }
 
-    public bool InsertDayBreak { get; set; }
-    public TimeItem DayBreakTime { get; set; }
-    public int DayBreakDurationInMinutes { get; set; }
-    public Dictionary<string, string> ProjectAbbreviations { get; set; }
-  }
 
   internal class WorkItemTemp {
     public bool IsPause { get; set; }

@@ -12,6 +12,7 @@
   
   <Window.Resources>
     <Util:DayTypeColorConverter x:Key="dayTypeColorConverter" />
+    <Util:NullToCollapsedConverter x:Key="emptyStringVisibilityConverter" />
     <SolidColorBrush x:Key="lightText"
                      Color="DarkSlateGray" />
   </Window.Resources>
@@ -94,6 +95,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
               </Grid.RowDefinitions>
 
               <TextBlock Grid.Column="0"
@@ -103,11 +105,18 @@
                          HorizontalAlignment="Center"></TextBlock>
               <TextBlock Grid.Column="0"
                          Grid.Row="1"
+                         Text="{Binding SpecialDate.Name}"
+                         Foreground="{StaticResource lightText}"
+                         FontWeight="Bold"
+                         Visibility="{Binding SpecialDate, Converter={StaticResource emptyStringVisibilityConverter}}"
+                         HorizontalAlignment="Center"></TextBlock>
+              <TextBlock Grid.Column="0"
+                         Grid.Row="2"
                          Text="{Binding Day}"
                          FontWeight="Bold"
                          HorizontalAlignment="Center"></TextBlock>
               <TextBlock Grid.Column="0"
-                         Grid.Row="2"
+                         Grid.Row="3"
                          Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}"
                          FontWeight="Bold"
                          Foreground="{StaticResource lightText}"
@@ -116,13 +125,13 @@
               <TextBox Loaded="TextBox_Loaded"
                        Grid.Column="1"
                        Grid.Row="0"
-                       Grid.RowSpan="2"
+                       Grid.RowSpan="3"
                        Margin="3,2,2,2"
                        Tag="{Binding}"
                        Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
               <ItemsControl Grid.Column="1"
-                            Grid.Row="2"
+                            Grid.Row="3"
                             Grid.RowSpan="2"
                             Margin="3,2,2,2"
                             ItemsSource="{Binding Items}"
