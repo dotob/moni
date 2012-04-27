@@ -5,13 +5,9 @@ using Newtonsoft.Json;
 namespace MonlistClone.Data {
   public class TimeItem : IComparable<TimeItem> {
 
-    [JsonConstructor]
-    private TimeItem() {
-      
-    }
-
     public TimeItem(int hour) : this(hour, 0) {}
 
+    [JsonConstructor]
     public TimeItem(int hour, int minute) {
       if (hour > 24) {
         throw new ArgumentOutOfRangeException("hour", "is not allowed to be greater than 24");
