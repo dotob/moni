@@ -101,7 +101,7 @@ abkürzungen können auch beschreibungen enthalten. wird die abkürzung mit besc
 
 eingabe: 
 
-**8:00,4;12345-000,!1,4;12345-000**
+**8:00,4;12345-000,1!,4;12345-000**
 
 ausgabe: 
 
@@ -110,7 +110,7 @@ ausgabe:
 
 erläuterung: 
 
-beginnt ein eintrag mit **!** dann wird die folgende stundenzahl als pause eingefügt
+endet ein eintrag mit **!** dann wird die folgende stundenzahl als pause eingefügt
 
 ## automatische pause ##
 

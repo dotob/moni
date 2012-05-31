@@ -13,6 +13,8 @@
   <Window.Resources>
     <Util:DayTypeColorConverter x:Key="dayTypeColorConverter" />
     <Util:NullToCollapsedConverter x:Key="emptyStringVisibilityConverter" />
+    <Util:DurationBGColorConverter x:Key="durationBgConverter" />
+    <Util:DurationFGColorConverter x:Key="durationFgConverter" />
     <SolidColorBrush x:Key="lightText"
                      Color="DarkSlateGray" />
   </Window.Resources>
@@ -96,6 +98,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
               </Grid.RowDefinitions>
 
               <TextBlock Grid.Column="0"
@@ -119,7 +122,9 @@
                          Grid.Row="3"
                          Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}"
                          FontWeight="Bold"
-                         Foreground="{StaticResource lightText}"
+                         Padding="3 0 3 0"
+                         Foreground="{Binding HoursDuration, Converter={StaticResource durationFgConverter}}"
+                         Background="{Binding HoursDuration, Converter={StaticResource durationBgConverter}}"
                          HorizontalAlignment="Center"></TextBlock>
 
               <TextBox Loaded="TextBox_Loaded"
