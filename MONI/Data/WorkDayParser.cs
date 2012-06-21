@@ -4,13 +4,17 @@ using System.Globalization;
 using System.Linq;
 using MONI.Util;
 
-namespace MONI.Data {
-  public class WorkDayParser {
+namespace MONI.Data
+{
+  public class WorkDayParser
+  {
     private char dayStartSeparator = ',';
     private char hourProjectInfoSeparator = ';';
     private char itemSeparator = ',';
     private WorkDayParserSettings settings;
-    public WorkDayParser() {}
+
+    public WorkDayParser() {
+    }
 
     public WorkDayParser(WorkDayParserSettings settings) {
       this.settings = settings;
@@ -76,7 +80,7 @@ namespace MONI.Data {
           if (workItemTemp.DesiredEndtime != null) {
             currentEndTime = workItemTemp.DesiredEndtime;
             endTimeMode = true;
-          }else {
+          } else {
             currentEndTime = lastTime + workItemTemp.HourCount;
           }
           // check for split
@@ -84,17 +88,17 @@ namespace MONI.Data {
             // the break is in an item
             if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
               // insert new item
-              resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description));
-              lastTime = this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes/60d;
+              resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut));
+              lastTime = this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes / 60d;
               if (!endTimeMode) {
                 // fixup currentEndTime, need to add the dayshiftbreak
-                currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes/60d;
+                currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes / 60d;
               }
-            } else if(this.settings.DayBreakTime.Equals(lastTime)) {
+            } else if (this.settings.DayBreakTime.Equals(lastTime)) {
               lastTime = lastTime + this.settings.DayBreakDurationInMinutes / 60d;
             }
           }
-          resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description));
+          resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut));
           lastTime = currentEndTime;
           success = true;
         }
@@ -142,9 +146,10 @@ namespace MONI.Data {
             if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
               if (this.settings != null && this.settings.ShortCuts != null && this.settings.ShortCuts.Any()) {
-                ShortCut shortCut;
                 var abbrevString = projectPosDescString.TokenReturnInputIfFail('(', 1);
-                if (this.settings.ShortCuts.TryGetValue(abbrevString, out shortCut)) {
+                ShortCut shortCut = this.settings.ShortCuts.FirstOrDefault(s => s.Key == abbrevString);
+                if (shortCut != null) {
+                  workItem.ShortCut = shortCut;
                   var expanded = shortCut.Expansion;
                   // if there is an desc given use its value instead of the one in the abbrev
                   if (!string.IsNullOrEmpty(projectPosDescString.Token('(', 2).Token(')', 1))) {
@@ -200,7 +205,8 @@ namespace MONI.Data {
     }
   }
 
-  public class WorkDayParserResult {
+  public class WorkDayParserResult
+  {
     public WorkDayParserResult() {
       this.Error = string.Empty;
     }
@@ -209,14 +215,14 @@ namespace MONI.Data {
     public string Error { get; set; }
   }
 
-
-
-  internal class WorkItemTemp {
+  internal class WorkItemTemp
+  {
     public bool IsPause { get; set; }
     public double HourCount { get; set; }
     public TimeItem DesiredEndtime { get; set; }
     public string ProjectString { get; set; }
     public string PosString { get; set; }
     public string Description { get; set; }
+    public ShortCut ShortCut { get; set; }
   }
 }

@@ -1,5 +1,7 @@
-﻿namespace MONI.Data {
-  public class WorkItem {
+﻿namespace MONI.Data
+{
+  public class WorkItem
+  {
     public WorkItem(TimeItem start, TimeItem end, string project, string position) {
       this.Start = start;
       this.End = end;
@@ -7,12 +9,13 @@
       this.Position = position;
     }
 
-    public WorkItem(TimeItem start, TimeItem end, string project, string position, string description) {
+    public WorkItem(TimeItem start, TimeItem end, string project, string position, string description, ShortCut shortCut) {
       this.Start = start;
       this.End = end;
       this.Project = project;
       this.Position = position;
       this.Description = description;
+      this.ShortCut = shortCut;
     }
 
     public WorkItem(TimeItem start, TimeItem end) {
@@ -25,8 +28,11 @@
     public string Project { get; set; }
     public string Position { get; set; }
     public string Description { get; set; }
+    public ShortCut ShortCut { get; set; }
 
-    public string ProjectPosition { get { return string.Format("{0}-{1}", this.Project, this.Position); } }
+    public string ProjectPosition {
+      get { return string.Format("{0}-{1}", this.Project, this.Position); }
+    }
 
     public double HoursDuration {
       get { return this.End - this.Start; }
@@ -39,7 +45,6 @@
       }
       return false;
     }
-
 
     public override string ToString() {
       return string.Format("{0}-{1} ; {2}:{3}", this.Start, this.End, this.Project, this.Position);

@@ -7,7 +7,7 @@ namespace MONI.Data {
   public class WorkYear {
     public int Year { get; set; }
 
-    public WorkYear(int year, IEnumerable<SpecialDate> specialDates, Dictionary<string, ShortCut> shortCuts) {
+    public WorkYear(int year, IEnumerable<SpecialDate> specialDates, IEnumerable<ShortCut> shortCuts) {
       this.Year = year;
       this.Months = new ObservableCollection<WorkMonth>();
       this.Weeks = new ObservableCollection<WorkWeek>();

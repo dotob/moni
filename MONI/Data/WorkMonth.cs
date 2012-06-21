@@ -5,17 +5,19 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 
-namespace MONI.Data {
-  public class WorkMonth : INotifyPropertyChanged {
+namespace MONI.Data
+{
+  public class WorkMonth : INotifyPropertyChanged
+  {
     private readonly int month;
     private readonly int year;
 
-    public WorkMonth(int year, int month, IEnumerable<SpecialDate> specialDates, Dictionary<string, ShortCut> shortCuts) {
+    public WorkMonth(int year, int month, IEnumerable<SpecialDate> specialDates, IEnumerable<ShortCut> shortCuts) {
       this.year = year;
       this.month = month;
       this.Weeks = new ObservableCollection<WorkWeek>();
       this.Days = new ObservableCollection<WorkDay>();
-      this.ShortCutStatistic = new ObservableCollection<KeyValuePair<string, ShortCutStatistic>>(shortCuts.Select(s => new KeyValuePair<string, ShortCutStatistic>(s.Key, new ShortCutStatistic(s.Value))));
+      this.ShortCutStatistic = new ObservableCollection<KeyValuePair<string, ShortCutStatistic>>(shortCuts.Select(s => new KeyValuePair<string, ShortCutStatistic>(s.Key, new ShortCutStatistic(s))));
 
       var cal = new GregorianCalendar();
       WorkWeek lastWeek = null;
@@ -38,7 +40,7 @@ namespace MONI.Data {
     public double PreviewHours {
       get { return this.previewHours; }
       set {
-        if(this.previewHours == value) {
+        if (this.previewHours == value) {
           return;
         }
         this.previewHours = value;
@@ -113,12 +115,13 @@ namespace MONI.Data {
 
     private void CalcShortCutStatistic() {
       foreach (var kvp in this.ShortCutStatistic) {
-        kvp.Value.UsedInMonth = this.Days.SelectMany(d => d.Items).Where(i => kvp.Value.Expansion.StartsWith(i.ProjectPosition) ).Sum(i => i.HoursDuration);
+        KeyValuePair<string, ShortCutStatistic> kvp1 = kvp;
+        kvp.Value.UsedInMonth = this.Days.SelectMany(d => d.Items).Where(i => i.ShortCut != null).Where(i => kvp1.Key == i.ShortCut.Key).Sum(i => i.HoursDuration);
       }
     }
 
     private void CalcPreviewHours() {
-      this.PreviewHours = this.HoursDuration + this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working && d.HoursDuration==0)*8;
+      this.PreviewHours = this.HoursDuration + this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working && d.HoursDuration == 0) * 8;
     }
 
     public override string ToString() {

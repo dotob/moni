@@ -109,10 +109,10 @@ namespace MONI.Tests {
     [Test]
     public void WDParser_UseAbbreviations_ExpandAbbreviations() {
       WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
-      Dictionary<string, ShortCut> abbr = new Dictionary<string, ShortCut>();
-      abbr.Add("ctb", new ShortCut("11111-111"));
-      abbr.Add("ktl", new ShortCut("22222-222"));
-      abbr.Add("u", new ShortCut("33333-333"));
+      var abbr = new List<ShortCut>();
+      abbr.Add(new ShortCut("ctb", "11111-111"));
+      abbr.Add(new ShortCut("ktl", "22222-222"));
+      abbr.Add(new ShortCut("u", "33333-333"));
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings {ShortCuts = abbr};
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       var workItemParserResult = wdp.Parse("9:00,2;ctb,1;u", ref wd);
@@ -170,7 +170,7 @@ namespace MONI.Tests {
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
       CollectionAssert.IsNotEmpty(wd.Items);
       CollectionAssert.AreEqual(new[] {
-                                        new WorkItem(new TimeItem(9, 15), new TimeItem(16, 30), "11111", "111","lalala")
+                                        new WorkItem(new TimeItem(9, 15), new TimeItem(16, 30), "11111", "111","lalala", null)
                                       }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }
@@ -178,24 +178,24 @@ namespace MONI.Tests {
     [Test]
     public void WDParser_UseAbbreviationsAndDesc_ExpandAbbreviationsAndOverwriteDescFromAbbr() {
       WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
-      var abbr = new Dictionary<string, ShortCut>();
-      abbr.Add("ctb", new ShortCut("11111-111(donotuseme)"));
-      abbr.Add("ktl", new ShortCut("22222-222(useme)"));
+      var abbr = new List<ShortCut>();
+      abbr.Add(new ShortCut("ctb", "11111-111(donotuseme)"));
+      abbr.Add( new ShortCut("ktl","22222-222(useme)"));
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr };
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       var workItemParserResult = wdp.Parse("9:00,2;ctb(useme),2;ktl", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
       CollectionAssert.IsNotEmpty(wd.Items);
-      CollectionAssert.AreEqual(new[] { new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111","useme"), new WorkItem(new TimeItem(11, 0), new TimeItem(13, 0), "22222", "222","useme") }, wd.Items);
+      CollectionAssert.AreEqual(new[] { new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111","useme", null), new WorkItem(new TimeItem(11, 0), new TimeItem(13, 0), "22222", "222","useme", null) }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }
 
     [Test]
     public void WDParser_InsteadOfHoursICanTellAnEndTime_UseEndTime() {
       WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
-      var abbr = new Dictionary<string, ShortCut>();
-      abbr.Add("ctb", new ShortCut("11111-111"));
-      abbr.Add("ktl", new ShortCut("22222-222"));
+      var abbr = new List<ShortCut>();
+      abbr.Add( new ShortCut("ctb","11111-111"));
+      abbr.Add(new ShortCut("ktl", "22222-222"));
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr };
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       var workItemParserResult = wdp.Parse("9:00,-12;ctb,-15;ktl", ref wd);
@@ -208,9 +208,9 @@ namespace MONI.Tests {
     [Test]
     public void WDParser_UsingEndTimeAndBreak_CalculateBreak() {
       WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
-      var abbr = new Dictionary<string, ShortCut>();
-      abbr.Add("ctb", new ShortCut("11111-111"));
-      abbr.Add("ktl", new ShortCut("22222-222"));
+      var abbr = new List<ShortCut>();
+      abbr.Add(new ShortCut("ctb","11111-111"));
+      abbr.Add(new ShortCut("ktl", "22222-222"));
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr,DayBreakDurationInMinutes = 30, InsertDayBreak = true, DayBreakTime = new TimeItem(12)};
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       var workItemParserResult = wdp.Parse("9:00,-14;ctb,-16;ktl", ref wd);

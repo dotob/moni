@@ -11,12 +11,12 @@ using Newtonsoft.Json;
 namespace MONI {
   public class MainViewModel : INotifyPropertyChanged {
     private ICommand nextWeekCommand;
-    private TextFilePersistenceLayer persistenceLayer;
+    private readonly TextFilePersistenceLayer persistenceLayer;
     private ICommand previousWeekCommand;
     private WorkMonth workMonth;
     private WorkWeek workWeek;
     private WorkYear workYear;
-    private CSVExporter csvExporter;
+    private readonly CSVExporter csvExporter;
 
     public MainViewModel() {
       var monlistSettings = ReadSettings();

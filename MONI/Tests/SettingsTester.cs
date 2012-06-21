@@ -13,22 +13,22 @@ namespace MONI.Tests
     [Test]
     public void WriteJson() {
       var parserSettings = new WorkDayParserSettings();
-      parserSettings.ShortCuts.Add("ctbn", new ShortCut("25482-420(features)"));
-      parserSettings.ShortCuts.Add("ctbp", new ShortCut("25482-811(performanceverbesserungen)"));
-      parserSettings.ShortCuts.Add("ctbf", new ShortCut("25482-811(tracker)"));
-      parserSettings.ShortCuts.Add("ctbm", new ShortCut("25482-140(meeting)"));
-      parserSettings.ShortCuts.Add("ctbr", new ShortCut("25482-050(ac-hh-ac)"));
-      parserSettings.ShortCuts.Add("ktln", new ShortCut("25710-420(feature)"));
-      parserSettings.ShortCuts.Add("ktlf", new ShortCut("25710-811(tracker)"));
-      parserSettings.ShortCuts.Add("ktlm", new ShortCut("25710-140(meeting)"));
-      parserSettings.ShortCuts.Add("ktlr", new ShortCut("25710-050(reise)"));
-      parserSettings.ShortCuts.Add("u"   , new ShortCut("20030-000(urlaub)"));
-      parserSettings.ShortCuts.Add("krank",new ShortCut( "20020-000(krank/doc)"));
-      parserSettings.ShortCuts.Add("tm"  , new ShortCut("20018-140(terminalmeeting)"));
-      parserSettings.ShortCuts.Add("mm"  , new ShortCut("20018-140(tess/monatsmeeting)"));
-      parserSettings.ShortCuts.Add("swe" , new ShortCut("20308-000(swe projekt)"));
-      parserSettings.ShortCuts.Add("jmb" , new ShortCut("20308-000(jean-marie ausbildungsbetreuung)"));
-      parserSettings.ShortCuts.Add("w"   , new ShortCut("20180-000(weiterbildung)"));
+      parserSettings.ShortCuts.Add(new ShortCut("ctbn", "25482-420(features)"));
+      parserSettings.ShortCuts.Add(new ShortCut("ctbp", "25482-811(performanceverbesserungen)"));
+      parserSettings.ShortCuts.Add(new ShortCut("ctbf", "25482-811(tracker)"));
+      parserSettings.ShortCuts.Add(new ShortCut("ctbm", "25482-140(meeting)"));
+      parserSettings.ShortCuts.Add(new ShortCut("ctbr", "25482-050(ac-hh-ac)"));
+      parserSettings.ShortCuts.Add(new ShortCut("ktln", "25710-420(feature)"));
+      parserSettings.ShortCuts.Add(new ShortCut("ktlf", "25710-811(tracker)"));
+      parserSettings.ShortCuts.Add(new ShortCut("ktlm", "25710-140(meeting)"));
+      parserSettings.ShortCuts.Add(new ShortCut("ktlr", "25710-050(reise)"));
+      parserSettings.ShortCuts.Add(new ShortCut("u", "20030-000(urlaub)"));
+      parserSettings.ShortCuts.Add(new ShortCut("krank", "20020-000(krank/doc)"));
+      parserSettings.ShortCuts.Add(new ShortCut("tm", "20018-140(terminalmeeting)"));
+      parserSettings.ShortCuts.Add(new ShortCut("mm", "20018-140(tess/monatsmeeting)"));
+      parserSettings.ShortCuts.Add(new ShortCut("swe", "20308-000(swe projekt)"));
+      parserSettings.ShortCuts.Add(new ShortCut("jmb", "20308-000(jean-marie ausbildungsbetreuung)"));
+      parserSettings.ShortCuts.Add(new ShortCut("w", "20180-000(weiterbildung)"));
       parserSettings.InsertDayBreak = true;
       parserSettings.DayBreakTime = new TimeItem(12);
       parserSettings.DayBreakDurationInMinutes = 30;

@@ -26,22 +26,22 @@ namespace MONI.Data
   public class WorkDayParserSettings
   {
     public WorkDayParserSettings() {
-      this.ShortCuts = new Dictionary<string, ShortCut>();
+      this.ShortCuts = new List<ShortCut>();
     }
 
     [JsonIgnore]
-    public Dictionary<string, ShortCut> AllCurrentShortcuts {
+    public List<ShortCut> AllCurrentShortcuts {
       get { return this.GetValidShortCuts(DateTime.Now); }
     }
 
-    private Dictionary<string, ShortCut> GetValidShortCuts(DateTime from) {
+    private List<ShortCut> GetValidShortCuts(DateTime from) {
       return this.ShortCuts;
     }
 
     public bool InsertDayBreak { get; set; }
     public TimeItem DayBreakTime { get; set; }
     public int DayBreakDurationInMinutes { get; set; }
-    public Dictionary<string, ShortCut> ShortCuts { get; set; }
+    public List<ShortCut> ShortCuts { get; set; }
   }
 
   public class ShortCut
@@ -51,11 +51,13 @@ namespace MONI.Data
       this.Expansion = string.Empty;
     }
 
-    public ShortCut(string expansion)
+    public ShortCut(string key, string expansion)
       : this() {
+      this.Key = key;
       this.Expansion = expansion;
     }
 
+    public string Key { get; set; }
     public string Expansion { get; set; }
     public bool WholeDayExpansion { get; set; }
     public DateTime ValidFrom { get; set; }
@@ -64,7 +66,7 @@ namespace MONI.Data
   public class ShortCutStatistic : ShortCut, INotifyPropertyChanged
   {
     public ShortCutStatistic(ShortCut sc)
-      : base(sc.Expansion) {
+      : base(sc.Key, sc.Expansion) {
     }
 
     private double usedInMonth;
