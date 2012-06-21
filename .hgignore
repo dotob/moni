@@ -8,3 +8,7 @@ MonlistClone.suo
 MonlistClone.1.2.dotCover
 MonlistClone.sln.DotSettings.user
 MonlistClone.6.1.ReSharper.user
+_ReSharper.MONI
+*.user
+*.dotCover
+MONI.suo
