@@ -113,7 +113,7 @@ namespace MonlistClone.Data {
     }
 
     public double HoursDuration {
-      get { return this.Items.Sum(i => i.End - i.Start); }
+      get { return this.Items.Sum(i => i.HoursDuration); }
     }
 
     public DayOfWeek DayOfWeek { get; set; }

@@ -11,19 +11,18 @@ using Newtonsoft.Json;
 namespace MonlistClone {
   public class MainViewModel : INotifyPropertyChanged {
     private ICommand nextWeekCommand;
-    private string persistenceFileName;
     private TextFilePersistenceLayer persistenceLayer;
     private ICommand previousWeekCommand;
     private WorkMonth workMonth;
     private WorkWeek workWeek;
     private WorkYear workYear;
+    private CSVExporter csvExporter;
 
     public MainViewModel() {
       var monlistSettings = ReadSettings();
       var now = DateTime.Now;
       var cal = new GregorianCalendar();
-      this.WorkYear = new WorkYear(now.Year, monlistSettings.MainSettings.SpecialDates);
-      persistenceFileName = string.Format("data_{0}.txt", this.workYear.Year);
+      this.WorkYear = new WorkYear(now.Year, monlistSettings.MainSettings.SpecialDates, monlistSettings.ParserSettings.ShortCuts);
       this.WorkMonth = this.WorkYear.Months.ElementAt(now.Month - 1);
       this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == cal.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
 
@@ -32,8 +31,9 @@ namespace MonlistClone {
       WorkDayParser.Instance = new WorkDayParser(this.WeekDayParserSettings);
 
       // read persistencedata
-      this.persistenceLayer = new TextFilePersistenceLayer();
-      this.persistenceLayer.ReadData(this.persistenceFileName);
+      this.persistenceLayer = new TextFilePersistenceLayer(monlistSettings.MainSettings.DataDirectory);
+      this.csvExporter = new CSVExporter(monlistSettings.MainSettings.DataDirectory);
+      this.persistenceLayer.ReadData();
       foreach (WorkDayPersistenceData data in this.persistenceLayer.WorkDaysData.Where(wdpd => wdpd.Year == this.WorkYear.Year)) {
         var workDay = this.WorkYear.GetDay(data.Month, data.Day);
         workDay.OriginalString = data.OriginalString;
@@ -108,9 +108,8 @@ namespace MonlistClone {
     }
 
     public void Save() {
-      this.persistenceLayer.SaveData(this.workYear, this.persistenceFileName);
-      CSVExporter ce = new CSVExporter();
-      ce.Export(this.WorkMonth, "monlist.txt");
+      this.persistenceLayer.SaveData(this.workYear);
+      this.csvExporter.Export(this.WorkYear);
     }
   }
 }

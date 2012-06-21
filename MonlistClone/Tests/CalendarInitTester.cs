@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MonlistClone.Data;
 using NUnit.Framework;
 using System.Linq;
@@ -7,7 +8,7 @@ namespace MonlistClone.Tests {
   public class CalendarInitTester {
     [Test]
     public void WorkYear_ctor_CreateWholeYear() {
-      WorkYear wy = new WorkYear(2011, Enumerable.Empty<SpecialDate>());
+      WorkYear wy = new WorkYear(2011, Enumerable.Empty<SpecialDate>(), new Dictionary<string, ShortCut>());
       Assert.AreEqual(12, wy.Months.Count);
       //test sample month
       var march = wy.Months.ElementAt(2);

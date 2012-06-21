@@ -26,6 +26,12 @@
     public string Position { get; set; }
     public string Description { get; set; }
 
+    public string ProjectPosition { get { return string.Format("{0}-{1}", Project, Position); } }
+
+    public double HoursDuration {
+      get { return this.End - this.Start; }
+    }
+
     public override bool Equals(object obj) {
       WorkItem ti = obj as WorkItem;
       if (ti != null) {

@@ -142,13 +142,14 @@ namespace MonlistClone.Data {
             var projectPosDescString = wdItemString.Token(this.hourProjectInfoSeparator, 2).Trim();
             if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
-              if (this.settings != null && this.settings.ProjectAbbreviations != null && this.settings.ProjectAbbreviations.Any()) {
-                string expanded;
+              if (this.settings != null && this.settings.ShortCuts != null && this.settings.ShortCuts.Any()) {
+                ShortCut shortCut;
                 var abbrevString = projectPosDescString.TokenReturnInputIfFail('(', 1);
-                if (this.settings.ProjectAbbreviations.TryGetValue(abbrevString, out expanded)) {
+                if (this.settings.ShortCuts.TryGetValue(abbrevString, out shortCut)) {
+                  var expanded = shortCut.Expansion;
                   // if there is an desc given use its value instead of the one in the abbrev
                   if (!string.IsNullOrEmpty(projectPosDescString.Token('(', 2).Token(')', 1))) {
-                    // replace desc in expanded
+                    // replace description in expanded
                     expanded = expanded.TokenReturnInputIfFail('(', 1) + "(" + projectPosDescString.Token('(', 2).Token(')', 1) + ")";
                   }
                   projectPosDescString = expanded;

@@ -10,11 +10,12 @@ namespace MonlistClone.Data {
     private readonly int month;
     private readonly int year;
 
-    public WorkMonth(int year, int month, IEnumerable<SpecialDate> specialDates) {
+    public WorkMonth(int year, int month, IEnumerable<SpecialDate> specialDates, Dictionary<string, ShortCut> shortCuts) {
       this.year = year;
       this.month = month;
       this.Weeks = new ObservableCollection<WorkWeek>();
       this.Days = new ObservableCollection<WorkDay>();
+      this.ShortCutStatistic = new ObservableCollection<KeyValuePair<string, ShortCutStatistic>>(shortCuts.Select(s => new KeyValuePair<string, ShortCutStatistic>(s.Key, new ShortCutStatistic(s.Value))));
 
       var cal = new GregorianCalendar();
       WorkWeek lastWeek = null;
@@ -56,8 +57,42 @@ namespace MonlistClone.Data {
       get { return this.month; }
     }
 
+    public string MonthName {
+      get {
+        switch (this.month) {
+          case 1:
+            return "Januar";
+          case 2:
+            return "Februar";
+          case 3:
+            return "März";
+          case 4:
+            return "April";
+          case 5:
+            return "Mai";
+          case 6:
+            return "Juni";
+          case 7:
+            return "Juli";
+          case 8:
+            return "August";
+          case 9:
+            return "September";
+          case 10:
+            return "Oktober";
+          case 11:
+            return "November";
+          case 12:
+            return "Dezember";
+        }
+        return string.Empty;
+      }
+    }
+
     public ObservableCollection<WorkWeek> Weeks { get; set; }
     public ObservableCollection<WorkDay> Days { get; set; }
+
+    public ObservableCollection<KeyValuePair<string, ShortCutStatistic>> ShortCutStatistic { get; set; }
 
     #region INotifyPropertyChanged Members
 
@@ -72,11 +107,18 @@ namespace MonlistClone.Data {
           tmp(this, new PropertyChangedEventArgs("HoursDuration"));
         }
         CalcPreviewHours();
+        CalcShortCutStatistic();
+      }
+    }
+
+    private void CalcShortCutStatistic() {
+      foreach (var kvp in ShortCutStatistic) {
+        kvp.Value.UsedInMonth = this.Days.SelectMany(d => d.Items).Where(i => kvp.Value.Expansion.StartsWith(i.ProjectPosition) ).Sum(i => i.HoursDuration);
       }
     }
 
     private void CalcPreviewHours() {
-      this.PreviewHours = this.HoursDuration + this.Weeks.SelectMany(w => w.Days).Where(d => d.DayType == DayType.Working && d.HoursDuration==0).Count()*8;
+      this.PreviewHours = this.HoursDuration + this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working && d.HoursDuration==0)*8;
     }
 
     public override string ToString() {

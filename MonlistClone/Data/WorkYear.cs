@@ -7,14 +7,14 @@ namespace MonlistClone.Data {
   public class WorkYear {
     public int Year { get; set; }
 
-    public WorkYear(int year, IEnumerable<SpecialDate> specialDates) {
+    public WorkYear(int year, IEnumerable<SpecialDate> specialDates, Dictionary<string, ShortCut> shortCuts) {
       this.Year = year;
       this.Months = new ObservableCollection<WorkMonth>();
       this.Weeks = new ObservableCollection<WorkWeek>();
 
       var cal = new GregorianCalendar();
       for (int month = 1; month <= cal.GetMonthsInYear(year); month++) {
-        WorkMonth wm = new WorkMonth(year, month, specialDates);
+        WorkMonth wm = new WorkMonth(year, month, specialDates, shortCuts);
         this.Months.Add(wm);
         foreach (var workWeek in wm.Weeks) {
           this.Weeks.Add(workWeek);

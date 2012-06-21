@@ -13,22 +13,22 @@ namespace MonlistClone.Tests
     [Test]
     public void WriteJson() {
       var parserSettings = new WorkDayParserSettings();
-      parserSettings.ProjectAbbreviations.Add("ctbn", "25482-420(features)");
-      parserSettings.ProjectAbbreviations.Add("ctbp", "25482-811(performanceverbesserungen)");
-      parserSettings.ProjectAbbreviations.Add("ctbf", "25482-811(tracker)");
-      parserSettings.ProjectAbbreviations.Add("ctbm", "25482-140(meeting)");
-      parserSettings.ProjectAbbreviations.Add("ctbr", "25482-050(ac-hh-ac)");
-      parserSettings.ProjectAbbreviations.Add("ktln", "25710-420(feature)");
-      parserSettings.ProjectAbbreviations.Add("ktlf", "25710-811(tracker)");
-      parserSettings.ProjectAbbreviations.Add("ktlm", "25710-140(meeting)");
-      parserSettings.ProjectAbbreviations.Add("ktlr", "25710-050(reise)");
-      parserSettings.ProjectAbbreviations.Add("u", "20030-000(urlaub)");
-      parserSettings.ProjectAbbreviations.Add("krank", "20020-000(krank/doc)");
-      parserSettings.ProjectAbbreviations.Add("tm", "20018-140(terminalmeeting)");
-      parserSettings.ProjectAbbreviations.Add("mm", "20018-140(tess/monatsmeeting)");
-      parserSettings.ProjectAbbreviations.Add("swe", "20308-000(swe projekt)");
-      parserSettings.ProjectAbbreviations.Add("jmb", "20308-000(jean-marie ausbildungsbetreuung)");
-      parserSettings.ProjectAbbreviations.Add("w", "20180-000(weiterbildung)");
+      parserSettings.ShortCuts.Add("ctbn", new ShortCut("25482-420(features)"));
+      parserSettings.ShortCuts.Add("ctbp", new ShortCut("25482-811(performanceverbesserungen)"));
+      parserSettings.ShortCuts.Add("ctbf", new ShortCut("25482-811(tracker)"));
+      parserSettings.ShortCuts.Add("ctbm", new ShortCut("25482-140(meeting)"));
+      parserSettings.ShortCuts.Add("ctbr", new ShortCut("25482-050(ac-hh-ac)"));
+      parserSettings.ShortCuts.Add("ktln", new ShortCut("25710-420(feature)"));
+      parserSettings.ShortCuts.Add("ktlf", new ShortCut("25710-811(tracker)"));
+      parserSettings.ShortCuts.Add("ktlm", new ShortCut("25710-140(meeting)"));
+      parserSettings.ShortCuts.Add("ktlr", new ShortCut("25710-050(reise)"));
+      parserSettings.ShortCuts.Add("u"   , new ShortCut("20030-000(urlaub)"));
+      parserSettings.ShortCuts.Add("krank",new ShortCut( "20020-000(krank/doc)"));
+      parserSettings.ShortCuts.Add("tm"  , new ShortCut("20018-140(terminalmeeting)"));
+      parserSettings.ShortCuts.Add("mm"  , new ShortCut("20018-140(tess/monatsmeeting)"));
+      parserSettings.ShortCuts.Add("swe" , new ShortCut("20308-000(swe projekt)"));
+      parserSettings.ShortCuts.Add("jmb" , new ShortCut("20308-000(jean-marie ausbildungsbetreuung)"));
+      parserSettings.ShortCuts.Add("w"   , new ShortCut("20180-000(weiterbildung)"));
       parserSettings.InsertDayBreak = true;
       parserSettings.DayBreakTime = new TimeItem(12);
       parserSettings.DayBreakDurationInMinutes = 30;

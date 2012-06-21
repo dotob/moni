@@ -44,6 +44,9 @@
                  FontWeight="Bold"
                  Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.Month}"></TextBlock>
       <TextBlock HorizontalAlignment="Center"
+                 FontWeight="Bold"
+                 Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.MonthName, StringFormat='{} ({0})'}"></TextBlock>
+      <TextBlock HorizontalAlignment="Center"
                  Text=", "></TextBlock>
       <TextBlock HorizontalAlignment="Center"
                  FontWeight="Bold"
@@ -211,10 +214,11 @@
 
     <TextBlock Grid.Column="3"
                Grid.Row="1"
-               HorizontalAlignment="Center">Shortcuts</TextBlock>
+               HorizontalAlignment="Center"
+               FontWeight="Bold">Shortcuts</TextBlock>
     <ItemsControl Grid.Column="3"
              Grid.Row="2"
-             ItemsSource="{Binding ElementName=mv, Path=ViewModel.WeekDayParserSettings.ProjectAbbreviations}"
+                  ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}"
              HorizontalContentAlignment="Stretch">
       <ItemsControl.ItemTemplate>
         <!-- shortcut -->
@@ -230,14 +234,26 @@
                 <RowDefinition Height="2*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
               </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+              </Grid.ColumnDefinitions>
               <TextBlock Grid.Row="0"
                          Text="{Binding Key}"
                          FontWeight="Bold"
                          FontSize="14"/>
               <TextBlock Grid.Row="1"
-                         Text="{Binding Value}"
+                         Text="{Binding Value.Expansion}"
                          Foreground="Gray"
                          FontSize="10"
+                         Margin="10 0 0 0"/>              
+              <TextBlock Grid.Column="1"
+                         Grid.RowSpan="2"
+                         VerticalAlignment="Center"
+                         Text="{Binding Value.UsedInMonth}"
+                         Foreground="Gray"
+                         FontWeight="Bold"
+                         FontSize="20"
                          Margin="10 0 0 0"/>
             </Grid>
           </Border>
