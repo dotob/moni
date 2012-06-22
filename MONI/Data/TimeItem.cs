@@ -67,8 +67,12 @@ namespace MONI.Data {
                 success = true;
               }
             } else {
-              ti = new TimeItem(hour, 0);
-              success = true;
+              if (hour > 1000 && hour <= 2400) {
+                success = TryParse(hour.ToString("00:00"), out ti);
+              } else {
+                ti = new TimeItem(hour, 0);
+                success = true;
+              }
             }
           }
         }

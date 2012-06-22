@@ -28,6 +28,14 @@ namespace MONI.Tests {
     }
 
     [Test]
+    public void TryParse_HourAndMinuteNoColon_ParseIt() {
+      TimeItem ti;
+      Assert.IsTrue(TimeItem.TryParse("1600", out ti));
+      Assert.AreEqual(16, ti.Hour);
+      Assert.AreEqual(0, ti.Minute);
+    }
+
+    [Test]
     public void TryParse_OutOfRange_Throw() {
       TimeItem ti;
       Assert.Throws<ArgumentOutOfRangeException>(() => TimeItem.TryParse("25:0", out ti));
