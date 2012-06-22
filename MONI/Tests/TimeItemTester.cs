@@ -33,6 +33,9 @@ namespace MONI.Tests {
       Assert.IsTrue(TimeItem.TryParse("1600", out ti));
       Assert.AreEqual(16, ti.Hour);
       Assert.AreEqual(0, ti.Minute);
+      Assert.IsTrue(TimeItem.TryParse("630", out ti));
+      Assert.AreEqual(6, ti.Hour);
+      Assert.AreEqual(30, ti.Minute);
     }
 
     [Test]
