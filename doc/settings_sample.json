@@ -27,8 +27,8 @@
             },
             {
                 "Key": "krank",
-                "Expansion": "20020-000(krank/doc)",
-                "WholeDayExpansion": false,
+                "Expansion": "8,8;20020-000(krank/doc)",
+                "WholeDayExpansion": true,
                 "ValidFrom": "0001-01-01T00:00:00"
             }
         ]
