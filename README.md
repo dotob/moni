@@ -1,3 +1,8 @@
+# moni - der bessere weg monlist einträge zu erfassen #
+
+## 
+
+
 # beispiele für monlist tages-strings #
 
 ## ganz einfach: ein eintrag ##
@@ -73,7 +78,7 @@ eingabe:
 
 ausgabe: 
 
-- 8:30-12:45 12345-000  
+- 8:30-12:45 12345-000
 - 12:45-16:30 54321-000  spezifikation
 
 
@@ -96,6 +101,20 @@ ausgabe:
 erläuterung: 
 
 abkürzungen können auch beschreibungen enthalten. wird die abkürzung mit beschreibung eingegeben wird diese angefügt oder ersetzt die beschreibung der abkürzung
+
+## abkürzungen für einen ganzen tag ##
+
+konfiguration:
+
+- **krank => 8,8;12345-000(krank oder doc)** (WholeDayExpansion  = true, siehe settings.json erläuterung)
+
+eingabe: 
+
+**krank**
+
+ausgabe: 
+
+- 8:00-16:00 12345-000  krank oder doc
 
 ## manuelle pause ##
 

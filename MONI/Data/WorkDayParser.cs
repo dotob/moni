@@ -23,6 +23,7 @@ namespace MONI.Data
     public static WorkDayParser Instance { get; set; }
 
     public WorkDayParserResult Parse(string s, ref WorkDay wdToFill) {
+      s = PreProcessWholeDayExpansion(s);
       WorkDayParserResult ret = new WorkDayParserResult();
       if (!String.IsNullOrEmpty(s)) {
         TimeItem dayStartTime;
@@ -63,6 +64,16 @@ namespace MONI.Data
         ret.Error = "empty string given";
       }
       return ret;
+    }
+
+    private string PreProcessWholeDayExpansion(string userInput) {
+      if (this.settings != null && this.settings.ShortCuts != null && this.settings.ShortCuts.Any(sc => sc.WholeDayExpansion)) {
+        var dic = this.settings.ShortCuts.Where(sc => sc.WholeDayExpansion).FirstOrDefault(sc => sc.Key == userInput);
+        if (dic != null) {
+          return dic.Expansion;
+        }
+      }
+      return userInput;
     }
 
     private bool ProcessTempWorkItems(TimeItem dayStartTime, IEnumerable<WorkItemTemp> tmpList, out IEnumerable<WorkItem> resultList, out string error) {

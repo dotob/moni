@@ -271,5 +271,22 @@ namespace MONI.Tests {
       Assert.IsEmpty(workItemParserResult.Error);
       Assert.AreEqual(8.5, wd.HoursDuration);
     }
+
+    [Test]
+    public void WDParser_HoleDayExpansion_UseCompleteString() {
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      var abbr = new List<ShortCut>();
+      abbr.Add(new ShortCut("krank", "8,8;11111-111(krank)") { WholeDayExpansion = true});
+      WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr };
+      WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+      var workItemParserResult = wdp.Parse("krank", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(8), new TimeItem(16), "11111", "111")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+      Assert.AreEqual(8, wd.HoursDuration);
+    }
   }
 }
