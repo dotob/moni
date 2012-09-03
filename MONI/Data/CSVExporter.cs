@@ -15,7 +15,7 @@ namespace MONI.Data
 
     public void Export(WorkYear year) {
       foreach (var month in year.Months) {
-        var dataFileName = string.Format("monlist_{0}_{1}.csv", year.Year, month.Month.ToString("00"));
+        var dataFileName = string.Format("monlist_{0}_{1}.txt", year.Year, month.Month.ToString("00"));
         var dataFilePath = Path.Combine(this.dataDirectory, dataFileName);
         this.Export(month, dataFilePath);
       }
