@@ -1,0 +1,152 @@
+# beispiele für monlist tages-strings #
+
+## ganz einfach: ein eintrag ##
+
+eingabe: 
+
+**8,8;12345-000**
+
+ausgabe: 
+
+- 8:00-16:00 12345-000
+
+erläuterung: 
+
+erste zahl vor dem komma ist die startzeit, gefolgt von der anzahl der stunden und project-position
+
+## mehrere einträge ##
+
+eingabe: 
+
+**8,4;12345-000,4;54321-000**
+
+ausgabe: 
+
+- 8:00-12:00 12345-000
+- 12:00-16:00 54321-000
+
+erläuterung: 
+
+kommasepariert werde die einträge aneinandergereiht
+
+## teilstunden ##
+
+eingabe: 
+
+**8:30,4.25;12345-000,3.75;54321-000**
+
+ausgabe: 
+
+- 8:30-12:45 12345-000
+- 12:45-16:30 54321-000
+
+erläuterung: 
+
+uhrzeiten werden im format **stunde:minute** angegeben. stunden mit **punkt** getrennt
+
+
+## beschreibungen ##
+
+eingabe: 
+
+**8:30,4.25;12345-000(fehlerbehebung),3.75;54321-000(support)**
+
+ausgabe: 
+
+- 8:30-12:45 12345-000  fehlerbehebung
+- 12:45-16:30 54321-000  support
+
+erläuterung: 
+
+beschreibungen können pro eintrag in **klammern** angegeben werden
+
+## abkürzungen ##
+
+konfiguration:
+
+**ctb => 12345-000**
+**ktl => 54321-000(spezifikation)**
+
+eingabe: 
+
+**8:30,4.25;ctb,3.75;ktl**
+
+ausgabe: 
+
+- 8:30-12:45 12345-000  
+- 12:45-16:30 54321-000  spezifikation
+
+
+## abkürzungen und beschreibungen ##
+
+konfiguration:
+
+- **ctb => 12345-000**
+- **ktl => 54321-000(spezifikation)**
+
+eingabe: 
+
+**8:30,4.25;ctb(support),3.75;ktl(spezifikation schnittstelle)**
+
+ausgabe: 
+
+- 8:30-12:45 12345-000  support
+- 12:45-16:30 54321-000  spezifikation schnittstelle
+
+erläuterung: 
+
+abkürzungen können auch beschreibungen enthalten. wird die abkürzung mit beschreibung eingegeben wird diese angefügt oder ersetzt die beschreibung der abkürzung
+
+## manuelle pause ##
+
+eingabe: 
+
+**8:00,4;12345-000,1!,4;12345-000**
+
+ausgabe: 
+
+- 8:00-12:00 12345-000
+- 13:00-17:00 12345-000
+
+erläuterung: 
+
+endet ein eintrag mit **!** dann wird die folgende stundenzahl als pause eingefügt
+
+## automatische pause ##
+
+konfiguration:
+
+- **pause einfügen**
+- **pause um 12:00**
+- **pausenlänge 30min**
+
+eingabe: 
+
+**8:00,8;12345-000**
+
+ausgabe: 
+
+- 8:00-12:00 12345-000
+- 12:30-16:30 12345-000
+
+erläuterung: 
+
+es wird automatisch ein pause um 12:00 eingefügt
+
+## endzeit statt stunden anzahl ##
+
+eingabe: 
+
+**8:00,-16;12345-000**
+
+ausgabe: 
+
+- 8:00-16:00 12345-000
+
+erläuterung: 
+
+statt der stunden anzahl kann auch eine zeit eingegeben werden, diese muß dann mit **-** prefixed werden. automatische pausen werden dabei ebenfalls berücksichtigt
+
+
+
+
