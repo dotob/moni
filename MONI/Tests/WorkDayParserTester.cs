@@ -191,6 +191,21 @@ namespace MONI.Tests {
     }
 
     [Test]
+    public void WDParser_UseAbbreviationsAndDesc_ExpandAbbreviationsAndAppendToDescFromAbbr() {
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      var abbr = new List<ShortCut>();
+      abbr.Add(new ShortCut("ctb", "11111-111(prefix)"));
+      abbr.Add( new ShortCut("ktl","22222-222(useme)"));
+      WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr };
+      WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+      var workItemParserResult = wdp.Parse("9:00,2;ctb(+ suffix),2;ktl", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] { new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111","prefix suffix", null), new WorkItem(new TimeItem(11, 0), new TimeItem(13, 0), "22222", "222","useme", null) }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+    }
+
+    [Test]
     public void WDParser_InsteadOfHoursICanTellAnEndTime_UseEndTime() {
       WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       var abbr = new List<ShortCut>();
@@ -283,7 +298,7 @@ namespace MONI.Tests {
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
       CollectionAssert.IsNotEmpty(wd.Items);
       CollectionAssert.AreEqual(new[] {
-                                        new WorkItem(new TimeItem(8), new TimeItem(16), "11111", "111")
+                                        new WorkItem(new TimeItem(8), new TimeItem(16), "11111", "111","krank")
                                       }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
       Assert.AreEqual(8, wd.HoursDuration);

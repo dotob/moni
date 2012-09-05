@@ -22,8 +22,9 @@
   <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="50"></ColumnDefinition>
-      <ColumnDefinition Width="3*"></ColumnDefinition>
+      <ColumnDefinition Width="4*"></ColumnDefinition>
       <ColumnDefinition Width="50"></ColumnDefinition>
+      <ColumnDefinition Width="2*"></ColumnDefinition>
       <ColumnDefinition Width="2*"></ColumnDefinition>
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
@@ -255,6 +256,56 @@
                          Grid.RowSpan="2"
                          VerticalAlignment="Center"
                          Text="{Binding Value.UsedInMonth}"
+                         Foreground="Gray"
+                         FontWeight="Bold"
+                         FontSize="20"
+                         Margin="10 0 0 0" />
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ItemsControl.ItemTemplate>
+    </ItemsControl>
+    <TextBlock Grid.Column="4"
+               Grid.Row="1"
+               HorizontalAlignment="Center"
+               FontWeight="Bold">Project-Hitlist</TextBlock>
+    <ItemsControl Grid.Column="4"
+                  Grid.Row="2"
+                  Margin="0 1 0 0"
+                  ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist}"
+                  HorizontalContentAlignment="Stretch">
+      <ItemsControl.ItemTemplate>
+        <!-- shortcut -->
+        <DataTemplate>
+          <Border BorderThickness="1"
+                  BorderBrush="#FFF3EDED"
+                  Background="#FFF3EDED"
+                  CornerRadius="2"
+                  Margin="1"
+                  Padding="1"
+                  SnapsToDevicePixels="True">
+<Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="2*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+              </Grid.ColumnDefinitions>
+              <TextBlock Grid.Row="0"
+                         Text="{Binding Key}"
+                         FontWeight="Bold"
+                         FontSize="14" />
+              <TextBlock Grid.Row="1"
+                         Text="{Binding LastUsedDescription}"
+                         Foreground="Gray"
+                         FontSize="10"
+                         Margin="10 0 0 0" />
+              <TextBlock Grid.Column="1"
+                         Grid.RowSpan="2"
+                         VerticalAlignment="Center"
+                         Text="{Binding Count}"
                          Foreground="Gray"
                          FontWeight="Bold"
                          FontSize="20"

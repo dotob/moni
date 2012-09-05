@@ -38,6 +38,10 @@ namespace MONI {
         var workDay = this.WorkYear.GetDay(data.Month, data.Day);
         workDay.OriginalString = data.OriginalString;
       }
+
+      foreach (var p in this.WorkYear.ProjectHitlist) {
+        Console.WriteLine(p);
+      }
     }
 
     private static MonlistSettings ReadSettings() {

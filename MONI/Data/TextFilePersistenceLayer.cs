@@ -25,14 +25,14 @@ namespace MONI.Data {
         if (File.Exists(dataFile)) {
           var readAllLines = File.ReadAllLines(dataFile);
           foreach (var wdLine in readAllLines) {
-            string wdDateData = wdLine.Token('|', 1);
+            string wdDateData = wdLine.Token("|", 1);
             var wdDateParts = wdDateData.Split(',').Select(s => Convert.ToInt32(s));
             WorkDayPersistenceData wdpd = new WorkDayPersistenceData();
             wdpd.Year = wdDateParts.ElementAt(0);
             wdpd.Month = wdDateParts.ElementAt(1);
             wdpd.Day = wdDateParts.ElementAt(2);
 
-            string wdStringData = wdLine.Token('|', 2);
+            string wdStringData = wdLine.Token("|", 2);
             wdpd.OriginalString = wdStringData;
             this.workDaysData.Add(wdpd);
           }

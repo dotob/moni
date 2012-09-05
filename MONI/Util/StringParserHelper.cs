@@ -21,9 +21,9 @@ namespace MONI.Util {
     /// <param name = "token">index of token to use, this is 1-based</param>
     /// <param name="fallback">what will be returned if separator is not found</param>
     /// <returns></returns>
-    public static string Token(this string s, char separator, int token, string fallback) {
+    public static string Token(this string s, string separator, int token, string fallback) {
       if (!String.IsNullOrEmpty(s) && s.Contains(separator.ToString())) {
-        string[] tokens = s.Split(separator);
+        string[] tokens = s.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries);
         if (token > 0) {
           // means: start at the beginning
           int idx = token - 1;
@@ -60,7 +60,7 @@ namespace MONI.Util {
     /// <param name = "separator">the separator the split is done with</param>
     /// <param name = "token">index of token to use, this is 1-based</param>
     /// <returns></returns>
-    public static string Token(this string s, char separator, int token) {
+    public static string Token(this string s, string separator, int token) {
       return s.Token(separator, token, string.Empty);
     }
 
@@ -81,7 +81,7 @@ namespace MONI.Util {
     /// <param name = "separator">the separator the split is done with</param>
     /// <param name = "token">index of token to use, this is 1-based</param>
     /// <returns></returns>
-    public static string TokenReturnInputIfFail(this string s, char separator, int token) {
+    public static string TokenReturnInputIfFail(this string s, string separator, int token) {
       return s.Token(separator, token, s);
     } 
   }

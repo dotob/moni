@@ -1,9 +1,26 @@
-# moni - der bessere weg monlist einträge zu erfassen #
+# moni - der bessere weg stunden zu erfassen #
 
-## 
+## die idee ##
+
+die idee bei moni ist, dass es bei der stundenerfassung nicht so sehr auf exakte uhrzeiten ankommt, sondern auf die stunden anzahl. deshalb bietet moni eine einfache möglichkeit stundenaufwände einzugeben und trotzdem start und endzeiten aufzuzeichnen, sowie automatische pauseneinträge zu erzeugen. die eingabe besteht aus einem bestimmten format, dass unten beschrieben ist. am anfang ist es ein bisschen gewöhnungsbedüftig, aber man kann es schnell lernen. 
+
+außerdem bietet moni weitere features, die die eingabe vereinfachen:
+
+- wochenweise ansicht
+- automatische pauseneintragung
+- abkürzungen für projekte
+- abkürzungen für ganze tage
+- anzeige stunden pro project/abkürzung
+- prognose arbeitstunden
+- keyboardnavigation
 
 
-# beispiele für monlist tages-strings #
+## das interface ##
+
+![moni-interface](coming-soon)
+
+
+# dokumentation der eingabe #
 
 ## ganz einfach: ein eintrag ##
 
@@ -91,16 +108,17 @@ konfiguration:
 
 eingabe: 
 
-**8:30,4.25;ctb(support),3.75;ktl(spezifikation schnittstelle)**
+**8:30,4.25;ctb(support),2.75;ktl(spezifikation schnittstelle),1;ktl(+ bahn)**
 
 ausgabe: 
 
 - 8:30-12:45 12345-000  support
-- 12:45-16:30 54321-000  spezifikation schnittstelle
+- 12:45-15:30 54321-000  spezifikation schnittstelle
+- 15:30-17:30 54321-000  spezifikation schnittstelle bahn
 
 erläuterung: 
 
-abkürzungen können auch beschreibungen enthalten. wird die abkürzung mit beschreibung eingegeben wird diese angefügt oder ersetzt die beschreibung der abkürzung
+abkürzungen können auch beschreibungen enthalten. wird die abkürzung mit beschreibung eingegeben wird diese angefügt ("(+ )") oder ersetzt ("( )") die beschreibung der abkürzung
 
 ## abkürzungen für einen ganzen tag ##
 

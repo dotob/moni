@@ -12,9 +12,10 @@ namespace MONI.Data {
     private readonly int year;
     private string originalString;
     private DayType dayType;
+    private ObservableCollection<WorkItem> items;
 
     private WorkDay() {
-      this.Items = new ObservableCollection<WorkItem>();
+      this.items = new ObservableCollection<WorkItem>();
     }
 
     public WorkDay(int year, int month, int day, IEnumerable<SpecialDate> specialDates) : this() {
@@ -95,7 +96,7 @@ namespace MONI.Data {
         }
         this.originalString = value;
         if (string.IsNullOrEmpty(this.originalString)) {
-          this.Items.Clear();
+          this.items.Clear();
           this.ImportantStuffChanged();
         } else {
           // do parsing
@@ -117,7 +118,12 @@ namespace MONI.Data {
     }
 
     public DayOfWeek DayOfWeek { get; set; }
-    public ObservableCollection<WorkItem> Items { get; set; }
+    public IEnumerable<WorkItem> Items {
+      get { return this.items; }
+    }
+    public DateTime DateTime {
+      get { return new DateTime(this.year, this.month, this.day); }
+    }
 
     #region INotifyPropertyChanged Members
 
@@ -134,7 +140,16 @@ namespace MONI.Data {
     }
 
     public override string ToString() {
-      return string.Format("{0},items:{1},origString:{2}", this.DayOfWeek, this.Items.Count, this.OriginalString);
+      return string.Format("{0},items:{1},origString:{2}", this.DayOfWeek, this.Items.Count(), this.OriginalString);
+    }
+
+    public void Clear() {
+      this.items.Clear();
+    }
+
+    public void AddWorkItem(WorkItem workItem) {
+      this.items.Add(workItem);
+      workItem.WorkDay = this;
     }
   }
 

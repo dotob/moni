@@ -8,8 +8,8 @@ namespace MONI.Data
 {
   public class WorkDayParser
   {
-    private char dayStartSeparator = ',';
-    private char hourProjectInfoSeparator = ';';
+    private string dayStartSeparator = ",";
+    private string hourProjectInfoSeparator = ";";
     private char itemSeparator = ',';
     private WorkDayParserSettings settings;
 
@@ -48,9 +48,9 @@ namespace MONI.Data
             }
             IEnumerable<WorkItem> resultList;
             if (this.ProcessTempWorkItems(dayStartTime, tmpList, out resultList, out error)) {
-              wdToFill.Items.Clear();
+              wdToFill.Clear();
               foreach (var workItem in resultList) {
-                wdToFill.Items.Add(workItem);
+                wdToFill.AddWorkItem(workItem);
               }
               ret.Success = true;
             }
@@ -157,21 +157,25 @@ namespace MONI.Data
             if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
               if (this.settings != null && this.settings.ShortCuts != null && this.settings.ShortCuts.Any()) {
-                var abbrevString = projectPosDescString.TokenReturnInputIfFail('(', 1);
+                var abbrevString = projectPosDescString.TokenReturnInputIfFail("(", 1);
                 ShortCut shortCut = this.settings.ShortCuts.FirstOrDefault(s => s.Key == abbrevString);
                 if (shortCut != null) {
                   workItem.ShortCut = shortCut;
                   var expanded = shortCut.Expansion;
                   // if there is an desc given use its value instead of the one in the abbrev
-                  if (!string.IsNullOrEmpty(projectPosDescString.Token('(', 2).Token(')', 1))) {
+                  if (!string.IsNullOrEmpty(projectPosDescString.Token("(+", 2).Token(")", 1))) {
                     // replace description in expanded
-                    expanded = expanded.TokenReturnInputIfFail('(', 1) + "(" + projectPosDescString.Token('(', 2).Token(')', 1) + ")";
+                    expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + expanded.Token("(", 2).Token(")", 1) + projectPosDescString.Token("(+", 2).Token(")", 1) + ")";
+                  }
+                  else if (!string.IsNullOrEmpty(projectPosDescString.Token("(", 2).Token(")", 1))) {
+                    // replace description in expanded
+                    expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + projectPosDescString.Token("(", 2).Token(")", 1) + ")";
                   }
                   projectPosDescString = expanded;
                 }
               }
 
-              var projectPosString = projectPosDescString.TokenReturnInputIfFail('(', 1);
+              var projectPosString = projectPosDescString.TokenReturnInputIfFail("(", 1);
               var parts = projectPosString.Split('-').Select(s => s.Trim()).ToList();
               if (parts.Any()) {
                 workItem.ProjectString = parts.ElementAtOrDefault(0);
@@ -180,7 +184,7 @@ namespace MONI.Data
               } else {
                 error = string.Format("could not parse projectstring {0}", projectPosDescString);
               }
-              var descString = projectPosDescString.Token('(', 2).Token(')', 1);
+              var descString = projectPosDescString.Token("(", 2).Token(")", 1);
               if (!string.IsNullOrEmpty(descString)) {
                 workItem.Description = descString;
               }
