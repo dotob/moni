@@ -139,6 +139,7 @@
                        Grid.RowSpan="3"
                        Margin="3,2,2,2"
                        Tag="{Binding}"
+                       AcceptsReturn="True"
                        Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
               <ItemsControl Grid.Column="1"

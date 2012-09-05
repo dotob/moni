@@ -33,7 +33,7 @@ namespace MONI.Data {
             wdpd.Day = wdDateParts.ElementAt(2);
 
             string wdStringData = wdLine.Token("|", 2);
-            wdpd.OriginalString = wdStringData;
+            wdpd.OriginalString = wdStringData.Replace("<br />", Environment.NewLine);
             this.workDaysData.Add(wdpd);
           }
         }
@@ -44,7 +44,7 @@ namespace MONI.Data {
       foreach (var month in year.Months) {
         List<string> data = new List<string>();
         foreach (var workDay in month.Days.Where(wd => !string.IsNullOrEmpty(wd.OriginalString))) {
-          data.Add(string.Format("{0},{1},{2}|{3}", workDay.Year, workDay.Month, workDay.Day, workDay.OriginalString));
+          data.Add(string.Format("{0},{1},{2}|{3}", workDay.Year, workDay.Month, workDay.Day, workDay.OriginalString.Replace(Environment.NewLine, "<br />")));
         }
         var dataFileName = string.Format("{0}_{1}.md", year.Year, month.Month.ToString("00"));
         var dataFilePath = Path.Combine(this.dataDirectory, dataFileName);

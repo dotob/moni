@@ -22,16 +22,18 @@ namespace MONI.Data
 
     public static WorkDayParser Instance { get; set; }
 
-    public WorkDayParserResult Parse(string s, ref WorkDay wdToFill) {
-      s = PreProcessWholeDayExpansion(s);
+    public WorkDayParserResult Parse(string userInput, ref WorkDay wdToFill) {
+      // remove newlines
+      userInput = userInput.Replace(Environment.NewLine, "");
+      userInput = PreProcessWholeDayExpansion(userInput);
       WorkDayParserResult ret = new WorkDayParserResult();
-      if (!String.IsNullOrEmpty(s)) {
+      if (!String.IsNullOrEmpty(userInput)) {
         TimeItem dayStartTime;
         string remainingString;
         string error;
         // should be like "<daystarttime>,..."
         // eg 7,... or 7:30,...
-        if (this.GetDayStartTime(s, out dayStartTime, out remainingString, out error)) {
+        if (this.GetDayStartTime(userInput, out dayStartTime, out remainingString, out error)) {
           // proceed with parsing items
           var wdItemsAsString = remainingString.Split(this.itemSeparator).Select(i => i.Trim()).ToList();
           if (wdItemsAsString.Any()) {
