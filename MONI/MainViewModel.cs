@@ -115,5 +115,14 @@ namespace MONI {
       this.persistenceLayer.SaveData(this.workYear);
       this.csvExporter.Export(this.WorkYear);
     }
+
+    public void CopyFromPreviousDay(WorkDay currentDay)
+    {
+      var lastValidBefore = this.WorkMonth.Days.Last(x => x.Day < currentDay.Day && x.Items!=null && x.Items.Any());
+      if (lastValidBefore != null)
+      {
+        currentDay.OriginalString = lastValidBefore.OriginalString;
+      }
+    }
   }
 }

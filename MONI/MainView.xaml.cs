@@ -34,6 +34,15 @@ namespace MONI
               this.ViewModel.NextWeekCommand.Execute(null);
             }
             break;
+            case Key.U:
+            var activeControl = e.OriginalSource as TextBox;
+            if (activeControl != null)
+            {
+              var currentDay = activeControl.DataContext as WorkDay;
+              this.ViewModel.CopyFromPreviousDay(currentDay);
+              e.Handled = true;
+            }
+            break;
         }
       }
     }
