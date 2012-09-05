@@ -39,7 +39,7 @@ namespace MONI.Tests
       mainSettings.SpecialDates.Add(new SpecialDate {Name = "Sylvester", Date = new DateTime(2012,1,1)});
 
 
-      MonlistSettings ms = new MonlistSettings();
+      MoniSettings ms = new MoniSettings();
       ms.ParserSettings = parserSettings;
       ms.MainSettings = mainSettings;
 

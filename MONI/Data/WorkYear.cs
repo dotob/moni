@@ -1,13 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
 namespace MONI.Data {
   public class WorkYear {
+    private readonly int hitListLookBackInWeeks;
     public int Year { get; set; }
 
-    public WorkYear(int year, IEnumerable<SpecialDate> specialDates, IEnumerable<ShortCut> shortCuts) {
+    public WorkYear(int year, IEnumerable<SpecialDate> specialDates, IEnumerable<ShortCut> shortCuts, int hitListLookBackInWeeks) {
+      this.hitListLookBackInWeeks = hitListLookBackInWeeks;
       this.Year = year;
       this.Months = new ObservableCollection<WorkMonth>();
       this.Weeks = new ObservableCollection<WorkWeek>();
@@ -27,7 +30,19 @@ namespace MONI.Data {
 
     public ObservableCollection<HitlistInfo> ProjectHitlist {
       get {
-        return new ObservableCollection<HitlistInfo>(Months.SelectMany(m => m.Days).SelectMany(d => d.Items).GroupBy(p => p.Project).OrderByDescending(g => g.Count()).Select(g => new HitlistInfo(g.Key, g.Count(), g.OrderByDescending(p => p.WorkDay.DateTime).Select(p => p.Description).FirstOrDefault()))); 
+        var allDays = this.Months.SelectMany(m => m.Days);
+        var daysFromLookback = hitListLookBackInWeeks > 0 ? allDays.Where(m => m.DateTime > DateTime.Now.AddDays(hitListLookBackInWeeks * -7)) : allDays;
+        var hitlistInfos = daysFromLookback
+          .SelectMany(d => d.Items)
+          .GroupBy(p => p.Project)
+          .OrderByDescending(g => g.Count())
+          .Select(g => 
+            new HitlistInfo(
+              g.Key, 
+              g.Count(), 
+              g.OrderByDescending(p => p.WorkDay.DateTime).Select(p => p.Description).FirstOrDefault())
+              );
+        return new ObservableCollection<HitlistInfo>(hitlistInfos);
       }
     }
 

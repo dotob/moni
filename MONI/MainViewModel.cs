@@ -22,7 +22,7 @@ namespace MONI {
       var monlistSettings = ReadSettings();
       var now = DateTime.Now;
       var cal = new GregorianCalendar();
-      this.WorkYear = new WorkYear(now.Year, monlistSettings.MainSettings.SpecialDates, monlistSettings.ParserSettings.ShortCuts);
+      this.WorkYear = new WorkYear(now.Year, monlistSettings.MainSettings.SpecialDates, monlistSettings.ParserSettings.ShortCuts, monlistSettings.MainSettings.HitListLookBackInWeeks);
       this.WorkMonth = this.WorkYear.Months.ElementAt(now.Month - 1);
       this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == cal.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
 
@@ -44,13 +44,13 @@ namespace MONI {
       }
     }
 
-    private static MonlistSettings ReadSettings() {
+    private static MoniSettings ReadSettings() {
       var settingsFile = "settings.json";
       if (File.Exists(settingsFile)) {
         var jsonString = File.ReadAllText(settingsFile);
-        return JsonConvert.DeserializeObject<MonlistSettings>(jsonString);
+        return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
       }
-      return new MonlistSettings();
+      return new MoniSettings();
     }
 
     public ICommand PreviousWeekCommand {

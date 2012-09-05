@@ -35,6 +35,7 @@
     },
     "MainSettings": {
         "DataDirectory": "data",
+        "HitListLookBackInWeeks": "6",
         "SpecialDates": [
             {
                 "Name": "Neujahr",
