@@ -118,9 +118,8 @@ namespace MONI {
 
     public void CopyFromPreviousDay(WorkDay currentDay)
     {
-      var lastValidBefore = this.WorkMonth.Days.Last(x => x.Day < currentDay.Day && x.Items!=null && x.Items.Any());
-      if (lastValidBefore != null)
-      {
+      var lastValidBefore = this.WorkMonth.Days.LastOrDefault(x => x.Day < currentDay.Day && x.Items!=null && x.Items.Any());
+      if (lastValidBefore != null) {
         currentDay.OriginalString = lastValidBefore.OriginalString;
       }
     }
