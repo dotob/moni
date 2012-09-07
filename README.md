@@ -23,8 +23,8 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 
 ### navigation ####
 
-- **strg+cursor_hoch**: in eingabefeld des vorigen tages gehen
-- **strg+cursor_runter**: in eingabefeld des folgenden tages gehen
+- **tab**: in eingabefeld des vorigen tages gehen
+- **shift+tab**: in eingabefeld des folgenden tages gehen
 - **strg+cursor_links**: vorige woche anzeigen
 - **strg+cursor_rechts**: nächste woche anzeigen
 
