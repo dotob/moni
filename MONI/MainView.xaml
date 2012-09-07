@@ -79,137 +79,140 @@
             Content="&lt;"
             Margin="10 2 1 1"
             Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}"></Button>
-    <ItemsControl Grid.Row="2"
-                  Grid.Column="1"
-                  ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}"
-                  Grid.IsSharedSizeScope="True">
-      <ItemsControl.ItemTemplate>
-        <!-- this is a day -->
-        <DataTemplate>
-          <Border BorderThickness="1"
-                  Background="{Binding DayType, Converter={StaticResource dayTypeColorConverter}}"
-                  CornerRadius="2"
-                  Margin="1"
-                  Padding="1"
-                  SnapsToDevicePixels="True">
-            <Grid>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"
-                                  SharedSizeGroup="Labels"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-              </Grid.ColumnDefinitions>
-              <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-              </Grid.RowDefinitions>
+    <ScrollViewer Grid.Row="2"
+                  Grid.Column="1">
+      <!-- days -->
+      <ItemsControl ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}"
+                    Grid.IsSharedSizeScope="True">
+        <ItemsControl.ItemTemplate>
+          <!-- this is a day -->
+          <DataTemplate>
+            <Border BorderThickness="1"
+                    Background="{Binding DayType, Converter={StaticResource dayTypeColorConverter}}"
+                    CornerRadius="2"
+                    Margin="1"
+                    Padding="1"
+                    SnapsToDevicePixels="True">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"
+                                    SharedSizeGroup="Labels"></ColumnDefinition>
+                  <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto"></RowDefinition>
+                  <RowDefinition Height="Auto"></RowDefinition>
+                  <RowDefinition Height="Auto"></RowDefinition>
+                  <RowDefinition Height="Auto"></RowDefinition>
+                  <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
 
-              <TextBlock Grid.Column="0"
+                <TextBlock Grid.Column="0"
+                           Grid.Row="0"
+                           Margin="0 4 0 0"
+                           Text="{Binding DayOfWeek}"
+                           Foreground="{StaticResource lightText}"
+                           HorizontalAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="0"
+                           Grid.Row="1"
+                           Text="{Binding SpecialDate.Name}"
+                           Foreground="{StaticResource lightText}"
+                           FontWeight="Bold"
+                           Visibility="{Binding SpecialDate, Converter={StaticResource emptyStringVisibilityConverter}}"
+                           HorizontalAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="0"
+                           Grid.Row="2"
+                           Text="{Binding Day}"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"></TextBlock>
+                <TextBlock Grid.Column="0"
+                           Grid.Row="3"
+                           Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}"
+                           FontWeight="Bold"
+                           Padding="3 0 3 0"
+                           Foreground="{Binding HoursDuration, Converter={StaticResource durationFgConverter}}"
+                           Background="{Binding HoursDuration, Converter={StaticResource durationBgConverter}}"
+                           HorizontalAlignment="Center"></TextBlock>
+
+                <TextBox Loaded="TextBox_Loaded"
+                         Grid.Column="1"
                          Grid.Row="0"
-                         Margin="0 4 0 0"
-                         Text="{Binding DayOfWeek}"
-                         Foreground="{StaticResource lightText}"
-                         HorizontalAlignment="Center"></TextBlock>
-              <TextBlock Grid.Column="0"
-                         Grid.Row="1"
-                         Text="{Binding SpecialDate.Name}"
-                         Foreground="{StaticResource lightText}"
-                         FontWeight="Bold"
-                         Visibility="{Binding SpecialDate, Converter={StaticResource emptyStringVisibilityConverter}}"
-                         HorizontalAlignment="Center"></TextBlock>
-              <TextBlock Grid.Column="0"
-                         Grid.Row="2"
-                         Text="{Binding Day}"
-                         FontWeight="Bold"
-                         HorizontalAlignment="Center"></TextBlock>
-              <TextBlock Grid.Column="0"
-                         Grid.Row="3"
-                         Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}"
-                         FontWeight="Bold"
-                         Padding="3 0 3 0"
-                         Foreground="{Binding HoursDuration, Converter={StaticResource durationFgConverter}}"
-                         Background="{Binding HoursDuration, Converter={StaticResource durationBgConverter}}"
-                         HorizontalAlignment="Center"></TextBlock>
+                         Grid.RowSpan="3"
+                         Margin="3,2,2,2"
+                         Tag="{Binding}"
+                         AcceptsReturn="True"
+                         Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-              <TextBox Loaded="TextBox_Loaded"
-                       Grid.Column="1"
-                       Grid.Row="0"
-                       Grid.RowSpan="3"
-                       Margin="3,2,2,2"
-                       Tag="{Binding}"
-                       AcceptsReturn="True"
-                       Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-              <ItemsControl Grid.Column="1"
-                            Grid.Row="3"
-                            Grid.RowSpan="2"
-                            Margin="3,2,2,2"
-                            ItemsSource="{Binding Items}"
-                            IsTabStop="False"
-                            Grid.IsSharedSizeScope="True">
-                <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                    <Grid>
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="1" />
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="2" />
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="3" />
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="4" />
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="5" />
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="6" />
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="7" />
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="8" />
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="9" />
-                      </Grid.ColumnDefinitions>
-                      <TextBlock Grid.Column="0"
-                                 TextAlignment="Right"
-                                 Text="{Binding Start}"
-                                 FontWeight="Bold" />
-                      <TextBlock Grid.Column="1"
-                                 Text=" => "
-                                 Foreground="{StaticResource lightText}" />
-                      <TextBlock Grid.Column="2"
-                                 TextAlignment="Right"
-                                 Text="{Binding End}"
-                                 FontWeight="Bold" />
-                      <TextBlock Grid.Column="3"
-                                 Text=" : "
-                                 Foreground="{StaticResource lightText}" />
-                      <TextBlock Grid.Column="4"
-                                 Text="{Binding Project}"
-                                 FontWeight="Bold" />
-                      <TextBlock Grid.Column="5"
-                                 Text="-"
-                                 Foreground="{StaticResource lightText}" />
-                      <TextBlock Grid.Column="6"
-                                 Text="{Binding Position}"
-                                 FontWeight="Bold" />
-                      <TextBlock Grid.Column="7"
-                                 Text="=>"
-                                 Foreground="{StaticResource lightText}" />
-                      <TextBlock Grid.Column="8"
-                                 Text="{Binding Description}"
-                                 Foreground="{StaticResource lightText}" />
-                    </Grid>
-                  </DataTemplate>
-                </ItemsControl.ItemTemplate>
-              </ItemsControl>
-            </Grid>
-          </Border>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
+                <!-- day items -->
+                <ItemsControl Grid.Column="1"
+                              Grid.Row="3"
+                              Grid.RowSpan="2"
+                              Margin="3,2,2,2"
+                              ItemsSource="{Binding Items}"
+                              IsTabStop="False"
+                              Grid.IsSharedSizeScope="True">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid>
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="1" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="2" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="3" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="4" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="5" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="6" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="7" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="8" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="9" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   TextAlignment="Right"
+                                   Text="{Binding Start}"
+                                   FontWeight="Bold" />
+                        <TextBlock Grid.Column="1"
+                                   Text=" => "
+                                   Foreground="{StaticResource lightText}" />
+                        <TextBlock Grid.Column="2"
+                                   TextAlignment="Right"
+                                   Text="{Binding End}"
+                                   FontWeight="Bold" />
+                        <TextBlock Grid.Column="3"
+                                   Text=" : "
+                                   Foreground="{StaticResource lightText}" />
+                        <TextBlock Grid.Column="4"
+                                   Text="{Binding Project}"
+                                   FontWeight="Bold" />
+                        <TextBlock Grid.Column="5"
+                                   Text="-"
+                                   Foreground="{StaticResource lightText}" />
+                        <TextBlock Grid.Column="6"
+                                   Text="{Binding Position}"
+                                   FontWeight="Bold" />
+                        <TextBlock Grid.Column="7"
+                                   Text="=>"
+                                   Foreground="{StaticResource lightText}" />
+                        <TextBlock Grid.Column="8"
+                                   Text="{Binding Description}"
+                                   Foreground="{StaticResource lightText}" />
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
     <Button Grid.Column="2"
             Grid.Row="2"
             Content="&gt;"
@@ -285,7 +288,7 @@
                   Margin="1"
                   Padding="1"
                   SnapsToDevicePixels="True">
-<Grid>
+            <Grid>
               <Grid.RowDefinitions>
                 <RowDefinition Height="2*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>

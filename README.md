@@ -19,6 +19,17 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 
 ![moni-interface](coming-soon)
 
+## keyboad shortcuts ##
+
+### navigation ####
+
+- **strg+cursor_hoch**: in eingabefeld des vorigen tages gehen
+- **strg+cursor_runter**: in eingabefeld des folgenden tages gehen
+- **strg+cursor_links**: vorige woche anzeigen
+- **strg+cursor_rechts**: nächste woche anzeigen
+
+### andere ###
+- **strg+u**: eingabe des letzten tages hierhin kopieren
 
 # dokumentation der eingabe #
 

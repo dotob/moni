@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MONI.Data;
@@ -13,6 +14,7 @@ namespace MONI
     public MainView() {
       this.ViewModel = new MainViewModel();
       this.InitializeComponent();
+      this.Title = string.Format("moni v{0}", Assembly.GetExecutingAssembly().GetName().Version);
     }
 
     public MainViewModel ViewModel { get; set; }
