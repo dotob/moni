@@ -50,7 +50,7 @@ namespace MONI {
         var jsonString = File.ReadAllText(settingsFile);
         return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
       }
-      return new MoniSettings();
+      return MoniSettings.GetEmptySettings();
     }
 
     public ICommand PreviousWeekCommand {
