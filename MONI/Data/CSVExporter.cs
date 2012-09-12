@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -11,6 +12,14 @@ namespace MONI.Data
 
     public CSVExporter(string dataDirectory) {
       this.dataDirectory = dataDirectory;
+      // check for dir
+      if (!Directory.Exists(dataDirectory)) {
+          try {
+              Directory.CreateDirectory(dataDirectory);
+          } catch (Exception e) {
+              Console.WriteLine(e);
+          }
+      }
     }
 
     public void Export(WorkYear year) {

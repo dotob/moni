@@ -9,11 +9,20 @@ namespace MONI.Data {
     private readonly string dataDirectory;
     private List<WorkDayPersistenceData> workDaysData = new List<WorkDayPersistenceData>();
 
-    public TextFilePersistenceLayer(string dataDirectory) {
-      this.dataDirectory = dataDirectory;
+    public TextFilePersistenceLayer(string dataDirectory)
+    {
+        this.dataDirectory = dataDirectory;
+        // check for dir
+        if (!Directory.Exists(dataDirectory)) {
+            try {
+                Directory.CreateDirectory(dataDirectory);
+            } catch (Exception e) {
+                Console.WriteLine(e);
+            }
+        }
     }
 
-    public IEnumerable<WorkDayPersistenceData> WorkDaysData {
+      public IEnumerable<WorkDayPersistenceData> WorkDaysData {
       get {
         return this.workDaysData;
       }
