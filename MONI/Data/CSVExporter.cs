@@ -6,11 +6,11 @@ using System.Text;
 
 namespace MONI.Data
 {
-  public class CsvExporter
+  public class CSVExporter
   {
     private readonly string dataDirectory;
 
-    public CsvExporter(string dataDirectory) {
+    public CSVExporter(string dataDirectory) {
       this.dataDirectory = dataDirectory;
       // check for dir
       if (!Directory.Exists(dataDirectory)) {
