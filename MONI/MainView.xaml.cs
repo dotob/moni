@@ -48,14 +48,6 @@ namespace MONI
       }
     }
 
-    private void Button_Click(object sender, RoutedEventArgs e) {
-      this.ViewModel.Save();
-    }
-
-    private void mv_Loaded(object sender, RoutedEventArgs e) {
-
-    }
-
     private void TextBox_Loaded(object sender, RoutedEventArgs e) {
       var textBox = sender as TextBox;
       if (textBox != null) {

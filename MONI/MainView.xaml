@@ -5,7 +5,6 @@
         Title="MONI"
         Height="800"
         Width="900"
-        Loaded="mv_Loaded"
         Closing="mv_Closing"
         PreviewKeyDown="mv_PreviewKeyDown"
         x:Name="mv"

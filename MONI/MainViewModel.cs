@@ -37,11 +37,7 @@ namespace MONI {
       foreach (WorkDayPersistenceData data in this.persistenceLayer.WorkDaysData.Where(wdpd => wdpd.Year == this.WorkYear.Year)) {
         var workDay = this.WorkYear.GetDay(data.Month, data.Day);
         workDay.OriginalString = data.OriginalString;
-      }
-
-      foreach (var p in this.WorkYear.ProjectHitlist) {
-        Console.WriteLine(p);
-      }
+      } 
     }
 
     private static MoniSettings ReadSettings() {

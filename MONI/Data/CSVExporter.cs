@@ -6,11 +6,11 @@ using System.Text;
 
 namespace MONI.Data
 {
-  public class CSVExporter
+  public class CsvExporter
   {
     private readonly string dataDirectory;
 
-    public CSVExporter(string dataDirectory) {
+    public CsvExporter(string dataDirectory) {
       this.dataDirectory = dataDirectory;
       // check for dir
       if (!Directory.Exists(dataDirectory)) {
@@ -35,7 +35,7 @@ namespace MONI.Data
       this.AddHeader(data);
       var gotData = this.AddData(month, data);
       if (gotData) {
-        File.WriteAllLines(filename, data, Encoding.ASCII);
+        File.WriteAllLines(filename, data, Encoding.GetEncoding("ISO-8859-1"));
       }
     }
 
