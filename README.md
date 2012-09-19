@@ -17,7 +17,18 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 
 ## das interface ##
 
-![moni-interface](coming-soon)
+![das eine fenster](doc/moni_mainwindow.png)
+
+1. prognose arbeitstunden
+2. automatische pauseneintragung
+3. abkürzungen für ganze tage
+4. mehrzeilige einträge
+5. beschreibungen von abkürzungen ersetzen
+6. beschreibungen von abkürzungen erweiteren
+7. warnung wenn nicht 8h pro tag verbraucht
+8. abkürzungen mit nutzungsstatistik
+9. hitliste der abkürzuungen
+
 
 ## keyboad shortcuts ##
 
