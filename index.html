@@ -1,0 +1,250 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Moni by dotob</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Moni</h1>
+        <p>better way to enter monlist timesheet data</p>
+
+        <p class="view"><a href="https://github.com/dotob/moni">View the Project on GitHub <small>dotob/moni</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/dotob/moni/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/dotob/moni/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/dotob/moni">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>moni - der bessere weg stunden zu erfassen</h1>
+
+<h2>die idee</h2>
+
+<p>die idee bei moni ist, dass es bei der stundenerfassung nicht so sehr auf exakte uhrzeiten ankommt, sondern auf die stunden anzahl. deshalb bietet moni eine einfache möglichkeit stundenaufwände einzugeben und trotzdem start und endzeiten aufzuzeichnen, sowie automatische pauseneinträge zu erzeugen. die eingabe besteht aus einem bestimmten format, dass unten beschrieben ist. am anfang ist es ein bisschen gewöhnungsbedüftig, aber man kann es schnell lernen. </p>
+
+<p>außerdem bietet moni weitere features, die die eingabe vereinfachen:</p>
+
+<ul>
+<li>wochenweise ansicht</li>
+<li>automatische pauseneintragung</li>
+<li>abkürzungen für projekte</li>
+<li>abkürzungen für ganze tage</li>
+<li>anzeige stunden pro project/abkürzung</li>
+<li>prognose arbeitstunden</li>
+<li>keyboardnavigation</li>
+</ul><h2>das interface</h2>
+
+<p><img src="doc/moni_mainwindow.png" alt="das eine fenster"></p>
+
+<ol>
+<li>prognose arbeitstunden</li>
+<li>automatische pauseneintragung</li>
+<li>abkürzungen für ganze tage</li>
+<li>mehrzeilige einträge</li>
+<li>beschreibungen von abkürzungen ersetzen</li>
+<li>beschreibungen von abkürzungen erweiteren</li>
+<li>warnung wenn nicht 8h pro tag verbraucht</li>
+<li>abkürzungen mit nutzungsstatistik</li>
+<li>hitliste der abkürzuungen</li>
+</ol><h2>keyboad shortcuts</h2>
+
+<h3>navigation</h3>
+
+<ul>
+<li>
+<strong>tab</strong>: in eingabefeld des vorigen tages gehen</li>
+<li>
+<strong>shift+tab</strong>: in eingabefeld des folgenden tages gehen</li>
+<li>
+<strong>strg+cursor_links</strong>: vorige woche anzeigen</li>
+<li>
+<strong>strg+cursor_rechts</strong>: nächste woche anzeigen</li>
+</ul><h3>andere</h3>
+
+<ul>
+<li>
+<strong>strg+u</strong>: eingabe des letzten tages hierhin kopieren</li>
+</ul><h1>dokumentation der eingabe</h1>
+
+<h2>ganz einfach: ein eintrag</h2>
+
+<p>eingabe: </p>
+
+<p><strong>8,8;12345-000</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:00-16:00 12345-000</li>
+</ul><p>erläuterung: </p>
+
+<p>erste zahl vor dem komma ist die startzeit, gefolgt von der anzahl der stunden und project-position</p>
+
+<h2>mehrere einträge</h2>
+
+<p>eingabe: </p>
+
+<p><strong>8,4;12345-000,4;54321-000</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:00-12:00 12345-000</li>
+<li>12:00-16:00 54321-000</li>
+</ul><p>erläuterung: </p>
+
+<p>kommasepariert werde die einträge aneinandergereiht</p>
+
+<h2>teilstunden</h2>
+
+<p>eingabe: </p>
+
+<p><strong>8:30,4.25;12345-000,3.75;54321-000</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:30-12:45 12345-000</li>
+<li>12:45-16:30 54321-000</li>
+</ul><p>erläuterung: </p>
+
+<p>uhrzeiten werden im format <strong>stunde:minute</strong> angegeben. stunden mit <strong>punkt</strong> getrennt</p>
+
+<h2>beschreibungen</h2>
+
+<p>eingabe: </p>
+
+<p><strong>8:30,4.25;12345-000(fehlerbehebung),3.75;54321-000(support)</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:30-12:45 12345-000  fehlerbehebung</li>
+<li>12:45-16:30 54321-000  support</li>
+</ul><p>erläuterung: </p>
+
+<p>beschreibungen können pro eintrag in <strong>klammern</strong> angegeben werden</p>
+
+<h2>abkürzungen</h2>
+
+<p>konfiguration:</p>
+
+<p><strong>ctb =&gt; 12345-000</strong>
+<strong>ktl =&gt; 54321-000(spezifikation)</strong></p>
+
+<p>eingabe: </p>
+
+<p><strong>8:30,4.25;ctb,3.75;ktl</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:30-12:45 12345-000</li>
+<li>12:45-16:30 54321-000  spezifikation</li>
+</ul><h2>abkürzungen und beschreibungen</h2>
+
+<p>konfiguration:</p>
+
+<ul>
+<li><strong>ctb =&gt; 12345-000</strong></li>
+<li><strong>ktl =&gt; 54321-000(spezifikation)</strong></li>
+</ul><p>eingabe: </p>
+
+<p><strong>8:30,4.25;ctb(support),2.75;ktl(spezifikation schnittstelle),1;ktl(+ bahn)</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:30-12:45 12345-000  support</li>
+<li>12:45-15:30 54321-000  spezifikation schnittstelle</li>
+<li>15:30-17:30 54321-000  spezifikation schnittstelle bahn</li>
+</ul><p>erläuterung: </p>
+
+<p>abkürzungen können auch beschreibungen enthalten. wird die abkürzung mit beschreibung eingegeben wird diese angefügt ("(+ )") oder ersetzt ("( )") die beschreibung der abkürzung</p>
+
+<h2>abkürzungen für einen ganzen tag</h2>
+
+<p>konfiguration:</p>
+
+<ul>
+<li>
+<strong>krank =&gt; 8,8;12345-000(krank oder doc)</strong> (WholeDayExpansion  = true, siehe settings.json erläuterung)</li>
+</ul><p>eingabe: </p>
+
+<p><strong>krank</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:00-16:00 12345-000  krank oder doc</li>
+</ul><h2>manuelle pause</h2>
+
+<p>eingabe: </p>
+
+<p><strong>8:00,4;12345-000,1!,4;12345-000</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:00-12:00 12345-000</li>
+<li>13:00-17:00 12345-000</li>
+</ul><p>erläuterung: </p>
+
+<p>endet ein eintrag mit <strong>!</strong> dann wird die folgende stundenzahl als pause eingefügt</p>
+
+<h2>automatische pause</h2>
+
+<p>konfiguration:</p>
+
+<ul>
+<li><strong>pause einfügen</strong></li>
+<li><strong>pause um 12:00</strong></li>
+<li><strong>pausenlänge 30min</strong></li>
+</ul><p>eingabe: </p>
+
+<p><strong>8:00,8;12345-000</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:00-12:00 12345-000</li>
+<li>12:30-16:30 12345-000</li>
+</ul><p>erläuterung: </p>
+
+<p>es wird automatisch ein pause um 12:00 eingefügt</p>
+
+<h2>endzeit statt stunden anzahl</h2>
+
+<p>eingabe: </p>
+
+<p><strong>8:00,-16;12345-000</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:00-16:00 12345-000</li>
+</ul><p>erläuterung: </p>
+
+<p>statt der stunden anzahl kann auch eine zeit eingegeben werden, diese muß dann mit <strong>-</strong> prefixed werden. automatische pausen werden dabei ebenfalls berücksichtigt</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/dotob">dotob</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
