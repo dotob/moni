@@ -3,18 +3,19 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MONI.Data;
+using MahApps.Metro.Controls;
 
 namespace MONI
 {
   /// <summary>
   /// Interaction logic for MainView.xaml
   /// </summary>
-  public partial class MainView : Window
+  public partial class MainView : MetroWindow
   {
     public MainView() {
       this.ViewModel = new MainViewModel();
       this.InitializeComponent();
-      this.Title = string.Format("moni v{0}", Assembly.GetExecutingAssembly().GetName().Version);
+      this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
     }
 
     public MainViewModel ViewModel { get; set; }
@@ -57,6 +58,10 @@ namespace MONI
           textBox.Select(textBox.Text.Length, 0);
         }
       }
+    }
+
+    private void GitHub_Button_Click(object sender, RoutedEventArgs e) {
+      System.Diagnostics.Process.Start("https://github.com/dotob/moni");
     }
   }
 }
