@@ -28,6 +28,7 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 7. warnung wenn nicht 8h pro tag verbraucht
 8. abkürzungen mit nutzungsstatistik
 9. hitliste der abkürzuungen
+10. link zu github
 
 
 ## keyboad shortcuts ##
@@ -38,6 +39,7 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 - **shift+tab**: in eingabefeld des folgenden tages gehen
 - **strg+cursor_links**: vorige woche anzeigen
 - **strg+cursor_rechts**: nächste woche anzeigen
+- **escape**: gehe zu heute
 
 ### andere ###
 - **strg+u**: eingabe des letzten tages hierhin kopieren
