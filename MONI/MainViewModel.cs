@@ -8,8 +8,10 @@ using MONI.Data;
 using MONI.Util;
 using Newtonsoft.Json;
 
-namespace MONI {
-  public class MainViewModel : INotifyPropertyChanged {
+namespace MONI
+{
+  public class MainViewModel : INotifyPropertyChanged
+  {
     private ICommand nextWeekCommand;
     private readonly TextFilePersistenceLayer persistenceLayer;
     private ICommand previousWeekCommand;
@@ -17,27 +19,19 @@ namespace MONI {
     private WorkWeek workWeek;
     private WorkYear workYear;
     private readonly CSVExporter csvExporter;
+    private readonly MoniSettings monlistSettings;
 
     public MainViewModel() {
-      var monlistSettings = ReadSettings();
-      var now = DateTime.Now;
-      var cal = new GregorianCalendar();
-      this.WorkYear = new WorkYear(now.Year, monlistSettings.MainSettings.SpecialDates, monlistSettings.ParserSettings.ShortCuts, monlistSettings.MainSettings.HitListLookBackInWeeks);
-      this.WorkMonth = this.WorkYear.Months.ElementAt(now.Month - 1);
-      this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == cal.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
+      this.monlistSettings = ReadSettings();
 
-      
-      this.WeekDayParserSettings = monlistSettings.ParserSettings;
+      this.WeekDayParserSettings = this.monlistSettings.ParserSettings;
       WorkDayParser.Instance = new WorkDayParser(this.WeekDayParserSettings);
 
       // read persistencedata
-      this.persistenceLayer = new TextFilePersistenceLayer(monlistSettings.MainSettings.DataDirectory);
-      this.csvExporter = new CSVExporter(monlistSettings.MainSettings.DataDirectory);
+      this.persistenceLayer = new TextFilePersistenceLayer(this.monlistSettings.MainSettings.DataDirectory);
+      this.csvExporter = new CSVExporter(this.monlistSettings.MainSettings.DataDirectory);
       this.persistenceLayer.ReadData();
-      foreach (WorkDayPersistenceData data in this.persistenceLayer.WorkDaysData.Where(wdpd => wdpd.Year == this.WorkYear.Year)) {
-        var workDay = this.WorkYear.GetDay(data.Month, data.Day);
-        workDay.OriginalString = data.OriginalString;
-      } 
+      this.SelectToday(); // sets data from persistencelayer
     }
 
     private static MoniSettings ReadSettings() {
@@ -107,14 +101,24 @@ namespace MONI {
       this.WorkMonth = this.workWeek.Month;
     }
 
+    public void SelectToday() {
+      var now = DateTime.Now;
+      var cal = new GregorianCalendar();
+      if (this.workYear == null || now.Year != this.workYear.Year) {
+        this.WorkYear = new WorkYear(now.Year, this.monlistSettings.MainSettings.SpecialDates, this.monlistSettings.ParserSettings.ShortCuts, this.monlistSettings.MainSettings.HitListLookBackInWeeks);
+        this.persistenceLayer.SetDataOfYear(this.WorkYear);
+      }
+      this.WorkMonth = this.WorkYear.Months.ElementAt(now.Month - 1);
+      this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == cal.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
+    }
+
     public void Save() {
       this.persistenceLayer.SaveData(this.workYear);
       this.csvExporter.Export(this.WorkYear);
     }
 
-    public void CopyFromPreviousDay(WorkDay currentDay)
-    {
-      var lastValidBefore = this.WorkMonth.Days.LastOrDefault(x => x.Day < currentDay.Day && x.Items!=null && x.Items.Any());
+    public void CopyFromPreviousDay(WorkDay currentDay) {
+      var lastValidBefore = this.WorkMonth.Days.LastOrDefault(x => x.Day < currentDay.Day && x.Items != null && x.Items.Any());
       if (lastValidBefore != null) {
         currentDay.OriginalString = lastValidBefore.OriginalString;
       }

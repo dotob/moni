@@ -46,6 +46,9 @@ namespace MONI
             }
             break;
         }
+      } else if (e.Key == Key.Escape) {
+        // goto today
+        this.ViewModel.SelectToday();
       }
     }
 

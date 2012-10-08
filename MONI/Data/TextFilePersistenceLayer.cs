@@ -62,6 +62,13 @@ namespace MONI.Data {
         }
       }
     }
+
+    public void SetDataOfYear(WorkYear workYear) {
+      foreach (WorkDayPersistenceData data in this.WorkDaysData.Where(wdpd => wdpd.Year == workYear.Year)) {
+        var workDay = workYear.GetDay(data.Month, data.Day);
+        workDay.OriginalString = data.OriginalString;
+      }
+    }
   }
 
   public class WorkDayPersistenceData {
