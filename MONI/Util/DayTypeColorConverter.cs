@@ -18,7 +18,7 @@ namespace MONI.Util {
           b = Brushes.LightGreen;
           break;
         case DayType.Holiday:
-          b = Brushes.LightSkyBlue;
+          b = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CC119EDA"));
           break;
         default:
           throw new ArgumentOutOfRangeException();

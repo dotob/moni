@@ -11,7 +11,7 @@ namespace MONI.Util
       double duration = (double)value;
       Brush b = Brushes.Transparent;
       if (duration < 8) {
-        b = Brushes.IndianRed;
+        b = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B3CD6969"));
       }
       return b;
     }

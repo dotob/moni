@@ -1,0 +1,8 @@
+Tag     Von     Bis     Std.    Prj-Nr   Pos.     durchgeführte Arbeiten
+========================================================================
+ xx     xxxx    xxxx    xx.xx   xxxxx    xxx      xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+||      |       |       |       |        |        |
+01      8       16      24      32       41       50 Positionen der Felder
+
+Anzahl Zeichen:
+ 2      4       4       5       5        3        max. 255
