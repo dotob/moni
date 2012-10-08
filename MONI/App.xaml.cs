@@ -12,7 +12,7 @@ namespace MONI
     protected override void OnStartup(StartupEventArgs e) {
       AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
         {
-          String resourceName = "MONI." + new AssemblyName(args.Name).Name + ".dll";
+          String resourceName = "MONI.DllsAsResource." + new AssemblyName(args.Name).Name + ".dll";
           using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName)) {
             if (stream != null) {
               Byte[] assemblyData = new Byte[stream.Length];
