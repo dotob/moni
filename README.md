@@ -7,7 +7,7 @@ die idee bei moni ist, dass es bei der stundenerfassung nicht so sehr auf exakte
 außerdem bietet moni weitere features, die die eingabe vereinfachen:
 
 - wochenweise ansicht
-- automatische pauseneintragung
+- automatische pauseneintragung (und deaktivierung für einzelne tage)
 - abkürzungen für projekte
 - abkürzungen für ganze tage
 - anzeige stunden pro project/abkürzung
@@ -193,6 +193,26 @@ ausgabe:
 erläuterung: 
 
 es wird automatisch ein pause um 12:00 eingefügt
+
+## automatische pause für einen tag deaktivieren ##
+
+konfiguration:
+
+- **pause einfügen**
+- **pause um 12:00**
+- **pausenlänge 30min**
+
+eingabe: 
+
+**//8:00,8;12345-000**
+
+ausgabe: 
+
+- 8:00-16:30 12345-000
+
+erläuterung:
+
+mit "//" kann das einfügen einer automatischen pause für diesen tag ausgeschaltet werden
 
 ## endzeit statt stunden anzahl ##
 

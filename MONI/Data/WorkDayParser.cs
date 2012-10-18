@@ -25,6 +25,10 @@ namespace MONI.Data
     public WorkDayParserResult Parse(string userInput, ref WorkDay wdToFill) {
       // remove newlines
       userInput = userInput.Replace(Environment.NewLine, "");
+      bool ignoreBreakSettings = userInput.StartsWith("//");
+      if (ignoreBreakSettings) {
+        userInput = userInput.Substring(2);
+      }
       userInput = PreProcessWholeDayExpansion(userInput);
       WorkDayParserResult ret = new WorkDayParserResult();
       if (!String.IsNullOrEmpty(userInput)) {
@@ -49,7 +53,7 @@ namespace MONI.Data
               }
             }
             IEnumerable<WorkItem> resultList;
-            if (this.ProcessTempWorkItems(dayStartTime, tmpList, out resultList, out error)) {
+            if (this.ProcessTempWorkItems(dayStartTime, tmpList, ignoreBreakSettings, out resultList, out error)) {
               wdToFill.Clear();
               foreach (var workItem in resultList) {
                 wdToFill.AddWorkItem(workItem);
@@ -78,7 +82,7 @@ namespace MONI.Data
       return userInput;
     }
 
-    private bool ProcessTempWorkItems(TimeItem dayStartTime, IEnumerable<WorkItemTemp> tmpList, out IEnumerable<WorkItem> resultList, out string error) {
+    private bool ProcessTempWorkItems(TimeItem dayStartTime, IEnumerable<WorkItemTemp> tmpList, bool ignoreBreakSettings, out IEnumerable<WorkItem> resultList, out string error) {
       bool success = false;
       error = string.Empty;
       List<WorkItem> resultListTmp = new List<WorkItem>();
@@ -97,7 +101,7 @@ namespace MONI.Data
             currentEndTime = lastTime + workItemTemp.HourCount;
           }
           // check for split
-          if (this.settings != null && this.settings.InsertDayBreak) {
+          if (this.settings != null && this.settings.InsertDayBreak && !ignoreBreakSettings) {
             // the break is in an item
             if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
               // insert new item

@@ -95,6 +95,17 @@ namespace MONI.Tests {
     }
 
     [Test]
+    public void WDParser_LokalBreakSettingsOptOut_IgnoreBreakSettings() {
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDayParser wdp = new WorkDayParser(new WorkDayParserSettings {InsertDayBreak = true, DayBreakTime = new TimeItem(12, 00), DayBreakDurationInMinutes = 30});
+      var workItemParserResult = wdp.Parse("//9:00,2;11111-111,3;22222-222", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111"), new WorkItem(new TimeItem(11, 0), new TimeItem(14, 00), "22222", "222")}, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+    }
+
+    [Test]
     public void WDParser_WhiteSpace_StillWork() {
       WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
       WorkDayParser wdp = new WorkDayParser(new WorkDayParserSettings {InsertDayBreak = true, DayBreakTime = new TimeItem(12, 00), DayBreakDurationInMinutes = 30});
