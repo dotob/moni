@@ -25,11 +25,11 @@ namespace MONI.Data
     public WorkDayParserResult Parse(string userInput, ref WorkDay wdToFill) {
       // remove newlines
       userInput = userInput.Replace(Environment.NewLine, "");
+      userInput = PreProcessWholeDayExpansion(userInput);
       bool ignoreBreakSettings = userInput.StartsWith("//");
       if (ignoreBreakSettings) {
         userInput = userInput.Substring(2);
       }
-      userInput = PreProcessWholeDayExpansion(userInput);
       WorkDayParserResult ret = new WorkDayParserResult();
       if (!String.IsNullOrEmpty(userInput)) {
         TimeItem dayStartTime;
@@ -113,6 +113,9 @@ namespace MONI.Data
               }
             } else if (this.settings.DayBreakTime.Equals(lastTime)) {
               lastTime = lastTime + this.settings.DayBreakDurationInMinutes / 60d;
+              if (!endTimeMode) {
+                currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes / 60d;
+              }
             }
           }
           resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut));
