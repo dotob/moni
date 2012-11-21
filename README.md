@@ -17,7 +17,7 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 
 ## das interface ##
 
-![das eine fenster](doc/moni_mainwindow.png)
+![das eine fenster](https://github.com/dotob/moni/raw/master/doc/moni_mainwindow.png)
 
 1. prognose arbeitstunden
 2. automatische pauseneintragung
