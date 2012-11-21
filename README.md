@@ -1,4 +1,4 @@
-# moni - der bessere weg stunden zu erfassen #
+# moni - der schnellere weg stunden zu erfassen #
 
 ## die idee ##
 
@@ -8,10 +8,10 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 
 - wochenweise ansicht
 - automatische pauseneintragung (und deaktivierung für einzelne tage)
-- abkürzungen für projekte
+- abkürzungen für projekte und beschreibung
 - abkürzungen für ganze tage
-- anzeige stunden pro project/abkürzung
-- prognose arbeitstunden
+- anzeige stunden pro projekt/abkürzung
+- prognose arbeitsstunden
 - keyboardnavigation
 
 
