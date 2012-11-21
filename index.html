@@ -39,7 +39,7 @@
         <ul></ul>
       </nav>
       <section>
-        <h1>moni - der bessere weg stunden zu erfassen</h1>
+        <h1>moni - der schnellere weg stunden zu erfassen</h1>
 
 <h2>die idee</h2>
 
@@ -49,11 +49,11 @@
 
 <ul>
 <li>wochenweise ansicht</li>
-<li>automatische pauseneintragung</li>
-<li>abkürzungen für projekte</li>
+<li>automatische pauseneintragung (und deaktivierung für einzelne tage)</li>
+<li>abkürzungen für projekte und beschreibung</li>
 <li>abkürzungen für ganze tage</li>
-<li>anzeige stunden pro project/abkürzung</li>
-<li>prognose arbeitstunden</li>
+<li>anzeige stunden pro projekt/abkürzung</li>
+<li>prognose arbeitsstunden</li>
 <li>keyboardnavigation</li>
 </ul><h2>das interface</h2>
 
@@ -69,6 +69,7 @@
 <li>warnung wenn nicht 8h pro tag verbraucht</li>
 <li>abkürzungen mit nutzungsstatistik</li>
 <li>hitliste der abkürzuungen</li>
+<li>link zu github</li>
 </ol><h2>keyboad shortcuts</h2>
 
 <h3>navigation</h3>
@@ -82,6 +83,8 @@
 <strong>strg+cursor_links</strong>: vorige woche anzeigen</li>
 <li>
 <strong>strg+cursor_rechts</strong>: nächste woche anzeigen</li>
+<li>
+<strong>escape</strong>: gehe zu heute</li>
 </ul><h3>andere</h3>
 
 <ul>
@@ -235,6 +238,26 @@
 </ul><p>erläuterung: </p>
 
 <p>es wird automatisch ein pause um 12:00 eingefügt</p>
+
+<h2>automatische pause für einen tag deaktivieren</h2>
+
+<p>konfiguration:</p>
+
+<ul>
+<li><strong>pause einfügen</strong></li>
+<li><strong>pause um 12:00</strong></li>
+<li><strong>pausenlänge 30min</strong></li>
+</ul><p>eingabe: </p>
+
+<p><strong>//8:00,8;12345-000</strong></p>
+
+<p>ausgabe: </p>
+
+<ul>
+<li>8:00-16:30 12345-000</li>
+</ul><p>erläuterung:</p>
+
+<p>mit "//" kann das einfügen einer automatischen pause für diesen tag ausgeschaltet werden</p>
 
 <h2>endzeit statt stunden anzahl</h2>
 
