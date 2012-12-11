@@ -123,5 +123,11 @@ namespace MONI
         currentDay.OriginalString = lastValidBefore.OriginalString;
       }
     }
+
+    public void DeleteShortcut(ShortCut delsc) {
+    }
+
+    public void AddShortcut(ShortCut newSc) {
+    }
   }
 }

@@ -120,7 +120,7 @@
                    Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat='{}KW: {0}'}"></TextBlock>
 
       </StackPanel>
-      
+
       <StackPanel Grid.Column="1"
                   Grid.Row="1"
                   Orientation="Horizontal"
@@ -142,7 +142,6 @@
                    Foreground="#CC119EDA"
                    Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.MonthName}"></TextBlock>
       </StackPanel>
-
 
       <Button Grid.Column="2"
               Grid.Row="0"
@@ -299,13 +298,37 @@
       </ItemsControl>
     </ScrollViewer>
 
-    <TextBlock Grid.Column="1"
-               Grid.Row="0"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Bottom"
-               FontSize="20"
-               Foreground="#CC119EDA"
-               FontWeight="Bold">Shortcuts</TextBlock>
+    <StackPanel Grid.Column="1"
+                Grid.Row="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+      <TextBlock FontSize="20"
+                 Foreground="#CC119EDA"
+                 FontWeight="Bold">Shortcuts</TextBlock>
+      <Button Width="13"
+              Height="20"
+              Margin="10 0 0 0"
+              Style="{DynamicResource noStyleButton}"
+              Click="AddShortcut_OnClick">
+        <Button.ToolTip>
+          <ToolTip>
+            <TextBlock Text="Neuen Shortcut erstellen" Foreground="White"></TextBlock>
+          </ToolTip>
+        </Button.ToolTip>
+        <Rectangle Width="13"
+                   Height="20">
+          <Rectangle.Resources>
+            <SolidColorBrush x:Key="BlackBrush"
+                             Color="#CC119EDA" />
+          </Rectangle.Resources>
+          <Rectangle.Fill>
+            <VisualBrush Stretch="Fill"
+                         Visual="{StaticResource appbar_location_add}" />
+          </Rectangle.Fill>
+        </Rectangle>
+      </Button>
+    </StackPanel>
     <ItemsControl Grid.Column="1"
                   Grid.Row="1"
                   Margin="0 1 0 0"
@@ -321,31 +344,79 @@
                   Padding="1"
                   SnapsToDevicePixels="True">
             <Grid>
-              <Grid.RowDefinitions>
-                <RowDefinition Height="2*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-              </Grid.RowDefinitions>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
-              </Grid.ColumnDefinitions>
-              <TextBlock Grid.Row="0"
-                         Text="{Binding Key}"
-                         FontWeight="Bold"
-                         FontSize="14" />
-              <TextBlock Grid.Row="1"
-                         Text="{Binding Value.Expansion}"
-                         Foreground="Gray"
-                         FontSize="10"
-                         Margin="10 0 0 0" />
-              <TextBlock Grid.Column="1"
-                         Grid.RowSpan="2"
-                         VerticalAlignment="Center"
-                         Text="{Binding Value.UsedInMonth}"
-                         Foreground="Gray"
-                         FontWeight="Bold"
-                         FontSize="20"
-                         Margin="10 0 0 0" />
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="2*"></RowDefinition>
+                  <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"></ColumnDefinition>
+                  <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0"
+                           Text="{Binding Key}"
+                           FontWeight="Bold"
+                           FontSize="14" />
+                <TextBlock Grid.Row="1"
+                           Text="{Binding Value.Expansion}"
+                           Foreground="Gray"
+                           FontSize="10"
+                           Margin="10 0 0 0" />
+                <TextBlock Grid.Column="1"
+                           Grid.RowSpan="2"
+                           VerticalAlignment="Bottom"
+                           Text="{Binding Value.UsedInMonth}"
+                           Foreground="Gray"
+                           FontWeight="Bold"
+                           FontSize="20"
+                           Margin="10 0 0 0" />
+              </Grid>
+              <Border Background="Silver"
+                      Margin="0"
+                      Opacity="0">
+                <Border.Style>
+                  <Style>
+                    <Style.Triggers>
+                      <EventTrigger RoutedEvent="Control.MouseEnter">
+                        <BeginStoryboard>
+                          <Storyboard>
+                            <DoubleAnimation Duration="0:0:0.3"
+                                             To="0.8"
+                                             Storyboard.TargetProperty="Opacity" />
+                          </Storyboard>
+                        </BeginStoryboard>
+                      </EventTrigger>
+                      <EventTrigger RoutedEvent="Control.MouseLeave">
+                        <BeginStoryboard>
+                          <Storyboard>
+                            <DoubleAnimation Duration="0:0:0.3"
+                                             To="0"
+                                             Storyboard.TargetProperty="Opacity" />
+                          </Storyboard>
+                        </BeginStoryboard>
+                      </EventTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </Border.Style>
+                <Button HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Background="Transparent"
+                        Tag="{Binding Value}"
+                        Click="RemoveShortcut_OnClick">
+                  <Button.ToolTip>
+                    <ToolTip>
+                      <TextBlock Text="Shortcut löschen"></TextBlock>
+                    </ToolTip>
+                  </Button.ToolTip>
+                  <Rectangle Width="16"
+                             Height="20">
+                    <Rectangle.Fill>
+                      <VisualBrush Stretch="Fill"
+                                   Visual="{StaticResource appbar_delete}" />
+                    </Rectangle.Fill>
+                  </Rectangle>
+                </Button>
+              </Border>
             </Grid>
           </Border>
         </DataTemplate>

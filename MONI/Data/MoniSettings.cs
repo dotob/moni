@@ -10,8 +10,8 @@ namespace MONI.Data
     public WorkDayParserSettings ParserSettings { get; set; }
     public MainSettings MainSettings { get; set; }
     public static MoniSettings GetEmptySettings() {
-      var ms = new MainSettings() { SpecialDates = new List<SpecialDate>(), DataDirectory = System.AppDomain.CurrentDomain.BaseDirectory };
-      return new MoniSettings() { ParserSettings = new WorkDayParserSettings(), MainSettings = ms };
+      var ms = new MainSettings { SpecialDates = new List<SpecialDate>(), DataDirectory = AppDomain.CurrentDomain.BaseDirectory };
+      return new MoniSettings { ParserSettings = new WorkDayParserSettings(), MainSettings = ms };
     }
   }
 
@@ -40,6 +40,7 @@ namespace MONI.Data
     }
 
     private List<ShortCut> GetValidShortCuts(DateTime from) {
+      //TODO find relevant shortcuts
       return this.ShortCuts;
     }
 
@@ -66,6 +67,14 @@ namespace MONI.Data
     public string Expansion { get; set; }
     public bool WholeDayExpansion { get; set; }
     public DateTime ValidFrom { get; set; }
+
+    public override bool Equals(object obj) {
+      if (obj is ShortCut) {
+        var other = (ShortCut)obj;
+        return this.Key == other.Key && this.Expansion == other.Expansion && this.WholeDayExpansion == other.WholeDayExpansion;
+      }
+      return false;
+    }
   }
 
   public class ShortCutStatistic : ShortCut, INotifyPropertyChanged

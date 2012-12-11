@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using MONI.Data;
 using MahApps.Metro.Controls;
+using System.Linq;
 
 namespace MONI
 {
@@ -65,6 +66,23 @@ namespace MONI
 
     private void GitHub_Button_Click(object sender, RoutedEventArgs e) {
       System.Diagnostics.Process.Start("https://github.com/dotob/moni");
+    }
+
+    private void AddShortcut_OnClick(object sender, RoutedEventArgs e) {
+      ShortCut newSc = new ShortCut();
+      // show dataentry, set daatacontext
+      // save
+      this.ViewModel.AddShortcut(newSc);
+    }
+
+    private void RemoveShortcut_OnClick(object sender, RoutedEventArgs e) {
+      var button = sender as Button;
+      if (button != null) {
+        ShortCut delsc = button.Tag as ShortCut;
+        if (delsc != null) {
+          this.ViewModel.DeleteShortcut(delsc);
+        }
+      }
     }
   }
 }
