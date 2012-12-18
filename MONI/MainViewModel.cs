@@ -23,6 +23,7 @@ namespace MONI
     private ShortCut editShortCut;
 
     private readonly string settingsFile = "settings.json";
+    Calendar calendar = new GregorianCalendar();
 
     public MainViewModel() {
       
@@ -52,11 +53,11 @@ namespace MONI
     }
 
     public ICommand PreviousWeekCommand {
-      get { return this.previousWeekCommand ?? (this.previousWeekCommand = new DelegateCommand(this.SelectPreviousWeek, this.IsThereAPreviousWeek)); }
+      get { return this.previousWeekCommand ?? (this.previousWeekCommand = new DelegateCommand(this.SelectPreviousWeek, ()=>true)); }
     }
 
     public ICommand NextWeekCommand {
-      get { return this.nextWeekCommand ?? (this.nextWeekCommand = new DelegateCommand(this.SelectNextWeek, this.IsThereANextWeek)); }
+      get { return this.nextWeekCommand ?? (this.nextWeekCommand = new DelegateCommand(this.SelectNextWeek, () => true)); }
     }
 
     public WorkDayParserSettings WeekDayParserSettings { get; set; }
@@ -99,33 +100,51 @@ namespace MONI
 
     #endregion
 
-    private bool IsThereAPreviousWeek() {
-      return this.workYear.Weeks.IndexOf(this.workWeek) > 0;
-    }
-
-    private bool IsThereANextWeek() {
-      return this.workYear.Weeks.Count - 1 > this.workYear.Weeks.IndexOf(this.workWeek);
-    }
-
     private void SelectPreviousWeek() {
-      this.WorkWeek = this.workYear.Weeks.ElementAt(this.workYear.Weeks.IndexOf(this.workWeek) - 1);
+      var look4PrevWeek = this.workYear.Weeks.ElementAtOrDefault(this.workYear.Weeks.IndexOf(this.workWeek) - 1);
+      if (look4PrevWeek != null) {
+        this.WorkWeek = look4PrevWeek;
+      } else {
+        // load previous year
+        var lastWeekDay = this.WorkWeek.Days.First();
+        var lastDayOfPreviousYear = new DateTime(lastWeekDay.Year - 1, 12, 31, calendar);
+        SelectDate(lastDayOfPreviousYear);
+      }
       this.WorkMonth = this.workWeek.Month;
     }
 
     private void SelectNextWeek() {
-      this.WorkWeek = this.workYear.Weeks.ElementAt(this.workYear.Weeks.IndexOf(this.workWeek) + 1);
-      this.WorkMonth = this.workWeek.Month;
+      var look4NextWeek = this.workYear.Weeks.ElementAtOrDefault(this.workYear.Weeks.IndexOf(this.workWeek) + 1);
+      if (look4NextWeek != null) {
+        this.WorkWeek = look4NextWeek;
+        this.WorkMonth = this.workWeek.Month;
+      } else {
+        // load next year
+        var lastWeekDay = this.WorkWeek.Days.Last();
+        var firstDayOfNextYear = new DateTime(lastWeekDay.Year + 1, 1, 1, calendar);
+        SelectDate(firstDayOfNextYear);
+      }
     }
 
     public void SelectToday() {
-      var now = DateTime.Now;
-      var cal = new GregorianCalendar();
-      if (this.workYear == null || now.Year != this.workYear.Year) {
-        this.WorkYear = new WorkYear(now.Year, this.monlistSettings.MainSettings.SpecialDates, this.monlistSettings.ParserSettings.ShortCuts, this.monlistSettings.MainSettings.HitListLookBackInWeeks);
-        this.persistenceLayer.SetDataOfYear(this.WorkYear);
+      this.SelectDate(DateTime.Now);
+    }
+
+    private void SelectDate(DateTime date) {
+      if (this.workYear == null || date.Year != this.workYear.Year) {
+        this.CreateAndLoadYear(date.Year);
       }
-      this.WorkMonth = this.WorkYear.Months.ElementAt(now.Month - 1);
-      this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == cal.GetWeekOfYear(now, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
+      this.WorkMonth = this.WorkYear.Months.ElementAt(date.Month - 1);
+      this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == this.calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
+    }
+
+    private void CreateAndLoadYear(int year) {
+      if (this.WorkYear != null) {
+        // need to save years data
+        this.Save();
+      }
+      this.WorkYear = new WorkYear(year, this.monlistSettings.MainSettings.SpecialDates, this.monlistSettings.ParserSettings.ShortCuts, this.monlistSettings.MainSettings.HitListLookBackInWeeks);
+      this.persistenceLayer.SetDataOfYear(this.WorkYear);
     }
 
     public void Save() {
