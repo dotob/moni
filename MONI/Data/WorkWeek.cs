@@ -28,6 +28,12 @@ namespace MONI.Data {
       get { return this.days; }
     }
 
+    public void Reparse() {
+      foreach (var workDay in Days) {
+        workDay.Reparse();
+      }
+    }
+
     #region INotifyPropertyChanged Members
 
     public event PropertyChangedEventHandler PropertyChanged;

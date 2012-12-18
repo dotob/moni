@@ -17,7 +17,8 @@ namespace MONI.Data
       this.month = month;
       this.Weeks = new ObservableCollection<WorkWeek>();
       this.Days = new ObservableCollection<WorkDay>();
-      this.ShortCutStatistic = new ObservableCollection<KeyValuePair<string, ShortCutStatistic>>(shortCuts.Select(s => new KeyValuePair<string, ShortCutStatistic>(s.Key, new ShortCutStatistic(s))));
+      this.ShortCutStatistic = new ObservableCollection<KeyValuePair<string, ShortCutStatistic>>();
+      this.ReloadShortcutStatistic(shortCuts);
 
       var cal = new GregorianCalendar();
       WorkWeek lastWeek = null;
@@ -36,7 +37,15 @@ namespace MONI.Data
       }
     }
 
+    public void ReloadShortcutStatistic(IEnumerable<ShortCut> shortCuts) {
+      this.ShortCutStatistic.Clear();
+      foreach (var shortCut in shortCuts.Select(s => new KeyValuePair<string, ShortCutStatistic>(s.Key, new ShortCutStatistic(s)))) {
+        this.ShortCutStatistic.Add(shortCut);
+      }
+    }
+
     private double previewHours;
+    private ObservableCollection<KeyValuePair<string, ShortCutStatistic>> shortCutStatistic;
     public double PreviewHours {
       get { return this.previewHours; }
       set {
@@ -94,7 +103,19 @@ namespace MONI.Data
     public ObservableCollection<WorkWeek> Weeks { get; set; }
     public ObservableCollection<WorkDay> Days { get; set; }
 
-    public ObservableCollection<KeyValuePair<string, ShortCutStatistic>> ShortCutStatistic { get; set; }
+    public ObservableCollection<KeyValuePair<string, ShortCutStatistic>> ShortCutStatistic {
+      get { return this.shortCutStatistic; }
+      set {
+        if (this.shortCutStatistic == value) {
+          return;
+        }
+        this.shortCutStatistic = value;
+        var tmp = this.PropertyChanged;
+        if (tmp != null) {
+          tmp(this, new PropertyChangedEventArgs("ShortCutStatistic"));
+        }
+      }
+    }
 
     #region INotifyPropertyChanged Members
 

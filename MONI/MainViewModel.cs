@@ -20,9 +20,13 @@ namespace MONI
     private WorkYear workYear;
     private readonly CSVExporter csvExporter;
     private readonly MoniSettings monlistSettings;
+    private ShortCut editShortCut;
+
+    private readonly string settingsFile = "settings.json";
 
     public MainViewModel() {
-      this.monlistSettings = ReadSettings();
+      
+      this.monlistSettings = ReadSettings(settingsFile);
 
       this.WeekDayParserSettings = this.monlistSettings.ParserSettings;
       WorkDayParser.Instance = new WorkDayParser(this.WeekDayParserSettings);
@@ -34,13 +38,17 @@ namespace MONI
       this.SelectToday(); // sets data from persistencelayer
     }
 
-    private static MoniSettings ReadSettings() {
-      var settingsFile = "settings.json";
+    private static MoniSettings ReadSettings(string settingsFile) {
       if (File.Exists(settingsFile)) {
         var jsonString = File.ReadAllText(settingsFile);
         return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
       }
       return MoniSettings.GetEmptySettings();
+    }
+
+    private static void WriteSettings(MoniSettings settings, string settingsFile) {
+      var settingsAsJson = JsonConvert.SerializeObject(settings, Formatting.Indented);
+      File.WriteAllText(settingsFile, settingsAsJson);
     }
 
     public ICommand PreviousWeekCommand {
@@ -74,6 +82,14 @@ namespace MONI
       set {
         this.workYear = value;
         NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.WorkYear);
+      }
+    }
+
+    public ShortCut EditShortCut {
+      get { return this.editShortCut; }
+      set {
+        this.editShortCut = value;
+        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.EditShortCut);
       }
     }
 
@@ -113,8 +129,11 @@ namespace MONI
     }
 
     public void Save() {
+      // save data
       this.persistenceLayer.SaveData(this.workYear);
       this.csvExporter.Export(this.WorkYear);
+      // save settings
+      WriteSettings(this.monlistSettings, settingsFile);
     }
 
     public void CopyFromPreviousDay(WorkDay currentDay) {
@@ -125,9 +144,40 @@ namespace MONI
     }
 
     public void DeleteShortcut(ShortCut delsc) {
+      this.monlistSettings.ParserSettings.ShortCuts.Remove(delsc);
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.ShortCuts);
+      this.WorkWeek.Reparse();
     }
 
-    public void AddShortcut(ShortCut newSc) {
+    public void SaveEditShortcut() {
+      var shortCut = this.monlistSettings.ParserSettings.ShortCuts.FirstOrDefault(sc => Equals(sc, this.EditShortCut));
+      if (shortCut != null) {
+        shortCut.GetData(this.EditShortCut);
+      } else {
+        this.monlistSettings.ParserSettings.ShortCuts.Add(this.EditShortCut);
+      }
+      this.EditShortCut = null;
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.ShortCuts);
+      this.WorkWeek.Reparse();
+    }
+
+    public void MoveShortcutUp(ShortCut sc) {
+      var idx = this.monlistSettings.ParserSettings.ShortCuts.IndexOf(sc);
+      if (idx > 0) {
+        this.monlistSettings.ParserSettings.ShortCuts.Remove(sc);
+        this.monlistSettings.ParserSettings.ShortCuts.Insert(idx - 1, sc);
+      }
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.ShortCuts);
+    }
+
+    public void MoveShortcutDown(ShortCut sc) {
+      var idx = this.monlistSettings.ParserSettings.ShortCuts.IndexOf(sc);
+      if (idx < this.monlistSettings.ParserSettings.ShortCuts.Count-1) {
+        this.monlistSettings.ParserSettings.ShortCuts.Remove(sc);
+        this.monlistSettings.ParserSettings.ShortCuts.Insert(idx + 1, sc);
+      }
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.ShortCuts);
+
     }
   }
 }

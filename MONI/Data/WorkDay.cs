@@ -99,17 +99,27 @@ namespace MONI.Data {
           this.items.Clear();
           this.ImportantStuffChanged();
         } else {
-          // do parsing
-          if (WorkDayParser.Instance != null) {
-            WorkDay wd = this;
-            var result = WorkDayParser.Instance.Parse(value, ref wd);
-            if (!result.Success) {
-              // todo what now?
-            } else {
-              this.ImportantStuffChanged();
-            }
-          }
+          this.ParseData(value);
         }
+      }
+    }
+
+    private void ParseData(string value) {
+      // do parsing
+      if (WorkDayParser.Instance != null) {
+        WorkDay wd = this;
+        var result = WorkDayParser.Instance.Parse(value, ref wd);
+        if (!result.Success) {
+          // todo what now?
+        } else {
+          this.ImportantStuffChanged();
+        }
+      }
+    }
+
+    public void Reparse() {
+      if (!string.IsNullOrWhiteSpace(this.originalString)) {
+        this.ParseData(this.OriginalString);
       }
     }
 

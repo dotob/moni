@@ -57,7 +57,7 @@ namespace MONI
       var textBox = sender as TextBox;
       if (textBox != null) {
         WorkDay workDay = textBox.Tag as WorkDay;
-        if(workDay!=null && workDay.Name=="today") {
+        if (workDay != null && workDay.Name == "today") {
           textBox.Focus();
           textBox.Select(textBox.Text.Length, 0);
         }
@@ -70,18 +70,51 @@ namespace MONI
 
     private void AddShortcut_OnClick(object sender, RoutedEventArgs e) {
       ShortCut newSc = new ShortCut();
-      // show dataentry, set daatacontext
-      // save
-      this.ViewModel.AddShortcut(newSc);
+      this.ViewModel.EditShortCut = newSc;
     }
 
     private void RemoveShortcut_OnClick(object sender, RoutedEventArgs e) {
+      var sc = GetShortCutFromButton(sender);
+      if (sc != null) {
+        this.ViewModel.DeleteShortcut(sc);
+      }
+    }
+
+    private void EditShortcutCancel_OnClick(object sender, RoutedEventArgs e) {
+      this.ViewModel.EditShortCut = null;
+    }
+
+    private void EditShortcutSave_OnClick(object sender, RoutedEventArgs e) {
+      this.ViewModel.SaveEditShortcut();
+    }
+
+    private void EditShortcut_OnClick(object sender, RoutedEventArgs e) {
+      var sc = GetShortCutFromButton(sender);
+      if (sc != null) {
+        this.ViewModel.EditShortCut = sc;
+      }
+    }
+
+    private static ShortCut GetShortCutFromButton(object sender) {
+      ShortCut sc = null;
       var button = sender as Button;
       if (button != null) {
-        ShortCut delsc = button.Tag as ShortCut;
-        if (delsc != null) {
-          this.ViewModel.DeleteShortcut(delsc);
-        }
+        sc = button.Tag as ShortCut;
+      }
+      return sc;
+    }
+
+    private void ShortcutUp_OnClick(object sender, RoutedEventArgs e) {
+      var sc = GetShortCutFromButton(sender);
+      if (sc != null) {
+        this.ViewModel.MoveShortcutUp(sc);
+      }
+    }
+
+    private void ShortcutDown_OnClick(object sender, RoutedEventArgs e) {
+      var sc = GetShortCutFromButton(sender);
+      if (sc != null) {
+        this.ViewModel.MoveShortcutDown(sc);
       }
     }
   }

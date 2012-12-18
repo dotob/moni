@@ -79,7 +79,8 @@
     <Compile Include="Tests\WorkDayParserTester.cs" />
     <Compile Include="Util\DurationBGColorConverter.cs" />
     <Compile Include="Util\DurationFGColorConverter.cs" />
-    <Compile Include="Util\NullToCollapsedConverter.cs" />
+    <Compile Include="Util\Null2CollapsedConverter.cs" />
+    <Compile Include="Util\FalseToCollapsedConverter.cs" />
     <Compile Include="Util\DayTypeColorConverter.cs" />
     <Compile Include="Util\DelegateCommand.cs" />
     <Compile Include="Util\StringParserHelper.cs" />

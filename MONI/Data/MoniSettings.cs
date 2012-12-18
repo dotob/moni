@@ -53,6 +53,7 @@ namespace MONI.Data
   public class ShortCut
   {
     public ShortCut() {
+      this.ID = Guid.NewGuid().ToString();
       this.ValidFrom = DateTime.MinValue;
       this.Expansion = string.Empty;
     }
@@ -63,6 +64,7 @@ namespace MONI.Data
       this.Expansion = expansion;
     }
 
+    public string ID { get; set; }
     public string Key { get; set; }
     public string Expansion { get; set; }
     public bool WholeDayExpansion { get; set; }
@@ -71,9 +73,16 @@ namespace MONI.Data
     public override bool Equals(object obj) {
       if (obj is ShortCut) {
         var other = (ShortCut)obj;
-        return this.Key == other.Key && this.Expansion == other.Expansion && this.WholeDayExpansion == other.WholeDayExpansion;
+        return this.ID == other.ID;
       }
       return false;
+    }
+
+    public void GetData(ShortCut sc) {
+      this.Key = sc.Key;
+      this.Expansion = sc.Expansion;
+      this.WholeDayExpansion = sc.WholeDayExpansion;
+      this.ValidFrom = sc.ValidFrom;
     }
   }
 
@@ -81,6 +90,9 @@ namespace MONI.Data
   {
     public ShortCutStatistic(ShortCut sc)
       : base(sc.Key, sc.Expansion) {
+      this.ID = sc.ID;
+      this.WholeDayExpansion = sc.WholeDayExpansion;
+      this.ValidFrom = sc.ValidFrom;
     }
 
     private double usedInMonth;
