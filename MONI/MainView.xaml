@@ -19,6 +19,7 @@
       <Util1:DurationFGColorConverter x:Key="durationFgConverter" />
       <Util1:Null2CollapsedConverter x:Key="null2CollapsedConverter" />
       <Util1:FalseToCollapsedConverter x:Key="false2CollapsedConverter" />
+      <Util1:TimeItemConverter x:Key="timeItemConverter" />
       <SolidColorBrush x:Key="lightText"
                        Color="DarkSlateGray" />
 
@@ -72,6 +73,26 @@
           </Rectangle>
         </StackPanel>
       </Button>
+      <Button Click="EditPreferences_Button_Click">
+        <StackPanel Orientation="Horizontal">
+          <Rectangle Width="20"
+                     Height="20">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="White" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_settings}" />
+            </Rectangle.Fill>
+            <Rectangle.ToolTip>
+              <ToolTip>
+                <TextBlock Text="Einstellungen"></TextBlock>
+              </ToolTip>
+            </Rectangle.ToolTip>
+          </Rectangle>
+        </StackPanel>
+      </Button>
     </Controls:WindowCommands>
   </Controls:MetroWindow.WindowCommands>
 
@@ -93,6 +114,7 @@
             Grid.Row="0">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="50"></ColumnDefinition>
+          <ColumnDefinition Width="Auto"></ColumnDefinition>
           <ColumnDefinition Width="*"></ColumnDefinition>
           <ColumnDefinition Width="61"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -120,7 +142,15 @@
           </Rectangle>
         </Button>
 
-        <StackPanel Grid.Column="1"
+        <TextBlock  Grid.Column="1"
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    FontWeight="Bold"
+                    VerticalAlignment="Bottom"
+                    Foreground="#CC7DBEDA"
+                    FontSize="20"
+                    Text="{Binding ElementName=mv, Path=ViewModel.WorkYear.Year}"></TextBlock>
+        <StackPanel Grid.Column="2"
                     Grid.Row="0"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
@@ -140,7 +170,7 @@
 
         </StackPanel>
 
-        <StackPanel Grid.Column="1"
+        <StackPanel Grid.Column="2"
                     Grid.Row="1"
                     Orientation="Horizontal"
                     HorizontalAlignment="Right"
@@ -162,7 +192,7 @@
                      Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.MonthName}"></TextBlock>
         </StackPanel>
 
-        <Button Grid.Column="2"
+        <Button Grid.Column="3"
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 Background="#537DBBDA"
@@ -349,21 +379,190 @@
           </Rectangle>
         </Button>
       </StackPanel>
-      <ItemsControl Grid.Column="1"
-                    Grid.Row="1"
-                    Margin="0 1 0 0"
-                    ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}"
-                    HorizontalContentAlignment="Stretch">
-        <ItemsControl.ItemTemplate>
-          <!-- shortcut -->
-          <DataTemplate>
-            <Border BorderThickness="1"
-                    BorderBrush="#FFF3EDED"
-                    Background="#FFF3EDED"
-                    Margin="1"
-                    Padding="1"
-                    SnapsToDevicePixels="True">
-              <Grid>
+      <ScrollViewer Grid.Row="1"
+                    Grid.Column="1">
+        <ItemsControl Margin="0 1 0 0"
+                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}"
+                      HorizontalContentAlignment="Stretch">
+          <ItemsControl.ItemTemplate>
+            <!-- shortcut -->
+            <DataTemplate>
+              <Border BorderThickness="1"
+                      BorderBrush="#FFF3EDED"
+                      Background="#FFF3EDED"
+                      Margin="1"
+                      Padding="1"
+                      SnapsToDevicePixels="True">
+                <Grid>
+                  <Grid>
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="2*"></RowDefinition>
+                      <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"></ColumnDefinition>
+                      <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Row="0"
+                               Text="{Binding Key}"
+                               FontWeight="Bold"
+                               FontSize="14" />
+                    <TextBlock Grid.Row="1"
+                               Text="{Binding Value.Expansion}"
+                               Foreground="Gray"
+                               FontSize="10"
+                               Margin="10 0 0 0" />
+                    <TextBlock Grid.Column="1"
+                               Grid.RowSpan="2"
+                               VerticalAlignment="Bottom"
+                               Text="{Binding Value.UsedInMonth}"
+                               Foreground="Gray"
+                               FontWeight="Bold"
+                               FontSize="20"
+                               Margin="10 0 0 0" />
+                    <Rectangle Grid.Column="1"
+                               Grid.Row="0"
+                               VerticalAlignment="Top"
+                               HorizontalAlignment="Right"
+                               Width="8"
+                               Height="15"
+                               Margin="0 -2 2 0"
+                               Visibility="{Binding Value.WholeDayExpansion, Converter={StaticResource false2CollapsedConverter}}"
+                               Fill="{StaticResource ribbonIcon}">
+                      <Rectangle.Resources>
+                        <SolidColorBrush x:Key="BlackBrush"
+                                         Color="#B10101" />
+                      </Rectangle.Resources>
+                      <Rectangle.ToolTip>
+                        <ToolTip>
+                          <TextBlock Text="Ersetzt ganzen Tag"></TextBlock>
+                        </ToolTip>
+                      </Rectangle.ToolTip>
+                    </Rectangle>
+                  </Grid>
+                  <Border Background="Silver"
+                          Margin="10 0"
+                          Opacity="0">
+                    <Border.Style>
+                      <Style>
+                        <Style.Triggers>
+                          <EventTrigger RoutedEvent="Control.MouseEnter">
+                            <BeginStoryboard>
+                              <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.3"
+                                                 To="0.8"
+                                                 Storyboard.TargetProperty="Opacity" />
+                              </Storyboard>
+                            </BeginStoryboard>
+                          </EventTrigger>
+                          <EventTrigger RoutedEvent="Control.MouseLeave">
+                            <BeginStoryboard>
+                              <Storyboard>
+                                <DoubleAnimation Duration="0:0:0.3"
+                                                 To="0"
+                                                 Storyboard.TargetProperty="Opacity" />
+                              </Storyboard>
+                            </BeginStoryboard>
+                          </EventTrigger>
+                        </Style.Triggers>
+                      </Style>
+                    </Border.Style>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+
+                      <Button HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Background="Transparent"
+                              Tag="{Binding Value}"
+                              Click="ShortcutUp_OnClick">
+                        <Button.ToolTip>
+                          <ToolTip>
+                            <TextBlock Text="Shortcut nach oben verschieben"></TextBlock>
+                          </ToolTip>
+                        </Button.ToolTip>
+                        <Rectangle Width="16"
+                                   Height="16"
+                                   Fill="{StaticResource upIcon}">
+                        </Rectangle>
+                      </Button>
+
+                      <Button HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Background="Transparent"
+                              Tag="{Binding Value}"
+                              Click="RemoveShortcut_OnClick">
+                        <Button.ToolTip>
+                          <ToolTip>
+                            <TextBlock Text="Shortcut löschen"></TextBlock>
+                          </ToolTip>
+                        </Button.ToolTip>
+                        <Rectangle Width="16"
+                                   Height="20"
+                                   Fill="{StaticResource deleteIcon}">
+                        </Rectangle>
+                      </Button>
+
+                      <Button HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Background="Transparent"
+                              Tag="{Binding Value}"
+                              Click="EditShortcut_OnClick">
+                        <Button.ToolTip>
+                          <ToolTip>
+                            <TextBlock Text="Shortcut editieren"></TextBlock>
+                          </ToolTip>
+                        </Button.ToolTip>
+                        <Rectangle Width="16"
+                                   Height="20"
+                                   Fill="{StaticResource editIcon}">
+                        </Rectangle>
+                      </Button>
+
+                      <Button HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Background="Transparent"
+                              Tag="{Binding Value}"
+                              Click="ShortcutDown_OnClick">
+                        <Button.ToolTip>
+                          <ToolTip>
+                            <TextBlock Text="Shortcut nach unten verschieben"></TextBlock>
+                          </ToolTip>
+                        </Button.ToolTip>
+                        <Rectangle Width="16"
+                                   Height="16"
+                                   Fill="{StaticResource downIcon}">
+                        </Rectangle>
+                      </Button>
+                    </StackPanel>
+                  </Border>
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+
+      <TextBlock Grid.Column="2"
+                 Grid.Row="0"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Bottom"
+                 FontSize="20"
+                 Foreground="#CC119EDA"
+                 FontWeight="Bold">Project-Hitlist</TextBlock>
+      <ScrollViewer Grid.Column="2"
+                    Grid.Row="1">
+        <ItemsControl Margin="0 1 0 0"
+                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist}"
+                      HorizontalContentAlignment="Stretch">
+          <ItemsControl.ItemTemplate>
+            <!-- shortcut -->
+            <DataTemplate>
+              <Border BorderThickness="1"
+                      BorderBrush="#FFF3EDED"
+                      Background="#FFF3EDED"
+                      Margin="1"
+                      Padding="1"
+                      SnapsToDevicePixels="True">
                 <Grid>
                   <Grid.RowDefinitions>
                     <RowDefinition Height="2*"></RowDefinition>
@@ -378,197 +577,36 @@
                              FontWeight="Bold"
                              FontSize="14" />
                   <TextBlock Grid.Row="1"
-                             Text="{Binding Value.Expansion}"
+                             Text="{Binding LastUsedDescription}"
                              Foreground="Gray"
                              FontSize="10"
                              Margin="10 0 0 0" />
                   <TextBlock Grid.Column="1"
                              Grid.RowSpan="2"
-                             VerticalAlignment="Bottom"
-                             Text="{Binding Value.UsedInMonth}"
+                             VerticalAlignment="Center"
+                             Text="{Binding Count}"
                              Foreground="Gray"
                              FontWeight="Bold"
                              FontSize="20"
                              Margin="10 0 0 0" />
-                  <Rectangle Grid.Column="1"
-                             Grid.Row="0"
-                             VerticalAlignment="Top"
-                             HorizontalAlignment="Right"
-                             Width="8"
-                             Height="15"
-                             Margin="0 -2 2 0"
-                             Visibility="{Binding Value.WholeDayExpansion, Converter={StaticResource false2CollapsedConverter}}"
-                             Fill="{StaticResource ribbonIcon}">
-                    <Rectangle.Resources>
-                      <SolidColorBrush x:Key="BlackBrush"
-                                       Color="#B10101" />
-                    </Rectangle.Resources>
-                    <Rectangle.ToolTip>
-                      <ToolTip>
-                        <TextBlock Text="Ersetzt ganzen Tag"></TextBlock>
-                      </ToolTip>
-                    </Rectangle.ToolTip>
-                  </Rectangle>
                 </Grid>
-                <Border Background="Silver"
-                        Margin="10 0"
-                        Opacity="0">
-                  <Border.Style>
-                    <Style>
-                      <Style.Triggers>
-                        <EventTrigger RoutedEvent="Control.MouseEnter">
-                          <BeginStoryboard>
-                            <Storyboard>
-                              <DoubleAnimation Duration="0:0:0.3"
-                                               To="0.8"
-                                               Storyboard.TargetProperty="Opacity" />
-                            </Storyboard>
-                          </BeginStoryboard>
-                        </EventTrigger>
-                        <EventTrigger RoutedEvent="Control.MouseLeave">
-                          <BeginStoryboard>
-                            <Storyboard>
-                              <DoubleAnimation Duration="0:0:0.3"
-                                               To="0"
-                                               Storyboard.TargetProperty="Opacity" />
-                            </Storyboard>
-                          </BeginStoryboard>
-                        </EventTrigger>
-                      </Style.Triggers>
-                    </Style>
-                  </Border.Style>
-                  <StackPanel Orientation="Horizontal"
-                              HorizontalAlignment="Center">
-                    
-                    <Button HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Background="Transparent"
-                            Tag="{Binding Value}"
-                            Click="ShortcutUp_OnClick">
-                      <Button.ToolTip>
-                        <ToolTip>
-                          <TextBlock Text="Shortcut nach oben verschieben"></TextBlock>
-                        </ToolTip>
-                      </Button.ToolTip>
-                      <Rectangle Width="16"
-                                 Height="16"
-                                 Fill="{StaticResource upIcon}">
-                      </Rectangle>
-                    </Button>
-                    
-                    <Button HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Background="Transparent"
-                            Tag="{Binding Value}"
-                            Click="RemoveShortcut_OnClick">
-                      <Button.ToolTip>
-                        <ToolTip>
-                          <TextBlock Text="Shortcut löschen"></TextBlock>
-                        </ToolTip>
-                      </Button.ToolTip>
-                      <Rectangle Width="16"
-                                 Height="20"
-                                 Fill="{StaticResource deleteIcon}">
-                      </Rectangle>
-                    </Button>
-                    
-                    <Button HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Background="Transparent"
-                            Tag="{Binding Value}"
-                            Click="EditShortcut_OnClick">
-                      <Button.ToolTip>
-                        <ToolTip>
-                          <TextBlock Text="Shortcut editieren"></TextBlock>
-                        </ToolTip>
-                      </Button.ToolTip>
-                      <Rectangle Width="16"
-                                 Height="20"
-                                 Fill="{StaticResource editIcon}">
-                      </Rectangle>
-                    </Button>
-
-                    <Button HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Background="Transparent"
-                            Tag="{Binding Value}"
-                            Click="ShortcutDown_OnClick">
-                      <Button.ToolTip>
-                        <ToolTip>
-                          <TextBlock Text="Shortcut nach unten verschieben"></TextBlock>
-                        </ToolTip>
-                      </Button.ToolTip>
-                      <Rectangle Width="16"
-                                 Height="16"
-                                 Fill="{StaticResource downIcon}">
-                      </Rectangle>
-                    </Button>
-                  </StackPanel>
-                </Border>
-              </Grid>
-            </Border>
-          </DataTemplate>
-        </ItemsControl.ItemTemplate>
-      </ItemsControl>
-
-      <TextBlock Grid.Column="2"
-                 Grid.Row="0"
-                 HorizontalAlignment="Right"
-                 VerticalAlignment="Bottom"
-                 FontSize="20"
-                 Foreground="#CC119EDA"
-                 FontWeight="Bold">Project-Hitlist</TextBlock>
-      <ItemsControl Grid.Column="2"
-                    Grid.Row="1"
-                    Margin="0 1 0 0"
-                    ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist}"
-                    HorizontalContentAlignment="Stretch">
-        <ItemsControl.ItemTemplate>
-          <!-- shortcut -->
-          <DataTemplate>
-            <Border BorderThickness="1"
-                    BorderBrush="#FFF3EDED"
-                    Background="#FFF3EDED"
-                    Margin="1"
-                    Padding="1"
-                    SnapsToDevicePixels="True">
-              <Grid>
-                <Grid.RowDefinitions>
-                  <RowDefinition Height="2*"></RowDefinition>
-                  <RowDefinition Height="*"></RowDefinition>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*"></ColumnDefinition>
-                  <ColumnDefinition Width="Auto"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Row="0"
-                           Text="{Binding Key}"
-                           FontWeight="Bold"
-                           FontSize="14" />
-                <TextBlock Grid.Row="1"
-                           Text="{Binding LastUsedDescription}"
-                           Foreground="Gray"
-                           FontSize="10"
-                           Margin="10 0 0 0" />
-                <TextBlock Grid.Column="1"
-                           Grid.RowSpan="2"
-                           VerticalAlignment="Center"
-                           Text="{Binding Count}"
-                           Foreground="Gray"
-                           FontWeight="Bold"
-                           FontSize="20"
-                           Margin="10 0 0 0" />
-              </Grid>
-            </Border>
-          </DataTemplate>
-        </ItemsControl.ItemTemplate>
-      </ItemsControl>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
     </Grid>
     <!-- edit / new shortcut -->
     <Grid Visibility="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={StaticResource null2CollapsedConverter}}"
           DataContext="{Binding ElementName=mv, Path=ViewModel.EditShortCut}">
       <Border Background="SkyBlue"
               Opacity="0.7" />
+      <TextBlock FontSize="80"
+                 FontWeight="Bold"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Foreground="#2CB4EB"
+                 Margin="0 0 300 200">shortcut</TextBlock>
       <Border Background="White"
               Width="400"
               Height="150">
@@ -588,6 +626,7 @@
           <TextBox Grid.Column="1"
                    Grid.Row="0"
                    Margin="2"
+                   x:Name="shortcutTextBox"
                    Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
           <Label Grid.Column="0"
@@ -610,6 +649,76 @@
           <Button Grid.Column="1"
                   Grid.Row="3"
                   Click="EditShortcutSave_OnClick">Speichern</Button>
+        </Grid>
+      </Border>
+    </Grid>
+    <!-- edit / new shortcut -->
+    <Grid Visibility="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={StaticResource null2CollapsedConverter}}"
+          DataContext="{Binding ElementName=mv, Path=ViewModel.EditPreferences}">
+      <Border Background="SkyBlue"
+              Opacity="0.7" />
+      <TextBlock FontSize="100"
+                 FontWeight="Bold"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Foreground="#2CB4EB"
+                 Margin="0 0 350 230">settings</TextBlock>
+      <Border Background="White"
+              Width="600"
+              Height="160">
+        <Grid VerticalAlignment="Center">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+          </Grid.ColumnDefinitions>
+          <Label Grid.Column="0"
+                 Grid.Row="0">Daten-Verzeichnis</Label>
+          <TextBox Grid.Column="1"
+                   Grid.Row="0"
+                   Margin="2"
+                   Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+          <Label Grid.Column="0"
+                 Grid.Row="1">Automatische Pause einfügen</Label>
+          <CheckBox Grid.Column="1"
+                    Grid.Row="1"
+                    Margin="2"
+                    VerticalAlignment="Center"
+                    x:Name="autoPause"
+                    IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+
+          <Label Grid.Column="0"
+                 Grid.Row="2"
+                 IsEnabled="{Binding IsChecked, ElementName=autoPause}">Uhrzeit [hh:mm]</Label>
+          <TextBox Grid.Column="1"
+                   Grid.Row="2"
+                   Margin="2"
+                   IsEnabled="{Binding IsChecked, ElementName=autoPause}"
+                   Text="{Binding ParserSettings.DayBreakTime, Converter={StaticResource timeItemConverter}}"></TextBox>
+
+          <Label Grid.Column="0"
+                 Grid.Row="3"
+                 IsEnabled="{Binding IsChecked, ElementName=autoPause}">Dauer [min]</Label>
+          <TextBox Grid.Column="1"
+                   Grid.Row="3"
+                   Margin="2"
+                   IsEnabled="{Binding IsChecked, ElementName=autoPause}"
+                   Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+          <UniformGrid Grid.Column="0"
+                       Grid.Row="4"
+                       Grid.ColumnSpan="2"
+                       Columns="2">
+            <Button Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
+            <Button Click="EditPreferencesSave_OnClick">Speichern</Button>
+          </UniformGrid>
         </Grid>
       </Border>
     </Grid>

@@ -77,6 +77,7 @@
     <Compile Include="Tests\PersistentTester.cs" />
     <Compile Include="Tests\SettingsTester.cs" />
     <Compile Include="Tests\WorkDayParserTester.cs" />
+    <Compile Include="Util\TimeItemConverter.cs" />
     <Compile Include="Util\DurationBGColorConverter.cs" />
     <Compile Include="Util\DurationFGColorConverter.cs" />
     <Compile Include="Util\Null2CollapsedConverter.cs" />

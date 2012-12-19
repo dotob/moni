@@ -19,11 +19,12 @@ namespace MONI
     private WorkWeek workWeek;
     private WorkYear workYear;
     private readonly CSVExporter csvExporter;
-    private readonly MoniSettings monlistSettings;
+    private MoniSettings monlistSettings;
     private ShortCut editShortCut;
 
     private readonly string settingsFile = "settings.json";
     Calendar calendar = new GregorianCalendar();
+    private MoniSettings editPreferences;
 
     public MainViewModel() {
       
@@ -91,6 +92,14 @@ namespace MONI
       set {
         this.editShortCut = value;
         NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.EditShortCut);
+      }
+    }
+
+    public MoniSettings EditPreferences {
+      get { return this.editPreferences; }
+      set {
+        this.editPreferences = value;
+        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.EditPreferences);
       }
     }
 
@@ -197,6 +206,19 @@ namespace MONI
       }
       this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.ShortCuts);
 
+    }
+
+    public void StartEditingPreferences() {
+      this.EditPreferences = this.monlistSettings;
+    }
+
+    public void SaveEditingPreferences() {
+      this.EditPreferences = null;
+    }
+
+    public void CancelEditingPreferences() {
+      this.EditPreferences = null;
+      this.monlistSettings = ReadSettings(settingsFile);
     }
   }
 }

@@ -71,6 +71,7 @@ namespace MONI
     private void AddShortcut_OnClick(object sender, RoutedEventArgs e) {
       ShortCut newSc = new ShortCut();
       this.ViewModel.EditShortCut = newSc;
+      this.shortcutTextBox.Focus();
     }
 
     private void RemoveShortcut_OnClick(object sender, RoutedEventArgs e) {
@@ -92,6 +93,7 @@ namespace MONI
       var sc = GetShortCutFromButton(sender);
       if (sc != null) {
         this.ViewModel.EditShortCut = sc;
+        this.shortcutTextBox.Focus();
       }
     }
 
@@ -116,6 +118,22 @@ namespace MONI
       if (sc != null) {
         this.ViewModel.MoveShortcutDown(sc);
       }
+    }
+
+    private void EditPreferences_Button_Click(object sender, RoutedEventArgs e) {
+      if (this.ViewModel.EditPreferences == null) {
+        this.ViewModel.StartEditingPreferences();
+      } else {
+        this.ViewModel.CancelEditingPreferences();
+      }
+    }
+
+    private void EditPreferencesCancel_OnClick(object sender, RoutedEventArgs e) {
+      this.ViewModel.CancelEditingPreferences();
+    }
+
+    private void EditPreferencesSave_OnClick(object sender, RoutedEventArgs e) {
+      this.ViewModel.SaveEditingPreferences();
     }
   }
 }
