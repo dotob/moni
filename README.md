@@ -17,7 +17,7 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 
 ## das interface ##
 
-![das eine fenster](https://github.com/dotob/moni/raw/master/doc/moni_mainwindow.png)
+![hauptansicht](https://github.com/dotob/moni/raw/master/doc/moni_mainwindow.png)
 
 1. prognose arbeitstunden
 2. warnung wenn nicht 8h pro tag verbraucht
@@ -33,6 +33,10 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 12. hervorhebung von abkürzungen für ganze tage
 13. hitliste der abkürzuungen
 14. link zu github
+15. einstellungen editieren
+
+![shortcut editieren](https://github.com/dotob/moni/raw/master/doc/moni_shortcut.png)
+![einstellungen editieren](https://github.com/dotob/moni/raw/master/doc/moni_settings.png)
 
 ## installation ##
 
@@ -40,8 +44,8 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 2. zip entpacken
 3. moni.exe starten
 4. es wird beim start ein **data** verzeichnis angelegt. der ort dieses verzeichnis kann geändert werden:
-5. in der datei settings.json sind die einstellungen zu monlist gespeichert. hier kann der wert von **DataDirectory** geändert werden (absolute und relative pfade sind erlaubt).
-6. shortcuts können seit version 0.9.7.0 direkt im interface geändert werden. andere einstellungen wie automatische pausen-konfiguration und feiertage können nur in der settings.json datei per hand geändert werden.
+5. ab version 0.9.8.0 können die einstellungen zum teil direkt im hauptfenster geändert werden
+6. shortcuts können seit version 0.9.7.0 direkt im interface geändert werden
 
 ## keyboad shortcuts ##
 
