@@ -8,10 +8,10 @@ namespace MONI.Data
 {
   public class WorkDayParser
   {
-    private string dayStartSeparator = ",";
-    private string hourProjectInfoSeparator = ";";
-    private char itemSeparator = ',';
-    private WorkDayParserSettings settings;
+    private readonly string dayStartSeparator = ",";
+    private readonly string hourProjectInfoSeparator = ";";
+    private readonly char itemSeparator = ',';
+    private readonly WorkDayParserSettings settings;
 
     public WorkDayParser() {
     }
@@ -25,7 +25,7 @@ namespace MONI.Data
     public WorkDayParserResult Parse(string userInput, ref WorkDay wdToFill) {
       // remove newlines
       userInput = userInput.Replace(Environment.NewLine, "");
-      userInput = PreProcessWholeDayExpansion(userInput);
+      userInput = PreProcessWholeDayExpansion(userInput, wdToFill.DateTime);
       bool ignoreBreakSettings = userInput.StartsWith("//");
       if (ignoreBreakSettings) {
         userInput = userInput.Substring(2);
@@ -44,7 +44,7 @@ namespace MONI.Data
             List<WorkItemTemp> tmpList = new List<WorkItemTemp>();
             foreach (var wdItemString in wdItemsAsString) {
               WorkItemTemp workItem;
-              if (this.GetWDItem(wdItemString, out workItem, out error)) {
+              if (this.GetWDItem(wdItemString, out workItem, out error, wdToFill.DateTime)) {
                 tmpList.Add(workItem);
               } else {
                 ret.Error = error;
@@ -72,11 +72,14 @@ namespace MONI.Data
       return ret;
     }
 
-    private string PreProcessWholeDayExpansion(string userInput) {
-      if (this.settings != null && this.settings.ShortCuts != null && this.settings.ShortCuts.Any(sc => sc.WholeDayExpansion)) {
-        var dic = this.settings.ShortCuts.Where(sc => sc.WholeDayExpansion).FirstOrDefault(sc => sc.Key == userInput);
-        if (dic != null) {
-          return dic.Expansion;
+    private string PreProcessWholeDayExpansion(string userInput, DateTime dateTime) {
+      if (this.settings != null) {
+        var currentShortcuts = this.settings.GetValidShortCuts(dateTime);
+        if (currentShortcuts.Any(sc => sc.WholeDayExpansion)) {
+          var dic = currentShortcuts.Where(sc => sc.WholeDayExpansion).FirstOrDefault(sc => sc.Key == userInput);
+          if (dic != null) {
+            return dic.Expansion;
+          }
         }
       }
       return userInput;
@@ -127,7 +130,7 @@ namespace MONI.Data
       return success;
     }
 
-    private bool GetWDItem(string wdItemString, out WorkItemTemp workItem, out string error) {
+    private bool GetWDItem(string wdItemString, out WorkItemTemp workItem, out string error, DateTime dateTime) {
       bool success = false;
       workItem = null;
       error = string.Empty;
@@ -165,9 +168,9 @@ namespace MONI.Data
             var projectPosDescString = wdItemString.Token(this.hourProjectInfoSeparator, 2).Trim();
             if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
-              if (this.settings != null && this.settings.ShortCuts != null && this.settings.ShortCuts.Any()) {
+              if (this.settings != null) {
                 var abbrevString = projectPosDescString.TokenReturnInputIfFail("(", 1);
-                ShortCut shortCut = this.settings.ShortCuts.FirstOrDefault(s => s.Key == abbrevString);
+                ShortCut shortCut = this.settings.GetValidShortCuts(dateTime).FirstOrDefault(s => s.Key == abbrevString);
                 if (shortCut != null) {
                   workItem.ShortCut = shortCut;
                   var expanded = shortCut.Expansion;

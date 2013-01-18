@@ -18,6 +18,7 @@ namespace MONI.Data
       this.Weeks = new ObservableCollection<WorkWeek>();
       this.Days = new ObservableCollection<WorkDay>();
       this.ShortCutStatistic = new ObservableCollection<KeyValuePair<string, ShortCutStatistic>>();
+      // TODO which date should i take?
       this.ReloadShortcutStatistic(shortCuts);
 
       var cal = new GregorianCalendar();

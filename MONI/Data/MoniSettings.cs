@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace MONI.Data
 {
@@ -39,9 +40,25 @@ namespace MONI.Data
       get { return this.GetValidShortCuts(DateTime.Now); }
     }
 
-    private List<ShortCut> GetValidShortCuts(DateTime from) {
-      //TODO find relevant shortcuts
-      return this.ShortCuts;
+    public List<ShortCut> GetValidShortCuts(DateTime from) {
+      var allShortcuts = this.ShortCuts;
+      return ValidShortCuts(allShortcuts, from);
+    }
+
+    public static List<ShortCut> ValidShortCuts(IEnumerable<ShortCut> allShortcuts, DateTime testDate) {
+      var ret = new List<ShortCut>();
+      var groupedByKey = allShortcuts.GroupBy(sc => sc.Key);
+      foreach (var keyedShortcut in groupedByKey) {
+        if (keyedShortcut.Count() > 1) {
+          var lastOrDefault = keyedShortcut.OrderBy(sc => sc.ValidFrom).LastOrDefault(sc => sc.ValidFrom <= testDate);
+          if (lastOrDefault != null) {
+            ret.Add(lastOrDefault);
+          }
+        } else {
+          ret.Add(keyedShortcut.Single());
+        }
+      }
+      return ret;
     }
 
     public bool InsertDayBreak { get; set; }
@@ -64,6 +81,12 @@ namespace MONI.Data
       this.Expansion = expansion;
     }
 
+    public ShortCut(string key, string expansion, DateTime validFrom)
+      : this(key, expansion) {
+      ValidFrom = validFrom;
+    }
+
+    [JsonIgnore]
     public string ID { get; set; }
     public string Key { get; set; }
     public string Expansion { get; set; }
@@ -83,6 +106,10 @@ namespace MONI.Data
       this.Expansion = sc.Expansion;
       this.WholeDayExpansion = sc.WholeDayExpansion;
       this.ValidFrom = sc.ValidFrom;
+    }
+
+    public override string ToString() {
+      return string.Format("{0}, {1}, {2}, {3}", Key, Expansion, ValidFrom, WholeDayExpansion);
     }
   }
 

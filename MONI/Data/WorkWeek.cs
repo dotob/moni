@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -26,6 +27,9 @@ namespace MONI.Data {
 
     public IEnumerable<WorkDay> Days {
       get { return this.days; }
+    }
+    public DateTime StartDate {
+      get { return Days.First().DateTime; }
     }
 
     public void Reparse() {

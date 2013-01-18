@@ -46,6 +46,57 @@ namespace MONI.Tests
       var serializeObject = JsonConvert.SerializeObject(ms, Formatting.Indented);
       File.WriteAllText("settings.json.test", serializeObject);
     }
+
+    [Test]
+    public void GetValidShortCuts_NoDoubles_ReturnListAsIs() {
+      var shortCuts = new List<ShortCut>();
+      shortCuts.Add(new ShortCut("ctbn", "12345-000"));
+      shortCuts.Add(new ShortCut("ctbp", "12345-000"));
+      shortCuts.Add(new ShortCut("ctbf", "12345-000"));
+
+      var doesntMatter = DateTime.Now;
+      var validShortCuts = WorkDayParserSettings.ValidShortCuts(shortCuts, doesntMatter);
+      CollectionAssert.AreEqual(shortCuts, validShortCuts);
+    }
+
+    [Test]
+    public void GetValidShortCuts_MultipleKeysInterval_ReturnJustRightShortcuts() {
+      var shortCuts = new List<ShortCut>();
+      shortCuts.Add(new ShortCut("ctbn", "12345-000"));
+      var findMe = new ShortCut("ctbn", "54321-000", new DateTime(2000,1,1));
+      shortCuts.Add(findMe);
+      var andMe = new ShortCut("ktln", "25710-420(feature)");
+      shortCuts.Add(andMe);
+
+      var matchOnShortcut = new DateTime(2005,1,1);
+      var validShortCuts = WorkDayParserSettings.ValidShortCuts(shortCuts, matchOnShortcut);
+      CollectionAssert.AreEqual(new[] { findMe, andMe }, validShortCuts);
+    }
+
+    [Test]
+    public void GetValidShortCuts_MultipleKeysDateMatch_ReturnJustRightShortcuts() {
+      var shortCuts = new List<ShortCut>();
+      shortCuts.Add(new ShortCut("ctbn", "12345-000"));
+      var matchDate = new DateTime(2000, 1, 1);
+      var findMe = new ShortCut("ctbn", "54321-000", matchDate);
+      shortCuts.Add(findMe);
+      var andMe = new ShortCut("ktln", "25710-420(feature)");
+      shortCuts.Add(andMe);
+
+      var validShortCuts = WorkDayParserSettings.ValidShortCuts(shortCuts, matchDate);
+      CollectionAssert.AreEqual(new[] { findMe, andMe }, validShortCuts);
+    }
+
+    [Test]
+    public void GetValidShortCuts_NoMatch_ReturnNoShortcuts() {
+      var shortCuts = new List<ShortCut>();
+      shortCuts.Add(new ShortCut("ctbn", "54321-000", new DateTime(2001, 1, 1)));
+      shortCuts.Add(new ShortCut("ctbn", "54321-000", new DateTime(2002, 1, 1)));
+      shortCuts.Add(new ShortCut("ctbn", "54321-000", new DateTime(2003, 1, 1)));
+
+      var validShortCuts = WorkDayParserSettings.ValidShortCuts(shortCuts, new DateTime(2000, 1, 1));
+      CollectionAssert.IsEmpty(validShortCuts);
+    }
      
   }
 }

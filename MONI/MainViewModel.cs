@@ -173,7 +173,7 @@ namespace MONI
 
     public void DeleteShortcut(ShortCut delsc) {
       this.monlistSettings.ParserSettings.ShortCuts.Remove(delsc);
-      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.ShortCuts);
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
       this.WorkWeek.Reparse();
     }
 
@@ -185,7 +185,7 @@ namespace MONI
         this.monlistSettings.ParserSettings.ShortCuts.Add(this.EditShortCut);
       }
       this.EditShortCut = null;
-      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.ShortCuts);
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
       this.WorkWeek.Reparse();
     }
 
@@ -195,7 +195,7 @@ namespace MONI
         this.monlistSettings.ParserSettings.ShortCuts.Remove(sc);
         this.monlistSettings.ParserSettings.ShortCuts.Insert(idx - 1, sc);
       }
-      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.ShortCuts);
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
     }
 
     public void MoveShortcutDown(ShortCut sc) {
@@ -204,7 +204,7 @@ namespace MONI
         this.monlistSettings.ParserSettings.ShortCuts.Remove(sc);
         this.monlistSettings.ParserSettings.ShortCuts.Insert(idx + 1, sc);
       }
-      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.ShortCuts);
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
 
     }
 
