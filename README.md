@@ -17,7 +17,7 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 
 ## das interface ##
 
-![hauptansicht](https://github.com/dotob/moni/raw/master/doc/moni_mainwindow.png)
+![hauptansicht](doc/moni_mainwindow.png)
 
 1. prognose arbeitstunden
 2. warnung wenn nicht 8h pro tag verbraucht
@@ -35,8 +35,8 @@ außerdem bietet moni weitere features, die die eingabe vereinfachen:
 14. link zu github
 15. einstellungen editieren
 
-![shortcut editieren](https://github.com/dotob/moni/raw/master/doc/moni_shortcut.png)
-![einstellungen editieren](https://github.com/dotob/moni/raw/master/doc/moni_settings.png)
+![shortcut editieren](doc/moni_shortcut.png)
+![einstellungen editieren](doc/moni_settings.png)
 
 ## installation ##
 
