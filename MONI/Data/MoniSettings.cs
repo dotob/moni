@@ -50,9 +50,11 @@ namespace MONI.Data
       var groupedByKey = allShortcuts.GroupBy(sc => sc.Key);
       foreach (var keyedShortcut in groupedByKey) {
         if (keyedShortcut.Count() > 1) {
-          var lastOrDefault = keyedShortcut.OrderBy(sc => sc.ValidFrom).LastOrDefault(sc => sc.ValidFrom <= testDate);
-          if (lastOrDefault != null) {
-            ret.Add(lastOrDefault);
+          foreach (var groupedByExpansionType in keyedShortcut.GroupBy(ks=>ks.WholeDayExpansion)) {
+            var lastOrDefault = groupedByExpansionType.OrderBy(sc => sc.ValidFrom).LastOrDefault(sc => sc.ValidFrom <= testDate);
+            if (lastOrDefault != null) {
+              ret.Add(lastOrDefault);
+            }
           }
         } else {
           ret.Add(keyedShortcut.Single());

@@ -330,5 +330,36 @@ namespace MONI.Tests {
       Assert.IsEmpty(workItemParserResult.Error);
       Assert.AreEqual(8, wd.HoursDuration);
     }
+
+    [Test]
+    public void WDParser_HoleDayExpansionAndNormalExpansionShareSameKey_ReturnBothExpansions() {
+      var abbr = new List<ShortCut>();
+      abbr.Add(new ShortCut("a", "11111-111(b)") { WholeDayExpansion = false});
+      abbr.Add(new ShortCut("a", "8,8;11111-111(b)") { WholeDayExpansion = true});
+      WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr };
+      WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+      // find wholeday expansion
+      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      var workItemParserResult = wdp.Parse("a", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(8), new TimeItem(16), "11111", "111","b")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+      Assert.AreEqual(8, wd.HoursDuration);
+
+      // find normal expansion
+      wd = new WorkDay(1, 1, 2, Enumerable.Empty<SpecialDate>());
+      workItemParserResult = wdp.Parse("8,8;a", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(8), new TimeItem(16), "11111", "111","b")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+      Assert.AreEqual(8, wd.HoursDuration);
+
+    }
   }
 }
