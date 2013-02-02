@@ -68,6 +68,11 @@ namespace MONI
       set {
         this.workWeek = value;
         NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.WorkWeek);
+
+        // don't know if this perfect, but it works
+        if (value != null) {
+          value.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(value.StartDate));
+        }
       }
     }
 
@@ -139,7 +144,7 @@ namespace MONI
       this.SelectDate(DateTime.Now);
     }
 
-    private void SelectDate(DateTime date) {
+    public void SelectDate(DateTime date) {
       if (this.workYear == null || date.Year != this.workYear.Year) {
         this.CreateAndLoadYear(date.Year);
       }
