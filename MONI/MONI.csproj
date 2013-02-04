@@ -74,6 +74,7 @@
     <Compile Include="Data\MoniSettings.cs" />
     <Compile Include="Data\TextFilePersistenceLayer.cs" />
     <Compile Include="Tests\HoursDuration_Tester.cs" />
+    <Compile Include="Tests\MainViewModelTester.cs" />
     <Compile Include="Tests\PersistentTester.cs" />
     <Compile Include="Tests\SettingsTester.cs" />
     <Compile Include="Tests\WorkDayParserTester.cs" />
