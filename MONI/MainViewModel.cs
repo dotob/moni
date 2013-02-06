@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using System.Linq;
+using GongSolutions.Wpf.DragDrop;
 using MONI.Data;
 using MONI.Util;
 using Newtonsoft.Json;
 
 namespace MONI
 {
-  public class MainViewModel : INotifyPropertyChanged
+  public class MainViewModel : INotifyPropertyChanged, IDropTarget
   {
     private ICommand nextWeekCommand;
     private readonly TextFilePersistenceLayer persistenceLayer;
@@ -210,7 +213,6 @@ namespace MONI
         this.monlistSettings.ParserSettings.ShortCuts.Insert(idx + 1, sc);
       }
       this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
-
     }
 
     public void StartEditingPreferences() {
@@ -224,6 +226,24 @@ namespace MONI
     public void CancelEditingPreferences() {
       this.EditPreferences = null;
       this.monlistSettings = ReadSettings(settingsFile);
+    }
+
+    public void DragOver(DropInfo dropInfo) {
+      dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
+      dropInfo.Effects = DragDropEffects.Move;
+    }
+
+    public void Drop(DropInfo dropInfo) {
+      try {
+        var kvp = (KeyValuePair<string, ShortCutStatistic>)dropInfo.Data;
+        var sc = kvp.Value;
+        this.monlistSettings.ParserSettings.ShortCuts.Remove(sc);
+        this.monlistSettings.ParserSettings.ShortCuts.Insert(dropInfo.InsertIndex, sc);
+        this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
+      }
+      catch (Exception exception) {
+        Console.WriteLine(exception);
+      }
     }
   }
 }
