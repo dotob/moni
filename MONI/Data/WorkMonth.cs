@@ -43,6 +43,8 @@ namespace MONI.Data
       foreach (var shortCut in shortCuts.Select(s => new KeyValuePair<string, ShortCutStatistic>(s.Key, new ShortCutStatistic(s)))) {
         this.ShortCutStatistic.Add(shortCut);
       }
+
+      this.CalcShortCutStatistic();
     }
 
     private double previewHours;
