@@ -33,7 +33,7 @@ namespace MONI
     public MainViewModel() {
       
       this.monlistSettings = ReadSettings(settingsFile);
-      this.projectListVisibility = this.monlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
+      this.ProjectListVisibility = this.monlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.WeekDayParserSettings = this.monlistSettings.ParserSettings;
       WorkDayParser.Instance = new WorkDayParser(this.WeekDayParserSettings);
 
@@ -228,6 +228,7 @@ namespace MONI
     }
 
     public void SaveEditingPreferences() {
+      this.ProjectListVisibility = this.monlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.EditPreferences = null;
     }
 

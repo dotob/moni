@@ -425,6 +425,7 @@
                                Text="{Binding Value.Expansion}"
                                Foreground="Gray"
                                FontSize="10"
+                               TextTrimming="CharacterEllipsis"
                                Margin="10 0 0 0" />
                     <TextBlock Grid.Column="2"
                                VerticalAlignment="Bottom"
@@ -635,7 +636,7 @@
         </Grid>
       </Border>
     </Grid>
-    <!-- edit / new shortcut -->
+    <!-- edit settings -->
     <Grid Visibility="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={StaticResource null2CollapsedConverter}}"
           DataContext="{Binding ElementName=mv, Path=ViewModel.EditPreferences}">
       <Border Background="SkyBlue"
@@ -648,9 +649,10 @@
                  Margin="0 0 350 230">settings</TextBlock>
       <Border Background="White"
               Width="600"
-              Height="160">
+              Height="180">
         <Grid VerticalAlignment="Center">
           <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -669,34 +671,43 @@
                    Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
           <Label Grid.Column="0"
-                 Grid.Row="1">Automatische Pause einfügen</Label>
+                 Grid.Row="1">Project-Hitliste anzeigen</Label>
           <CheckBox Grid.Column="1"
                     Grid.Row="1"
+                    Margin="2"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+          
+          <!-- auto break -->
+          <Label Grid.Column="0"
+                 Grid.Row="2">Automatische Pause einfügen</Label>
+          <CheckBox Grid.Column="1"
+                    Grid.Row="2"
                     Margin="2"
                     VerticalAlignment="Center"
                     x:Name="autoPause"
                     IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
           <Label Grid.Column="0"
-                 Grid.Row="2"
+                 Grid.Row="3"
                  IsEnabled="{Binding IsChecked, ElementName=autoPause}">Uhrzeit [hh:mm]</Label>
           <TextBox Grid.Column="1"
-                   Grid.Row="2"
+                   Grid.Row="3"
                    Margin="2"
                    IsEnabled="{Binding IsChecked, ElementName=autoPause}"
                    Text="{Binding ParserSettings.DayBreakTime, Converter={StaticResource timeItemConverter}}"></TextBox>
 
           <Label Grid.Column="0"
-                 Grid.Row="3"
+                 Grid.Row="4"
                  IsEnabled="{Binding IsChecked, ElementName=autoPause}">Dauer [min]</Label>
           <TextBox Grid.Column="1"
-                   Grid.Row="3"
+                   Grid.Row="4"
                    Margin="2"
                    IsEnabled="{Binding IsChecked, ElementName=autoPause}"
                    Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
           <UniformGrid Grid.Column="0"
-                       Grid.Row="4"
+                       Grid.Row="5"
                        Grid.ColumnSpan="2"
                        Columns="2">
             <Button Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
