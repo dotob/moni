@@ -228,20 +228,18 @@ namespace MONI
       this.monlistSettings = ReadSettings(settingsFile);
     }
 
-    public void DragOver(DropInfo dropInfo) {
+    public void DragOver(IDropInfo dropInfo) {
       dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
       dropInfo.Effects = DragDropEffects.Move;
     }
 
-    public void Drop(DropInfo dropInfo) {
+    public void Drop(IDropInfo dropInfo) {
       try {
-        var kvp = (KeyValuePair<string, ShortCutStatistic>)dropInfo.Data;
-        var sc = kvp.Value;
-        this.monlistSettings.ParserSettings.ShortCuts.Remove(sc);
-        this.monlistSettings.ParserSettings.ShortCuts.Insert(dropInfo.InsertIndex, sc);
+        GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
+        this.monlistSettings.ParserSettings.ShortCuts.Clear();
+        this.monlistSettings.ParserSettings.ShortCuts.AddRange(dropInfo.TargetCollection.OfType<KeyValuePair<string, ShortCutStatistic>>().Select(kvp => kvp.Value));
         this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
-      }
-      catch (Exception exception) {
+      } catch (Exception exception) {
         Console.WriteLine(exception);
       }
     }
