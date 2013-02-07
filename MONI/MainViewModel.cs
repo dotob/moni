@@ -28,11 +28,12 @@ namespace MONI
     private readonly string settingsFile = "settings.json";
     Calendar calendar = new GregorianCalendar();
     private MoniSettings editPreferences;
+    private Visibility projectListVisibility;
 
     public MainViewModel() {
       
       this.monlistSettings = ReadSettings(settingsFile);
-
+      this.projectListVisibility = this.monlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.WeekDayParserSettings = this.monlistSettings.ParserSettings;
       WorkDayParser.Instance = new WorkDayParser(this.WeekDayParserSettings);
 
@@ -108,6 +109,13 @@ namespace MONI
       set {
         this.editPreferences = value;
         NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.EditPreferences);
+      }
+    }
+    public Visibility ProjectListVisibility {
+      get { return this.projectListVisibility; }
+      private set { 
+        this.projectListVisibility = value;
+        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.ProjectListVisibility);
       }
     }
 

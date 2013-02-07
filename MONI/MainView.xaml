@@ -101,7 +101,7 @@
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="4*"></ColumnDefinition>
         <ColumnDefinition Width="2*"></ColumnDefinition>
-        <ColumnDefinition Width="2*"></ColumnDefinition>
+        <ColumnDefinition Width="Auto"></ColumnDefinition>
       </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
         <RowDefinition Height="50"></RowDefinition>
@@ -213,6 +213,7 @@
 
       </Grid>
 
+      <!-- week view -->
       <ScrollViewer Grid.Row="1"
                     Grid.Column="0">
         <!-- days -->
@@ -347,6 +348,7 @@
         </ItemsControl>
       </ScrollViewer>
 
+      <!-- shortcuts -->
       <StackPanel Grid.Column="1"
                   Grid.Row="0"
                   HorizontalAlignment="Right"
@@ -358,7 +360,7 @@
         <Button Width="13"
                 Height="20"
                 Margin="10 0 0 0"
-                Style="{DynamicResource noStyleButton}"
+                Style="{StaticResource ImageButtonStyle}"
                 Click="AddShortcut_OnClick">
           <Button.ToolTip>
             <ToolTip>
@@ -366,7 +368,7 @@
                          Foreground="White"></TextBlock>
             </ToolTip>
           </Button.ToolTip>
-          <Rectangle Width="13"
+          <Rectangle Width="10"
                      Height="20">
             <Rectangle.Resources>
               <SolidColorBrush x:Key="BlackBrush"
@@ -386,7 +388,8 @@
                       HorizontalContentAlignment="Stretch"
                       dd:DragDrop.IsDragSource="True"
                       dd:DragDrop.IsDropTarget="True"
-                      dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}">
+                      dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}"
+                      Grid.IsSharedSizeScope="True">
           <ItemsControl.ItemTemplate>
             <!-- shortcut -->
             <DataTemplate>
@@ -399,32 +402,38 @@
                 <Grid>
                   <Grid>
                     <Grid.RowDefinitions>
-                      <RowDefinition Height="2*"></RowDefinition>
                       <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*"></ColumnDefinition>
-                      <ColumnDefinition Width="Auto"></ColumnDefinition>
+                      <ColumnDefinition Width="Auto" 
+                                        SharedSizeGroup="0"></ColumnDefinition>
+                      <ColumnDefinition Width="*" 
+                                        SharedSizeGroup="1"></ColumnDefinition>
+                      <ColumnDefinition Width="Auto"
+                                        SharedSizeGroup="2"></ColumnDefinition>
+                      <ColumnDefinition Width="Auto"
+                                        SharedSizeGroup="3"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Row="0"
+                    
+                    <TextBlock Grid.Column="0"
+                               VerticalAlignment="Bottom"
                                Text="{Binding Key}"
                                FontWeight="Bold"
                                FontSize="14" />
-                    <TextBlock Grid.Row="1"
+                    <TextBlock Grid.Column="1"
+                               VerticalAlignment="Bottom"
                                Text="{Binding Value.Expansion}"
                                Foreground="Gray"
                                FontSize="10"
                                Margin="10 0 0 0" />
-                    <TextBlock Grid.Column="1"
-                               Grid.RowSpan="2"
+                    <TextBlock Grid.Column="2"
                                VerticalAlignment="Bottom"
-                               Text="{Binding Value.UsedInMonth}"
+                               Text="{Binding Value.UsedInMonth, StringFormat='{} {0:##}'}"
                                Foreground="Gray"
                                FontWeight="Bold"
-                               FontSize="20"
+                               FontSize="14"
                                Margin="10 0 0 0" />
-                    <Rectangle Grid.Column="1"
-                               Grid.Row="0"
+                    <Rectangle Grid.Column="3"
                                VerticalAlignment="Top"
                                HorizontalAlignment="Right"
                                Width="8"
@@ -473,69 +482,38 @@
                     <StackPanel Orientation="Horizontal"
                                 HorizontalAlignment="Center">
 
-                      <Button HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              Background="Transparent"
+                      <Button Background="Transparent"
                               Tag="{Binding Value}"
-                              Click="ShortcutUp_OnClick">
-                        <Button.ToolTip>
-                          <ToolTip>
-                            <TextBlock Text="Shortcut nach oben verschieben"></TextBlock>
-                          </ToolTip>
-                        </Button.ToolTip>
-                        <Rectangle Width="16"
-                                   Height="16"
-                                   Fill="{StaticResource upIcon}">
-                        </Rectangle>
-                      </Button>
-
-                      <Button HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              Background="Transparent"
-                              Tag="{Binding Value}"
+                              Style="{StaticResource ImageButtonStyle}"
+                              Margin="10 0"
                               Click="RemoveShortcut_OnClick">
                         <Button.ToolTip>
                           <ToolTip>
                             <TextBlock Text="Shortcut löschen"></TextBlock>
                           </ToolTip>
                         </Button.ToolTip>
-                        <Rectangle Width="16"
-                                   Height="20"
+                        <Rectangle Width="8"
+                                   Height="10"
                                    Fill="{StaticResource deleteIcon}">
                         </Rectangle>
                       </Button>
 
-                      <Button HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              Background="Transparent"
+                      <Button Background="Transparent"
                               Tag="{Binding Value}"
+                              Style="{StaticResource ImageButtonStyle}"
+                              Margin="10 0"
                               Click="EditShortcut_OnClick">
                         <Button.ToolTip>
                           <ToolTip>
                             <TextBlock Text="Shortcut editieren"></TextBlock>
                           </ToolTip>
                         </Button.ToolTip>
-                        <Rectangle Width="16"
-                                   Height="20"
+                        <Rectangle Width="8"
+                                   Height="10"
                                    Fill="{StaticResource editIcon}">
                         </Rectangle>
                       </Button>
 
-                      <Button HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              Background="Transparent"
-                              Tag="{Binding Value}"
-                              Click="ShortcutDown_OnClick">
-                        <Button.ToolTip>
-                          <ToolTip>
-                            <TextBlock Text="Shortcut nach unten verschieben"></TextBlock>
-                          </ToolTip>
-                        </Button.ToolTip>
-                        <Rectangle Width="16"
-                                   Height="16"
-                                   Fill="{StaticResource downIcon}">
-                        </Rectangle>
-                      </Button>
                     </StackPanel>
                   </Border>
                 </Grid>
@@ -551,9 +529,11 @@
                  VerticalAlignment="Bottom"
                  FontSize="20"
                  Foreground="#CC119EDA"
-                 FontWeight="Bold">Project-Hitlist</TextBlock>
+                 FontWeight="Bold"
+                 Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectListVisibility}">Project-Hitlist</TextBlock>
       <ScrollViewer Grid.Column="2"
-                    Grid.Row="1">
+                    Grid.Row="1"
+                    Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectListVisibility}">
         <ItemsControl Margin="0 1 0 0"
                       ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist}"
                       HorizontalContentAlignment="Stretch">

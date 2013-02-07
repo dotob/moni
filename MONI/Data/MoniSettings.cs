@@ -21,6 +21,7 @@ namespace MONI.Data
     public List<SpecialDate> SpecialDates { get; set; }
     public string DataDirectory { get; set; }
     public int HitListLookBackInWeeks { get; set; }
+    public bool ShowProjectHitList { get; set; }
   }
 
   public class SpecialDate
