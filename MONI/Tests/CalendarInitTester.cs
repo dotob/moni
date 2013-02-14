@@ -8,7 +8,7 @@ namespace MONI.Tests {
   public class CalendarInitTester {
     [Test]
     public void WorkYear_ctor_CreateWholeYear() {
-      WorkYear wy = new WorkYear(2011, Enumerable.Empty<SpecialDate>(), new List<ShortCut>(), 0);
+      WorkYear wy = new WorkYear(2011, new List<ShortCut>(), 0);
       Assert.AreEqual(12, wy.Months.Count);
       //test sample month
       var march = wy.Months.ElementAt(2);

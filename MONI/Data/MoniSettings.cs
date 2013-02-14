@@ -11,23 +11,16 @@ namespace MONI.Data
     public WorkDayParserSettings ParserSettings { get; set; }
     public MainSettings MainSettings { get; set; }
     public static MoniSettings GetEmptySettings() {
-      var ms = new MainSettings { SpecialDates = new List<SpecialDate>(), DataDirectory = AppDomain.CurrentDomain.BaseDirectory };
+      var ms = new MainSettings { DataDirectory = AppDomain.CurrentDomain.BaseDirectory };
       return new MoniSettings { ParserSettings = new WorkDayParserSettings(), MainSettings = ms };
     }
   }
 
   public class MainSettings
   {
-    public List<SpecialDate> SpecialDates { get; set; }
     public string DataDirectory { get; set; }
     public int HitListLookBackInWeeks { get; set; }
     public bool ShowProjectHitList { get; set; }
-  }
-
-  public class SpecialDate
-  {
-    public string Name { get; set; }
-    public DateTime Date { get; set; }
   }
 
   public class WorkDayParserSettings

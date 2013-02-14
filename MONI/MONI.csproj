@@ -41,15 +41,15 @@
   <ItemGroup>
     <Reference Include="GongSolutions.Wpf.DragDrop">
       <HintPath>..\packages\gong-wpf-dragdrop.0.1.3.1\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MahApps.Metro">
       <HintPath>..\packages\MahApps.Metro.0.10.1.21-ALPHA\lib\net40\MahApps.Metro.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.1.12217, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.1\lib\nunit.framework.dll</HintPath>
@@ -58,7 +58,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.0.10.1.21-ALPHA\lib\net40\System.Windows.Interactivity.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,6 +79,10 @@
     </ApplicationDefinition>
     <Compile Include="Data\CSVExporter.cs" />
     <Compile Include="Data\MoniSettings.cs" />
+    <Compile Include="Data\SpecialDays\GermanSpecialDay.cs" />
+    <Compile Include="Data\SpecialDays\GermanSpecialDays.cs" />
+    <Compile Include="Data\SpecialDays\ISpecialDay.cs" />
+    <Compile Include="Data\SpecialDays\SpecialDaysUtils.cs" />
     <Compile Include="Data\TextFilePersistenceLayer.cs" />
     <Compile Include="Tests\HoursDuration_Tester.cs" />
     <Compile Include="Tests\MainViewModelTester.cs" />

@@ -34,10 +34,6 @@ namespace MONI.Tests
       parserSettings.DayBreakDurationInMinutes = 30;
 
       var mainSettings = new MainSettings();
-      mainSettings.SpecialDates = new List<SpecialDate>();
-      mainSettings.SpecialDates.Add(new SpecialDate {Name = "Heiligabend", Date = new DateTime(2012,12,24)});
-      mainSettings.SpecialDates.Add(new SpecialDate {Name = "Sylvester", Date = new DateTime(2012,1,1)});
-
 
       MoniSettings ms = new MoniSettings();
       ms.ParserSettings = parserSettings;
