@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using MONI.Data.SpecialDays;
 
 namespace MONI.Data {
   public class WorkDay : INotifyPropertyChanged {
@@ -18,22 +19,25 @@ namespace MONI.Data {
       this.items = new ObservableCollection<WorkItem>();
     }
 
-    public WorkDay(int year, int month, int day, IEnumerable<SpecialDate> specialDates) : this() {
+    public WorkDay(int year, int month, int day, GermanSpecialDays specialDays) : this() {
       this.year = year;
       this.month = month;
       this.day = day;
       var dt = new DateTime(year, month, day);
       var cal = new GregorianCalendar();
       this.DayOfWeek = cal.GetDayOfWeek(dt);
-      SpecialDate specialDate;
-      this.DayType = this.calculateDayType(dt, this.DayOfWeek, specialDates, out specialDate);
-      this.SpecialDate = specialDate;
+      GermanSpecialDay specialDay;
+      this.DayType = this.calculateDayType(dt, this.DayOfWeek, specialDays, out specialDay);
+      this.SpecialDay = specialDay;
     }
 
 
-    private DayType calculateDayType(DateTime dt, DayOfWeek dayOfWeek, IEnumerable<SpecialDate> specialDates, out SpecialDate foundSpecialDate) {
-      foundSpecialDate = specialDates.FirstOrDefault(sp => sp.Date == dt);
-      if(foundSpecialDate!=null) {
+    private DayType calculateDayType(DateTime dt, DayOfWeek dayOfWeek, GermanSpecialDays specialDays, out GermanSpecialDay foundSpecialDay) {
+      foundSpecialDay = null;
+      if (specialDays != null) {
+        specialDays.TryGetValue(dt, out foundSpecialDay);
+      }
+      if (foundSpecialDay != null) {
         return DayType.Holiday;
       }
 
@@ -83,9 +87,7 @@ namespace MONI.Data {
       get { return this.day; }
     }
 
-    public SpecialDate SpecialDate {
-      get; set;
-    }
+    public ISpecialDay SpecialDay { get; set; }
 
     // HACK
     public string OriginalString {

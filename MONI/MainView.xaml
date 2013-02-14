@@ -249,10 +249,10 @@
                              HorizontalAlignment="Center"></TextBlock>
                   <TextBlock Grid.Column="0"
                              Grid.Row="1"
-                             Text="{Binding SpecialDate.Name}"
+                             Text="{Binding SpecialDay.Name}"
                              Foreground="{StaticResource lightText}"
                              FontWeight="Bold"
-                             Visibility="{Binding SpecialDate, Converter={StaticResource null2CollapsedConverter}}"
+                             Visibility="{Binding SpecialDay, Converter={StaticResource null2CollapsedConverter}}"
                              HorizontalAlignment="Center"></TextBlock>
                   <TextBlock Grid.Column="0"
                              Grid.Row="2"

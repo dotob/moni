@@ -7,7 +7,7 @@ namespace MONI.Tests {
   public class WorkDayParserTester {
     [Test]
     public void WDParser_EmptyString_ReturnError() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse(string.Empty, ref wd);
       Assert.IsFalse(workItemParserResult.Success);
@@ -16,7 +16,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_SingleItemWithDayStartTime_ReturnWorkItemWithOneItem() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7,2;11111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -27,7 +27,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_SetEmptyStringAfterSuccessfulParsing_DeleteItems() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7,2;11111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -41,7 +41,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_SingleItemWithDayStartTimeAndPos_ReturnWorkItemWithOneItem() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7,2;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -52,7 +52,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_SingleItemWithOddDayStartTime_ReturnWorkItemWithOneItem() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7:30,2;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -63,7 +63,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_SingleItemWithOddDayStartTimeAndOddHourCount_ReturnWorkItemWithOneItem() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7:30,1.5;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -74,7 +74,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_MoreItems_ReturnWorkItemWithMoreItems() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7:30,1.5;11111-111,3;22222-222", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -85,7 +85,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_MoreItemsAndDayBreak_ReturnWorkItemWithSplittedItems() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser(new WorkDayParserSettings {InsertDayBreak = true, DayBreakTime = new TimeItem(12, 00), DayBreakDurationInMinutes = 30});
       var workItemParserResult = wdp.Parse("9:00,2;11111-111,3;22222-222", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -96,7 +96,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_LokalBreakSettingsOptOut_IgnoreBreakSettings() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser(new WorkDayParserSettings {InsertDayBreak = true, DayBreakTime = new TimeItem(12, 00), DayBreakDurationInMinutes = 30});
       var workItemParserResult = wdp.Parse("//9:00,2;11111-111,3;22222-222", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -107,7 +107,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_WhiteSpace_StillWork() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser(new WorkDayParserSettings {InsertDayBreak = true, DayBreakTime = new TimeItem(12, 00), DayBreakDurationInMinutes = 30});
       var workItemParserResult = wdp.Parse("9 : 00 , 2; 11111   -111 , 3;   22222-222", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -119,7 +119,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_UseAbbreviations_ExpandAbbreviations() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       var abbr = new List<ShortCut>();
       abbr.Add(new ShortCut("ctb", "11111-111"));
       abbr.Add(new ShortCut("ktl", "22222-222"));
@@ -135,7 +135,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_InsertPauseItem_LeavePause() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7,1;11111-111,2!,2;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -149,7 +149,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_ParseHourFragment_MultiplyBy60() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("7,1.75;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -162,7 +162,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_ParseHourFragment2_MultiplyBy60() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("9:15,7.25;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -175,7 +175,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_ParseDescription_GetDesc() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("9:15,7.25;11111-111(lalala)", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -188,7 +188,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_UseAbbreviationsAndDesc_ExpandAbbreviationsAndOverwriteDescFromAbbr() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       var abbr = new List<ShortCut>();
       abbr.Add(new ShortCut("ctb", "11111-111(donotuseme)"));
       abbr.Add( new ShortCut("ktl","22222-222(useme)"));
@@ -203,7 +203,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_UseAbbreviationsAndDesc_ExpandAbbreviationsAndAppendToDescFromAbbr() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       var abbr = new List<ShortCut>();
       abbr.Add(new ShortCut("ctb", "11111-111(prefix)"));
       abbr.Add( new ShortCut("ktl","22222-222(useme)"));
@@ -218,7 +218,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_InsteadOfHoursICanTellAnEndTime_UseEndTime() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       var abbr = new List<ShortCut>();
       abbr.Add( new ShortCut("ctb","11111-111"));
       abbr.Add(new ShortCut("ktl", "22222-222"));
@@ -233,7 +233,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_UsingEndTimeAndBreak_CalculateBreak() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       var abbr = new List<ShortCut>();
       abbr.Add(new ShortCut("ctb","11111-111"));
       abbr.Add(new ShortCut("ktl", "22222-222"));
@@ -252,7 +252,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_BrokenHours_CalculateCorrectly() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParser wdp = new WorkDayParser();
       var workItemParserResult = wdp.Parse("8:15,-15:30;11111-111,1;11111-111", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
@@ -267,7 +267,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_BrokenHoursWithBreak_CalculateCorrectly() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { DayBreakDurationInMinutes = 30, InsertDayBreak = true, DayBreakTime = new TimeItem(12) };
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       var workItemParserResult = wdp.Parse("8:15,-15:30;11111-111,1;11111-111", ref wd);
@@ -284,7 +284,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_PartEndsAtBreakTime_AddBreakCorrectly() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { DayBreakDurationInMinutes = 30, InsertDayBreak = true, DayBreakTime = new TimeItem(12) };
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       var workItemParserResult = wdp.Parse("8,4;11111-111,4;11111-111", ref wd);
@@ -300,7 +300,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_PartEndsAtBreakTimeWithAbsolutEnd_AddBreakCorrectly() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { DayBreakDurationInMinutes = 30, InsertDayBreak = true, DayBreakTime = new TimeItem(12) };
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       var workItemParserResult = wdp.Parse("8,4;11111-111,-17:00;11111-111", ref wd);
@@ -316,7 +316,7 @@ namespace MONI.Tests {
 
     [Test]
     public void WDParser_HoleDayExpansion_UseCompleteString() {
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       var abbr = new List<ShortCut>();
       abbr.Add(new ShortCut("krank", "8,8;11111-111(krank)") { WholeDayExpansion = true});
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr };
@@ -339,7 +339,7 @@ namespace MONI.Tests {
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr };
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       // find wholeday expansion
-      WorkDay wd = new WorkDay(1, 1, 1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(1, 1, 1, null);
       var workItemParserResult = wdp.Parse("a", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
       CollectionAssert.IsNotEmpty(wd.Items);
@@ -350,7 +350,7 @@ namespace MONI.Tests {
       Assert.AreEqual(8, wd.HoursDuration);
 
       // find normal expansion
-      wd = new WorkDay(1, 1, 2, Enumerable.Empty<SpecialDate>());
+      wd = new WorkDay(1, 1, 2, null);
       workItemParserResult = wdp.Parse("8,8;a", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
       CollectionAssert.IsNotEmpty(wd.Items);
