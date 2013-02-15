@@ -1,10 +1,10 @@
-﻿using System.Reflection;
+﻿using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MONI.Data;
 using MahApps.Metro.Controls;
-using System.Linq;
 
 namespace MONI
 {
@@ -17,6 +17,14 @@ namespace MONI
       this.ViewModel = new MainViewModel();
       this.InitializeComponent();
       this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
+      this.CheckForMonlist();
+    }
+
+    private void CheckForMonlist() {
+      var mlp = this.ViewModel.Settings.MainSettings.MonlistExecutablePath;
+      if (string.IsNullOrWhiteSpace(mlp) || !File.Exists(mlp)) {
+        this.OpenMonlist.IsEnabled = false;
+      }
     }
 
     public MainViewModel ViewModel { get; set; }
@@ -105,21 +113,7 @@ namespace MONI
       }
       return sc;
     }
-
-    private void ShortcutUp_OnClick(object sender, RoutedEventArgs e) {
-      var sc = GetShortCutFromButton(sender);
-      if (sc != null) {
-        this.ViewModel.MoveShortcutUp(sc);
-      }
-    }
-
-    private void ShortcutDown_OnClick(object sender, RoutedEventArgs e) {
-      var sc = GetShortCutFromButton(sender);
-      if (sc != null) {
-        this.ViewModel.MoveShortcutDown(sc);
-      }
-    }
-
+    
     private void EditPreferences_Button_Click(object sender, RoutedEventArgs e) {
       if (this.ViewModel.EditPreferences == null) {
         this.ViewModel.StartEditingPreferences();
@@ -134,6 +128,10 @@ namespace MONI
 
     private void EditPreferencesSave_OnClick(object sender, RoutedEventArgs e) {
       this.ViewModel.SaveEditingPreferences();
+    }
+
+    private void ToMonlist_Button_Click(object sender, RoutedEventArgs e) {
+      // TODO
     }
   }
 }

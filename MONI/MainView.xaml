@@ -53,6 +53,26 @@
 
   <Controls:MetroWindow.WindowCommands>
     <Controls:WindowCommands>
+      <Button Click="ToMonlist_Button_Click" x:Name="OpenMonlist">
+        <StackPanel Orientation="Horizontal">
+          <Rectangle Width="20"
+                     Height="20">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="White" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_cabinet_out}" />
+            </Rectangle.Fill>
+            <Rectangle.ToolTip>
+              <ToolTip>
+                <TextBlock Text="Daten in Monlist importieren"></TextBlock>
+              </ToolTip>
+            </Rectangle.ToolTip>
+          </Rectangle>
+        </StackPanel>
+      </Button>
       <Button Click="GitHub_Button_Click">
         <StackPanel Orientation="Horizontal">
           <Rectangle Width="20"

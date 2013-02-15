@@ -19,6 +19,7 @@ namespace MONI.Data
   public class MainSettings
   {
     public string DataDirectory { get; set; }
+    public string MonlistExecutablePath { get; set; }
     public int HitListLookBackInWeeks { get; set; }
     public bool ShowProjectHitList { get; set; }
   }

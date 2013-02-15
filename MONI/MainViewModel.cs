@@ -34,8 +34,8 @@ namespace MONI
       
       this.monlistSettings = ReadSettings(settingsFile);
       this.ProjectListVisibility = this.monlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
-      this.WeekDayParserSettings = this.monlistSettings.ParserSettings;
-      WorkDayParser.Instance = new WorkDayParser(this.WeekDayParserSettings);
+      this.Settings = this.monlistSettings;
+      WorkDayParser.Instance = new WorkDayParser(this.Settings.ParserSettings);
 
       // read persistencedata
       this.persistenceLayer = new TextFilePersistenceLayer(this.monlistSettings.MainSettings.DataDirectory);
@@ -65,7 +65,7 @@ namespace MONI
       get { return this.nextWeekCommand ?? (this.nextWeekCommand = new DelegateCommand(this.SelectNextWeek, () => true)); }
     }
 
-    public WorkDayParserSettings WeekDayParserSettings { get; set; }
+    public MoniSettings Settings { get; set; }
 
     public WorkWeek WorkWeek {
       get { return this.workWeek; }
