@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using MONI.Data.SpecialDays;
 
 namespace MONI.Data
 {
@@ -12,15 +13,17 @@ namespace MONI.Data
     private readonly int hitListLookBackInWeeks;
     public int Year { get; set; }
 
-    public WorkYear(int year, IEnumerable<SpecialDate> specialDates, IEnumerable<ShortCut> shortCuts, int hitListLookBackInWeeks) {
+    public WorkYear(int year, IEnumerable<ShortCut> shortCuts, int hitListLookBackInWeeks) {
       this.hitListLookBackInWeeks = hitListLookBackInWeeks;
       this.Year = year;
       this.Months = new ObservableCollection<WorkMonth>();
       this.Weeks = new ObservableCollection<WorkWeek>();
 
+      var germanSpecialDays = SpecialDaysUtils.GetGermanSpecialDays(year);
+
       var cal = new GregorianCalendar();
       for (int month = 1; month <= cal.GetMonthsInYear(year); month++) {
-        WorkMonth wm = new WorkMonth(year, month, specialDates, shortCuts);
+        WorkMonth wm = new WorkMonth(year, month, germanSpecialDays, shortCuts);
         this.Months.Add(wm);
         foreach (var workWeek in wm.Weeks) {
           this.Weeks.Add(workWeek);

@@ -168,7 +168,7 @@ namespace MONI
         // need to save years data
         this.Save();
       }
-      this.WorkYear = new WorkYear(year, this.monlistSettings.MainSettings.SpecialDates, this.monlistSettings.ParserSettings.ShortCuts, this.monlistSettings.MainSettings.HitListLookBackInWeeks);
+      this.WorkYear = new WorkYear(year, this.monlistSettings.ParserSettings.ShortCuts, this.monlistSettings.MainSettings.HitListLookBackInWeeks);
       this.persistenceLayer.SetDataOfYear(this.WorkYear);
     }
 

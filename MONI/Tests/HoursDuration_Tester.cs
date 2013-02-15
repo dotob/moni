@@ -8,7 +8,7 @@ namespace MONI.Tests {
   public class HoursDuration_Tester {
     [Test]
     public void HoursDuration_OnADay_ShouldSumCorrect() {
-      WorkDay wd = new WorkDay(2011,1,1, Enumerable.Empty<SpecialDate>());
+      WorkDay wd = new WorkDay(2011,1,1, null);
       wd.AddWorkItem(new WorkItem(new TimeItem(10),new TimeItem(11)));
       Assert.AreEqual(1,wd.HoursDuration);
       wd.AddWorkItem(new WorkItem(new TimeItem(11),new TimeItem(12)));
@@ -21,7 +21,7 @@ namespace MONI.Tests {
 
     [Test]
     public void HoursDuration_OnAWeek_ShouldSumCorrect() {
-      WorkMonth wm = new WorkMonth(2011, 1, Enumerable.Empty<SpecialDate>(), new List<ShortCut>());
+      WorkMonth wm = new WorkMonth(2011, 1, null, new List<ShortCut>());
       WorkDay wd = wm.Days.First();
       wd.AddWorkItem(new WorkItem(new TimeItem(10),new TimeItem(11)));
       Assert.AreEqual(1,wd.HoursDuration);
@@ -38,7 +38,7 @@ namespace MONI.Tests {
 
     [Test]
     public void HoursDuration_OnAMonth_ShouldSumCorrect() {
-      WorkMonth wm = new WorkMonth(2011, 1, Enumerable.Empty<SpecialDate>(), new List<ShortCut>());
+      WorkMonth wm = new WorkMonth(2011, 1, null, new List<ShortCut>());
       WorkDay wd = wm.Days.First();
       wd.AddWorkItem(new WorkItem(new TimeItem(10),new TimeItem(11)));
       Assert.AreEqual(1,wd.HoursDuration);
@@ -59,7 +59,7 @@ namespace MONI.Tests {
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr, InsertDayBreak = false };
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       WorkDayParser.Instance = wdp;
-      WorkMonth wm = new WorkMonth(2011, 1, Enumerable.Empty<SpecialDate>(), abbr);
+      WorkMonth wm = new WorkMonth(2011, 1, null, abbr);
       WorkDay wd = wm.Days.First();
       wd.OriginalString = "8,8;ctb";
 

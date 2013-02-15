@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using MONI.Data.SpecialDays;
 
 namespace MONI.Data
 {
@@ -12,7 +13,7 @@ namespace MONI.Data
     private readonly int month;
     private readonly int year;
 
-    public WorkMonth(int year, int month, IEnumerable<SpecialDate> specialDates, IEnumerable<ShortCut> shortCuts) {
+    public WorkMonth(int year, int month, GermanSpecialDays specialDays, IEnumerable<ShortCut> shortCuts) {
       this.year = year;
       this.month = month;
       this.Weeks = new ObservableCollection<WorkWeek>();
@@ -26,7 +27,7 @@ namespace MONI.Data
       for (int day = 1; day <= cal.GetDaysInMonth(year, month); day++) {
         var dt = new DateTime(year, month, day);
 
-        WorkDay wd = new WorkDay(year, month, day, specialDates);
+        WorkDay wd = new WorkDay(year, month, day, specialDays);
         this.Days.Add(wd);
         var weekOfYear = cal.GetWeekOfYear(dt, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
         if (lastWeek == null || lastWeek.WeekOfYear != weekOfYear) {
