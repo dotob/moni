@@ -33,6 +33,7 @@ namespace MONI.Data
     }
 
     private void workWeek_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+      this.OnPropertyChanged("HoursDuration");
       this.OnPropertyChanged("ProjectHitList");
     }
 

@@ -141,10 +141,10 @@ namespace MONI.Data
     private void CalcShortCutStatistic() {
       foreach (var kvp in this.ShortCutStatistic) {
         KeyValuePair<string, ShortCutStatistic> kvp1 = kvp;
-        kvp.Value.UsedInMonth = this.Days.SelectMany(d => d.Items).Where(i => i.ShortCut != null).Where(i => kvp1.Key == i.ShortCut.Key).Sum(i => i.HoursDuration);
+        kvp.Value.UsedInMonth = this.Days.SelectMany(d => d.Items).Where(i => i.ShortCut != null).Where(i => Equals(kvp1.Value, i.ShortCut)).Sum(i => i.HoursDuration);
         kvp.Value.UsageHistory = new ObservableCollection<double>();
         foreach (var workDay in Days) {
-          kvp.Value.UsageHistory.Add(workDay.Items.Where(i => i.ShortCut != null).Where(i => kvp1.Key == i.ShortCut.Key).Sum(i => i.HoursDuration));
+          kvp.Value.UsageHistory.Add(workDay.Items.Where(i => i.ShortCut != null).Where(i => Equals(kvp1.Value, i.ShortCut)).Sum(i => i.HoursDuration));
         }
       }
     }

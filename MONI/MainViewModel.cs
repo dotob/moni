@@ -29,6 +29,7 @@ namespace MONI
     Calendar calendar = new GregorianCalendar();
     private MoniSettings editPreferences;
     private Visibility projectListVisibility;
+    private bool loadingData;
 
     public MainViewModel() {
       
@@ -91,8 +92,22 @@ namespace MONI
     public WorkYear WorkYear {
       get { return this.workYear; }
       set {
+        if (this.workYear != null) {
+          this.workYear.PropertyChanged -= new PropertyChangedEventHandler(workYear_PropertyChanged);
+        }
         this.workYear = value;
+        if (this.workYear != null) {
+          this.workYear.PropertyChanged += new PropertyChangedEventHandler(workYear_PropertyChanged);
+        }
         NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.WorkYear);
+      }
+    }
+
+    void workYear_PropertyChanged(object sender, PropertyChangedEventArgs e) {
+      if (e.PropertyName == "HoursDuration") {
+        if (!loadingData) {
+          this.Save();
+        }
       }
     }
 
@@ -169,7 +184,9 @@ namespace MONI
         this.Save();
       }
       this.WorkYear = new WorkYear(year, this.monlistSettings.ParserSettings.ShortCuts, this.monlistSettings.MainSettings.HitListLookBackInWeeks);
+      this.loadingData = true;
       this.persistenceLayer.SetDataOfYear(this.WorkYear);
+      this.loadingData = false;
     }
 
     public void Save() {

@@ -25,7 +25,8 @@ namespace MONI.Data
     public WorkDayParserResult Parse(string userInput, ref WorkDay wdToFill) {
       // remove newlines
       userInput = userInput.Replace(Environment.NewLine, "");
-      userInput = PreProcessWholeDayExpansion(userInput, wdToFill.DateTime);
+      ShortCut wholeDayShortcut;
+      userInput = PreProcessWholeDayExpansion(userInput, wdToFill.DateTime, out wholeDayShortcut);
       bool ignoreBreakSettings = userInput.StartsWith("//");
       if (ignoreBreakSettings) {
         userInput = userInput.Substring(2);
@@ -44,7 +45,7 @@ namespace MONI.Data
             List<WorkItemTemp> tmpList = new List<WorkItemTemp>();
             foreach (var wdItemString in wdItemsAsString) {
               WorkItemTemp workItem;
-              if (this.GetWDItem(wdItemString, out workItem, out error, wdToFill.DateTime)) {
+              if (this.GetWDItem(wdItemString, out workItem, out error, wdToFill.DateTime, wholeDayShortcut)) {
                 tmpList.Add(workItem);
               } else {
                 ret.Error = error;
@@ -72,16 +73,18 @@ namespace MONI.Data
       return ret;
     }
 
-    private string PreProcessWholeDayExpansion(string userInput, DateTime dateTime) {
+    private string PreProcessWholeDayExpansion(string userInput, DateTime dateTime, out ShortCut wholeDayShortcut) {
       if (this.settings != null) {
         var currentShortcuts = this.settings.GetValidShortCuts(dateTime);
         if (currentShortcuts.Any(sc => sc.WholeDayExpansion)) {
           var dic = currentShortcuts.Where(sc => sc.WholeDayExpansion).FirstOrDefault(sc => sc.Key == userInput);
           if (dic != null) {
+            wholeDayShortcut = dic;
             return dic.Expansion;
           }
         }
       }
+      wholeDayShortcut = null;
       return userInput;
     }
 
@@ -130,7 +133,7 @@ namespace MONI.Data
       return success;
     }
 
-    private bool GetWDItem(string wdItemString, out WorkItemTemp workItem, out string error, DateTime dateTime) {
+    private bool GetWDItem(string wdItemString, out WorkItemTemp workItem, out string error, DateTime dateTime, ShortCut wholeDayShortcut) {
       bool success = false;
       workItem = null;
       error = string.Empty;
@@ -178,12 +181,13 @@ namespace MONI.Data
                   if (!string.IsNullOrEmpty(projectPosDescString.Token("(+", 2).Token(")", 1))) {
                     // replace description in expanded
                     expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + expanded.Token("(", 2).Token(")", 1) + projectPosDescString.Token("(+", 2).Token(")", 1) + ")";
-                  }
-                  else if (!string.IsNullOrEmpty(projectPosDescString.Token("(", 2).Token(")", 1))) {
+                  } else if (!string.IsNullOrEmpty(projectPosDescString.Token("(", 2).Token(")", 1))) {
                     // replace description in expanded
                     expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + projectPosDescString.Token("(", 2).Token(")", 1) + ")";
                   }
                   projectPosDescString = expanded;
+                } else if(wholeDayShortcut!=null) {
+                  workItem.ShortCut = wholeDayShortcut;
                 }
               }
 

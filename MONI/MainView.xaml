@@ -21,6 +21,7 @@
       <Util1:Null2CollapsedConverter x:Key="null2CollapsedConverter" />
       <Util1:FalseToCollapsedConverter x:Key="false2CollapsedConverter" />
       <Util1:TimeItemConverter x:Key="timeItemConverter" />
+      <Util1:ScaleDoubleConverter x:Key="scaleDoubleConverter" />
       <SolidColorBrush x:Key="lightText"
                        Color="DarkSlateGray" />
 
@@ -555,7 +556,7 @@
                   </ItemsControl.ItemsPanel>
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                      <Border Height="{Binding}"
+                      <Border Height="{Binding Converter={StaticResource scaleDoubleConverter}, ConverterParameter=2}"
                               Background="#CC119EDA"
                               VerticalAlignment="Bottom"
                               SnapsToDevicePixels="True"

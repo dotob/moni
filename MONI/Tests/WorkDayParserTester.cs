@@ -361,5 +361,44 @@ namespace MONI.Tests {
       Assert.AreEqual(8, wd.HoursDuration);
 
     }
+
+
+    [Test]
+    public void WDParser_ShortcutLinkInWorkItem_NormalShortcut() {
+      WorkDay wd = new WorkDay(1, 1, 1, null);
+      var abbr = new List<ShortCut>();
+      var shortCut = new ShortCut("a", "11111-111(aa)");
+      abbr.Add(shortCut);
+      WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr };
+      WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+      var workItemParserResult = wdp.Parse("8,8;a", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(8), new TimeItem(16), "11111", "111","aa")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+      Assert.AreEqual(8, wd.HoursDuration);
+      Assert.AreEqual(shortCut, wd.Items.First().ShortCut);
+    }
+
+    [Test]
+    public void WDParser_ShortcutLinkInWorkItem_WholeDayShortcut() {
+      WorkDay wd = new WorkDay(1, 1, 1, null);
+      var abbr = new List<ShortCut>();
+      var shortCut = new ShortCut("a", "8,8;11111-111(aa)") { WholeDayExpansion = true };
+      abbr.Add(shortCut);
+      WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr };
+      WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+      var workItemParserResult = wdp.Parse("a", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(8), new TimeItem(16), "11111", "111","aa")
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+      Assert.AreEqual(8, wd.HoursDuration);
+      Assert.AreEqual(shortCut, wd.Items.First().ShortCut);
+    }
   }
 }
