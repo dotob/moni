@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using Newtonsoft.Json;
 using System.Linq;
@@ -130,6 +131,21 @@ namespace MONI.Data
         var tmp = this.PropertyChanged;
         if (tmp != null) {
           tmp(this, new PropertyChangedEventArgs("UsedInMonth"));
+        }
+      }
+    }
+    
+    private ObservableCollection<double> usageHistory;
+    public ObservableCollection<double> UsageHistory {
+      get { return this.usageHistory; }
+      set {
+        if (this.usageHistory == value) {
+          return;
+        }
+        this.usageHistory = value;
+        var tmp = this.PropertyChanged;
+        if (tmp != null) {
+          tmp(this, new PropertyChangedEventArgs("UsageHistory"));
         }
       }
     }
