@@ -18,6 +18,7 @@ namespace MONI
       this.InitializeComponent();
       this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
       this.CheckForMonlist();
+      this.Closed += (sender, e) => this.ViewModel.Save();
     }
 
     private void CheckForMonlist() {
@@ -28,10 +29,6 @@ namespace MONI
     }
 
     public MainViewModel ViewModel { get; set; }
-
-    private void mv_Closing(object sender, System.ComponentModel.CancelEventArgs e) {
-      this.ViewModel.Save();
-    }
 
     private void mv_PreviewKeyDown(object sender, KeyEventArgs e) {
       if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) {

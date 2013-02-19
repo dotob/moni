@@ -7,9 +7,9 @@
                       Title="MONI"
                       Height="800"
                       Width="900"
-                      Closing="mv_Closing"
                       PreviewKeyDown="mv_PreviewKeyDown"
                       x:Name="mv"
+                      WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
                       Icon="/MONI;component/Resources/appbar.clock.png">
 

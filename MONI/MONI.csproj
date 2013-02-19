@@ -78,6 +78,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Data\CSVExporter.cs" />
+    <Compile Include="Data\CustomWindowPlacementSettings.cs" />
     <Compile Include="Data\MoniSettings.cs" />
     <Compile Include="Data\SpecialDays\GermanSpecialDay.cs" />
     <Compile Include="Data\SpecialDays\GermanSpecialDays.cs" />

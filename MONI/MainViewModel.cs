@@ -30,12 +30,14 @@ namespace MONI
     private MoniSettings editPreferences;
     private Visibility projectListVisibility;
     private bool loadingData;
+    private CustomWindowPlacementSettings customWindowPlacementSettings;
 
     public MainViewModel() {
       
       this.monlistSettings = ReadSettings(settingsFile);
       this.ProjectListVisibility = this.monlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.Settings = this.monlistSettings;
+      this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.Settings);
       WorkDayParser.Instance = new WorkDayParser(this.Settings.ParserSettings);
 
       // read persistencedata
@@ -56,6 +58,17 @@ namespace MONI
     private static void WriteSettings(MoniSettings settings, string settingsFile) {
       var settingsAsJson = JsonConvert.SerializeObject(settings, Formatting.Indented);
       File.WriteAllText(settingsFile, settingsAsJson);
+    }
+
+    public CustomWindowPlacementSettings CustomWindowPlacementSettings {
+      get { return customWindowPlacementSettings; }
+      set {
+        if (Equals(value, this.customWindowPlacementSettings)) {
+          return;
+        }
+        this.customWindowPlacementSettings = value;
+        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.CustomWindowPlacementSettings);
+      }
     }
 
     public ICommand PreviousWeekCommand {

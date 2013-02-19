@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using MahApps.Metro.Native;
 using Newtonsoft.Json;
 using System.Linq;
 
@@ -23,6 +24,7 @@ namespace MONI.Data
     public string MonlistExecutablePath { get; set; }
     public int HitListLookBackInWeeks { get; set; }
     public bool ShowProjectHitList { get; set; }
+    public WINDOWPLACEMENT? Placement { get; set; }
   }
 
   public class WorkDayParserSettings
