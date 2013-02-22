@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using MahApps.Metro.Native;
 using Newtonsoft.Json;
 using System.Linq;
@@ -67,95 +65,4 @@ namespace MONI.Data
     public List<ShortCut> ShortCuts { get; set; }
   }
 
-  public class ShortCut
-  {
-    public ShortCut() {
-      this.ID = Guid.NewGuid().ToString();
-      this.ValidFrom = DateTime.MinValue;
-      this.Expansion = string.Empty;
-    }
-
-    public ShortCut(string key, string expansion)
-      : this() {
-      this.Key = key;
-      this.Expansion = expansion;
-    }
-
-    public ShortCut(string key, string expansion, DateTime validFrom)
-      : this(key, expansion) {
-      ValidFrom = validFrom;
-    }
-
-    [JsonIgnore]
-    public string ID { get; set; }
-    public string Key { get; set; }
-    public string Expansion { get; set; }
-    public bool WholeDayExpansion { get; set; }
-    public DateTime ValidFrom { get; set; }
-
-    public override bool Equals(object obj) {
-      if (obj is ShortCut) {
-        var other = (ShortCut)obj;
-        return this.ID == other.ID;
-      }
-      return false;
-    }
-
-    public void GetData(ShortCut sc) {
-      this.Key = sc.Key;
-      this.Expansion = sc.Expansion;
-      this.WholeDayExpansion = sc.WholeDayExpansion;
-      this.ValidFrom = sc.ValidFrom;
-    }
-
-    public override string ToString() {
-      return string.Format("{0}, {1}, {2}, {3}", Key, Expansion, ValidFrom, WholeDayExpansion);
-    }
-  }
-
-  public class ShortCutStatistic : ShortCut, INotifyPropertyChanged
-  {
-    public ShortCutStatistic(ShortCut sc)
-      : base(sc.Key, sc.Expansion) {
-      this.ID = sc.ID;
-      this.WholeDayExpansion = sc.WholeDayExpansion;
-      this.ValidFrom = sc.ValidFrom;
-    }
-
-    private double usedInMonth;
-    public double UsedInMonth {
-      get { return this.usedInMonth; }
-      set {
-        if (this.usedInMonth == value) {
-          return;
-        }
-        this.usedInMonth = value;
-        var tmp = this.PropertyChanged;
-        if (tmp != null) {
-          tmp(this, new PropertyChangedEventArgs("UsedInMonth"));
-        }
-      }
-    }
-    
-    private ObservableCollection<double> usageHistory;
-    public ObservableCollection<double> UsageHistory {
-      get { return this.usageHistory; }
-      set {
-        if (this.usageHistory == value) {
-          return;
-        }
-        this.usageHistory = value;
-        var tmp = this.PropertyChanged;
-        if (tmp != null) {
-          tmp(this, new PropertyChangedEventArgs("UsageHistory"));
-        }
-      }
-    }
-
-    #region Implementation of INotifyPropertyChanged
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-  }
 }

@@ -10,7 +10,7 @@ namespace MONI.Tests
   {
     [Test]
     public void CreatedShortCutShouldShownInNextMonth() {
-      var vm = new MainViewModel();
+      var vm = new MainViewModel(null);
 
       var newSc = new ShortCut();
       newSc.Key = newSc.ID;

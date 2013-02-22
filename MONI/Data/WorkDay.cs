@@ -137,6 +137,13 @@ namespace MONI.Data {
       get { return new DateTime(this.year, this.month, this.day); }
     }
 
+    public bool IsToday {
+      get {
+        var now = DateTime.Now;
+        return now.Year == this.year && now.Month == this.month && now.Day == this.day;
+      }
+    }
+
     #region INotifyPropertyChanged Members
 
     public event PropertyChangedEventHandler PropertyChanged;

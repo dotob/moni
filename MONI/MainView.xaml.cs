@@ -14,7 +14,7 @@ namespace MONI
   public partial class MainView : MetroWindow
   {
     public MainView() {
-      this.ViewModel = new MainViewModel();
+      this.ViewModel = new MainViewModel(this.Dispatcher);
       this.InitializeComponent();
       this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
       this.CheckForMonlist();

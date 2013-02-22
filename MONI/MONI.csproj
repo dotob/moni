@@ -80,6 +80,8 @@
     <Compile Include="Data\CSVExporter.cs" />
     <Compile Include="Data\CustomWindowPlacementSettings.cs" />
     <Compile Include="Data\MoniSettings.cs" />
+    <Compile Include="Data\ShortCut.cs" />
+    <Compile Include="Data\ShortCutStatistic.cs" />
     <Compile Include="Data\SpecialDays\GermanSpecialDay.cs" />
     <Compile Include="Data\SpecialDays\GermanSpecialDays.cs" />
     <Compile Include="Data\SpecialDays\ISpecialDay.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="Tests\PersistentTester.cs" />
     <Compile Include="Tests\SettingsTester.cs" />
     <Compile Include="Tests\WorkDayParserTester.cs" />
+    <Compile Include="Util\TodayColorConverter.cs" />
     <Compile Include="Util\ScaleDoubleConverter.cs" />
     <Compile Include="Util\TimeItemConverter.cs" />
     <Compile Include="Util\DurationBGColorConverter.cs" />

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Linq;
+using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
 using MONI.Data;
 using MONI.Util;
@@ -32,8 +34,9 @@ namespace MONI
     private bool loadingData;
     private CustomWindowPlacementSettings customWindowPlacementSettings;
 
-    public MainViewModel() {
-      
+    private DispatcherTimer throttleSaveAndCalc;
+
+    public MainViewModel(Dispatcher dispatcher) {
       this.monlistSettings = ReadSettings(settingsFile);
       this.ProjectListVisibility = this.monlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.Settings = this.monlistSettings;
@@ -45,6 +48,15 @@ namespace MONI
       this.csvExporter = new CSVExporter(this.monlistSettings.MainSettings.DataDirectory);
       this.persistenceLayer.ReadData();
       this.SelectToday(); // sets data from persistencelayer
+      if (dispatcher != null) {
+        this.throttleSaveAndCalc = new DispatcherTimer(DispatcherPriority.DataBind, dispatcher);
+        this.throttleSaveAndCalc.Tick += new EventHandler(throttleSaveAndCalc_Tick);
+      }
+    }
+
+    private void throttleSaveAndCalc_Tick(object sender, EventArgs e) {
+      this.SaveAndCalc();
+      this.throttleSaveAndCalc.Stop();
     }
 
     private static MoniSettings ReadSettings(string settingsFile) {
@@ -72,7 +84,7 @@ namespace MONI
     }
 
     public ICommand PreviousWeekCommand {
-      get { return this.previousWeekCommand ?? (this.previousWeekCommand = new DelegateCommand(this.SelectPreviousWeek, ()=>true)); }
+      get { return this.previousWeekCommand ?? (this.previousWeekCommand = new DelegateCommand(this.SelectPreviousWeek, () => true)); }
     }
 
     public ICommand NextWeekCommand {
@@ -119,9 +131,17 @@ namespace MONI
     void workYear_PropertyChanged(object sender, PropertyChangedEventArgs e) {
       if (e.PropertyName == "HoursDuration") {
         if (!loadingData) {
-          this.Save();
+          // try next save in 500ms
+          this.throttleSaveAndCalc.Stop();
+          this.throttleSaveAndCalc.Interval = TimeSpan.FromMilliseconds(500);
+          this.throttleSaveAndCalc.Start();
         }
       }
+    }
+
+    private void SaveAndCalc() {
+      this.Save();
+      this.WorkMonth.CalcShortCutStatistic();
     }
 
     public ShortCut EditShortCut {
@@ -141,7 +161,7 @@ namespace MONI
     }
     public Visibility ProjectListVisibility {
       get { return this.projectListVisibility; }
-      private set { 
+      private set {
         this.projectListVisibility = value;
         NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.ProjectListVisibility);
       }
@@ -246,7 +266,7 @@ namespace MONI
 
     public void MoveShortcutDown(ShortCut sc) {
       var idx = this.monlistSettings.ParserSettings.ShortCuts.IndexOf(sc);
-      if (idx < this.monlistSettings.ParserSettings.ShortCuts.Count-1) {
+      if (idx < this.monlistSettings.ParserSettings.ShortCuts.Count - 1) {
         this.monlistSettings.ParserSettings.ShortCuts.Remove(sc);
         this.monlistSettings.ParserSettings.ShortCuts.Insert(idx + 1, sc);
       }
