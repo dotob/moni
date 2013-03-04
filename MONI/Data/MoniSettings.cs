@@ -18,11 +18,16 @@ namespace MONI.Data
 
   public class MainSettings
   {
+    public MainSettings() {
+      HoursPerDay = 8;
+    }
+
     public string DataDirectory { get; set; }
     public string MonlistExecutablePath { get; set; }
     public int HitListLookBackInWeeks { get; set; }
     public bool ShowProjectHitList { get; set; }
     public WINDOWPLACEMENT? Placement { get; set; }
+    public float HoursPerDay { get; set; }
   }
 
   public class WorkDayParserSettings

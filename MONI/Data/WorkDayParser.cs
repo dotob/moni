@@ -332,6 +332,20 @@ namespace MONI.Data
       foundPartsIndex = -1;
       return string.Empty;
     }
+
+    public string AddCurrentTime(string originalString) {
+      // test for daystart
+      string newString = originalString;
+      if (string.IsNullOrWhiteSpace(originalString)) {
+        newString += TimeItem.Now.ToString();
+      } else {
+        if (!originalString.EndsWith(itemSeparator.ToString())) {
+          newString += itemSeparator;
+        }
+        newString += endTimeStartChar + TimeItem.Now.ToString();
+      }
+      return newString;
+    }
   }
 
   public enum INCDEC_OPERATOR

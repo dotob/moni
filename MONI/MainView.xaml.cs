@@ -51,6 +51,18 @@ namespace MONI
               e.Handled = true;
             }
             break;
+          case Key.N:
+            var activeTB = e.OriginalSource as TextBox;
+            if (activeTB != null) {
+              var currentDay = activeTB.DataContext as WorkDay;
+              if (currentDay != null) {
+                this.ViewModel.AddCurrentTime(currentDay);
+                // set cursor to end
+                activeTB.SelectionStart = currentDay.OriginalString.Length;
+              }
+              e.Handled = true;
+            }
+            break;
         }
       } else if (e.Key == Key.Escape) {
         // goto today
@@ -145,12 +157,14 @@ namespace MONI
           var text = tb.Text;
           tb.Text = WorkDayParser.Instance.Increment(text, 1, ref selectionStart);
           tb.SelectionStart = selectionStart;
+          e.Handled = true;
         }
         if (e.Key == Key.Down) {
           var selectionStart = tb.SelectionStart;
           var text = tb.Text;
           tb.Text = WorkDayParser.Instance.Decrement(text, 1, ref selectionStart);
           tb.SelectionStart = selectionStart;
+          e.Handled = true;
         }
       }
     }

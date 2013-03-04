@@ -302,5 +302,9 @@ namespace MONI
         Console.WriteLine(exception);
       }
     }
+
+    public void AddCurrentTime(WorkDay currentDay) {
+      currentDay.OriginalString = WorkDayParser.Instance.AddCurrentTime(currentDay.OriginalString);
+    }
   }
 }

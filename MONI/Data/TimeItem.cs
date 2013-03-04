@@ -32,6 +32,12 @@ namespace MONI.Data {
 
     public int Hour { get; private set; }
     public int Minute { get; private set; }
+    public static TimeItem Now {
+      get {
+        var now = DateTime.Now;
+        int minutes = now.Minute - (now.Minute % 15);
+        return new TimeItem(now.Hour, minutes); }
+    }
 
     #region IComparable<TimeItem> Members
 
