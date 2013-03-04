@@ -4,7 +4,7 @@ using MONI.Data;
 using NUnit.Framework;
 
 namespace MONI.Tests {
-  public class WorkDayParserTester {
+  public class WorkDayParserMainTester {
     [Test]
     public void WDParser_EmptyString_ReturnError() {
       WorkDay wd = new WorkDay(1, 1, 1, null);

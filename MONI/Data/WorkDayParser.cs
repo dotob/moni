@@ -8,9 +8,10 @@ namespace MONI.Data
 {
   public class WorkDayParser
   {
-    private readonly string dayStartSeparator = ",";
-    private readonly string hourProjectInfoSeparator = ";";
+    private readonly char dayStartSeparator = ',';
+    private readonly char hourProjectInfoSeparator = ';';
     private readonly char itemSeparator = ',';
+    private readonly char endTimeStartChar = '-';
     private readonly WorkDayParserSettings settings;
 
     public WorkDayParser() {
@@ -26,7 +27,7 @@ namespace MONI.Data
       // remove newlines
       userInput = userInput.Replace(Environment.NewLine, "");
       ShortCut wholeDayShortcut;
-      userInput = PreProcessWholeDayExpansion(userInput, wdToFill.DateTime, out wholeDayShortcut);
+      userInput = this.PreProcessWholeDayExpansion(userInput, wdToFill.DateTime, out wholeDayShortcut);
       bool ignoreBreakSettings = userInput.StartsWith("//");
       if (ignoreBreakSettings) {
         userInput = userInput.Substring(2);
@@ -148,9 +149,9 @@ namespace MONI.Data
         }
       } else {
         // workitem: <count of hours|-endtime>;<projectnumber>-<positionnumber>[(<description>)]
-        var timeString = wdItemString.Token(this.hourProjectInfoSeparator, 1).Trim();
+        var timeString = wdItemString.Token(this.hourProjectInfoSeparator.ToString(), 1).Trim();
         if (!string.IsNullOrEmpty(timeString)) {
-          if (timeString.StartsWith("-")) {
+          if (timeString.StartsWith(this.endTimeStartChar.ToString())) {
             TimeItem ti;
             if (TimeItem.TryParse(timeString.Substring(1), out ti)) {
               workItem = new WorkItemTemp();
@@ -168,7 +169,7 @@ namespace MONI.Data
             }
           }
           if (workItem != null) {
-            var projectPosDescString = wdItemString.Token(this.hourProjectInfoSeparator, 2).Trim();
+            var projectPosDescString = wdItemString.Token(this.hourProjectInfoSeparator.ToString(), 2).Trim();
             if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
               if (this.settings != null) {
@@ -186,7 +187,7 @@ namespace MONI.Data
                     expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + projectPosDescString.Token("(", 2).Token(")", 1) + ")";
                   }
                   projectPosDescString = expanded;
-                } else if(wholeDayShortcut!=null) {
+                } else if (wholeDayShortcut != null) {
                   workItem.ShortCut = wholeDayShortcut;
                 }
               }
@@ -217,7 +218,7 @@ namespace MONI.Data
 
     private bool GetDayStartTime(string input, out TimeItem dayStartTime, out string remainingString, out string error) {
       bool success = false;
-      var dayStartToken = input.Token(this.dayStartSeparator, 1); // do not trim here, need original length later
+      var dayStartToken = input.Token(this.dayStartSeparator.ToString(), 1); // do not trim here, need original length later
       if (!string.IsNullOrEmpty(dayStartToken.Trim())) {
         if (TimeItem.TryParse(dayStartToken, out dayStartTime)) {
           remainingString = input.Substring(dayStartToken.Length + 1);
@@ -234,6 +235,109 @@ namespace MONI.Data
       }
       return success;
     }
+
+    public string Increment(string text, int stepsToIncrementBy, ref int selectionStart) {
+      return this.IncDec(text, stepsToIncrementBy, INCDEC_OPERATOR.INCREMENT, ref selectionStart);
+    }
+
+    public string Decrement(string text, int stepsToIncrementBy, ref int selectionStart) {
+      return this.IncDec(text, stepsToIncrementBy, INCDEC_OPERATOR.DECREMENT, ref selectionStart);
+    }
+
+    public string IncDec(string text, int stepsToIncrementBy, INCDEC_OPERATOR incDec, ref int selectionStart) {
+      if (!string.IsNullOrWhiteSpace(text)) {
+        var hoursToIncrementBy = stepsToIncrementBy * 15 / 60f;
+        var parts = this.SplitIntoParts(text).ToList();
+        int idx;
+        var part = this.FindPositionPart(parts, selectionStart, out idx);
+        var newPart = part;
+        if (idx == 0) {
+          // is daystart, has no -
+          TimeItem ti;
+          if (TimeItem.TryParse(part, out ti)) {
+            var tiIncremented = IncDecTimeItem(incDec, ti, hoursToIncrementBy);
+            newPart = string.Format("{0}", tiIncremented);
+          }
+        } else if (part.StartsWith(this.endTimeStartChar.ToString())) {
+          TimeItem ti;
+          if (TimeItem.TryParse(part.TrimStart(this.endTimeStartChar), out ti)) {
+            var tiIncremented = IncDecTimeItem(incDec, ti, hoursToIncrementBy);
+            newPart = string.Format("-{0}", tiIncremented);
+          }
+        } else {
+          double t;
+          if (double.TryParse(part, NumberStyles.Any, CultureInfo.InvariantCulture, out t)) {
+            double hIncremented;
+            if (incDec == INCDEC_OPERATOR.INCREMENT) {
+              hIncremented = t + hoursToIncrementBy;
+            } else {
+              hIncremented = t - hoursToIncrementBy;
+            }
+            newPart = hIncremented.ToString(CultureInfo.InvariantCulture);
+          }
+        }
+        if (idx >= 0) {
+          parts[idx] = newPart;
+        }
+        return parts.Aggregate(string.Empty, (aggr, s) => aggr + s);
+      }
+      return string.Empty;
+    }
+
+    private static TimeItem IncDecTimeItem(INCDEC_OPERATOR incDec, TimeItem ti, float hoursToIncrementBy) {
+      TimeItem tiIncremented;
+      if (incDec == INCDEC_OPERATOR.INCREMENT) {
+        tiIncremented = ti + hoursToIncrementBy;
+      } else {
+        tiIncremented = ti - hoursToIncrementBy;
+      }
+      return tiIncremented;
+    }
+
+    public IList<string> SplitIntoParts(string text) {
+      var splitted = new List<string>();
+      string tmp = string.Empty;
+      foreach (char c in text) {
+        if (c == this.itemSeparator || c == this.hourProjectInfoSeparator) {
+          splitted.Add(tmp);
+          splitted.Add(c.ToString());
+          tmp = string.Empty;
+        } else {
+          tmp += c;
+        }
+      }
+      splitted.Add(tmp);
+      return splitted;
+    }
+
+    public string FindPositionPart(IList<string> parts, int position, out int foundPartsIndex) {
+      var partsComplete = parts.Aggregate(string.Empty, (aggr, s) => aggr + s);
+      for (int i = 0; i < parts.Count(); i++) {
+        var partsLower = parts.Take(i).Aggregate(string.Empty, (aggr, s) => aggr + s);
+        var partsUpper = parts.Take(i + 1).Aggregate(string.Empty, (aggr, s) => aggr + s);
+
+        var b = partsLower.Length;
+        var t = partsUpper.Length;
+
+        if ((position >= b && position < t) || partsUpper == partsComplete) {
+          if (parts[i] == this.itemSeparator.ToString() || parts[i] == this.hourProjectInfoSeparator.ToString()) {
+            foundPartsIndex = i - 1;
+            return parts.ElementAt(i - 1);
+          } else {
+            foundPartsIndex = i;
+            return parts.ElementAt(i);
+          }
+        }
+      }
+      foundPartsIndex = -1;
+      return string.Empty;
+    }
+  }
+
+  public enum INCDEC_OPERATOR
+  {
+    INCREMENT,
+    DECREMENT
   }
 
   public class WorkDayParserResult

@@ -130,5 +130,29 @@ namespace MONI
     private void ToMonlist_Button_Click(object sender, RoutedEventArgs e) {
       // TODO
     }
+
+    private void WorkDayTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
+      this.ActiveInputTextBox = sender as TextBox;
+    }
+
+    protected TextBox ActiveInputTextBox { get; set; }
+
+    private void WorkDayTextBox_OnKeyDown(object sender, KeyEventArgs e) {
+      var tb = sender as TextBox;
+      if (tb != null) {
+        if (e.Key == Key.Up) {
+          var selectionStart = tb.SelectionStart;
+          var text = tb.Text;
+          tb.Text = WorkDayParser.Instance.Increment(text, 1, ref selectionStart);
+          tb.SelectionStart = selectionStart;
+        }
+        if (e.Key == Key.Down) {
+          var selectionStart = tb.SelectionStart;
+          var text = tb.Text;
+          tb.Text = WorkDayParser.Instance.Decrement(text, 1, ref selectionStart);
+          tb.SelectionStart = selectionStart;
+        }
+      }
+    }
   }
 }
