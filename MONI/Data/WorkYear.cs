@@ -13,7 +13,7 @@ namespace MONI.Data
     private readonly int hitListLookBackInWeeks;
     public int Year { get; set; }
 
-    public WorkYear(int year, IEnumerable<ShortCut> shortCuts, int hitListLookBackInWeeks) {
+    public WorkYear(int year, IEnumerable<ShortCut> shortCuts, int hitListLookBackInWeeks, float hoursPerDay) {
       this.hitListLookBackInWeeks = hitListLookBackInWeeks;
       this.Year = year;
       this.Months = new ObservableCollection<WorkMonth>();
@@ -23,7 +23,7 @@ namespace MONI.Data
 
       var cal = new GregorianCalendar();
       for (int month = 1; month <= cal.GetMonthsInYear(year); month++) {
-        WorkMonth wm = new WorkMonth(year, month, germanSpecialDays, shortCuts);
+        WorkMonth wm = new WorkMonth(year, month, germanSpecialDays, shortCuts, hoursPerDay);
         this.Months.Add(wm);
         foreach (var workWeek in wm.Weeks) {
           this.Weeks.Add(workWeek);

@@ -14,6 +14,8 @@ namespace MONI.Data
       var ms = new MainSettings { DataDirectory = AppDomain.CurrentDomain.BaseDirectory };
       return new MoniSettings { ParserSettings = new WorkDayParserSettings(), MainSettings = ms };
     }
+
+    public static MoniSettings Current { get; set; }
   }
 
   public class MainSettings

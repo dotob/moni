@@ -11,11 +11,13 @@ namespace MONI.Data
   public class WorkMonth : INotifyPropertyChanged
   {
     private readonly int month;
+    private readonly float hoursPerDay;
     private readonly int year;
 
-    public WorkMonth(int year, int month, GermanSpecialDays specialDays, IEnumerable<ShortCut> shortCuts) {
+    public WorkMonth(int year, int month, GermanSpecialDays specialDays, IEnumerable<ShortCut> shortCuts, float hoursPerDay) {
       this.year = year;
       this.month = month;
+      this.hoursPerDay = hoursPerDay;
       this.Weeks = new ObservableCollection<WorkWeek>();
       this.Days = new ObservableCollection<WorkDay>();
       this.ShortCutStatistic = new ObservableCollection<KeyValuePair<string, ShortCutStatistic>>();
@@ -50,6 +52,8 @@ namespace MONI.Data
 
     private double previewHours;
     private ObservableCollection<KeyValuePair<string, ShortCutStatistic>> shortCutStatistic;
+    private double necessaryHours;
+
     public double PreviewHours {
       get { return this.previewHours; }
       set {
@@ -121,6 +125,20 @@ namespace MONI.Data
       }
     }
 
+    public double NecessaryHours {
+      get { return necessaryHours; }
+      set {
+        if (this.necessaryHours == value) {
+          return;
+        }
+        this.necessaryHours = value;
+        var tmp = this.PropertyChanged;
+        if (tmp != null) {
+          tmp(this, new PropertyChangedEventArgs("NecessaryHours"));
+        }
+      }
+    }
+
     #region INotifyPropertyChanged Members
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -150,7 +168,8 @@ namespace MONI.Data
     }
 
     private void CalcPreviewHours() {
-      this.PreviewHours = this.HoursDuration + this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working && d.HoursDuration == 0) * 8;
+      this.NecessaryHours = this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working) * hoursPerDay;
+      this.PreviewHours = this.HoursDuration + this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working && d.HoursDuration == 0) * hoursPerDay;
     }
 
     public override string ToString() {

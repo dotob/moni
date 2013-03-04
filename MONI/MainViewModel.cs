@@ -37,15 +37,15 @@ namespace MONI
     private DispatcherTimer throttleSaveAndCalc;
 
     public MainViewModel(Dispatcher dispatcher) {
-      this.monlistSettings = ReadSettings(settingsFile);
-      this.ProjectListVisibility = this.monlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
-      this.Settings = this.monlistSettings;
+      this.MonlistSettings = ReadSettings(settingsFile);
+      this.ProjectListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
+      this.Settings = this.MonlistSettings;
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.Settings);
       WorkDayParser.Instance = new WorkDayParser(this.Settings.ParserSettings);
 
       // read persistencedata
-      this.persistenceLayer = new TextFilePersistenceLayer(this.monlistSettings.MainSettings.DataDirectory);
-      this.csvExporter = new CSVExporter(this.monlistSettings.MainSettings.DataDirectory);
+      this.persistenceLayer = new TextFilePersistenceLayer(this.MonlistSettings.MainSettings.DataDirectory);
+      this.csvExporter = new CSVExporter(this.MonlistSettings.MainSettings.DataDirectory);
       this.persistenceLayer.ReadData();
       this.SelectToday(); // sets data from persistencelayer
       if (dispatcher != null) {
@@ -101,7 +101,7 @@ namespace MONI
 
         // don't know if this perfect, but it works
         if (value != null) {
-          value.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(value.StartDate));
+          value.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(value.StartDate));
         }
       }
     }
@@ -159,11 +159,20 @@ namespace MONI
         NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.EditPreferences);
       }
     }
+
     public Visibility ProjectListVisibility {
       get { return this.projectListVisibility; }
       private set {
         this.projectListVisibility = value;
         NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.ProjectListVisibility);
+      }
+    }
+
+    private MoniSettings MonlistSettings {
+      get { return this.monlistSettings; }
+      set { 
+        this.monlistSettings = value;
+        MoniSettings.Current = this.MonlistSettings;
       }
     }
 
@@ -216,7 +225,7 @@ namespace MONI
         // need to save years data
         this.Save();
       }
-      this.WorkYear = new WorkYear(year, this.monlistSettings.ParserSettings.ShortCuts, this.monlistSettings.MainSettings.HitListLookBackInWeeks);
+      this.WorkYear = new WorkYear(year, this.MonlistSettings.ParserSettings.ShortCuts, this.MonlistSettings.MainSettings.HitListLookBackInWeeks, this.MonlistSettings.MainSettings.HoursPerDay);
       this.loadingData = true;
       this.persistenceLayer.SetDataOfYear(this.WorkYear);
       this.loadingData = false;
@@ -227,7 +236,7 @@ namespace MONI
       this.persistenceLayer.SaveData(this.workYear);
       this.csvExporter.Export(this.WorkYear);
       // save settings
-      WriteSettings(this.monlistSettings, settingsFile);
+      WriteSettings(this.MonlistSettings, settingsFile);
     }
 
     public void CopyFromPreviousDay(WorkDay currentDay) {
@@ -238,53 +247,53 @@ namespace MONI
     }
 
     public void DeleteShortcut(ShortCut delsc) {
-      this.monlistSettings.ParserSettings.ShortCuts.Remove(delsc);
-      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
+      this.MonlistSettings.ParserSettings.ShortCuts.Remove(delsc);
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
       this.WorkWeek.Reparse();
     }
 
     public void SaveEditShortcut() {
-      var shortCut = this.monlistSettings.ParserSettings.ShortCuts.FirstOrDefault(sc => Equals(sc, this.EditShortCut));
+      var shortCut = this.MonlistSettings.ParserSettings.ShortCuts.FirstOrDefault(sc => Equals(sc, this.EditShortCut));
       if (shortCut != null) {
         shortCut.GetData(this.EditShortCut);
       } else {
-        this.monlistSettings.ParserSettings.ShortCuts.Add(this.EditShortCut);
+        this.MonlistSettings.ParserSettings.ShortCuts.Add(this.EditShortCut);
       }
       this.EditShortCut = null;
-      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
       this.WorkWeek.Reparse();
     }
 
     public void MoveShortcutUp(ShortCut sc) {
-      var idx = this.monlistSettings.ParserSettings.ShortCuts.IndexOf(sc);
+      var idx = this.MonlistSettings.ParserSettings.ShortCuts.IndexOf(sc);
       if (idx > 0) {
-        this.monlistSettings.ParserSettings.ShortCuts.Remove(sc);
-        this.monlistSettings.ParserSettings.ShortCuts.Insert(idx - 1, sc);
+        this.MonlistSettings.ParserSettings.ShortCuts.Remove(sc);
+        this.MonlistSettings.ParserSettings.ShortCuts.Insert(idx - 1, sc);
       }
-      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
     }
 
     public void MoveShortcutDown(ShortCut sc) {
-      var idx = this.monlistSettings.ParserSettings.ShortCuts.IndexOf(sc);
-      if (idx < this.monlistSettings.ParserSettings.ShortCuts.Count - 1) {
-        this.monlistSettings.ParserSettings.ShortCuts.Remove(sc);
-        this.monlistSettings.ParserSettings.ShortCuts.Insert(idx + 1, sc);
+      var idx = this.MonlistSettings.ParserSettings.ShortCuts.IndexOf(sc);
+      if (idx < this.MonlistSettings.ParserSettings.ShortCuts.Count - 1) {
+        this.MonlistSettings.ParserSettings.ShortCuts.Remove(sc);
+        this.MonlistSettings.ParserSettings.ShortCuts.Insert(idx + 1, sc);
       }
-      this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
+      this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
     }
 
     public void StartEditingPreferences() {
-      this.EditPreferences = this.monlistSettings;
+      this.EditPreferences = this.MonlistSettings;
     }
 
     public void SaveEditingPreferences() {
-      this.ProjectListVisibility = this.monlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
+      this.ProjectListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.EditPreferences = null;
     }
 
     public void CancelEditingPreferences() {
       this.EditPreferences = null;
-      this.monlistSettings = ReadSettings(settingsFile);
+      this.MonlistSettings = ReadSettings(settingsFile);
     }
 
     public void DragOver(IDropInfo dropInfo) {
@@ -295,9 +304,9 @@ namespace MONI
     public void Drop(IDropInfo dropInfo) {
       try {
         GongSolutions.Wpf.DragDrop.DragDrop.DefaultDropHandler.Drop(dropInfo);
-        this.monlistSettings.ParserSettings.ShortCuts.Clear();
-        this.monlistSettings.ParserSettings.ShortCuts.AddRange(dropInfo.TargetCollection.OfType<KeyValuePair<string, ShortCutStatistic>>().Select(kvp => kvp.Value));
-        this.WorkWeek.Month.ReloadShortcutStatistic(this.monlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
+        this.MonlistSettings.ParserSettings.ShortCuts.Clear();
+        this.MonlistSettings.ParserSettings.ShortCuts.AddRange(dropInfo.TargetCollection.OfType<KeyValuePair<string, ShortCutStatistic>>().Select(kvp => kvp.Value));
+        this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
       } catch (Exception exception) {
         Console.WriteLine(exception);
       }

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
+using MONI.Data;
 
 namespace MONI.Util
 {
@@ -10,7 +11,7 @@ namespace MONI.Util
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
       double duration = (double)value;
       Brush b = Brushes.Transparent;
-      if (duration < 8) {
+      if (duration < MoniSettings.Current.MainSettings.HoursPerDay) {
         b = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B3CD6969"));
       }
       return b;
