@@ -257,13 +257,13 @@ namespace MONI.Data
           TimeItem ti;
           if (TimeItem.TryParse(part, out ti)) {
             var tiIncremented = IncDecTimeItem(incDec, ti, hoursToIncrementBy);
-            newPart = string.Format("{0}", tiIncremented);
+            newPart = string.Format("{0}", tiIncremented.ToShortString());
           }
         } else if (part.StartsWith(this.endTimeStartChar.ToString())) {
           TimeItem ti;
           if (TimeItem.TryParse(part.TrimStart(this.endTimeStartChar), out ti)) {
             var tiIncremented = IncDecTimeItem(incDec, ti, hoursToIncrementBy);
-            newPart = string.Format("-{0}", tiIncremented);
+            newPart = string.Format("-{0}", tiIncremented.ToShortString());
           }
         } else {
           double t;

@@ -144,5 +144,11 @@ namespace MONI.Data {
       return string.Format("{0:00}{1:00}", this.Hour, this.Minute);
     }
 
+    public string ToShortString() {
+      if (Minute == 0) {
+        return string.Format("{0}", this.Hour);
+      }
+      return this.ToString();
+    }
   }
 }
