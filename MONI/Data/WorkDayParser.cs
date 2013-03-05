@@ -41,7 +41,8 @@ namespace MONI.Data
         // eg 7,... or 7:30,...
         if (this.GetDayStartTime(userInput, out dayStartTime, out remainingString, out error)) {
           // proceed with parsing items
-          var wdItemsAsString = remainingString.Split(this.itemSeparator).Select(i => i.Trim()).ToList();
+          var parts = remainingString.SplitWithIgnoreRegions(new[]{this.itemSeparator}, new IgnoreRegion('(',')'));
+          var wdItemsAsString = parts.Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
           if (wdItemsAsString.Any()) {
             List<WorkItemTemp> tmpList = new List<WorkItemTemp>();
             foreach (var wdItemString in wdItemsAsString) {

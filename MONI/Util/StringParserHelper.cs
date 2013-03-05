@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace MONI.Util {
-  public static class StringParserHelper {
+  public static class StringParserHelper
+  {
 
     /// <summary>
     ///   small convenience method to access token (parts) of a string
@@ -22,7 +25,7 @@ namespace MONI.Util {
     /// <param name="fallback">what will be returned if separator is not found</param>
     /// <returns></returns>
     public static string Token(this string s, string separator, int token, string fallback) {
-      if (!String.IsNullOrEmpty(s) && s.Contains(separator.ToString())) {
+      if (!String.IsNullOrEmpty(s) && s.Contains(separator)) {
         string[] tokens = s.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries);
         if (token > 0) {
           // means: start at the beginning
@@ -83,6 +86,52 @@ namespace MONI.Util {
     /// <returns></returns>
     public static string TokenReturnInputIfFail(this string s, string separator, int token) {
       return s.Token(separator, token, s);
-    } 
+    }
+
+    public static IEnumerable<string> SplitWithIgnoreRegions(this string s, char[] separators, params IgnoreRegion[] ignoreregions) {
+      if (separators == null) {
+        throw new ArgumentNullException("separators");
+      }
+      if (ignoreregions == null || !ignoreregions.Any()) {
+        throw new ArgumentNullException("ignoreregions");
+      }
+      if (!string.IsNullOrWhiteSpace(s)) {
+        Stack<char> irStack = new Stack<char>();
+        var splitted = new List<string>();
+        string tmp = string.Empty;
+        foreach (char c in s) {
+          var irMatch = ignoreregions.FirstOrDefault(ir => ir.Start == c);
+          if (irStack.Any() && irStack.Peek() == c) {
+            // found end of ignoreregion, remove last region info
+            irStack.Pop();
+            tmp += c;
+          } else if (irMatch != null) {
+            // found start of ignoreregion
+            irStack.Push(irMatch.End);
+            tmp += c;
+          } else if (separators.Any(sep => sep == c) && !irStack.Any()) {
+            // found valid separator, do split, but check if there are pending ignore regions in stack
+            splitted.Add(tmp);
+            tmp = string.Empty;
+          } else {
+            tmp += c;
+          }
+        }
+        splitted.Add(tmp);
+        return splitted;
+      }
+      return Enumerable.Empty<string>();
+    }
+  }
+
+  public class IgnoreRegion
+  {
+    public char Start;
+    public char End;
+
+    public IgnoreRegion(char start, char end) {
+      this.Start = start;
+      this.End = end;
+    }
   }
 }

@@ -91,6 +91,7 @@
     <Compile Include="Tests\MainViewModelTester.cs" />
     <Compile Include="Tests\PersistentTester.cs" />
     <Compile Include="Tests\SettingsTester.cs" />
+    <Compile Include="Tests\StringParserHelperTester.cs" />
     <Compile Include="Tests\WorkDayParserExtensionsTester.cs" />
     <Compile Include="Tests\WorkDayParserMainTester.cs" />
     <Compile Include="Util\LessThanColorConverter.cs" />

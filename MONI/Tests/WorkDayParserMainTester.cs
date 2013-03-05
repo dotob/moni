@@ -187,6 +187,19 @@ namespace MONI.Tests {
     }
 
     [Test]
+    public void WDParser_ParseDescriptionWithItemSeparator_GetDesc() {
+      WorkDay wd = new WorkDay(1, 1, 1, null);
+      WorkDayParser wdp = new WorkDayParser();
+      var workItemParserResult = wdp.Parse("9:15,7.25;11111-111(lal,ala)", ref wd);
+      Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+      CollectionAssert.IsNotEmpty(wd.Items);
+      CollectionAssert.AreEqual(new[] {
+                                        new WorkItem(new TimeItem(9, 15), new TimeItem(16, 30), "11111", "111","lal,ala", null)
+                                      }, wd.Items);
+      Assert.IsEmpty(workItemParserResult.Error);
+    }
+
+    [Test]
     public void WDParser_UseAbbreviationsAndDesc_ExpandAbbreviationsAndOverwriteDescFromAbbr() {
       WorkDay wd = new WorkDay(1, 1, 1, null);
       var abbr = new List<ShortCut>();
