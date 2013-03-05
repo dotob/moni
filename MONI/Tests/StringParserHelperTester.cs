@@ -43,5 +43,12 @@ namespace MONI.Tests
       var splitted = s.SplitWithIgnoreRegions(new[] {','}, new IgnoreRegion('(', ')'), new IgnoreRegion('{', '}'));
       CollectionAssert.AreEqual(new[] {string.Empty, "(,)", "{,}"}, splitted);
     }
+
+    [Test]
+    public void SplitWithIgnoreRegions_NestedRegions_SplitFine() {
+      string s = ",(,{,}),{,}";
+      var splitted = s.SplitWithIgnoreRegions(new[] {','}, new IgnoreRegion('(', ')'), new IgnoreRegion('{', '}'));
+      CollectionAssert.AreEqual(new[] {string.Empty, "(,{,})", "{,}"}, splitted);
+    }
   }
 }
