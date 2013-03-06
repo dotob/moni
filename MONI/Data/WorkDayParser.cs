@@ -219,10 +219,10 @@ namespace MONI.Data
 
     private bool GetDayStartTime(string input, out TimeItem dayStartTime, out string remainingString, out string error) {
       bool success = false;
-      var dayStartToken = input.Token(this.dayStartSeparator.ToString(), 1); // do not trim here, need original length later
+      var dayStartToken = input.Token(this.dayStartSeparator.ToString(), 1, input); // do not trim here, need original length later
       if (!string.IsNullOrEmpty(dayStartToken.Trim())) {
         if (TimeItem.TryParse(dayStartToken, out dayStartTime)) {
-          remainingString = input.Substring(dayStartToken.Length + 1);
+          remainingString = dayStartToken.Length < input.Length ? input.Substring(dayStartToken.Length + 1) : string.Empty; // seems like no daystartseparator
           error = string.Empty;
           success = true;
         } else {

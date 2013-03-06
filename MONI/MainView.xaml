@@ -324,7 +324,7 @@
                            Margin="3,2,2,2"
                            Tag="{Binding}"
                            AcceptsReturn="True"
-                           Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                           Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></TextBox>
 
                   <!-- day items -->
                   <ItemsControl Grid.Column="1"
@@ -730,9 +730,10 @@
                  Margin="0 0 350 230">settings</TextBlock>
       <Border Background="White"
               Width="600"
-              Height="240">
+              Height="250">
         <Grid VerticalAlignment="Center">
           <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -794,9 +795,16 @@
                    Margin="2"
                    IsEnabled="{Binding IsChecked, ElementName=autoPause}"
                    Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+          
+          <Label Grid.Column="0"
+                 Grid.Row="6">Stunden pro Tag [h]</Label>
+          <TextBox Grid.Column="1"
+                   Grid.Row="6"
+                   Margin="2"
+                   Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
           <UniformGrid Grid.Column="0"
-                       Grid.Row="6"
+                       Grid.Row="7"
                        Grid.ColumnSpan="2"
                        Columns="2">
             <Button Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
