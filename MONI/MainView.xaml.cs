@@ -35,11 +35,13 @@ namespace MONI
         switch (e.Key) {
           case Key.Left:
             if (this.ViewModel.PreviousWeekCommand.CanExecute(null)) {
+              FocusManager.SetFocusedElement(this, this.btnPrev);
               this.ViewModel.PreviousWeekCommand.Execute(null);
             }
             break;
           case Key.Right:
             if (this.ViewModel.NextWeekCommand.CanExecute(null)) {
+              FocusManager.SetFocusedElement(this, this.btnNext);
               this.ViewModel.NextWeekCommand.Execute(null);
             }
             break;

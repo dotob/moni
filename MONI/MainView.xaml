@@ -157,6 +157,7 @@
         <Button Grid.Column="0"
                 Grid.Row="0"
                 Grid.RowSpan="2"
+                x:Name="btnPrev"
                 Background="#537DBBDA"
                 Margin="0 3 0 2"
                 Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}">
@@ -248,6 +249,7 @@
         <Button Grid.Column="3"
                 Grid.Row="0"
                 Grid.RowSpan="2"
+                x:Name="btnNext"
                 Background="#537DBBDA"
                 Margin="0 3 11 2"
                 Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}">
