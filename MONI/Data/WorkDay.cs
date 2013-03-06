@@ -150,7 +150,7 @@ namespace MONI.Data {
     public string this[string columnName] {
       get {
         if (columnName == "OriginalString") {
-          if (!LastParseResult.Success) {
+          if (LastParseResult != null && !LastParseResult.Success) {
             return LastParseResult.Error;
           }
         }
