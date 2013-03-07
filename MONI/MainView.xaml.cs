@@ -14,7 +14,7 @@ namespace MONI
   public partial class MainView : MetroWindow
   {
     public MainView() {
-      this.ViewModel = new MainViewModel();
+      this.ViewModel = new MainViewModel(this.Dispatcher);
       this.InitializeComponent();
       this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
       this.CheckForMonlist();
@@ -35,11 +35,13 @@ namespace MONI
         switch (e.Key) {
           case Key.Left:
             if (this.ViewModel.PreviousWeekCommand.CanExecute(null)) {
+              FocusManager.SetFocusedElement(this, this.btnPrev);
               this.ViewModel.PreviousWeekCommand.Execute(null);
             }
             break;
           case Key.Right:
             if (this.ViewModel.NextWeekCommand.CanExecute(null)) {
+              FocusManager.SetFocusedElement(this, this.btnNext);
               this.ViewModel.NextWeekCommand.Execute(null);
             }
             break;
@@ -48,6 +50,18 @@ namespace MONI
             if (activeControl != null) {
               var currentDay = activeControl.DataContext as WorkDay;
               this.ViewModel.CopyFromPreviousDay(currentDay);
+              e.Handled = true;
+            }
+            break;
+          case Key.N:
+            var activeTB = e.OriginalSource as TextBox;
+            if (activeTB != null) {
+              var currentDay = activeTB.DataContext as WorkDay;
+              if (currentDay != null) {
+                this.ViewModel.AddCurrentTime(currentDay);
+                // set cursor to end
+                activeTB.SelectionStart = currentDay.OriginalString.Length;
+              }
               e.Handled = true;
             }
             break;
@@ -129,6 +143,32 @@ namespace MONI
 
     private void ToMonlist_Button_Click(object sender, RoutedEventArgs e) {
       // TODO
+    }
+
+    private void WorkDayTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
+      this.ActiveInputTextBox = sender as TextBox;
+    }
+
+    protected TextBox ActiveInputTextBox { get; set; }
+
+    private void WorkDayTextBox_OnKeyDown(object sender, KeyEventArgs e) {
+      var tb = sender as TextBox;
+      if (tb != null) {
+        if (e.Key == Key.Up) {
+          var selectionStart = tb.SelectionStart;
+          var text = tb.Text;
+          tb.Text = WorkDayParser.Instance.Increment(text, 1, ref selectionStart);
+          tb.SelectionStart = selectionStart;
+          e.Handled = true;
+        }
+        if (e.Key == Key.Down) {
+          var selectionStart = tb.SelectionStart;
+          var text = tb.Text;
+          tb.Text = WorkDayParser.Instance.Decrement(text, 1, ref selectionStart);
+          tb.SelectionStart = selectionStart;
+          e.Handled = true;
+        }
+      }
     }
   }
 }

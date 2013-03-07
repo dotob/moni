@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Threading;
 using MONI.Data;
 using NUnit.Framework;
 
@@ -10,7 +11,7 @@ namespace MONI.Tests
   {
     [Test]
     public void CreatedShortCutShouldShownInNextMonth() {
-      var vm = new MainViewModel();
+      var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
 
       var newSc = new ShortCut();
       newSc.Key = newSc.ID;

@@ -21,7 +21,7 @@ namespace MONI.Tests {
 
     [Test]
     public void HoursDuration_OnAWeek_ShouldSumCorrect() {
-      WorkMonth wm = new WorkMonth(2011, 1, null, new List<ShortCut>());
+      WorkMonth wm = new WorkMonth(2011, 1, null, new List<ShortCut>(), 1);
       WorkDay wd = wm.Days.First();
       wd.AddWorkItem(new WorkItem(new TimeItem(10),new TimeItem(11)));
       Assert.AreEqual(1,wd.HoursDuration);
@@ -38,7 +38,7 @@ namespace MONI.Tests {
 
     [Test]
     public void HoursDuration_OnAMonth_ShouldSumCorrect() {
-      WorkMonth wm = new WorkMonth(2011, 1, null, new List<ShortCut>());
+      WorkMonth wm = new WorkMonth(2011, 1, null, new List<ShortCut>(), 1);
       WorkDay wd = wm.Days.First();
       wd.AddWorkItem(new WorkItem(new TimeItem(10),new TimeItem(11)));
       Assert.AreEqual(1,wd.HoursDuration);
@@ -59,10 +59,11 @@ namespace MONI.Tests {
       WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr, InsertDayBreak = false };
       WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
       WorkDayParser.Instance = wdp;
-      WorkMonth wm = new WorkMonth(2011, 1, null, abbr);
+      WorkMonth wm = new WorkMonth(2011, 1, null, abbr, 1);
       WorkDay wd = wm.Days.First();
       wd.OriginalString = "8,8;ctb";
 
+      wm.CalcShortCutStatistic();
       var scs = wm.ShortCutStatistic.FirstOrDefault(kvp => kvp.Key == "ctb");
       Assert.NotNull(scs);
       Assert.AreEqual(8, scs.Value.UsedInMonth);

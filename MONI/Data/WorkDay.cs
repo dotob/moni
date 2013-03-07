@@ -7,13 +7,14 @@ using System.Linq;
 using MONI.Data.SpecialDays;
 
 namespace MONI.Data {
-  public class WorkDay : INotifyPropertyChanged {
+  public class WorkDay : INotifyPropertyChanged, IDataErrorInfo {
     private readonly int day;
     private readonly int month;
     private readonly int year;
     private string originalString;
     private DayType dayType;
     private ObservableCollection<WorkItem> items;
+    private WorkDayParserResult lastParseResult;
 
     private WorkDay() {
       this.items = new ObservableCollection<WorkItem>();
@@ -110,12 +111,11 @@ namespace MONI.Data {
       // do parsing
       if (WorkDayParser.Instance != null) {
         WorkDay wd = this;
-        var result = WorkDayParser.Instance.Parse(value, ref wd);
-        if (!result.Success) {
+        this.lastParseResult = WorkDayParser.Instance.Parse(value, ref wd);
+        if (!this.LastParseResult.Success) {
           // todo what now?
-        } else {
-          this.ImportantStuffChanged();
         }
+        this.ImportantStuffChanged();
       }
     }
 
@@ -136,6 +136,29 @@ namespace MONI.Data {
     public DateTime DateTime {
       get { return new DateTime(this.year, this.month, this.day); }
     }
+
+    public bool IsToday {
+      get {
+        var now = DateTime.Now;
+        return now.Year == this.year && now.Month == this.month && now.Day == this.day;
+      }
+    }
+    public WorkDayParserResult LastParseResult {
+      get { return this.lastParseResult; }
+    }
+
+    public string this[string columnName] {
+      get {
+        if (columnName == "OriginalString") {
+          if (LastParseResult != null && !LastParseResult.Success) {
+            return LastParseResult.Error;
+          }
+        }
+        return null;
+      }
+    }
+
+    public string Error { get; private set; }
 
     #region INotifyPropertyChanged Members
 

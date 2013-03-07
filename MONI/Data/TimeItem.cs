@@ -32,6 +32,12 @@ namespace MONI.Data {
 
     public int Hour { get; private set; }
     public int Minute { get; private set; }
+    public static TimeItem Now {
+      get {
+        var now = DateTime.Now;
+        int minutes = now.Minute - (now.Minute % 15);
+        return new TimeItem(now.Hour, minutes); }
+    }
 
     #region IComparable<TimeItem> Members
 
@@ -91,6 +97,17 @@ namespace MONI.Data {
       return new TimeItem(ti.Hour + partBeforeKomma, minutes);
     }
 
+    public static TimeItem operator -(TimeItem ti, double hours) {
+      int partBeforeKomma = (int) Math.Truncate(hours);
+      double partAfterKomma = hours - partBeforeKomma;
+      int minutes = (int)(ti.Minute - Math.Round(partAfterKomma * 60));
+      if (minutes < 0) {
+        partBeforeKomma++;
+        minutes += 60;
+      }
+      return new TimeItem(ti.Hour - partBeforeKomma, minutes);
+    }
+
     public static double operator -(TimeItem a, TimeItem b) {
       if (a != null && b != null) {
         if (a.CompareTo(b) == 0) {
@@ -125,6 +142,13 @@ namespace MONI.Data {
 
     public string ToMonlistString() {
       return string.Format("{0:00}{1:00}", this.Hour, this.Minute);
+    }
+
+    public string ToShortString() {
+      if (Minute == 0) {
+        return string.Format("{0}", this.Hour);
+      }
+      return this.ToString();
     }
   }
 }

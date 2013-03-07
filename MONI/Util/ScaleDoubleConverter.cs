@@ -8,7 +8,7 @@ namespace MONI.Util {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
       double scale;
       if (value is double && parameter!=null && double.TryParse(parameter.ToString(), out scale)) {
-        return scale * (double)value;
+        return Math.Max(1,scale * (double)value);
       }
       return value;
     }

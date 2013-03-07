@@ -64,7 +64,7 @@ namespace MONI.Tests {
     }
 
     [Test]
-    public void PlusOperator_AddMinutes_HourOverflowWork() {
+    public void PlusOperator_AddMinutes_HourOverflow_Work() {
       TimeItem ti = new TimeItem(1,30);
       var timeItem = ti + 0.75;
       Assert.AreEqual(2, timeItem.Hour);
@@ -72,7 +72,7 @@ namespace MONI.Tests {
     }
 
     [Test]
-    public void PlusOperator_AddMinutesExact60_HourOverflowWork() {
+    public void PlusOperator_AddMinutesExact60_HourOverflow_Work() {
       TimeItem ti = new TimeItem(1,30);
       var timeItem = ti + 0.5;
       Assert.AreEqual(2, timeItem.Hour);
@@ -96,9 +96,57 @@ namespace MONI.Tests {
     }
 
     [Test]
-    public void PlusOperator_OutOfRange_Fail() {
-      TimeItem ti = new TimeItem(24,60);
-      Assert.Throws<ArgumentOutOfRangeException>(() => { var i = ti + 1; });
+    public void MinusOperator_SubtractHours_Work() {
+      TimeItem ti = new TimeItem(2,0);
+      var timeItem = ti - 1;
+      Assert.AreEqual(1, timeItem.Hour);
+      Assert.AreEqual(0, timeItem.Minute);
+    }
+
+    [Test]
+    public void MinusOperator_SubtractMinutes_Work() {
+      TimeItem ti = new TimeItem(1,0);
+      var timeItem = ti - 0.5;
+      Assert.AreEqual(0, timeItem.Hour);
+      Assert.AreEqual(30, timeItem.Minute);
+    }
+
+    [Test]
+    public void MinusOperator_SubtractMinutes_HourOverflow_Work() {
+      TimeItem ti = new TimeItem(1,30);
+      var timeItem = ti - 0.75;
+      Assert.AreEqual(0, timeItem.Hour);
+      Assert.AreEqual(45, timeItem.Minute);
+    }
+
+    [Test]
+    public void MinusOperator_SubtractMinutesExact60_HourOverflow_Work() {
+      TimeItem ti = new TimeItem(1,30);
+      var timeItem = ti - 0.5;
+      Assert.AreEqual(1, timeItem.Hour);
+      Assert.AreEqual(0, timeItem.Minute);
+    }
+
+    [Test]
+    public void MinusOperator_SubtractHoursAndMinutes_Work() {
+      TimeItem ti = new TimeItem(4,0);
+      var timeItem = ti - 1.5;
+      Assert.AreEqual(2, timeItem.Hour);
+      Assert.AreEqual(30, timeItem.Minute);
+    }
+
+    [Test]
+    public void MinusOperator_SubtractHoursInMinutes_Work() {
+      TimeItem ti = new TimeItem(3,30);
+      var timeItem = ti - 1.5;
+      Assert.AreEqual(2, timeItem.Hour);
+      Assert.AreEqual(0, timeItem.Minute);
+    }
+
+    [Test]
+    public void MinusOperator_OutOfRange_Fail() {
+      TimeItem ti = new TimeItem(1,0);
+      Assert.Throws<ArgumentOutOfRangeException>(() => { var i = ti - 5; });
     }
 
     [Test]
