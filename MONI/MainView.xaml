@@ -11,8 +11,8 @@
                       x:Name="mv"
                       WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
-                      Icon="/MONI;component/Resources/appbar.clock.png">
-
+                      Icon="/MONI;component/Resources/moni.ico">
+ 
   <Window.Resources>
     <ResourceDictionary>
       <Util1:DayTypeColorConverter x:Key="dayTypeColorConverter" />
