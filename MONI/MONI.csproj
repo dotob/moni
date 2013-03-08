@@ -93,6 +93,7 @@
     <Compile Include="Tests\WorkDayParserExtensionsTester.cs" />
     <Compile Include="Tests\WorkDayParserMainTester.cs" />
     <Compile Include="Util\LessThanColorConverter.cs" />
+    <Compile Include="Util\Null2FalseConverter.cs" />
     <Compile Include="Util\TodayColorConverter.cs" />
     <Compile Include="Util\ScaleDoubleConverter.cs" />
     <Compile Include="Util\TimeItemConverter.cs" />
