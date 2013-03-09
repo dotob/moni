@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
-using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Linq;
@@ -15,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace MONI
 {
-  public class MainViewModel : INotifyPropertyChanged, IDropTarget
+  public class MainViewModel : ViewModelBase, IDropTarget
   {
     private ICommand nextWeekCommand;
     private readonly TextFilePersistenceLayer persistenceLayer;
@@ -79,7 +78,7 @@ namespace MONI
           return;
         }
         this.customWindowPlacementSettings = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.CustomWindowPlacementSettings);
+        this.OnPropertyChanged(() => this.CustomWindowPlacementSettings);
       }
     }
 
@@ -97,7 +96,7 @@ namespace MONI
       get { return this.workWeek; }
       set {
         this.workWeek = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.WorkWeek);
+        this.OnPropertyChanged(() => this.WorkWeek);
 
         // don't know if this perfect, but it works
         if (value != null) {
@@ -110,7 +109,7 @@ namespace MONI
       get { return this.workMonth; }
       set {
         this.workMonth = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.WorkMonth);
+        this.OnPropertyChanged(() => this.WorkMonth);
       }
     }
 
@@ -124,7 +123,7 @@ namespace MONI
         if (this.workYear != null) {
           this.workYear.PropertyChanged += new PropertyChangedEventHandler(workYear_PropertyChanged);
         }
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.WorkYear);
+        this.OnPropertyChanged(() => this.WorkYear);
       }
     }
 
@@ -148,7 +147,7 @@ namespace MONI
       get { return this.editShortCut; }
       set {
         this.editShortCut = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.EditShortCut);
+        this.OnPropertyChanged(() => this.EditShortCut);
       }
     }
 
@@ -156,7 +155,7 @@ namespace MONI
       get { return this.editPreferences; }
       set {
         this.editPreferences = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.EditPreferences);
+        this.OnPropertyChanged(() => this.EditPreferences);
       }
     }
 
@@ -164,7 +163,7 @@ namespace MONI
       get { return this.projectListVisibility; }
       private set {
         this.projectListVisibility = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.ProjectListVisibility);
+        this.OnPropertyChanged(() => this.ProjectListVisibility);
       }
     }
 
@@ -175,12 +174,6 @@ namespace MONI
         MoniSettings.Current = this.MonlistSettings;
       }
     }
-
-    #region INotifyPropertyChanged Members
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
 
     private void SelectPreviousWeek() {
       var look4PrevWeek = this.workYear.Weeks.ElementAtOrDefault(this.workYear.Weeks.IndexOf(this.workWeek) - 1);

@@ -108,7 +108,7 @@
     <Compile Include="MainViewModel.cs" />
     <Compile Include="Tests\CalendarInitTester.cs" />
     <Compile Include="Tests\TimeItemTester.cs" />
-    <Compile Include="Util\NotifyPropertyChangedHelper.cs" />
+    <Compile Include="Util\ViewModelBase.cs" />
     <Page Include="MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -181,6 +181,10 @@
     <EmbeddedResource Include="..\packages\MahApps.Metro.0.10.1.30-ALPHA\lib\net40\System.Windows.Interactivity.dll">
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
