@@ -90,7 +90,6 @@ namespace MONI
     private void AddShortcut_OnClick(object sender, RoutedEventArgs e) {
       ShortCut newSc = new ShortCut();
       this.ViewModel.EditShortCut = newSc;
-      this.shortcutTextBox.Focus();
     }
 
     private void RemoveShortcut_OnClick(object sender, RoutedEventArgs e) {
@@ -112,7 +111,6 @@ namespace MONI
       var sc = GetShortCutFromButton(sender);
       if (sc != null) {
         this.ViewModel.EditShortCut = sc;
-        this.shortcutTextBox.Focus();
       }
     }
 
