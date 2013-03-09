@@ -5,6 +5,8 @@
                       xmlns:Util1="clr-namespace:MONI.Util"
                       xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                       xmlns:data="clr-namespace:MONI.Data"
+                      xmlns:viewModels="clr-namespace:MONI.ViewModels"
+                      xmlns:views="clr-namespace:MONI.Views"
                       Title="MONI"
                       Width="800"
                       MinWidth="600"
@@ -236,61 +238,10 @@
                      Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
                      IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={StaticResource null2FalseConverter}}">
       <Controls:Flyout.ContentTemplate>
-        <DataTemplate DataType="{x:Type data:ShortCut}">
-          <Grid Width="400"
-                Margin="10">
-
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition></ColumnDefinition>
-              <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-
-            <Label Grid.Column="0"
-                   Grid.Row="0">Shortcut</Label>
-            <TextBox Grid.Column="1"
-                     Grid.Row="0"
-                     Margin="2"
-                     Focusable="True"
-                     x:Name="shortcutTextBox"
-                     Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-            <Label Grid.Column="0"
-                   Grid.Row="1">Expansion</Label>
-            <TextBox Grid.Column="1"
-                     Grid.Row="1"
-                     Margin="2"
-                     Text="{Binding Expansion, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-            <Label Grid.Column="0"
-                   Grid.Row="2">Ganzen Tag ersetzen</Label>
-            <CheckBox Grid.Column="1"
-                      Grid.Row="2"
-                      Margin="2"
-                      IsChecked="{Binding WholeDayExpansion, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
-
-            <Button Grid.Column="0"
-                    Grid.Row="3"
-                    Click="EditShortcutCancel_OnClick">Abbrechen</Button>
-            <Button Grid.Column="1"
-                    Grid.Row="3"
-                    Click="EditShortcutSave_OnClick">Speichern</Button>
-          </Grid>
-
-          <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
-                         Value="True">
-              <Setter TargetName="shortcutTextBox"
-                      Property="FocusManager.FocusedElement"
-                      Value="{Binding RelativeSource={RelativeSource Self}}" />
-            </DataTrigger>
-          </DataTemplate.Triggers>
-
+        <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
+          <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+          <views:ShortcutView x:Name="shortcutView"
+                              IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
         </DataTemplate>
       </Controls:Flyout.ContentTemplate>
     </Controls:Flyout>

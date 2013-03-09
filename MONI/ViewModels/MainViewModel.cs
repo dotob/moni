@@ -24,7 +24,7 @@ namespace MONI.ViewModels
     private WorkYear workYear;
     private readonly CSVExporter csvExporter;
     private MoniSettings monlistSettings;
-    private ShortCut editShortCut;
+    private ShortcutViewModel editShortCut;
 
     private readonly string settingsFile = "settings.json";
     Calendar calendar = new GregorianCalendar();
@@ -143,7 +143,7 @@ namespace MONI.ViewModels
       this.WorkMonth.CalcShortCutStatistic();
     }
 
-    public ShortCut EditShortCut {
+    public ShortcutViewModel EditShortCut {
       get { return this.editShortCut; }
       set {
         this.editShortCut = value;
@@ -241,18 +241,6 @@ namespace MONI.ViewModels
 
     public void DeleteShortcut(ShortCut delsc) {
       this.MonlistSettings.ParserSettings.ShortCuts.Remove(delsc);
-      this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
-      this.WorkWeek.Reparse();
-    }
-
-    public void SaveEditShortcut() {
-      var shortCut = this.MonlistSettings.ParserSettings.ShortCuts.FirstOrDefault(sc => Equals(sc, this.EditShortCut));
-      if (shortCut != null) {
-        shortCut.GetData(this.EditShortCut);
-      } else {
-        this.MonlistSettings.ParserSettings.ShortCuts.Add(this.EditShortCut);
-      }
-      this.EditShortCut = null;
       this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
       this.WorkWeek.Reparse();
     }
