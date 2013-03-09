@@ -105,10 +105,10 @@
     <Compile Include="Util\DelegateCommand.cs" />
     <Compile Include="Util\StringParserHelper.cs" />
     <Compile Include="Data\WorkDayParser.cs" />
-    <Compile Include="MainViewModel.cs" />
     <Compile Include="Tests\CalendarInitTester.cs" />
     <Compile Include="Tests\TimeItemTester.cs" />
     <Compile Include="Util\ViewModelBase.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -183,7 +183,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

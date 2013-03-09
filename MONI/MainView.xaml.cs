@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MONI.Data;
+using MONI.ViewModels;
 using MahApps.Metro.Controls;
 
 namespace MONI

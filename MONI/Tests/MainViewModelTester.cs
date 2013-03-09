@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Threading;
 using MONI.Data;
+using MONI.ViewModels;
 using NUnit.Framework;
 
 namespace MONI.Tests
