@@ -27,7 +27,7 @@
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/FlatButton.xaml" />
         <ResourceDictionary Source="Resources/Icons.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
@@ -141,10 +141,25 @@
     <!-- settings -->
     <Controls:Flyout Header="Settings"
                      Position="Right"
+                     Background="#333333"
+                     KeyboardNavigation.TabNavigation="Cycle"
                      Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
                      IsOpen="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={StaticResource null2FalseConverter}}">
       <Controls:Flyout.ContentTemplate>
         <DataTemplate DataType="{x:Type data:MoniSettings}">
+          <DataTemplate.Resources>
+            <Style TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+            </Style>
+            <Style TargetType="{x:Type CheckBox}"
+                   BasedOn="{StaticResource MetroCheckBox}">
+              <Setter Property="FocusVisualStyle"
+                      Value="{StaticResource FlyoutFocusVisual}" />
+            </Style>
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+          </DataTemplate.Resources>
+
           <Grid Width="400"
                 Margin="10">
 
@@ -229,20 +244,6 @@
             </UniformGrid>
 
           </Grid>
-        </DataTemplate>
-      </Controls:Flyout.ContentTemplate>
-    </Controls:Flyout>
-
-    <!-- edit / new shortcut -->
-    <Controls:Flyout Header="Shortcut"
-                     Position="Right"
-                     Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
-                     IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={StaticResource null2FalseConverter}}">
-      <Controls:Flyout.ContentTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
-          <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-          <views:ShortcutView x:Name="shortcutView"
-                              IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
         </DataTemplate>
       </Controls:Flyout.ContentTemplate>
     </Controls:Flyout>
@@ -792,6 +793,34 @@
         </ItemsControl>
       </ScrollViewer>
     </Grid>
+
+    <!-- edit / new shortcut -->
+    <Controls:Flyout Header="Shortcut"
+                     Position="Right"
+                     Background="#333333"
+                     KeyboardNavigation.TabNavigation="Cycle"
+                     Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
+                     IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={StaticResource null2FalseConverter}}">
+      <Controls:Flyout.ContentTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
+          <DataTemplate.Resources>
+            <Style TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+            </Style>
+            <Style TargetType="{x:Type CheckBox}"
+                   BasedOn="{StaticResource MetroCheckBox}">
+              <Setter Property="FocusVisualStyle"
+                      Value="{StaticResource FlyoutFocusVisual}" />
+            </Style>
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+          </DataTemplate.Resources>
+          <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+          <views:ShortcutView x:Name="shortcutView"
+                              IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
+        </DataTemplate>
+      </Controls:Flyout.ContentTemplate>
+    </Controls:Flyout>
 
   </Grid>
 </Controls:MetroWindow>

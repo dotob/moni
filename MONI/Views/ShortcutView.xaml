@@ -47,6 +47,7 @@
     <CheckBox Grid.Column="1"
               Grid.Row="2"
               Margin="2"
+              VerticalAlignment="Center"
               IsChecked="{Binding Model.WholeDayExpansion, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
     <Button Grid.Column="0"

@@ -3,11 +3,40 @@
 
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.TextBox.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
   </ResourceDictionary.MergedDictionaries>
 
+  <Style x:Key="FlyoutFocusVisual">
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Rectangle Margin="-1"
+                     StrokeThickness="1"
+                     Stroke="White"
+                     StrokeDashArray="1 2" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
   <Style TargetType="{x:Type TextBox}"
          BasedOn="{StaticResource MetroTextBox}">
+    <Setter Property="VerticalAlignment"
+            Value="Center" />
+    <Setter Property="Validation.ErrorTemplate"
+            Value="{x:Null}" />
+  </Style>
+
+  <Style x:Key="MONIMetroFlyoutTextBox"
+         TargetType="{x:Type TextBox}"
+         BasedOn="{StaticResource MetroFlyoutTextBox}">
+    <Setter Property="BorderBrush"
+            Value="Black" />
+    <Setter Property="Background"
+            Value="#666666" />
+    <Setter Property="Foreground"
+            Value="White" />
     <Setter Property="VerticalAlignment"
             Value="Center" />
     <Setter Property="Validation.ErrorTemplate"
