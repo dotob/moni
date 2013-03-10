@@ -1,6 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
+using MONI.ViewModels;
 
 namespace MONI.Views
 {
@@ -15,8 +15,11 @@ namespace MONI.Views
     private static void IsOpenPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e) {
       var view = dependencyObject as ShortcutView;
       if (view != null && e.NewValue != e.OldValue && (bool)e.NewValue) {
-        if (view.shortcutTextBox.Focusable) {
+        var vm = view.DataContext as ShortcutViewModel;
+        if (vm != null && vm.IsNew && view.shortcutTextBox.Focusable) {
           view.shortcutTextBox.Focus();
+        } else if (view.expansionTextBox.Focusable) {
+          view.expansionTextBox.Focus();
         }
       }
     }

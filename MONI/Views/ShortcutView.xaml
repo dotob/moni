@@ -30,13 +30,16 @@
              Margin="2"
              Focusable="True"
              x:Name="shortcutTextBox"
-             Text="{Binding Model.Key, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+             IsEnabled="{Binding IsNew, Mode=OneWay}"
+             Text="{Binding ShortCutKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></TextBox>
 
     <Label Grid.Column="0"
            Grid.Row="1">Expansion</Label>
     <TextBox Grid.Column="1"
              Grid.Row="1"
              Margin="2"
+             Focusable="True"
+             x:Name="expansionTextBox"
              Text="{Binding Model.Expansion, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
     <Label Grid.Column="0"
