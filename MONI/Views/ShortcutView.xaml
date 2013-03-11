@@ -16,10 +16,10 @@
       <RowDefinition Height="Auto"></RowDefinition>
       <RowDefinition Height="Auto"></RowDefinition>
       <RowDefinition Height="Auto"></RowDefinition>
-      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="*"></RowDefinition>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition></ColumnDefinition>
+      <ColumnDefinition Width="Auto"></ColumnDefinition>
       <ColumnDefinition></ColumnDefinition>
     </Grid.ColumnDefinitions>
 
@@ -50,12 +50,15 @@
               VerticalAlignment="Center"
               IsChecked="{Binding Model.WholeDayExpansion, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
-    <Button Grid.Column="0"
-            Grid.Row="3"
-            Command="{Binding CancelCommand, Mode=OneWay}">Abbrechen</Button>
-    <Button Grid.Column="1"
-            Grid.Row="3"
-            Command="{Binding SaveCommand, Mode=OneWay}">Speichern</Button>
+    <UniformGrid Grid.Column="0"
+                 Grid.Row="3"
+                 Grid.ColumnSpan="2"
+                 VerticalAlignment="Bottom"
+                 Columns="2">
+      <Button Command="{Binding CancelCommand, Mode=OneWay}">Abbrechen</Button>
+      <Button Command="{Binding SaveCommand, Mode=OneWay}">Speichern</Button>
+    </UniformGrid>
+
   </Grid>
 
 </UserControl>

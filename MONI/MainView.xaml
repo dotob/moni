@@ -171,7 +171,7 @@
               <RowDefinition Height="Auto"></RowDefinition>
               <RowDefinition Height="Auto"></RowDefinition>
               <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
+              <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -238,12 +238,41 @@
             <UniformGrid Grid.Column="0"
                          Grid.Row="7"
                          Grid.ColumnSpan="2"
+                         VerticalAlignment="Bottom"
                          Columns="2">
               <Button Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
               <Button Click="EditPreferencesSave_OnClick">Speichern</Button>
             </UniformGrid>
 
           </Grid>
+        </DataTemplate>
+      </Controls:Flyout.ContentTemplate>
+    </Controls:Flyout>
+
+    <!-- edit / new shortcut -->
+    <Controls:Flyout Header="Shortcut"
+                     Position="Right"
+                     Background="#333333"
+                     KeyboardNavigation.TabNavigation="Cycle"
+                     Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
+                     IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={StaticResource null2FalseConverter}}">
+      <Controls:Flyout.ContentTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
+          <DataTemplate.Resources>
+            <Style TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+            </Style>
+            <Style TargetType="{x:Type CheckBox}"
+                   BasedOn="{StaticResource MetroCheckBox}">
+              <Setter Property="FocusVisualStyle"
+                      Value="{StaticResource FlyoutFocusVisual}" />
+            </Style>
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+          </DataTemplate.Resources>
+          <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+          <views:ShortcutView x:Name="shortcutView"
+                              IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
         </DataTemplate>
       </Controls:Flyout.ContentTemplate>
     </Controls:Flyout>
@@ -793,34 +822,6 @@
         </ItemsControl>
       </ScrollViewer>
     </Grid>
-
-    <!-- edit / new shortcut -->
-    <Controls:Flyout Header="Shortcut"
-                     Position="Right"
-                     Background="#333333"
-                     KeyboardNavigation.TabNavigation="Cycle"
-                     Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
-                     IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={StaticResource null2FalseConverter}}">
-      <Controls:Flyout.ContentTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
-          <DataTemplate.Resources>
-            <Style TargetType="{x:Type TextBox}"
-                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-            </Style>
-            <Style TargetType="{x:Type CheckBox}"
-                   BasedOn="{StaticResource MetroCheckBox}">
-              <Setter Property="FocusVisualStyle"
-                      Value="{StaticResource FlyoutFocusVisual}" />
-            </Style>
-            <Style TargetType="{x:Type Button}"
-                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
-          </DataTemplate.Resources>
-          <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-          <views:ShortcutView x:Name="shortcutView"
-                              IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
-        </DataTemplate>
-      </Controls:Flyout.ContentTemplate>
-    </Controls:Flyout>
 
   </Grid>
 </Controls:MetroWindow>
