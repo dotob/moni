@@ -64,13 +64,15 @@ namespace MONI.Data
               ret.Success = true;
             }
           } else {
-            ret.Error = "no items found";
+            // this is no error for now
+            ret.Success = true;
+            ret.Error = "Noch keine Einträge gemacht";
           }
         } else {
           ret.Error = error;
         }
       } else {
-        ret.Error = "empty string given";
+        ret.Error = "Noch keine Eingabe";
       }
       return ret;
     }
@@ -158,7 +160,7 @@ namespace MONI.Data
               workItem = new WorkItemTemp();
               workItem.DesiredEndtime = ti;
             } else {
-              error = string.Format("could not parse endtime string from {0}", timeString);
+              error = string.Format("Die Endzeit kann nicht erkannt werden: {0}", timeString);
             }
           } else {
             double hours;
@@ -166,7 +168,7 @@ namespace MONI.Data
               workItem = new WorkItemTemp();
               workItem.HourCount = hours;
             } else {
-              error = string.Format("could not parse hour string from {0}", timeString);
+              error = string.Format("Die Stundeninfo kann nicht erkannt werden: {0}", timeString);
             }
           }
           if (workItem != null) {
@@ -200,18 +202,18 @@ namespace MONI.Data
                 workItem.PosString = parts.ElementAtOrDefault(1) ?? string.Empty;
                 success = true;
               } else {
-                error = string.Format("could not parse projectstring {0}", projectPosDescString);
+                error = string.Format("Projektnummer kann nicht erkannt werden: {0}", projectPosDescString);
               }
               var descString = projectPosDescString.Token("(", 2).Token(")", 1);
               if (!string.IsNullOrEmpty(descString)) {
                 workItem.Description = descString;
               }
             } else {
-              error = string.Format("projectstring was empty in {0}", wdItemString);
+              error = string.Format("Projektnummer war leer: {0}", wdItemString);
             }
           }
         } else {
-          error = string.Format("could not parse hourstring from {0}", wdItemString);
+          error = string.Format("Stundenanzahl kann nicht erkannt werden: {0}", wdItemString);
         }
       }
       return success;
@@ -227,7 +229,7 @@ namespace MONI.Data
           success = true;
         } else {
           remainingString = input;
-          error = string.Format("cannot parse daystarttime token: {0}", dayStartToken);
+          error = string.Format("Tagesbeginn wird nicht erkannt: {0}", dayStartToken);
         }
       } else {
         error = "no daystart found";

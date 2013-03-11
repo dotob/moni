@@ -289,6 +289,7 @@ namespace MONI
     public void SaveEditingPreferences() {
       this.ProjectListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.EditPreferences = null;
+      this.WorkWeek.Reparse();
     }
 
     public void CancelEditingPreferences() {
