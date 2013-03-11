@@ -93,6 +93,7 @@
     <Compile Include="Tests\WorkDayParserExtensionsTester.cs" />
     <Compile Include="Tests\WorkDayParserMainTester.cs" />
     <Compile Include="Util\LessThanColorConverter.cs" />
+    <Compile Include="Util\Null2FalseConverter.cs" />
     <Compile Include="Util\TodayColorConverter.cs" />
     <Compile Include="Util\ScaleDoubleConverter.cs" />
     <Compile Include="Util\TimeItemConverter.cs" />
@@ -104,10 +105,14 @@
     <Compile Include="Util\DelegateCommand.cs" />
     <Compile Include="Util\StringParserHelper.cs" />
     <Compile Include="Data\WorkDayParser.cs" />
-    <Compile Include="MainViewModel.cs" />
     <Compile Include="Tests\CalendarInitTester.cs" />
     <Compile Include="Tests\TimeItemTester.cs" />
-    <Compile Include="Util\NotifyPropertyChangedHelper.cs" />
+    <Compile Include="Util\ViewModelBase.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ShortcutViewModel.cs" />
+    <Compile Include="Views\ShortcutView.xaml.cs">
+      <DependentUpon>ShortcutView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -126,9 +131,25 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\Controls.TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Controls.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\FlatButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ShortcutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -181,6 +202,7 @@
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

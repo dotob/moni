@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
-using System.Threading;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using System.Linq;
 using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
 using MONI.Data;
 using MONI.Util;
 using Newtonsoft.Json;
 
-namespace MONI
+namespace MONI.ViewModels
 {
-  public class MainViewModel : INotifyPropertyChanged, IDropTarget
+  public class MainViewModel : ViewModelBase, IDropTarget
   {
     private ICommand nextWeekCommand;
     private readonly TextFilePersistenceLayer persistenceLayer;
@@ -25,7 +24,7 @@ namespace MONI
     private WorkYear workYear;
     private readonly CSVExporter csvExporter;
     private MoniSettings monlistSettings;
-    private ShortCut editShortCut;
+    private ShortcutViewModel editShortCut;
 
     private readonly string settingsFile = "settings.json";
     Calendar calendar = new GregorianCalendar();
@@ -37,7 +36,7 @@ namespace MONI
     private DispatcherTimer throttleSaveAndCalc;
 
     public MainViewModel(Dispatcher dispatcher) {
-      this.MonlistSettings = ReadSettings(settingsFile);
+      this.MonlistSettings = ReadSettings(this.settingsFile);
       this.ProjectListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.Settings = this.MonlistSettings;
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.Settings);
@@ -50,7 +49,7 @@ namespace MONI
       this.SelectToday(); // sets data from persistencelayer
       if (dispatcher != null) {
         this.throttleSaveAndCalc = new DispatcherTimer(DispatcherPriority.DataBind, dispatcher);
-        this.throttleSaveAndCalc.Tick += new EventHandler(throttleSaveAndCalc_Tick);
+        this.throttleSaveAndCalc.Tick += new EventHandler(this.throttleSaveAndCalc_Tick);
       }
     }
 
@@ -73,13 +72,13 @@ namespace MONI
     }
 
     public CustomWindowPlacementSettings CustomWindowPlacementSettings {
-      get { return customWindowPlacementSettings; }
+      get { return this.customWindowPlacementSettings; }
       set {
         if (Equals(value, this.customWindowPlacementSettings)) {
           return;
         }
         this.customWindowPlacementSettings = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.CustomWindowPlacementSettings);
+        this.OnPropertyChanged(() => this.CustomWindowPlacementSettings);
       }
     }
 
@@ -97,7 +96,7 @@ namespace MONI
       get { return this.workWeek; }
       set {
         this.workWeek = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.WorkWeek);
+        this.OnPropertyChanged(() => this.WorkWeek);
 
         // don't know if this perfect, but it works
         if (value != null) {
@@ -110,7 +109,7 @@ namespace MONI
       get { return this.workMonth; }
       set {
         this.workMonth = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.WorkMonth);
+        this.OnPropertyChanged(() => this.WorkMonth);
       }
     }
 
@@ -118,19 +117,19 @@ namespace MONI
       get { return this.workYear; }
       set {
         if (this.workYear != null) {
-          this.workYear.PropertyChanged -= new PropertyChangedEventHandler(workYear_PropertyChanged);
+          this.workYear.PropertyChanged -= new PropertyChangedEventHandler(this.workYear_PropertyChanged);
         }
         this.workYear = value;
         if (this.workYear != null) {
-          this.workYear.PropertyChanged += new PropertyChangedEventHandler(workYear_PropertyChanged);
+          this.workYear.PropertyChanged += new PropertyChangedEventHandler(this.workYear_PropertyChanged);
         }
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.WorkYear);
+        this.OnPropertyChanged(() => this.WorkYear);
       }
     }
 
     void workYear_PropertyChanged(object sender, PropertyChangedEventArgs e) {
       if (e.PropertyName == "HoursDuration") {
-        if (!loadingData) {
+        if (!this.loadingData) {
           // try next save in 500ms
           this.throttleSaveAndCalc.Stop();
           this.throttleSaveAndCalc.Interval = TimeSpan.FromMilliseconds(500);
@@ -144,11 +143,11 @@ namespace MONI
       this.WorkMonth.CalcShortCutStatistic();
     }
 
-    public ShortCut EditShortCut {
+    public ShortcutViewModel EditShortCut {
       get { return this.editShortCut; }
       set {
         this.editShortCut = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.EditShortCut);
+        this.OnPropertyChanged(() => this.EditShortCut);
       }
     }
 
@@ -156,7 +155,7 @@ namespace MONI
       get { return this.editPreferences; }
       set {
         this.editPreferences = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.EditPreferences);
+        this.OnPropertyChanged(() => this.EditPreferences);
       }
     }
 
@@ -164,7 +163,7 @@ namespace MONI
       get { return this.projectListVisibility; }
       private set {
         this.projectListVisibility = value;
-        NotifyPropertyChangedHelper.OnPropertyChanged(this, this.PropertyChanged, () => this.ProjectListVisibility);
+        this.OnPropertyChanged(() => this.ProjectListVisibility);
       }
     }
 
@@ -176,12 +175,6 @@ namespace MONI
       }
     }
 
-    #region INotifyPropertyChanged Members
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-
     private void SelectPreviousWeek() {
       var look4PrevWeek = this.workYear.Weeks.ElementAtOrDefault(this.workYear.Weeks.IndexOf(this.workWeek) - 1);
       if (look4PrevWeek != null) {
@@ -189,8 +182,8 @@ namespace MONI
       } else {
         // load previous year
         var lastWeekDay = this.WorkWeek.Days.First();
-        var lastDayOfPreviousYear = new DateTime(lastWeekDay.Year - 1, 12, 31, calendar);
-        SelectDate(lastDayOfPreviousYear);
+        var lastDayOfPreviousYear = new DateTime(lastWeekDay.Year - 1, 12, 31, this.calendar);
+        this.SelectDate(lastDayOfPreviousYear);
       }
       this.WorkMonth = this.workWeek.Month;
     }
@@ -203,8 +196,8 @@ namespace MONI
       } else {
         // load next year
         var lastWeekDay = this.WorkWeek.Days.Last();
-        var firstDayOfNextYear = new DateTime(lastWeekDay.Year + 1, 1, 1, calendar);
-        SelectDate(firstDayOfNextYear);
+        var firstDayOfNextYear = new DateTime(lastWeekDay.Year + 1, 1, 1, this.calendar);
+        this.SelectDate(firstDayOfNextYear);
       }
     }
 
@@ -236,7 +229,7 @@ namespace MONI
       this.persistenceLayer.SaveData(this.workYear);
       this.csvExporter.Export(this.WorkYear);
       // save settings
-      WriteSettings(this.MonlistSettings, settingsFile);
+      WriteSettings(this.MonlistSettings, this.settingsFile);
     }
 
     public void CopyFromPreviousDay(WorkDay currentDay) {
@@ -248,18 +241,6 @@ namespace MONI
 
     public void DeleteShortcut(ShortCut delsc) {
       this.MonlistSettings.ParserSettings.ShortCuts.Remove(delsc);
-      this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
-      this.WorkWeek.Reparse();
-    }
-
-    public void SaveEditShortcut() {
-      var shortCut = this.MonlistSettings.ParserSettings.ShortCuts.FirstOrDefault(sc => Equals(sc, this.EditShortCut));
-      if (shortCut != null) {
-        shortCut.GetData(this.EditShortCut);
-      } else {
-        this.MonlistSettings.ParserSettings.ShortCuts.Add(this.EditShortCut);
-      }
-      this.EditShortCut = null;
       this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
       this.WorkWeek.Reparse();
     }
@@ -294,7 +275,7 @@ namespace MONI
 
     public void CancelEditingPreferences() {
       this.EditPreferences = null;
-      this.MonlistSettings = ReadSettings(settingsFile);
+      this.MonlistSettings = ReadSettings(this.settingsFile);
     }
 
     public void DragOver(IDropInfo dropInfo) {

@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MONI.Data;
+using MONI.ViewModels;
 using MahApps.Metro.Controls;
 
 namespace MONI
@@ -88,9 +89,7 @@ namespace MONI
     }
 
     private void AddShortcut_OnClick(object sender, RoutedEventArgs e) {
-      ShortCut newSc = new ShortCut();
-      this.ViewModel.EditShortCut = newSc;
-      this.shortcutTextBox.Focus();
+      this.ViewModel.EditShortCut = new ShortcutViewModel(null, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null);
     }
 
     private void RemoveShortcut_OnClick(object sender, RoutedEventArgs e) {
@@ -100,19 +99,10 @@ namespace MONI
       }
     }
 
-    private void EditShortcutCancel_OnClick(object sender, RoutedEventArgs e) {
-      this.ViewModel.EditShortCut = null;
-    }
-
-    private void EditShortcutSave_OnClick(object sender, RoutedEventArgs e) {
-      this.ViewModel.SaveEditShortcut();
-    }
-
     private void EditShortcut_OnClick(object sender, RoutedEventArgs e) {
       var sc = GetShortCutFromButton(sender);
       if (sc != null) {
-        this.ViewModel.EditShortCut = sc;
-        this.shortcutTextBox.Focus();
+        this.ViewModel.EditShortCut = new ShortcutViewModel(sc, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null);
       }
     }
 

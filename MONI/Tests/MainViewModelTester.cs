@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Threading;
 using MONI.Data;
+using MONI.ViewModels;
 using NUnit.Framework;
 
 namespace MONI.Tests
@@ -17,8 +18,8 @@ namespace MONI.Tests
       newSc.Key = newSc.ID;
       newSc.Expansion = "8,8;12345-000";
       newSc.ValidFrom = DateTime.Now;
-      vm.EditShortCut = newSc;
-      vm.SaveEditShortcut();
+      vm.EditShortCut = new ShortcutViewModel(newSc, vm.WorkWeek, vm.Settings, null);
+      vm.EditShortCut.SaveShortcut();
 
       var shortCut = vm.WorkWeek.Month.ShortCutStatistic.FirstOrDefault(s => s.Key.Equals(newSc.Key));
       Assert.NotNull(shortCut);

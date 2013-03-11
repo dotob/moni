@@ -4,21 +4,38 @@
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                       xmlns:Util1="clr-namespace:MONI.Util"
                       xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+                      xmlns:data="clr-namespace:MONI.Data"
+                      xmlns:viewModels="clr-namespace:MONI.ViewModels"
+                      xmlns:views="clr-namespace:MONI.Views"
                       Title="MONI"
-                      Height="800"
-                      Width="900"
+                      Width="800"
+                      MinWidth="600"
+                      Height="700"
+                      MinHeight="500"
                       PreviewKeyDown="mv_PreviewKeyDown"
                       x:Name="mv"
                       WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
                       Icon="/MONI;component/Resources/moni.ico">
- 
+
   <Window.Resources>
     <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/FlatButton.xaml" />
+        <ResourceDictionary Source="Resources/Icons.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+
       <Util1:DayTypeColorConverter x:Key="dayTypeColorConverter" />
       <Util1:DurationBGColorConverter x:Key="durationBgConverter" />
       <Util1:DurationFGColorConverter x:Key="durationFgConverter" />
       <Util1:Null2CollapsedConverter x:Key="null2CollapsedConverter" />
+      <Util1:Null2FalseConverter x:Key="null2FalseConverter" />
       <Util1:FalseToCollapsedConverter x:Key="false2CollapsedConverter" />
       <Util1:TimeItemConverter x:Key="timeItemConverter" />
       <Util1:ScaleDoubleConverter x:Key="scaleDoubleConverter" />
@@ -45,22 +62,13 @@
 
       <Style TargetType="{x:Type TextBox}"
              BasedOn="{StaticResource MetroTextBox}">
-          <Setter Property="Validation.ErrorTemplate"
-                  Value="{x:Null}" />
+        <Setter Property="Validation.ErrorTemplate"
+                Value="{x:Null}" />
       </Style>
-
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
-        <ResourceDictionary Source="Resources/Icons.xaml" />
-      </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </Window.Resources>
 
+  <!-- *** window commands ***************************************************************** -->
   <Controls:MetroWindow.WindowCommands>
     <Controls:WindowCommands>
       <Button Click="ToMonlist_Button_Click"
@@ -127,6 +135,151 @@
     </Controls:WindowCommands>
   </Controls:MetroWindow.WindowCommands>
 
+  <!-- *** flyouts ***************************************************************** -->
+  <Controls:MetroWindow.Flyouts>
+
+    <!-- settings -->
+    <Controls:Flyout Header="Settings"
+                     Position="Right"
+                     Background="#333333"
+                     KeyboardNavigation.TabNavigation="Cycle"
+                     Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
+                     IsOpen="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={StaticResource null2FalseConverter}}">
+      <Controls:Flyout.ContentTemplate>
+        <DataTemplate DataType="{x:Type data:MoniSettings}">
+          <DataTemplate.Resources>
+            <Style TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+            </Style>
+            <Style TargetType="{x:Type CheckBox}"
+                   BasedOn="{StaticResource MetroCheckBox}">
+              <Setter Property="FocusVisualStyle"
+                      Value="{StaticResource FlyoutFocusVisual}" />
+            </Style>
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+          </DataTemplate.Resources>
+
+          <Grid Width="400"
+                Margin="10">
+
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto"></RowDefinition>
+              <RowDefinition Height="Auto"></RowDefinition>
+              <RowDefinition Height="Auto"></RowDefinition>
+              <RowDefinition Height="Auto"></RowDefinition>
+              <RowDefinition Height="Auto"></RowDefinition>
+              <RowDefinition Height="Auto"></RowDefinition>
+              <RowDefinition Height="Auto"></RowDefinition>
+              <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto"></ColumnDefinition>
+              <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0"
+                   Grid.Row="0">Daten-Verzeichnis</Label>
+            <TextBox Grid.Column="1"
+                     Grid.Row="0"
+                     Margin="2"
+                     Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Label Grid.Column="0"
+                   Grid.Row="1">Monlist.exe-Pfad</Label>
+            <TextBox Grid.Column="1"
+                     Grid.Row="1"
+                     Margin="2"
+                     Text="{Binding MainSettings.MonlistExecutablePath, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Label Grid.Column="0"
+                   Grid.Row="2">Project-Hitliste anzeigen</Label>
+            <CheckBox Grid.Column="1"
+                      Grid.Row="2"
+                      Margin="2"
+                      VerticalAlignment="Center"
+                      IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+
+            <!-- auto break -->
+            <Label Grid.Column="0"
+                   Grid.Row="3">Automatische Pause einfügen</Label>
+            <CheckBox Grid.Column="1"
+                      Grid.Row="3"
+                      Margin="2"
+                      VerticalAlignment="Center"
+                      x:Name="autoPause"
+                      IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+
+            <Label Grid.Column="0"
+                   Grid.Row="4"
+                   IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">Uhrzeit [hh:mm]</Label>
+            <TextBox Grid.Column="1"
+                     Grid.Row="4"
+                     Margin="2"
+                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
+                     Text="{Binding ParserSettings.DayBreakTime, Converter={StaticResource timeItemConverter}}"></TextBox>
+
+            <Label Grid.Column="0"
+                   Grid.Row="5"
+                   IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">Dauer [min]</Label>
+            <TextBox Grid.Column="1"
+                     Grid.Row="5"
+                     Margin="2"
+                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
+                     Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <Label Grid.Column="0"
+                   Grid.Row="6">Stunden pro Tag [h]</Label>
+            <TextBox Grid.Column="1"
+                     Grid.Row="6"
+                     Margin="2"
+                     Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+            <UniformGrid Grid.Column="0"
+                         Grid.Row="7"
+                         Grid.ColumnSpan="2"
+                         VerticalAlignment="Bottom"
+                         Columns="2">
+              <Button Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
+              <Button Click="EditPreferencesSave_OnClick">Speichern</Button>
+            </UniformGrid>
+
+          </Grid>
+        </DataTemplate>
+      </Controls:Flyout.ContentTemplate>
+    </Controls:Flyout>
+
+    <!-- edit / new shortcut -->
+    <Controls:Flyout Header="Shortcut"
+                     Position="Right"
+                     Background="#333333"
+                     KeyboardNavigation.TabNavigation="Cycle"
+                     Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
+                     IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={StaticResource null2FalseConverter}}">
+      <Controls:Flyout.ContentTemplate>
+        <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
+          <DataTemplate.Resources>
+            <Style TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+            </Style>
+            <Style TargetType="{x:Type CheckBox}"
+                   BasedOn="{StaticResource MetroCheckBox}">
+              <Setter Property="FocusVisualStyle"
+                      Value="{StaticResource FlyoutFocusVisual}" />
+            </Style>
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+          </DataTemplate.Resources>
+          <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+          <views:ShortcutView x:Name="shortcutView"
+                              IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
+        </DataTemplate>
+      </Controls:Flyout.ContentTemplate>
+    </Controls:Flyout>
+
+  </Controls:MetroWindow.Flyouts>
+
+  <!-- *** layout root ***************************************************************** -->
   <Grid>
     <Grid Margin="0 0 2 0">
       <Grid.ColumnDefinitions>
@@ -669,157 +822,6 @@
         </ItemsControl>
       </ScrollViewer>
     </Grid>
-    <!-- edit / new shortcut -->
-    <Grid Visibility="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={StaticResource null2CollapsedConverter}}"
-          DataContext="{Binding ElementName=mv, Path=ViewModel.EditShortCut}">
-      <Border Background="SkyBlue"
-              Opacity="0.7" />
-      <TextBlock FontSize="80"
-                 FontWeight="Bold"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Center"
-                 Foreground="#2CB4EB"
-                 Margin="0 0 300 200">shortcut</TextBlock>
-      <Border Background="White"
-              Width="400"
-              Height="150">
-        <Grid VerticalAlignment="Center">
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-          </Grid.RowDefinitions>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-          </Grid.ColumnDefinitions>
-          <Label Grid.Column="0"
-                 Grid.Row="0">Shortcut</Label>
-          <TextBox Grid.Column="1"
-                   Grid.Row="0"
-                   Margin="2"
-                   x:Name="shortcutTextBox"
-                   Text="{Binding Key, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-          <Label Grid.Column="0"
-                 Grid.Row="1">Expansion</Label>
-          <TextBox Grid.Column="1"
-                   Grid.Row="1"
-                   Margin="2"
-                   Text="{Binding Expansion, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-          <Label Grid.Column="0"
-                 Grid.Row="2">Ganzen Tag ersetzen</Label>
-          <CheckBox Grid.Column="1"
-                    Grid.Row="2"
-                    Margin="2"
-                    IsChecked="{Binding WholeDayExpansion, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
-
-          <Button Grid.Column="0"
-                  Grid.Row="3"
-                  Click="EditShortcutCancel_OnClick">Abbrechen</Button>
-          <Button Grid.Column="1"
-                  Grid.Row="3"
-                  Click="EditShortcutSave_OnClick">Speichern</Button>
-        </Grid>
-      </Border>
-    </Grid>
-    <!-- edit settings -->
-    <Grid Visibility="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={StaticResource null2CollapsedConverter}}"
-          DataContext="{Binding ElementName=mv, Path=ViewModel.EditPreferences}">
-      <Border Background="SkyBlue"
-              Opacity="0.7" />
-      <TextBlock FontSize="100"
-                 FontWeight="Bold"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Center"
-                 Foreground="#2CB4EB"
-                 Margin="0 0 350 230">settings</TextBlock>
-      <Border Background="White"
-              Width="600"
-              Height="250">
-        <Grid VerticalAlignment="Center">
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
-          </Grid.RowDefinitions>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-          </Grid.ColumnDefinitions>
-          <Label Grid.Column="0"
-                 Grid.Row="0">Daten-Verzeichnis</Label>
-          <TextBox Grid.Column="1"
-                   Grid.Row="0"
-                   Margin="2"
-                   Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-          <Label Grid.Column="0"
-                 Grid.Row="1">Monlist.exe-Pfad</Label>
-          <TextBox Grid.Column="1"
-                   Grid.Row="1"
-                   Margin="2"
-                   Text="{Binding MainSettings.MonlistExecutablePath, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-          <Label Grid.Column="0"
-                 Grid.Row="2">Project-Hitliste anzeigen</Label>
-          <CheckBox Grid.Column="1"
-                    Grid.Row="2"
-                    Margin="2"
-                    VerticalAlignment="Center"
-                    IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
-
-          <!-- auto break -->
-          <Label Grid.Column="0"
-                 Grid.Row="3">Automatische Pause einfügen</Label>
-          <CheckBox Grid.Column="1"
-                    Grid.Row="3"
-                    Margin="2"
-                    VerticalAlignment="Center"
-                    x:Name="autoPause"
-                    IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
-
-          <Label Grid.Column="0"
-                 Grid.Row="4"
-                 IsEnabled="{Binding IsChecked, ElementName=autoPause}">Uhrzeit [hh:mm]</Label>
-          <TextBox Grid.Column="1"
-                   Grid.Row="4"
-                   Margin="2"
-                   IsEnabled="{Binding IsChecked, ElementName=autoPause}"
-                   Text="{Binding ParserSettings.DayBreakTime, Converter={StaticResource timeItemConverter}}"></TextBox>
-
-          <Label Grid.Column="0"
-                 Grid.Row="5"
-                 IsEnabled="{Binding IsChecked, ElementName=autoPause}">Dauer [min]</Label>
-          <TextBox Grid.Column="1"
-                   Grid.Row="5"
-                   Margin="2"
-                   IsEnabled="{Binding IsChecked, ElementName=autoPause}"
-                   Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-          
-          <Label Grid.Column="0"
-                 Grid.Row="6">Stunden pro Tag [h]</Label>
-          <TextBox Grid.Column="1"
-                   Grid.Row="6"
-                   Margin="2"
-                   Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
-          <UniformGrid Grid.Column="0"
-                       Grid.Row="7"
-                       Grid.ColumnSpan="2"
-                       Columns="2">
-            <Button Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
-            <Button Click="EditPreferencesSave_OnClick">Speichern</Button>
-          </UniformGrid>
-        </Grid>
-      </Border>
-    </Grid>
   </Grid>
 </Controls:MetroWindow>
