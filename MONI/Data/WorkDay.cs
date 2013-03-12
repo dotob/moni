@@ -15,6 +15,7 @@ namespace MONI.Data {
     private DayType dayType;
     private ObservableCollection<WorkItem> items;
     private WorkDayParserResult lastParseResult;
+    private bool isChanged;
 
     private WorkDay() {
       this.items = new ObservableCollection<WorkItem>();
@@ -98,6 +99,7 @@ namespace MONI.Data {
           return;
         }
         this.originalString = value;
+        this.isChanged = true;
         if (string.IsNullOrEmpty(this.originalString)) {
           this.items.Clear();
           this.ImportantStuffChanged();
@@ -159,6 +161,10 @@ namespace MONI.Data {
     }
 
     public string Error { get; private set; }
+    public bool IsChanged {
+      get { return this.isChanged; }
+      set { this.isChanged = value; }
+    }
 
     #region INotifyPropertyChanged Members
 
@@ -185,6 +191,11 @@ namespace MONI.Data {
     public void AddWorkItem(WorkItem workItem) {
       this.items.Add(workItem);
       workItem.WorkDay = this;
+    }
+
+    public void SetData(string originalString) {
+      this.OriginalString = originalString;
+      this.isChanged = false;
     }
   }
 

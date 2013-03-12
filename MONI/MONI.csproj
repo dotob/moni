@@ -92,6 +92,7 @@
     <Compile Include="Tests\StringParserHelperTester.cs" />
     <Compile Include="Tests\WorkDayParserExtensionsTester.cs" />
     <Compile Include="Tests\WorkDayParserMainTester.cs" />
+    <Compile Include="Util\DayOfWeekTranslatorConverter.cs" />
     <Compile Include="Util\LessThanColorConverter.cs" />
     <Compile Include="Util\Null2FalseConverter.cs" />
     <Compile Include="Util\TodayColorConverter.cs" />

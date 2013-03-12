@@ -152,7 +152,7 @@ namespace MONI.Data
         }
       } else {
         // workitem: <count of hours|-endtime>;<projectnumber>-<positionnumber>[(<description>)]
-        var timeString = wdItemString.Token(this.hourProjectInfoSeparator.ToString(), 1).Trim();
+        var timeString = wdItemString.Token(this.hourProjectInfoSeparator.ToString(), 1, wdItemString).Trim();
         if (!string.IsNullOrEmpty(timeString)) {
           if (timeString.StartsWith(this.endTimeStartChar.ToString())) {
             TimeItem ti;
@@ -209,7 +209,7 @@ namespace MONI.Data
                 workItem.Description = descString;
               }
             } else {
-              error = string.Format("Projektnummer war leer: {0}", wdItemString);
+              error = string.Format("Projektnummer ist leer: {0}", wdItemString);
             }
           }
         } else {

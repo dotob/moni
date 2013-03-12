@@ -52,7 +52,7 @@ namespace MONI.Data {
     public void SaveData(WorkYear year) {
       foreach (var month in year.Months) {
         List<string> data = new List<string>();
-        foreach (var workDay in month.Days.Where(wd => !string.IsNullOrEmpty(wd.OriginalString))) {
+        foreach (var workDay in month.Days.Where(wd => wd.IsChanged)) {
           data.Add(string.Format("{0},{1},{2}|{3}", workDay.Year, workDay.Month, workDay.Day, workDay.OriginalString.Replace(Environment.NewLine, "<br />")));
         }
         var dataFileName = string.Format("{0}_{1}.md", year.Year, month.Month.ToString("00"));
@@ -67,7 +67,7 @@ namespace MONI.Data {
       ReadData();
       foreach (WorkDayPersistenceData data in this.WorkDaysData.Where(wdpd => wdpd.Year == workYear.Year)) {
         var workDay = workYear.GetDay(data.Month, data.Day);
-        workDay.OriginalString = data.OriginalString;
+        workDay.SetData(data.OriginalString);
       }
     }
   }

@@ -41,6 +41,8 @@
       <Util1:ScaleDoubleConverter x:Key="scaleDoubleConverter" />
       <Util1:TodayColorConverter x:Key="todayColorConverter" />
       <Util1:LessThanColorConverter x:Key="lessThanColorConverter" />
+      <Util1:DayOfWeekTranslatorConverter x:Key="dayNameConverter" />
+      
       <SolidColorBrush x:Key="lightText"
                        Color="DarkSlateGray" />
 
@@ -200,40 +202,41 @@
                       VerticalAlignment="Center"
                       IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
+            <Label Grid.Column="0"
+                   Grid.Row="3">Stunden pro Tag [h]</Label>
+            <TextBox Grid.Column="1"
+                     Grid.Row="3"
+                     Margin="2"
+                     Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            
             <!-- auto break -->
             <Label Grid.Column="0"
-                   Grid.Row="3">Automatische Pause einfügen</Label>
+                   Grid.Row="4">Automatische Pause einfügen</Label>
             <CheckBox Grid.Column="1"
-                      Grid.Row="3"
+                      Grid.Row="4"
                       Margin="2"
                       VerticalAlignment="Center"
                       x:Name="autoPause"
                       IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
             <Label Grid.Column="0"
-                   Grid.Row="4"
+                   Grid.Row="5"
                    IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">Uhrzeit [hh:mm]</Label>
             <TextBox Grid.Column="1"
-                     Grid.Row="4"
+                     Grid.Row="5"
                      Margin="2"
                      IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
                      Text="{Binding ParserSettings.DayBreakTime, Converter={StaticResource timeItemConverter}}"></TextBox>
 
             <Label Grid.Column="0"
-                   Grid.Row="5"
+                   Grid.Row="6"
                    IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">Dauer [min]</Label>
             <TextBox Grid.Column="1"
-                     Grid.Row="5"
+                     Grid.Row="6"
                      Margin="2"
                      IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
                      Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-            <Label Grid.Column="0"
-                   Grid.Row="6">Stunden pro Tag [h]</Label>
-            <TextBox Grid.Column="1"
-                     Grid.Row="6"
-                     Margin="2"
-                     Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
             <UniformGrid Grid.Column="0"
                          Grid.Row="7"
@@ -452,7 +455,7 @@
                   <TextBlock Grid.Column="0"
                              Grid.Row="0"
                              Margin="0 4 0 0"
-                             Text="{Binding DayOfWeek}"
+                             Text="{Binding DayOfWeek, Converter={StaticResource dayNameConverter}}"
                              Foreground="{StaticResource lightText}"
                              HorizontalAlignment="Center"></TextBlock>
                   <TextBlock Grid.Column="0"

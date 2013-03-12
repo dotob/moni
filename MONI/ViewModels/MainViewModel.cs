@@ -211,6 +211,7 @@ namespace MONI.ViewModels
       }
       this.WorkMonth = this.WorkYear.Months.ElementAt(date.Month - 1);
       this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == this.calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
+      this.WorkMonth.CalcPreviewHours();
     }
 
     private void CreateAndLoadYear(int year) {
