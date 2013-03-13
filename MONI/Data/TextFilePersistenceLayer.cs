@@ -52,7 +52,8 @@ namespace MONI.Data {
     public void SaveData(WorkYear year) {
       foreach (var month in year.Months) {
         List<string> data = new List<string>();
-        foreach (var workDay in month.Days.Where(wd => wd.IsChanged)) {
+        var changedWorkDays = month.Days.Where(wd => wd.IsChanged || !string.IsNullOrWhiteSpace(wd.OriginalString)).ToList();
+        foreach (var workDay in changedWorkDays) {
           data.Add(string.Format("{0},{1},{2}|{3}", workDay.Year, workDay.Month, workDay.Day, workDay.OriginalString.Replace(Environment.NewLine, "<br />")));
         }
         var dataFileName = string.Format("{0}_{1}.md", year.Year, month.Month.ToString("00"));
