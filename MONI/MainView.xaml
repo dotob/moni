@@ -283,7 +283,8 @@
   </Controls:MetroWindow.Flyouts>
 
   <!-- *** layout root ***************************************************************** -->
-  <Grid>
+  <Grid RenderOptions.ClearTypeHint="Enabled"
+        TextOptions.TextFormattingMode="Display">
     <Grid Margin="0 0 2 0">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="4*"></ColumnDefinition>
