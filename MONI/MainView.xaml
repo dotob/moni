@@ -42,7 +42,7 @@
       <Util1:TodayColorConverter x:Key="todayColorConverter" />
       <Util1:LessThanColorConverter x:Key="lessThanColorConverter" />
       <Util1:DayOfWeekTranslatorConverter x:Key="dayNameConverter" />
-      
+
       <SolidColorBrush x:Key="lightText"
                        Color="DarkSlateGray" />
 
@@ -208,7 +208,7 @@
                      Grid.Row="3"
                      Margin="2"
                      Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            
+
             <!-- auto break -->
             <Label Grid.Column="0"
                    Grid.Row="4">Automatische Pause einfügen</Label>
@@ -236,7 +236,6 @@
                      Margin="2"
                      IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
                      Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-
 
             <UniformGrid Grid.Column="0"
                          Grid.Row="7"
@@ -287,28 +286,29 @@
         TextOptions.TextFormattingMode="Display">
     <Grid Margin="0 0 2 0">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="4*"></ColumnDefinition>
-        <ColumnDefinition Width="2*"></ColumnDefinition>
-        <ColumnDefinition Width="Auto"></ColumnDefinition>
+        <ColumnDefinition Width="4*" />
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
       <Grid.RowDefinitions>
-        <RowDefinition Height="50"></RowDefinition>
-        <RowDefinition Height="*"></RowDefinition>
-        <RowDefinition Height="Auto"></RowDefinition>
+        <RowDefinition Height="50" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
 
       <!-- infos and week change buttons-->
       <Grid Grid.Column="0"
             Grid.Row="0">
+
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="50"></ColumnDefinition>
-          <ColumnDefinition Width="Auto"></ColumnDefinition>
-          <ColumnDefinition Width="*"></ColumnDefinition>
-          <ColumnDefinition Width="61"></ColumnDefinition>
+          <ColumnDefinition Width="50" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="61" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-          <RowDefinition Height="*"></RowDefinition>
-          <RowDefinition Height="*"></RowDefinition>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Button Grid.Column="0"
@@ -331,14 +331,15 @@
           </Rectangle>
         </Button>
 
-        <TextBlock  Grid.Column="1"
-                    Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    FontWeight="Bold"
-                    VerticalAlignment="Bottom"
-                    Foreground="#CC7DBEDA"
-                    FontSize="20"
-                    Text="{Binding ElementName=mv, Path=ViewModel.WorkYear.Year}"></TextBlock>
+        <TextBlock Grid.Column="1"
+                   Grid.Row="0"
+                   HorizontalAlignment="Center"
+                   FontWeight="Bold"
+                   VerticalAlignment="Bottom"
+                   Foreground="#CC119EDA"
+                   FontSize="20"
+                   Text="{Binding ElementName=mv, Path=ViewModel.WorkYear.Year}" />
+
         <StackPanel Grid.Column="2"
                     Grid.Row="0"
                     Orientation="Horizontal"
@@ -356,7 +357,6 @@
                      Foreground="#CC119EDA"
                      FontSize="20"
                      Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat='{}KW: {0}'}"></TextBlock>
-
         </StackPanel>
 
         <StackPanel Grid.Column="2"
@@ -372,7 +372,7 @@
           <TextBlock FontWeight="Bold"
                      VerticalAlignment="Bottom"
                      Margin="2 0 5 2"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.PreviewHours, StringFormat='{} ({0:f} h'}">
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.PreviewHours, StringFormat='{}({0:f} h'}">
             <TextBlock.Foreground>
               <MultiBinding Converter="{StaticResource lessThanColorConverter}">
                 <MultiBinding.Bindings>
@@ -395,7 +395,7 @@
                      VerticalAlignment="Bottom"
                      Foreground="#CC7DBEDA"
                      Margin="2 0 5 2"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.NecessaryHours, StringFormat='{} {0:f} h)'}"></TextBlock>
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.NecessaryHours, StringFormat='{}{0:f} h)'}"></TextBlock>
           <TextBlock FontWeight="Bold"
                      VerticalAlignment="Bottom"
                      FontSize="20"
