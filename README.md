@@ -2,7 +2,7 @@
 
 ## Die Idee ##
 
-Die Idee bei Moni ist, dass es bei der Stundenerfassung nicht so sehr auf exakte Uhrzeiten ankommt, sondern auf die Stunden Anzahl. Deshalb bietet Moni eine einfache Möglichkeit Stundenaufwände einzugeben und trotzdem Start und Endzeiten aufzuzeichnen, sowie automatische Pauseneinträge zu erzeugen. die Eingabe besteht aus einem bestimmten Format, dass unten beschrieben ist. Am Anfang ist es ein bisschen gewöhnungsbedüftig, aber man kann es schnell lernen. 
+Die Idee bei Moni ist, dass es bei der Stundenerfassung nicht so sehr auf exakte Uhrzeiten ankommt, sondern auf die Stunden Anzahl. Deshalb bietet Moni eine einfache Möglichkeit Stundenaufwände einzugeben und trotzdem Start und Endzeiten aufzuzeichnen, sowie automatische Pauseneinträge zu erzeugen. die Eingabe besteht aus einem bestimmten Format, das unten beschrieben ist. Am Anfang ist es ein bisschen gewöhnungsbedüftig, aber man kann es schnell lernen. 
 
 Außerdem bietet Moni weitere Features, die die Eingabe vereinfachen:
 
@@ -12,6 +12,7 @@ Außerdem bietet Moni weitere Features, die die Eingabe vereinfachen:
 - Abkürzungen für ganze Tage
 - Anzeige Stunden pro Projekt/Abkürzung
 - Prognose Arbeitsstunden
+- Monatsstatistik
 - Keyboardnavigation
 
 
