@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
+using MONI.Util;
 
 namespace MONI
 {
@@ -8,6 +10,7 @@ namespace MONI
   public partial class App : Application
   {
     protected override void OnStartup(StartupEventArgs e) {
+      AppHelper.Instance.ConfigureApp(this, Assembly.GetExecutingAssembly().GetName().Name);
       base.OnStartup(e);
     }
   }
