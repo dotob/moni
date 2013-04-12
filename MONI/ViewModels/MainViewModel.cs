@@ -34,6 +34,7 @@ namespace MONI.ViewModels
     private CustomWindowPlacementSettings customWindowPlacementSettings;
 
     private DispatcherTimer throttleSaveAndCalc;
+    private ReadWriteResult persistentResult;
 
     public MainViewModel(Dispatcher dispatcher) {
       this.MonlistSettings = ReadSettings(this.settingsFile);
@@ -45,7 +46,7 @@ namespace MONI.ViewModels
       // read persistencedata
       this.persistenceLayer = new TextFilePersistenceLayer(this.MonlistSettings.MainSettings.DataDirectory);
       this.csvExporter = new CSVExporter(this.MonlistSettings.MainSettings.DataDirectory);
-      this.persistenceLayer.ReadData();
+      //this.persistentResult = this.persistenceLayer.ReadData();
       this.SelectToday(); // sets data from persistencelayer
       if (dispatcher != null) {
         this.throttleSaveAndCalc = new DispatcherTimer(DispatcherPriority.DataBind, dispatcher);
@@ -174,6 +175,10 @@ namespace MONI.ViewModels
         MoniSettings.Current = this.MonlistSettings;
       }
     }
+    public ReadWriteResult PersistentResult {
+      get { return this.persistentResult; }
+      set { this.persistentResult = value; }
+    }
 
     private void SelectPreviousWeek() {
       var look4PrevWeek = this.workYear.Weeks.ElementAtOrDefault(this.workYear.Weeks.IndexOf(this.workWeek) - 1);
@@ -221,7 +226,7 @@ namespace MONI.ViewModels
       }
       this.WorkYear = new WorkYear(year, this.MonlistSettings.ParserSettings.ShortCuts, this.MonlistSettings.MainSettings.HitListLookBackInWeeks, this.MonlistSettings.MainSettings.HoursPerDay);
       this.loadingData = true;
-      this.persistenceLayer.SetDataOfYear(this.WorkYear);
+      this.PersistentResult = this.persistenceLayer.SetDataOfYear(this.WorkYear);
       this.loadingData = false;
     }
 

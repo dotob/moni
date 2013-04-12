@@ -20,6 +20,14 @@ namespace MONI
       this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
       this.CheckForMonlist();
       this.Closed += (sender, e) => this.ViewModel.Save();
+      this.Activated += (s, e) =>
+        {
+          var readWriteResult = this.ViewModel.PersistentResult;
+          if (readWriteResult != null && !readWriteResult.Success) {
+            MessageBox.Show(this, readWriteResult.Error, "Fehler beim Daten einlesen", MessageBoxButton.OK, MessageBoxImage.Error);
+          }
+          this.Close();
+        };
     }
 
     private void CheckForMonlist() {

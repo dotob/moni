@@ -28,28 +28,36 @@ namespace MONI.Data {
       }
     }
 
-    public void ReadData() {
-      var dataFiles = Directory.GetFiles(this.dataDirectory, "*md", SearchOption.TopDirectoryOnly);
-      foreach (var dataFile in dataFiles) {
-        if (File.Exists(dataFile)) {
-          var readAllLines = File.ReadAllLines(dataFile);
-          foreach (var wdLine in readAllLines) {
-            string wdDateData = wdLine.Token("|", 1);
-            var wdDateParts = wdDateData.Split(',').Select(s => Convert.ToInt32(s));
-            WorkDayPersistenceData wdpd = new WorkDayPersistenceData();
-            wdpd.Year = wdDateParts.ElementAt(0);
-            wdpd.Month = wdDateParts.ElementAt(1);
-            wdpd.Day = wdDateParts.ElementAt(2);
+    public ReadWriteResult ReadData() {
+      ReadWriteResult ret = new ReadWriteResult { Success = true};
+      try {
+        var dataFiles = Directory.GetFiles(this.dataDirectory, "*md", SearchOption.TopDirectoryOnly);
+        foreach (var dataFile in dataFiles) {
+          if (File.Exists(dataFile)) {
+            var readAllLines = File.ReadAllLines(dataFile);
+            foreach (var wdLine in readAllLines) {
+              string wdDateData = wdLine.Token("|", 1);
+              var wdDateParts = wdDateData.Split(',').Select(s => Convert.ToInt32(s));
+              WorkDayPersistenceData wdpd = new WorkDayPersistenceData();
+              wdpd.Year = wdDateParts.ElementAt(0);
+              wdpd.Month = wdDateParts.ElementAt(1);
+              wdpd.Day = wdDateParts.ElementAt(2);
 
-            string wdStringData = wdLine.Token("|", 2);
-            wdpd.OriginalString = wdStringData.Replace("<br />", Environment.NewLine);
-            this.workDaysData.Add(wdpd);
+              string wdStringData = wdLine.Token("|", 2);
+              wdpd.OriginalString = wdStringData.Replace("<br />", Environment.NewLine);
+              this.workDaysData.Add(wdpd);
+            }
           }
         }
       }
+      catch (Exception exception) {
+        ret.Success = false;
+        ret.Error = exception.Message;
+      }
+      return ret;
     }
 
-    public void SaveData(WorkYear year) {
+    public ReadWriteResult SaveData(WorkYear year) {
       foreach (var month in year.Months) {
         List<string> data = new List<string>();
         var changedWorkDays = month.Days.Where(wd => wd.IsChanged || !string.IsNullOrWhiteSpace(wd.OriginalString)).ToList();
@@ -62,14 +70,30 @@ namespace MONI.Data {
           File.WriteAllLines(dataFilePath, data);
         }
       }
+      return new ReadWriteResult {Success = true};
     }
 
-    public void SetDataOfYear(WorkYear workYear) {
-      ReadData();
-      foreach (WorkDayPersistenceData data in this.WorkDaysData.Where(wdpd => wdpd.Year == workYear.Year)) {
-        var workDay = workYear.GetDay(data.Month, data.Day);
-        workDay.SetData(data.OriginalString);
+    public ReadWriteResult SetDataOfYear(WorkYear workYear) {
+      var ret = ReadData();
+      WorkDay errorDay = null;
+      if (ret.Success) {
+        try {
+          foreach (WorkDayPersistenceData data in this.WorkDaysData.Where(wdpd => wdpd.Year == workYear.Year)) {
+            var workDay = workYear.GetDay(data.Month, data.Day);
+            errorDay = workDay;
+            workDay.SetData(data.OriginalString);
+          }
+        }
+        catch (Exception exception) {
+          ret.Success = false;
+          string errorMessage = exception.Message;
+          if (errorDay != null) {
+            errorMessage = string.Format("Beim Einlesen von {0} mit Originalstring {1} trat folgender Fehler auf: {2}", errorDay, errorDay.OriginalString, exception.Message);
+          }
+          ret.Error = errorMessage;
+        }
       }
+      return ret;
     }
   }
 
@@ -78,5 +102,11 @@ namespace MONI.Data {
     public int Month { get; set; }
     public int Day { get; set; }
     public string OriginalString { get; set; }
+  }
+
+  public class ReadWriteResult
+  {
+    public string Error { get; set; }
+    public bool Success { get; set; }
   }
 }
