@@ -96,11 +96,15 @@ namespace MONI.ViewModels
     public WorkWeek WorkWeek {
       get { return this.workWeek; }
       set {
+        if (this.workWeek == value) {
+          return;
+        }
+        bool monthChanged = value == null || this.workWeek==null || value.Month != this.workWeek.Month;
         this.workWeek = value;
         this.OnPropertyChanged(() => this.WorkWeek);
 
         // don't know if this perfect, but it works
-        if (value != null) {
+        if (monthChanged && value != null) {
           value.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(value.StartDate));
         }
       }
