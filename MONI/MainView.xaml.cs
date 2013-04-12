@@ -25,8 +25,8 @@ namespace MONI
           var readWriteResult = this.ViewModel.PersistentResult;
           if (readWriteResult != null && !readWriteResult.Success) {
             MessageBox.Show(this, readWriteResult.Error, "Fehler beim Daten einlesen", MessageBoxButton.OK, MessageBoxImage.Error);
+            this.Close();
           }
-          this.Close();
         };
     }
 
