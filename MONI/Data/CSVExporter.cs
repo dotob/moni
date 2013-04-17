@@ -24,9 +24,8 @@ namespace MONI.Data
 
     public void Export(WorkYear year) {
       foreach (var month in year.Months) {
-        var dataFileName = string.Format("monlist_{0}_{1}.txt", year.Year, month.Month.ToString("00"));
-        var dataFilePath = Path.Combine(this.dataDirectory, dataFileName);
-        this.Export(month, dataFilePath);
+        var dataFileName = FilenameForMonth(month);
+        this.Export(month, dataFileName);
       }
     }
 
@@ -60,6 +59,11 @@ namespace MONI.Data
     private void AddHeader(List<string> data) {
       data.Add("Tag     Von     Bis     Std.    Prj-Nr   Pos.     durchgefuehrte Arbeiten");
       data.Add("========================================================================");
+    }
+
+    public string FilenameForMonth(WorkMonth month) {
+      var filename = string.Format("monlist_{0}_{1}.txt", month.Year, month.Month.ToString("00"));
+      return Path.Combine(this.dataDirectory, filename);
     }
   }
 }

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,9 +33,7 @@ namespace MONI
 
     private void CheckForMonlist() {
       var mlp = this.ViewModel.Settings.MainSettings.MonlistExecutablePath;
-      if (string.IsNullOrWhiteSpace(mlp) || !File.Exists(mlp)) {
-        this.OpenMonlist.IsEnabled = false;
-      }
+      this.OpenMonlist.IsEnabled = !(string.IsNullOrWhiteSpace(mlp) || !File.Exists(mlp));
     }
 
     public MainViewModel ViewModel { get; set; }
@@ -137,10 +136,15 @@ namespace MONI
 
     private void EditPreferencesSave_OnClick(object sender, RoutedEventArgs e) {
       this.ViewModel.SaveEditingPreferences();
+      CheckForMonlist();
     }
 
     private void ToMonlist_Button_Click(object sender, RoutedEventArgs e) {
-      // TODO
+      var currentMonthMonlistImportFile = this.ViewModel.CurrentMonthMonlistImportFile;
+      string user = this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber;
+      string pw = ""; // TODO ask user
+      var args = string.Format("--user=\"{0}\" --pw=\"{1}\" --monat=\"{2}\" --jahr=\"{3}\" --file=\"{4}\"", user, pw, this.ViewModel.WorkMonth.Month, this.ViewModel.WorkMonth.Year, currentMonthMonlistImportFile);
+      Process.Start(this.ViewModel.Settings.MainSettings.MonlistExecutablePath, args);
     }
 
     private void WorkDayTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {

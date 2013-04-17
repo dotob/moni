@@ -138,6 +138,9 @@ namespace MONI.Data
         }
       }
     }
+    public int Year {
+      get { return this.year; }
+    }
 
     #region INotifyPropertyChanged Members
 
@@ -173,7 +176,7 @@ namespace MONI.Data
     }
 
     public override string ToString() {
-      return string.Format("year:{0},month:{1},weeks:{2},days:{3}", this.year, this.month, this.Weeks.Count, this.Days.Count);
+      return string.Format("year:{0},month:{1},weeks:{2},days:{3}", this.Year, this.month, this.Weeks.Count, this.Days.Count);
     }
   }
 }

@@ -114,6 +114,7 @@ namespace MONI.ViewModels
       get { return this.workMonth; }
       set {
         this.workMonth = value;
+        this.CurrentMonthMonlistImportFile = this.csvExporter.FilenameForMonth(value);
         this.OnPropertyChanged(() => this.WorkMonth);
       }
     }
@@ -183,6 +184,7 @@ namespace MONI.ViewModels
       get { return this.persistentResult; }
       set { this.persistentResult = value; }
     }
+    public string CurrentMonthMonlistImportFile { get; private set; }
 
     private void SelectPreviousWeek() {
       var look4PrevWeek = this.workYear.Weeks.ElementAtOrDefault(this.workYear.Weeks.IndexOf(this.workWeek) - 1);
