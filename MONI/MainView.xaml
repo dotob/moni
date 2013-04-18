@@ -835,5 +835,46 @@
       </ScrollViewer>
     </Grid>
 
+    <!-- get user password -->
+    <Grid Visibility="{Binding ElementName=mv, Path=ViewModel.ShowPasswordDialog, Converter={StaticResource false2CollapsedConverter}}">
+      <Border Background="SkyBlue"
+              Opacity="0.7" />
+      <TextBlock FontSize="80"
+                 FontWeight="Bold"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Foreground="#2CB4EB"
+                 Margin="0 0 300 200">passwort bitte</TextBlock>
+      <Border Background="White"
+              Width="400"
+              Height="150">
+        <Grid VerticalAlignment="Center">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+          </Grid.ColumnDefinitions>
+          <Label Grid.Column="0"
+                 Grid.Row="0">Passwort</Label>
+          <PasswordBox Grid.Column="1"
+                   Grid.Row="0"
+                   Margin="2"
+                   x:Name="passwordBox"></PasswordBox>
+
+          <Button Grid.Column="0"
+                  Grid.Row="3"
+                  Click="PasswordCancel_OnClick">Abbrechen</Button>
+          <Button Grid.Column="1"
+                  Grid.Row="3"
+                  Click="PasswordOK_OnClick">OK</Button>
+        </Grid>
+      </Border>
+    </Grid>
+
   </Grid>
 </Controls:MetroWindow>

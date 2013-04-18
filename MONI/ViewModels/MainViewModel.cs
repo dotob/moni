@@ -35,6 +35,7 @@ namespace MONI.ViewModels
 
     private DispatcherTimer throttleSaveAndCalc;
     private ReadWriteResult persistentResult;
+    private bool showPasswordDialog;
 
     public MainViewModel(Dispatcher dispatcher) {
       this.MonlistSettings = ReadSettings(this.settingsFile);
@@ -185,6 +186,13 @@ namespace MONI.ViewModels
       set { this.persistentResult = value; }
     }
     public string CurrentMonthMonlistImportFile { get; private set; }
+    public bool ShowPasswordDialog {
+      get { return this.showPasswordDialog; }
+      set {
+        this.showPasswordDialog = value;
+        this.OnPropertyChanged(() => this.ShowPasswordDialog);
+      }
+    }
 
     private void SelectPreviousWeek() {
       var look4PrevWeek = this.workYear.Weeks.ElementAtOrDefault(this.workYear.Weeks.IndexOf(this.workWeek) - 1);

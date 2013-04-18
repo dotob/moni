@@ -140,11 +140,7 @@ namespace MONI
     }
 
     private void ToMonlist_Button_Click(object sender, RoutedEventArgs e) {
-      var currentMonthMonlistImportFile = this.ViewModel.CurrentMonthMonlistImportFile;
-      string user = this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber;
-      string pw = ""; // TODO ask user
-      var args = string.Format("--user=\"{0}\" --pw=\"{1}\" --monat=\"{2}\" --jahr=\"{3}\" --file=\"{4}\"", user, pw, this.ViewModel.WorkMonth.Month, this.ViewModel.WorkMonth.Year, currentMonthMonlistImportFile);
-      Process.Start(this.ViewModel.Settings.MainSettings.MonlistExecutablePath, args);
+      this.ViewModel.ShowPasswordDialog = true;
     }
 
     private void WorkDayTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
@@ -170,6 +166,22 @@ namespace MONI
           tb.SelectionStart = selectionStart;
           e.Handled = true;
         }
+      }
+    }
+
+    private void PasswordCancel_OnClick(object sender, RoutedEventArgs e) {
+      this.ViewModel.ShowPasswordDialog = false;
+    }
+
+    private void PasswordOK_OnClick(object sender, RoutedEventArgs e) {
+      this.ViewModel.ShowPasswordDialog = false;
+      var password = this.passwordBox.Password;
+      if (!string.IsNullOrWhiteSpace(password)) {
+        var currentMonthMonlistImportFile = this.ViewModel.CurrentMonthMonlistImportFile;
+        string user = this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber;
+        string pw = password;
+        var args = string.Format("--user=\"{0}\" --pw=\"{1}\" --monat=\"{2}\" --jahr=\"{3}\" --file=\"{4}\"", user, pw, this.ViewModel.WorkMonth.Month, this.ViewModel.WorkMonth.Year, currentMonthMonlistImportFile);
+        Process.Start(this.ViewModel.Settings.MainSettings.MonlistExecutablePath, args);
       }
     }
   }
