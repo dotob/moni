@@ -21,32 +21,30 @@ Außerdem bietet Moni weitere Features, die die Eingabe vereinfachen:
 ![Hauptansicht](doc/moni_mainwindow.png)
 
 1. Prognose Arbeitstunden
-2. Warnung wenn nicht 8h pro Tag verbraucht
-3. Automatische Pauseneintragung
-4. Hervorhebung Feiertage
+2. Hervorhebung Feiertage
+3. Warnung wenn nicht 8h pro Tag verbraucht
+4. Automatische Pauseneintragung
 5. Mehrzeilige Einträge
-6. Beschreibungen von Abkürzungen ersetzen
-7. Beschreibungen von Abkürzungen erweiteren
+6. Beschreibungen von Abkürzungen erweiteren
+7. Beschreibungen von Abkürzungen ersetzen
 8. Abkürzungen für ganze Tage
 9. Hervorhebung Wochenende
-10. Abkürzungen mit Nutzungsstatistik, können in direkt hinzugefügt werden
-11. Editieren von Abkürzungen (erscheint beim Mouseover)
+10. Abkürzungen
+11. Monatliche Nutzungsstatistik (Tagesgenau und Summe)
 12. Hervorhebung von Abkürzungen für ganze Tage
-13. Hitliste der Abkürzuungen
+13. Monlist starten und Daten importieren
 14. Link zu Github
-15. Einstellungen editieren
+15. Einstellungen
 
-![Shortcut editieren](doc/moni_shortcut.png)
-![Einstellungen editieren](doc/moni_settings.png)
+![Shortcut bearbeiten](doc/moni_shortcut.png)
+![Einstellungen bearbeiten](doc/moni_settings.png)
 
 ## Installation ##
 
 1. Aktuelle Versionen [hier](https://github.com/dotob/moni/tree/master/dist) runterladen.
 2. Zip entpacken
 3. Moni.exe starten
-4. Es wird beim Start ein **data** Verzeichnis angelegt. Der Ort dieses Verzeichnis kann geändert werden:
-5. Ab Version 0.9.8.0 können die Einstellungen zum Teil direkt im Hauptfenster geändert werden
-6. Shortcuts können seit Version 0.9.7.0 direkt im Interface geändert werden
+4. Es wird beim Start ein **data** Verzeichnis angelegt. Der Ort dieses Verzeichnisses kann geändert werden:
 
 ## Keyboad Shortcuts ##
 
@@ -59,9 +57,31 @@ Außerdem bietet Moni weitere Features, die die Eingabe vereinfachen:
 - **escape**: Gehe zu Heute
 
 ### Andere ###
-- **strg+u**: Eingabe des letzten Tages hierhin kopieren
+- **strg+u**: Eingabe des vorigen Tages in aktuellen Tag kopieren
+- **strg+n**: Neuen Eintrag mit Endzeit jetzt im aktuellen Tag erstellen
+- **cursor hoch**: Aktuellen Eintrag um 15min erhöhen bzw. erweitern
+- **cursor runter**: Aktuellen Eintrag um 15min erniedrigen bzw. verkürzen
 
 # Dokumentation der Eingabe #
+
+## Uhrzeiten eingeben ##
+
+Korrekte Eingaben (Beispiele):
+
+- 8
+- 8:00
+- 800
+- 8:30
+- 830
+- 85 => 8:05
+
+## Stunden ##
+
+**Trennzeichen ist hier der Dezimalpunkt!!**
+
+- 1
+- 1.5
+- 1.75
 
 ## Ganz einfach: Ein Eintrag ##
 
@@ -75,7 +95,7 @@ Ausgabe:
 
 Erläuterung: 
 
-Erste Zahl vor dem Komma ist die Startzeit, gefolgt von der Anzahl der Stunden und Project-Position
+Erste Zahl vor dem Komma ist die Startzeit, gefolgt von der Anzahl der Stunden und Projekt-Position
 
 ## Mehrere Einträge ##
 
@@ -90,7 +110,7 @@ Ausgabe:
 
 Erläuterung: 
 
-Kommasepariert werde die Einträge aneinandergereiht
+Kommasepariert werden die Einträge aneinandergereiht
 
 ## Teilstunden ##
 
@@ -105,7 +125,7 @@ Ausgabe:
 
 Erläuterung: 
 
-Uhrzeiten werden im Format **stunde:minute** angegeben. Stunden mit **punkt** getrennt
+Uhrzeiten werden im Format **Stunde:Minute** angegeben. Stunden mit **Punkt** getrennt
 
 
 ## Beschreibungen ##
@@ -121,14 +141,14 @@ Ausgabe:
 
 Erläuterung: 
 
-Beschreibungen können pro Eintrag in **klammern** angegeben werden
+Beschreibungen können pro Eintrag in **Klammern** angegeben werden
 
 ## Abkürzungen ##
 
 Konfiguration:
 
-**ctb => 12345-000**
-**ktl => 54321-000(spezifikation)**
+- **ctb => 12345-000**
+- **ktl => 54321-000(spezifikation)**
 
 Eingabe: 
 
@@ -165,7 +185,7 @@ Abkürzungen können auch Beschreibungen enthalten. Wird die Abkürzung mit Besc
 
 Konfiguration:
 
-- **krank => 8,8;12345-000(krank oder doc)** (WholeDayExpansion  = true, siehe settings.json erläuterung)
+- **krank => 8,8;12345-000(krank oder doc)** (Beim Anlegen eines Shortcut angeben, dass er einen ganzen Tag ersetzt!)
 
 Eingabe: 
 
@@ -188,15 +208,15 @@ Ausgabe:
 
 Erläuterung: 
 
-Endet ein Eintrag mit **!** dann wird die folgende Stundenzahl als Pause eingefügt
+Endet ein Eintrag mit **!** dann wird die Stundenzahl als Pause eingefügt
 
 ## Automatische Pause ##
 
 Konfiguration:
 
-- **pause einfügen**
-- **pause um 12:00**
-- **pausenlänge 30min**
+- **Pause einfügen**
+- **Pause um 12:00 Uhr**
+- **Pausenlänge 30 min**
 
 Eingabe: 
 
@@ -209,15 +229,15 @@ Ausgabe:
 
 Erläuterung: 
 
-Es wird automatisch ein Pause um 12:00 eingefügt
+Es wird automatisch eine Pause um 12:00 eingefügt
 
 ## Automatische Pause für einen Tag deaktivieren ##
 
 Konfiguration:
 
-- **pause einfügen**
-- **pause um 12:00**
-- **pausenlänge 30min**
+- **Pause einfügen**
+- **Pause um 12:00 Uhr**
+- **Pausenlänge 30 min**
 
 Eingabe: 
 
@@ -231,7 +251,7 @@ Erläuterung:
 
 mit "//" kann das Einfügen einer automatischen Pause für diesen Tag ausgeschaltet werden
 
-## Endzeit statt Stunden anzahl ##
+## Endzeit statt Stundenanzahl ##
 
 Eingabe: 
 
@@ -243,7 +263,7 @@ Ausgabe:
 
 Erläuterung: 
 
-Statt der Stunden Anzahl kann auch eine Zeit eingegeben werden, diese muß dann mit **-** prefixed werden. Automatische Pausen werden dabei ebenfalls berücksichtigt
+Statt der Stunden Anzahl kann auch eine Zeit eingegeben werden, diese muß dann mit **-** prefixed werden. Automatische Pausen werden dabei ebenfalls berücksichtigt.
 
 
 
