@@ -1,4 +1,4 @@
-# Moni - Der schnellere Deg Stunden zu erfassen #
+# Moni - Der schnellere Weg Stunden zu erfassen #
 
 ## Die Idee ##
 
