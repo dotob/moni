@@ -184,5 +184,9 @@ namespace MONI
         Process.Start(this.ViewModel.Settings.MainSettings.MonlistExecutablePath, args);
       }
     }
+
+    private void ShowPNSearch_Button_Click(object sender, RoutedEventArgs e) {
+      this.ViewModel.PNSearch.ShowPNSearch = true;
+    }
   }
 }

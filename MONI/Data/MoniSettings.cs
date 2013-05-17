@@ -11,7 +11,7 @@ namespace MONI.Data
     public WorkDayParserSettings ParserSettings { get; set; }
     public MainSettings MainSettings { get; set; }
     public static MoniSettings GetEmptySettings() {
-      var ms = new MainSettings { DataDirectory = AppDomain.CurrentDomain.BaseDirectory };
+      var ms = new MainSettings { DataDirectory = AppDomain.CurrentDomain.BaseDirectory, MonlistExecutablePath = @"n:\Monlist2\Monlist2.exe", ProjectNumberFilePath = @"n:\Monlist2\projekte.txt" };
       return new MoniSettings { ParserSettings = new WorkDayParserSettings(), MainSettings = ms };
     }
 
@@ -31,6 +31,7 @@ namespace MONI.Data
     public bool ShowProjectHitList { get; set; }
     public WINDOWPLACEMENT? Placement { get; set; }
     public float HoursPerDay { get; set; }
+    public string ProjectNumberFilePath { get; set; }
   }
 
   public class WorkDayParserSettings

@@ -120,8 +120,12 @@
     <Compile Include="Tests\CalendarInitTester.cs" />
     <Compile Include="Tests\TimeItemTester.cs" />
     <Compile Include="Util\ViewModelBase.cs" />
+    <Compile Include="ViewModels\PNSearchViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ShortcutViewModel.cs" />
+    <Compile Include="Views\PNSearchView.xaml.cs">
+      <DependentUpon>PNSearchView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ShortcutView.xaml.cs">
       <DependentUpon>ShortcutView.xaml</DependentUpon>
     </Compile>
@@ -156,6 +160,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PNSearchView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

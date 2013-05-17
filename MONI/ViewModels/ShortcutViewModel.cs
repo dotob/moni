@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
@@ -113,4 +114,5 @@ namespace MONI.ViewModels
 
     public string Error { get; private set; }
   }
+
 }

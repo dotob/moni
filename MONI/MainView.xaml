@@ -114,6 +114,26 @@
           </Rectangle>
         </StackPanel>
       </Button>
+      <Button Click="ShowPNSearch_Button_Click">
+        <StackPanel Orientation="Horizontal">
+          <Rectangle Width="15"
+                     Height="20">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="White" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_page_search}" />
+            </Rectangle.Fill>
+            <Rectangle.ToolTip>
+              <ToolTip>
+                <TextBlock Text="Projektnummern-Suche"></TextBlock>
+              </ToolTip>
+            </Rectangle.ToolTip>
+          </Rectangle>
+        </StackPanel>
+      </Button>
       <Button Click="EditPreferences_Button_Click">
         <StackPanel Orientation="Horizontal">
           <Rectangle Width="20"
@@ -174,6 +194,7 @@
               <RowDefinition Height="Auto"></RowDefinition>
               <RowDefinition Height="Auto"></RowDefinition>
               <RowDefinition Height="Auto"></RowDefinition>
+              <RowDefinition Height="Auto"></RowDefinition>
               <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -189,31 +210,38 @@
                      Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
             <Label Grid.Column="0"
-                   Grid.Row="1">Monlist.exe-Pfad</Label>
+                   Grid.Row="1">projekte.txt-Pfad</Label>
             <TextBox Grid.Column="1"
                      Grid.Row="1"
+                     Margin="2"
+                     Text="{Binding MainSettings.ProjectNumberFilePath, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            
+            <Label Grid.Column="0"
+                   Grid.Row="2">Monlist.exe-Pfad</Label>
+            <TextBox Grid.Column="1"
+                     Grid.Row="2"
                      Margin="2"
                      Text="{Binding MainSettings.MonlistExecutablePath, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             
             <Label Grid.Column="0"
-                   Grid.Row="2">Mitarbeiternummer</Label>
+                   Grid.Row="3">Mitarbeiternummer</Label>
             <TextBox Grid.Column="1"
-                     Grid.Row="2"
+                     Grid.Row="3"
                      Margin="2"
                      Text="{Binding MainSettings.MonlistEmployeeNumber, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
             <Label Grid.Column="0"
-                   Grid.Row="3">Project-Hitliste anzeigen</Label>
+                   Grid.Row="4">Project-Hitliste anzeigen</Label>
             <CheckBox Grid.Column="1"
-                      Grid.Row="3"
+                      Grid.Row="4"
                       Margin="2"
                       VerticalAlignment="Center"
                       IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
             <Label Grid.Column="0"
-                   Grid.Row="4">Stunden pro Tag [h]</Label>
+                   Grid.Row="5">Stunden pro Tag [h]</Label>
             <TextBox Grid.Column="1"
-                     Grid.Row="4"
+                     Grid.Row="5"
                      Margin="2"
                      Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
@@ -228,25 +256,25 @@
                       IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
             <Label Grid.Column="0"
-                   Grid.Row="6"
+                   Grid.Row="7"
                    IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">Uhrzeit [hh:mm]</Label>
             <TextBox Grid.Column="1"
-                     Grid.Row="6"
+                     Grid.Row="7"
                      Margin="2"
                      IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
                      Text="{Binding ParserSettings.DayBreakTime, Converter={StaticResource timeItemConverter}}"></TextBox>
 
             <Label Grid.Column="0"
-                   Grid.Row="7"
+                   Grid.Row="8"
                    IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">Dauer [min]</Label>
             <TextBox Grid.Column="1"
-                     Grid.Row="7"
+                     Grid.Row="8"
                      Margin="2"
                      IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
                      Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
             <UniformGrid Grid.Column="0"
-                         Grid.Row="8"
+                         Grid.Row="9"
                          Grid.ColumnSpan="2"
                          VerticalAlignment="Bottom"
                          Columns="2">
@@ -282,6 +310,29 @@
           </DataTemplate.Resources>
           <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
           <views:ShortcutView x:Name="shortcutView"
+                              IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
+        </DataTemplate>
+      </Controls:Flyout.ContentTemplate>
+    </Controls:Flyout>
+    
+    <!-- search projectnumbers -->
+    <Controls:Flyout Header="Projektnummern-Suche"
+                     Position="Right"
+                     Background="#333333"
+                     KeyboardNavigation.TabNavigation="Cycle"
+                     Content="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
+                     IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}">
+      <Controls:Flyout.ContentTemplate>
+        <DataTemplate DataType="{x:Type viewModels:PNSearchViewModel}">
+          <DataTemplate.Resources>
+            <Style TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+            </Style>
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+          </DataTemplate.Resources>
+          <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+          <views:PNSearchView x:Name="pnSearchView"
                               IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
         </DataTemplate>
       </Controls:Flyout.ContentTemplate>

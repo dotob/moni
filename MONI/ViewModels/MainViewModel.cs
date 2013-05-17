@@ -44,6 +44,9 @@ namespace MONI.ViewModels
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.Settings);
       WorkDayParser.Instance = new WorkDayParser(this.Settings.ParserSettings);
 
+      // pnsearch
+      this.PNSearch = new PNSearchViewModel(this.Settings.MainSettings.ProjectNumberFilePath);
+
       // read persistencedata
       this.persistenceLayer = new TextFilePersistenceLayer(this.MonlistSettings.MainSettings.DataDirectory);
       this.csvExporter = new CSVExporter(this.MonlistSettings.MainSettings.DataDirectory);
@@ -185,7 +188,9 @@ namespace MONI.ViewModels
       get { return this.persistentResult; }
       set { this.persistentResult = value; }
     }
+
     public string CurrentMonthMonlistImportFile { get; private set; }
+
     public bool ShowPasswordDialog {
       get { return this.showPasswordDialog; }
       set {
@@ -193,6 +198,8 @@ namespace MONI.ViewModels
         this.OnPropertyChanged(() => this.ShowPasswordDialog);
       }
     }
+
+    public PNSearchViewModel PNSearch { get; set; }
 
     private void SelectPreviousWeek() {
       var look4PrevWeek = this.workYear.Weeks.ElementAtOrDefault(this.workYear.Weeks.IndexOf(this.workWeek) - 1);
