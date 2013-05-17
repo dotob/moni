@@ -10,12 +10,15 @@ using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
 using MONI.Data;
 using MONI.Util;
+using NLog;
 using Newtonsoft.Json;
 
 namespace MONI.ViewModels
 {
   public class MainViewModel : ViewModelBase, IDropTarget
   {
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
     private ICommand nextWeekCommand;
     private readonly TextFilePersistenceLayer persistenceLayer;
     private ICommand previousWeekCommand;
@@ -26,7 +29,7 @@ namespace MONI.ViewModels
     private MoniSettings monlistSettings;
     private ShortcutViewModel editShortCut;
 
-    private readonly string settingsFile = "settings.json";
+    private string settingsFile;
     Calendar calendar = new GregorianCalendar();
     private MoniSettings editPreferences;
     private Visibility projectListVisibility;
@@ -38,7 +41,10 @@ namespace MONI.ViewModels
     private bool showPasswordDialog;
 
     public MainViewModel(Dispatcher dispatcher) {
+      // handle settings
+      this.settingsFile = this.DetermineSettingsFile();
       this.MonlistSettings = ReadSettings(this.settingsFile);
+
       this.ProjectListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.Settings = this.MonlistSettings;
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.Settings);
@@ -58,6 +64,25 @@ namespace MONI.ViewModels
       }
     }
 
+    private string DetermineSettingsFile() {
+      logger.Debug("determine settingsfile location");
+      // check if there is a settings file in userdir
+      var fileName = "settings.json";
+      var moniAppData = Utils.MoniAppDataPath();
+      var moniAppDataSettingsFile = Path.Combine(moniAppData, fileName);
+      if (File.Exists(moniAppDataSettingsFile)) {
+        logger.Debug("found settingsfile in appdata: {0}", moniAppDataSettingsFile);
+        return moniAppDataSettingsFile;
+      }
+      // check if we can create settings file in exe dir
+      if (Utils.CanCreateFile(".")) {
+        logger.Debug("could write in currentdir: {0} use {1} as settingsfile",Directory.GetCurrentDirectory(), fileName);
+        return fileName;
+      }
+      logger.Debug("create new settingsfile in appdata: {0}", moniAppDataSettingsFile);
+      return moniAppDataSettingsFile;
+    }
+
     private void throttleSaveAndCalc_Tick(object sender, EventArgs e) {
       this.SaveAndCalc();
       this.throttleSaveAndCalc.Stop();
@@ -68,6 +93,14 @@ namespace MONI.ViewModels
         var jsonString = File.ReadAllText(settingsFile);
         return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
       }
+      // no settingsfile found, try to read sample settings
+      var settingsJsonSkeleton = "settings.json.skeleton";
+      if (File.Exists(settingsJsonSkeleton)) {
+        var jsonString = File.ReadAllText(settingsJsonSkeleton);
+        return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+      }
+
+      // no samplesettings, use default
       return MoniSettings.GetEmptySettings();
     }
 

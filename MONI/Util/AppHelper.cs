@@ -146,8 +146,13 @@ namespace MONI.Util
 
       // Step 3. Set target properties 
       consoleTarget.Layout = "${longdate} ${level:uppercase=true} ${logger} ${message} ${exception:format=Message,Type,StackTrace:separator=//}";
-
-      fileTarget.FileName = "${basedir}/Logs/" + this.ApplicationName + ".log.${shortdate}";
+      
+      // check where we can write
+      if (Utils.CanCreateFile(".")) {
+        fileTarget.FileName = "${basedir}/Logs/" + this.ApplicationName + ".log.${shortdate}";
+      } else {
+        fileTarget.FileName = Utils.MoniAppDataPath() + "/Logs/" + this.ApplicationName + ".log.${shortdate}";
+      }
       fileTarget.KeepFileOpen = false;
       fileTarget.CreateDirs = true;
       fileTarget.ConcurrentWrites = true;
