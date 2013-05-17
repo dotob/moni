@@ -14,6 +14,7 @@ Außerdem bietet Moni weitere Features, die die Eingabe vereinfachen:
 - Prognose Arbeitsstunden
 - Monatsstatistik
 - Keyboardnavigation
+- Projektnummernsuche
 
 
 ## Das Interface ##
@@ -38,13 +39,22 @@ Außerdem bietet Moni weitere Features, die die Eingabe vereinfachen:
 
 ![Shortcut bearbeiten](doc/moni_shortcut.png)
 ![Einstellungen bearbeiten](doc/moni_settings.png)
+![Projektnummern-Suche](doc/moni_pnsearch.png)
 
 ## Installation ##
 
 1. Aktuelle Versionen [hier](https://github.com/dotob/moni/tree/master/dist) runterladen.
 2. Zip entpacken
 3. Moni.exe starten
-4. Es wird beim Start ein **data** Verzeichnis angelegt. Der Ort dieses Verzeichnisses kann geändert werden:
+4. Es wird beim Start ein **data** Verzeichnis angelegt.
+
+## Admin ##
+
+Beim ersten starten möchte moni gern loggen, eine Settings-Datei und ein Daten-Verzeichnis anlegen. Dabei wird das Verzeichnis in dem gestartet wurde bevorzugt. Ist dieses nicht schreibbar, dann wird in das ApplicationData-Verzeichnis (ab Win 7 etwa hier: c:\Users\deinusername\AppData\Roaming\) geschrieben. 
+
+Für die Settings-Datei wird eine Standardversion genommen, falls im Startverzeichnis keine **settings.json.skeleton** liegt. Sonst wird diese als vorlage genutzt. 
+
+In der Einstellung DataDirectory kann **#{appdata}** als Platzhalter für das ApplicationData-Verzeichnis (+/moni) genutzt werden.
 
 ## Keyboad Shortcuts ##
 

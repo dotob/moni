@@ -54,8 +54,9 @@ namespace MONI.ViewModels
       this.PNSearch = new PNSearchViewModel(this.Settings.MainSettings.ProjectNumberFilePath);
 
       // read persistencedata
-      this.persistenceLayer = new TextFilePersistenceLayer(this.MonlistSettings.MainSettings.DataDirectory);
-      this.csvExporter = new CSVExporter(this.MonlistSettings.MainSettings.DataDirectory);
+      var dataDirectory = this.MonlistSettings.MainSettings.DataDirectory.Replace("#{appdata}", Utils.MoniAppDataPath());
+      this.persistenceLayer = new TextFilePersistenceLayer(dataDirectory);
+      this.csvExporter = new CSVExporter(dataDirectory);
       //this.persistentResult = this.persistenceLayer.ReadData();
       this.SelectToday(); // sets data from persistencelayer
       if (dispatcher != null) {
