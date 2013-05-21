@@ -307,6 +307,17 @@ namespace MONI.Data
     }
 
     public IList<string> SplitIntoParts(string text) {
+      var ret = new List<string>();
+      var lines = text.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+      foreach (var line in lines) {
+        ret.AddRange(SplitIntoPartsIntern(line));
+        ret.Add(Environment.NewLine);
+      }
+      // remove last newline
+      return ret.Take(ret.Count - 1).ToList();
+    }
+
+    public IList<string> SplitIntoPartsIntern(string text) {
       var splitted = new List<string>();
       string tmp = string.Empty;
       foreach (char c in text) {
@@ -318,7 +329,9 @@ namespace MONI.Data
           tmp += c;
         }
       }
-      splitted.Add(tmp);
+      if (!string.IsNullOrEmpty(tmp)) {
+        splitted.Add(tmp);
+      }
       return splitted;
     }
 

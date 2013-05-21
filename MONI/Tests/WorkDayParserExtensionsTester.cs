@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MONI.Data;
 using NUnit.Framework;
 
@@ -113,6 +114,14 @@ namespace MONI.Tests
         Assert.AreEqual("-16:00", newText, string.Format("wrong text pos:{0}", i));
         Assert.AreEqual(6, idx);
       }
+    }
+
+    [Test]
+    public void WDPSplitIntoParts_ConsiderNewline() {
+      var parts = wdp.SplitIntoParts(@"9,4;12345-000,
+-16:00;12345-001,
+-17:00;12345-001");
+      CollectionAssert.AreEqual(new[] { "9", ",", "4", ";", "12345-000", ",", Environment.NewLine, "-16:00", ";", "12345-001", ",", Environment.NewLine, "-17:00", ";", "12345-001" }, parts);
     }
   }
 }
