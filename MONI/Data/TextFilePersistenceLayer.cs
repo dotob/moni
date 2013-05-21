@@ -34,6 +34,7 @@ namespace MONI.Data {
         foreach (var dataFile in dataFiles) {
           if (File.Exists(dataFile)) {
             var readAllLines = File.ReadAllLines(dataFile);
+            int i = 0;
             foreach (var wdLine in readAllLines) {
               string wdDateData = wdLine.Token("|", 1);
               var wdDateParts = wdDateData.Split(',').Select(s => Convert.ToInt32(s));
@@ -41,10 +42,13 @@ namespace MONI.Data {
               wdpd.Year = wdDateParts.ElementAt(0);
               wdpd.Month = wdDateParts.ElementAt(1);
               wdpd.Day = wdDateParts.ElementAt(2);
+              wdpd.LineNumber = i;
+              wdpd.FileName = dataFile;
 
               string wdStringData = wdLine.Token("|", 2);
               wdpd.OriginalString = wdStringData.Replace("<br />", Environment.NewLine);
               this.workDaysData.Add(wdpd);
+              i++;
             }
           }
         }
@@ -88,14 +92,14 @@ namespace MONI.Data {
               ret.Success = false;
               string errorMessage = exception.Message;
               if (errorDay != null) {
-                errorMessage = string.Format("Beim Einlesen von {0} mit Originalstring {1} trat folgender Fehler auf: {2}", errorDay, errorDay.OriginalString, exception.Message);
+                errorMessage = string.Format("Beim Einlesen von {0} in der Datei {1} trat in Zeile {2} folgender Fehler auf: {3}", errorDay, data.FileName, data.LineNumber, exception.Message);
               }
               ret.Error = errorMessage;
             }
           }
         }
         if (ret.ErrorCount > 1) {
-          ret.Error += string.Format("\n\n\nEs liegen noch {0} andere Fehler vor.", ret.ErrorCount);
+          ret.Error += string.Format("\n\n\nEs liegen noch {0} weitere Fehler vor.", ret.ErrorCount);
         }
       }
       return ret;
@@ -107,6 +111,8 @@ namespace MONI.Data {
     public int Month { get; set; }
     public int Day { get; set; }
     public string OriginalString { get; set; }
+    public int LineNumber { get; set; }
+    public string FileName { get; set; }
   }
 
   public class ReadWriteResult
