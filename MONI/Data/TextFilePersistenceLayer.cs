@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using MONI.Util;
+using NLog;
 
 namespace MONI.Data {
   public class TextFilePersistenceLayer
   {
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     private readonly string dataDirectory;
     private List<WorkDayPersistenceData> workDaysData = new List<WorkDayPersistenceData>();
 
@@ -15,10 +17,11 @@ namespace MONI.Data {
       // check for dir
       if (!Directory.Exists(dataDirectory)) {
         try {
+          logger.Debug("try to create data dir: {0}", dataDirectory);
           Directory.CreateDirectory(dataDirectory);
         }
         catch (Exception e) {
-          Console.WriteLine(e);
+          logger.Error("failed to create data dir: {0} with: {1}", dataDirectory, e);
         }
       }
     }
@@ -32,6 +35,7 @@ namespace MONI.Data {
       try {
         var dataFiles = Directory.GetFiles(this.dataDirectory, "*md", SearchOption.TopDirectoryOnly);
         foreach (var dataFile in dataFiles) {
+          logger.Debug("start reading data from file: {0}", dataFile);
           if (File.Exists(dataFile)) {
             var readAllLines = File.ReadAllLines(dataFile);
             int i = 0;
@@ -56,6 +60,7 @@ namespace MONI.Data {
       catch (Exception exception) {
         ret.Success = false;
         ret.Error = exception.Message;
+        logger.ErrorException("readdata failed", exception);
       }
       return ret;
     }
@@ -93,6 +98,7 @@ namespace MONI.Data {
               string errorMessage = exception.Message;
               if (errorDay != null) {
                 errorMessage = string.Format("Beim Einlesen von {0} in der Datei {1} trat in Zeile {2} folgender Fehler auf: {3}", errorDay, data.FileName, data.LineNumber, exception.Message);
+                logger.Error(errorMessage);
               }
               ret.Error = errorMessage;
             }

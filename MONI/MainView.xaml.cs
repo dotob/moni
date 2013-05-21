@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -7,6 +8,7 @@ using System.Windows.Input;
 using MONI.Data;
 using MONI.ViewModels;
 using MahApps.Metro.Controls;
+using NLog;
 
 namespace MONI
 {
@@ -15,8 +17,16 @@ namespace MONI
   /// </summary>
   public partial class MainView : MetroWindow
   {
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
     public MainView() {
-      this.ViewModel = new MainViewModel(this.Dispatcher);
+      try {
+        this.ViewModel = new MainViewModel(this.Dispatcher);
+      }
+      catch (Exception exception) {
+        MessageBox.Show(this, exception.Message, "Fehler beim Starten", MessageBoxButton.OK, MessageBoxImage.Error);
+        logger.ErrorException("error while starting", exception);
+      }
       this.InitializeComponent();
       this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
       this.CheckForMonlist();
