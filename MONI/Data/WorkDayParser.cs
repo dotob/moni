@@ -8,6 +8,7 @@ namespace MONI.Data
 {
   public class WorkDayParser
   {
+
     private readonly char dayStartSeparator = ',';
     private readonly char hourProjectInfoSeparator = ';';
     private readonly char itemSeparator = ',';
@@ -47,7 +48,7 @@ namespace MONI.Data
             List<WorkItemTemp> tmpList = new List<WorkItemTemp>();
             foreach (var wdItemString in wdItemsAsString) {
               WorkItemTemp workItem;
-              if (this.GetWDItem(wdItemString, out workItem, out error, wdToFill.DateTime, wholeDayShortcut)) {
+              if (this.GetWDTempItem(wdItemString, out workItem, out error, wdToFill.DateTime, wholeDayShortcut)) {
                 tmpList.Add(workItem);
               } else {
                 ret.Error = error;
@@ -62,6 +63,8 @@ namespace MONI.Data
                 wdToFill.AddWorkItem(workItem);
               }
               ret.Success = true;
+            } else {
+              ret.Error = error;
             }
           } else {
             // this is no error for now
@@ -98,46 +101,52 @@ namespace MONI.Data
       List<WorkItem> resultListTmp = new List<WorkItem>();
       TimeItem lastTime = dayStartTime;
       foreach (var workItemTemp in tmpList) {
-        // check for pause
-        if (workItemTemp.IsPause) {
-          lastTime += workItemTemp.HourCount;
-        } else {
-          bool endTimeMode = false; // if endTimeMode do not add, but substract break!
-          TimeItem currentEndTime;
-          if (workItemTemp.DesiredEndtime != null) {
-            currentEndTime = workItemTemp.DesiredEndtime;
-            endTimeMode = true;
+        try {
+          // check for pause
+          if (workItemTemp.IsPause) {
+            lastTime += workItemTemp.HourCount;
           } else {
-            currentEndTime = lastTime + workItemTemp.HourCount;
-          }
-          // check for split
-          if (this.settings != null && this.settings.InsertDayBreak && !ignoreBreakSettings) {
-            // the break is in an item
-            if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
-              // insert new item
-              resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut));
-              lastTime = this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes / 60d;
-              if (!endTimeMode) {
-                // fixup currentEndTime, need to add the dayshiftbreak
-                currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes / 60d;
-              }
-            } else if (this.settings.DayBreakTime.Equals(lastTime)) {
-              lastTime = lastTime + this.settings.DayBreakDurationInMinutes / 60d;
-              if (!endTimeMode) {
-                currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes / 60d;
+            bool endTimeMode = false; // if endTimeMode do not add, but substract break!
+            TimeItem currentEndTime;
+            if (workItemTemp.DesiredEndtime != null) {
+              currentEndTime = workItemTemp.DesiredEndtime;
+              endTimeMode = true;
+            } else {
+              currentEndTime = lastTime + workItemTemp.HourCount;
+            }
+            // check for split
+            if (this.settings != null && this.settings.InsertDayBreak && !ignoreBreakSettings) {
+              // the break is in an item
+              if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
+                // insert new item
+                resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut));
+                lastTime = this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes / 60d;
+                if (!endTimeMode) {
+                  // fixup currentEndTime, need to add the dayshiftbreak
+                  currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes / 60d;
+                }
+              } else if (this.settings.DayBreakTime.Equals(lastTime)) {
+                lastTime = lastTime + this.settings.DayBreakDurationInMinutes / 60d;
+                if (!endTimeMode) {
+                  currentEndTime = currentEndTime + this.settings.DayBreakDurationInMinutes / 60d;
+                }
               }
             }
+            resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut));
+            lastTime = currentEndTime;
+            success = true;
           }
-          resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut));
-          lastTime = currentEndTime;
-          success = true;
+        }
+        catch (Exception exception) {
+          error = string.Format("Beim Verarbeiten von \"{0}\" ist dieser Fehler aufgetreten: \"{1}\"", workItemTemp.OriginalString, exception.Message);
+          success = false;
         }
       }
       resultList = resultListTmp;
       return success;
     }
 
-    private bool GetWDItem(string wdItemString, out WorkItemTemp workItem, out string error, DateTime dateTime, ShortCut wholeDayShortcut) {
+    private bool GetWDTempItem(string wdItemString, out WorkItemTemp workItem, out string error, DateTime dateTime, ShortCut wholeDayShortcut) {
       bool success = false;
       workItem = null;
       error = string.Empty;
@@ -145,7 +154,7 @@ namespace MONI.Data
       if (wdItemString.EndsWith("!")) {
         double pauseDuration;
         if (double.TryParse(wdItemString.Substring(0, wdItemString.Length - 1), NumberStyles.Float, CultureInfo.InvariantCulture, out pauseDuration)) {
-          workItem = new WorkItemTemp();
+          workItem = new WorkItemTemp(wdItemString);
           workItem.HourCount = pauseDuration;
           workItem.IsPause = true;
           success = true;
@@ -157,7 +166,7 @@ namespace MONI.Data
           if (timeString.StartsWith(this.endTimeStartChar.ToString())) {
             TimeItem ti;
             if (TimeItem.TryParse(timeString.Substring(1), out ti)) {
-              workItem = new WorkItemTemp();
+              workItem = new WorkItemTemp(wdItemString);
               workItem.DesiredEndtime = ti;
             } else {
               error = string.Format("Die Endzeit kann nicht erkannt werden: {0}", timeString);
@@ -165,7 +174,7 @@ namespace MONI.Data
           } else {
             double hours;
             if (double.TryParse(timeString, NumberStyles.Float, CultureInfo.InvariantCulture, out hours)) {
-              workItem = new WorkItemTemp();
+              workItem = new WorkItemTemp(wdItemString);
               workItem.HourCount = hours;
             } else {
               error = string.Format("Die Stundeninfo kann nicht erkannt werden: {0}", timeString);
@@ -369,12 +378,17 @@ namespace MONI.Data
 
   internal class WorkItemTemp
   {
+    public WorkItemTemp(string originalString) {
+      this.OriginalString = originalString;
+    }
+
     public bool IsPause { get; set; }
     public double HourCount { get; set; }
     public TimeItem DesiredEndtime { get; set; }
     public string ProjectString { get; set; }
     public string PosString { get; set; }
     public string Description { get; set; }
+    public string OriginalString { get; set; }
     public ShortCut ShortCut { get; set; }
   }
 }

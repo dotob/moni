@@ -10,16 +10,16 @@ namespace MONI.Data {
     [JsonConstructor]
     public TimeItem(int hour, int minute) {
       if (hour > 24) {
-        throw new ArgumentOutOfRangeException("hour", "is not allowed to be greater than 24");
+        throw new ArgumentOutOfRangeException("hour", "darf nicht größer als 24 sein");
       }
       if (hour < 0) {
-        throw new ArgumentOutOfRangeException("hour", "is not allowed to be less than 0");
+        throw new ArgumentOutOfRangeException("hour", "darf nicht kleiner als 0 sein");
       }
       if (minute > 60) {
-        throw new ArgumentOutOfRangeException("minute", "is not allowed to be greater than 60");
+        throw new ArgumentOutOfRangeException("minute", "darf nicht größer als 60 sein");
       }
       if (minute < 0) {
-        throw new ArgumentOutOfRangeException("minute", "is not allowed to be less than 0");
+        throw new ArgumentOutOfRangeException("minute", "darf nicht kleiner als 0 sein");
       }
       if (minute < 60) {
         this.Hour = hour;

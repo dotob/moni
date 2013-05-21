@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyTitle("moni")]
 [assembly: AssemblyDescription("the better way to enter monlist data")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("basti & co")]
+[assembly: AssemblyCompany("basti & co 4 inform")]
 [assembly: AssemblyProduct("moni")]
 [assembly: AssemblyCopyright("Copyright © basti & co 2013")]
 [assembly: AssemblyTrademark("")]
