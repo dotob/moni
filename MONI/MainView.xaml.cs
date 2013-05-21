@@ -25,6 +25,7 @@ namespace MONI
         {
           var readWriteResult = this.ViewModel.PersistentResult;
           if (readWriteResult != null && !readWriteResult.Success) {
+            this.ViewModel.PersistentResult = null; // reset error because we have shown it. unfortunately activate gets called after messagebox ok. so this could be an endless loop
             MessageBox.Show(this, readWriteResult.Error, "Fehler beim Daten einlesen", MessageBoxButton.OK, MessageBoxImage.Error);
             this.Close();
           }

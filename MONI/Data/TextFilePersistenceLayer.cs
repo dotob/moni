@@ -5,31 +5,30 @@ using System.Linq;
 using MONI.Util;
 
 namespace MONI.Data {
-  public class TextFilePersistenceLayer {
+  public class TextFilePersistenceLayer
+  {
     private readonly string dataDirectory;
     private List<WorkDayPersistenceData> workDaysData = new List<WorkDayPersistenceData>();
 
-    public TextFilePersistenceLayer(string dataDirectory)
-    {
-        this.dataDirectory = dataDirectory;
-        // check for dir
-        if (!Directory.Exists(dataDirectory)) {
-            try {
-                Directory.CreateDirectory(dataDirectory);
-            } catch (Exception e) {
-                Console.WriteLine(e);
-            }
+    public TextFilePersistenceLayer(string dataDirectory) {
+      this.dataDirectory = dataDirectory;
+      // check for dir
+      if (!Directory.Exists(dataDirectory)) {
+        try {
+          Directory.CreateDirectory(dataDirectory);
         }
-    }
-
-      public IEnumerable<WorkDayPersistenceData> WorkDaysData {
-      get {
-        return this.workDaysData;
+        catch (Exception e) {
+          Console.WriteLine(e);
+        }
       }
     }
 
+    public IEnumerable<WorkDayPersistenceData> WorkDaysData {
+      get { return this.workDaysData; }
+    }
+
     public ReadWriteResult ReadData() {
-      ReadWriteResult ret = new ReadWriteResult { Success = true};
+      ReadWriteResult ret = new ReadWriteResult {Success = true};
       try {
         var dataFiles = Directory.GetFiles(this.dataDirectory, "*md", SearchOption.TopDirectoryOnly);
         foreach (var dataFile in dataFiles) {
@@ -75,22 +74,28 @@ namespace MONI.Data {
 
     public ReadWriteResult SetDataOfYear(WorkYear workYear) {
       var ret = ReadData();
-      WorkDay errorDay = null;
       if (ret.Success) {
-        try {
-          foreach (WorkDayPersistenceData data in this.WorkDaysData.Where(wdpd => wdpd.Year == workYear.Year)) {
-            var workDay = workYear.GetDay(data.Month, data.Day);
-            errorDay = workDay;
+        foreach (WorkDayPersistenceData data in this.WorkDaysData.Where(wdpd => wdpd.Year == workYear.Year).ToList()) {
+          var workDay = workYear.GetDay(data.Month, data.Day);
+          WorkDay errorDay = workDay;
+          try {
             workDay.SetData(data.OriginalString);
           }
-        }
-        catch (Exception exception) {
-          ret.Success = false;
-          string errorMessage = exception.Message;
-          if (errorDay != null) {
-            errorMessage = string.Format("Beim Einlesen von {0} mit Originalstring {1} trat folgender Fehler auf: {2}", errorDay, errorDay.OriginalString, exception.Message);
+          catch (Exception exception) {
+            ret.ErrorCount++;
+            // only remember first error for now
+            if (ret.Success) {
+              ret.Success = false;
+              string errorMessage = exception.Message;
+              if (errorDay != null) {
+                errorMessage = string.Format("Beim Einlesen von {0} mit Originalstring {1} trat folgender Fehler auf: {2}", errorDay, errorDay.OriginalString, exception.Message);
+              }
+              ret.Error = errorMessage;
+            }
           }
-          ret.Error = errorMessage;
+        }
+        if (ret.ErrorCount > 1) {
+          ret.Error += string.Format("\n\n\nEs liegen noch {0} andere Fehler vor.", ret.ErrorCount);
         }
       }
       return ret;
@@ -108,5 +113,6 @@ namespace MONI.Data {
   {
     public string Error { get; set; }
     public bool Success { get; set; }
+    public int ErrorCount { get; set; }
   }
 }

@@ -149,9 +149,9 @@ namespace MONI.Util
       
       // check where we can write
       if (Utils.CanCreateFile(".")) {
-        fileTarget.FileName = "${basedir}/Logs/" + this.ApplicationName + ".${shortdate}.log";
+        fileTarget.FileName = "${basedir}/logs/" + this.ApplicationName + ".${shortdate}.log";
       } else {
-        fileTarget.FileName = Utils.MoniAppDataPath() + "/Logs/" + this.ApplicationName + ".${shortdate}.log";
+        fileTarget.FileName = Utils.MoniAppDataPath() + "/logs/" + this.ApplicationName + ".${shortdate}.log";
       }
       fileTarget.KeepFileOpen = false;
       fileTarget.CreateDirs = true;
