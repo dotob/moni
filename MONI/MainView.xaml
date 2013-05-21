@@ -247,9 +247,9 @@
 
             <!-- auto break -->
             <Label Grid.Column="0"
-                   Grid.Row="5">Automatische Pause einfügen</Label>
+                   Grid.Row="6">Automatische Pause einfügen</Label>
             <CheckBox Grid.Column="1"
-                      Grid.Row="5"
+                      Grid.Row="6"
                       Margin="2"
                       VerticalAlignment="Center"
                       x:Name="autoPause"
