@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Threading;
 using System.Windows;
@@ -7,6 +8,7 @@ using System.Windows.Threading;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
+using System.Linq;
 
 namespace MONI.Util
 {
@@ -130,7 +132,18 @@ namespace MONI.Util
 
       // configure timer (log all 10min == 600000ms)
       this.gcTimer = new Timer(this.LogMemoryUsageAndInfos, this.AppStartedUtcTime, 0, 30000); //600000);
-      this.gcTimerEnv = new Timer((o) => logger.Info(EnvironmentInfos.Instance.PrettyPrintInfos(this.AppStartedUtcTime)), this.AppStartedUtcTime, 0, 600000); //600000);
+      this.gcTimerEnv = new Timer(o => logger.Info(EnvironmentInfos.Instance.PrettyPrintInfos(this.AppStartedUtcTime)), this.AppStartedUtcTime, 0, 600000); //600000);
+
+      this.CheckForRunningMoni(app);
+    }
+
+    private void CheckForRunningMoni(Application app) {
+      var myName = Process.GetCurrentProcess().ProcessName;
+      var sameNameProcesses = Process.GetProcessesByName(myName);
+      if (sameNameProcesses.Length > 1) {
+        MessageBox.Show("MONI läuft schon. Mit zwei laufenden MONIs haste nur Ärger...Tschö", "Problem");
+        app.Shutdown();
+      }
     }
 
     private void ConfigureLogging() {

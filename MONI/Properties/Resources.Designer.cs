@@ -59,5 +59,27 @@ namespace MONI.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [
+        ///{
+        ///	&quot;Version&quot;:&quot;0.9.8.4&quot;,
+        ///	&quot;Changes&quot;:[
+        ///		&quot;einstellungen: es lagen eingaben übereinander&quot;,
+        ///		&quot;log datei namen geändert (*.log)&quot;,
+        ///		&quot;wenn beim einlesen ein fehler passiert, dann wurde die datendatei möglicherweise kaputt geschrieben&quot;,
+        ///		&quot;mehr logging&quot;,
+        ///		&quot;bessere anzeige bei parse fehlern&quot;,
+        ///		&quot;bei multiline einträgen ging cursor up/down zur zeitenanpassung nicht immer korrekt&quot;,
+        ///	&quot;DownLoadURL&quot; = &quot;http://mtools/wp-content/uploads/2013/04/MONI.exe&quot;
+        ///	]
+        ///},
+        ///].
+        /// </summary>
+        internal static string UpdateInfoTest_json {
+            get {
+                return ResourceManager.GetString("UpdateInfoTest_json", resourceCulture);
+            }
+        }
     }
 }

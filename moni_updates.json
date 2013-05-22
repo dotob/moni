@@ -1,0 +1,20 @@
+﻿[
+{
+	"Version":"0.9.8.4",
+	"Changes":[
+		"einstellungen: es lagen eingaben übereinander",
+		"log datei namen geändert (*.log)",
+		"wenn beim einlesen ein fehler passiert, dann wurde die datendatei möglicherweise kaputt geschrieben",
+		"mehr logging",
+		"bessere anzeige bei parse fehlern",
+		"bei multiline einträgen ging cursor up/down zur zeitenanpassung nicht immer korrekt"
+		],
+	"DownLoadURL" : "http://mtools"
+},{
+	"Version":"0.9.8.5",
+	"Changes":[
+		"updateinfo"
+		],
+	"DownLoadURL" : "http://mtools"
+},
+]

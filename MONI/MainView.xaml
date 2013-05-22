@@ -336,6 +336,27 @@
                               IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
         </DataTemplate>
       </Controls:Flyout.ContentTemplate>
+    </Controls:Flyout>    
+    
+    <!-- show update info -->
+    <Controls:Flyout Header="Update-Info"
+                     Position="Right"
+                     Background="#333333"
+                     KeyboardNavigation.TabNavigation="Cycle"
+                     Content="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
+                     IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}">
+      <Controls:Flyout.ContentTemplate>
+        <DataTemplate DataType="{x:Type viewModels:UpdateInfoViewModel}">
+          <DataTemplate.Resources>
+            <Style TargetType="{x:Type TextBox}"
+                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+            </Style>
+            <Style TargetType="{x:Type Button}"
+                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+          </DataTemplate.Resources>
+          <views:UpdateInfoView />
+        </DataTemplate>
+      </Controls:Flyout.ContentTemplate>
     </Controls:Flyout>
 
   </Controls:MetroWindow.Flyouts>

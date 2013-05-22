@@ -91,7 +91,9 @@
     <Compile Include="Data\SpecialDays\ISpecialDay.cs" />
     <Compile Include="Data\SpecialDays\SpecialDaysUtils.cs" />
     <Compile Include="Data\TextFilePersistenceLayer.cs" />
+    <Compile Include="Data\UpdateInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Tests\UpdateInfoTester.cs" />
     <Compile Include="Tests\HoursDuration_Tester.cs" />
     <Compile Include="Tests\MainViewModelTester.cs" />
     <Compile Include="Tests\PersistentTester.cs" />
@@ -124,6 +126,10 @@
     <Compile Include="ViewModels\PNSearchViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ShortcutViewModel.cs" />
+    <Compile Include="ViewModels\UpdateInfoViewModel.cs" />
+    <Compile Include="Views\UpdateInfoView.xaml.cs">
+      <DependentUpon>UpdateInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PNSearchView.xaml.cs">
       <DependentUpon>PNSearchView.xaml</DependentUpon>
     </Compile>
@@ -164,6 +170,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\UpdateInfoView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\PNSearchView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -197,6 +207,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Content Include="Resources\UpdateInfoTest.json.txt" />
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>

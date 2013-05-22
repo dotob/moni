@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -53,6 +54,10 @@ namespace MONI.ViewModels
       // pnsearch
       this.PNSearch = new PNSearchViewModel(this.Settings.MainSettings.ProjectNumberFilePath);
 
+      // updateinfo
+      var currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+      this.UpdateInfoViewModel = new UpdateInfoViewModel(this.Settings.MainSettings.UpdateInfoURL, currentVersion);
+
       // read persistencedata
       var dataDirectory = this.MonlistSettings.MainSettings.DataDirectory.Replace("#{appdata}", Utils.MoniAppDataPath());
       this.persistenceLayer = new TextFilePersistenceLayer(dataDirectory);
@@ -64,6 +69,8 @@ namespace MONI.ViewModels
         this.throttleSaveAndCalc.Tick += new EventHandler(this.throttleSaveAndCalc_Tick);
       }
     }
+
+    public UpdateInfoViewModel UpdateInfoViewModel { get; set; }
 
     private string DetermineSettingsFile() {
       logger.Debug("determine settingsfile location");
@@ -90,6 +97,18 @@ namespace MONI.ViewModels
     }
 
     private static MoniSettings ReadSettings(string settingsFile) {
+      var settings = ReadSettingsInternal(settingsFile);
+      PatchSettings(settings);
+      return settings;
+    }
+
+    private static void PatchSettings(MoniSettings settings) {
+      if (string.IsNullOrWhiteSpace(settings.MainSettings.UpdateInfoURL)) {
+        settings.MainSettings.UpdateInfoURL = MoniSettings.GetEmptySettings().MainSettings.UpdateInfoURL;
+      }
+    }
+
+    private static MoniSettings ReadSettingsInternal(string settingsFile) {
       if (File.Exists(settingsFile)) {
         var jsonString = File.ReadAllText(settingsFile);
         return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
