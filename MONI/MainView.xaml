@@ -622,6 +622,8 @@
                                               SharedSizeGroup="8" />
                             <ColumnDefinition Width="Auto"
                                               SharedSizeGroup="9" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="10" />
                           </Grid.ColumnDefinitions>
                           <TextBlock Grid.Column="0"
                                      TextAlignment="Right"
@@ -635,21 +637,25 @@
                                      Text="{Binding End}"
                                      FontWeight="Bold" />
                           <TextBlock Grid.Column="3"
+                                     TextAlignment="Right"
+                                     Foreground="DarkSlateGray"
+                                     Text="{Binding HoursDuration, StringFormat='{} ({0:f} h)'}" />
+                          <TextBlock Grid.Column="4"
                                      Text=" : "
                                      Foreground="{StaticResource lightText}" />
-                          <TextBlock Grid.Column="4"
+                          <TextBlock Grid.Column="5"
                                      Text="{Binding Project}"
                                      FontWeight="Bold" />
-                          <TextBlock Grid.Column="5"
+                          <TextBlock Grid.Column="6"
                                      Text="-"
                                      Foreground="{StaticResource lightText}" />
-                          <TextBlock Grid.Column="6"
+                          <TextBlock Grid.Column="7"
                                      Text="{Binding Position}"
                                      FontWeight="Bold" />
-                          <TextBlock Grid.Column="7"
+                          <TextBlock Grid.Column="8"
                                      Text="=>"
                                      Foreground="{StaticResource lightText}" />
-                          <TextBlock Grid.Column="8"
+                          <TextBlock Grid.Column="9"
                                      Text="{Binding Description}"
                                      Foreground="{StaticResource lightText}" />
                         </Grid>

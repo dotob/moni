@@ -52,18 +52,6 @@ namespace MONI
     private void mv_PreviewKeyDown(object sender, KeyEventArgs e) {
       if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) {
         switch (e.Key) {
-          case Key.Left:
-            if (this.ViewModel.PreviousWeekCommand.CanExecute(null)) {
-              FocusManager.SetFocusedElement(this, this.btnPrev);
-              this.ViewModel.PreviousWeekCommand.Execute(null);
-            }
-            break;
-          case Key.Right:
-            if (this.ViewModel.NextWeekCommand.CanExecute(null)) {
-              FocusManager.SetFocusedElement(this, this.btnNext);
-              this.ViewModel.NextWeekCommand.Execute(null);
-            }
-            break;
           case Key.U:
             var activeControl = e.OriginalSource as TextBox;
             if (activeControl != null) {
@@ -85,9 +73,37 @@ namespace MONI
             }
             break;
         }
-      } else if (e.Key == Key.Escape) {
-        // goto today
-        this.ViewModel.SelectToday();
+      } else if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt) {
+        if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift) {
+          switch (e.SystemKey) {
+            case Key.Left:
+              // when figured out how to jump a month execute it here
+              break;
+            case Key.Right:
+              // when figured out how to jump a month execute it here
+              break;
+          }
+        } else {
+          switch (e.SystemKey) {
+            case Key.Left:
+              if (this.ViewModel.PreviousWeekCommand.CanExecute(null)) {
+                FocusManager.SetFocusedElement(this, this.btnPrev);
+                this.ViewModel.PreviousWeekCommand.Execute(null);
+              }
+              break;
+            case Key.Right:
+              if (this.ViewModel.NextWeekCommand.CanExecute(null)) {
+                FocusManager.SetFocusedElement(this, this.btnNext);
+                this.ViewModel.NextWeekCommand.Execute(null);
+              }
+              break;
+          }
+        }
+      } else {
+        if (e.Key == Key.Escape) {
+          // goto today
+          this.ViewModel.SelectToday();
+        }
       }
     }
 
@@ -132,7 +148,7 @@ namespace MONI
       }
       return sc;
     }
-    
+
     private void EditPreferences_Button_Click(object sender, RoutedEventArgs e) {
       if (this.ViewModel.EditPreferences == null) {
         this.ViewModel.StartEditingPreferences();
@@ -147,7 +163,7 @@ namespace MONI
 
     private void EditPreferencesSave_OnClick(object sender, RoutedEventArgs e) {
       this.ViewModel.SaveEditingPreferences();
-      CheckForMonlist();
+      this.CheckForMonlist();
     }
 
     private void ToMonlist_Button_Click(object sender, RoutedEventArgs e) {

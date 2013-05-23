@@ -16,5 +16,12 @@
 		"updateinfo"
 		],
 	"DownLoadURL" : "http://mtools"
+},{
+	"Version":"0.9.8.6",
+	"Changes":[
+		"statt strg+rechts/links läuft man jetzt mit alt+rechts/links durch die wochen",
+		"in den tagesitems wird nun die stundenanzahl mit angezeigt",
+		],
+	"DownLoadURL" : "http://mtools"
 },
 ]
