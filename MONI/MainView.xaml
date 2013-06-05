@@ -714,7 +714,8 @@
           <ItemsControl.ItemTemplate>
             <!-- shortcut -->
             <DataTemplate>
-              <Grid>
+              <!-- use transparent background for correct highlighting -->
+              <Grid Background="Transparent">
 
                 <Border BorderThickness="1"
                         BorderBrush="#FFF3EDED"

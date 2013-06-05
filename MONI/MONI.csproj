@@ -42,9 +42,9 @@
     <StartupObject>MONI.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GongSolutions.Wpf.DragDrop, Version=0.1.3.4, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="GongSolutions.Wpf.DragDrop, Version=0.1.3.7, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\gong-wpf-dragdrop.0.1.3.4\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
+      <HintPath>..\packages\gong-wpf-dragdrop.0.1.3.7\lib\net40\GongSolutions.Wpf.DragDrop.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.0.10.1.33-ALPHA\lib\net40\MahApps.Metro.dll</HintPath>
@@ -207,16 +207,14 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <EmbeddedResource Include="..\packages\gong-wpf-dragdrop.0.1.3.7\lib\net40\GongSolutions.Wpf.DragDrop.dll">
+      <Link>DllsAsResource\GongSolutions.Wpf.DragDrop.dll</Link>
+    </EmbeddedResource>
     <Content Include="Resources\UpdateInfoTest.json.txt" />
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\packages\gong-wpf-dragdrop.0.1.3.4\lib\net40\GongSolutions.Wpf.DragDrop.dll">
-      <Link>DllsAsResource\GongSolutions.Wpf.DragDrop.dll</Link>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\moni.ico" />
