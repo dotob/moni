@@ -279,7 +279,7 @@
                          VerticalAlignment="Bottom"
                          Columns="2">
               <Button Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
-              <Button Click="EditPreferencesSave_OnClick">Speichern</Button>
+              <Button Click="EditPreferencesSave_OnClick" IsDefault="True">Speichern</Button>
             </UniformGrid>
 
           </Grid>
@@ -972,7 +972,8 @@
                   Click="PasswordCancel_OnClick">Abbrechen</Button>
           <Button Grid.Column="1"
                   Grid.Row="3"
-                  Click="PasswordOK_OnClick">OK</Button>
+                  Click="PasswordOK_OnClick"
+                  IsDefault="True">OK</Button>
         </Grid>
       </Border>
     </Grid>
