@@ -1,6 +1,7 @@
 bin
 obj
-MONI.suo
+*.suo
 _ReSharper.MONI
+_TeamCity.MONI
 *.user
 MONI.1.2.dotCover
