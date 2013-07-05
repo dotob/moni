@@ -23,5 +23,11 @@
 		"in den tagesitems wird nun die stundenanzahl mit angezeigt",
 		],
 	"DownLoadURL" : "http://mtools"
+},{
+	"Version":"0.9.8.7",
+	"Changes":[
+		"pausen können nun nicht nur im stundenformat (z.b. 1!), sondern auch im zeitformat (z.b. -10:30!) angegeben werden",
+		],
+	"DownLoadURL" : "http://mtools"
 },
 ]
