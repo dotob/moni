@@ -104,7 +104,11 @@ namespace MONI.Data
         try {
           // check for pause
           if (workItemTemp.IsPause) {
-            lastTime += workItemTemp.HourCount;
+            if (workItemTemp.DesiredEndtime != null) {
+              lastTime = workItemTemp.DesiredEndtime;
+            } else {
+              lastTime += workItemTemp.HourCount;
+            }
           } else {
             bool endTimeMode = false; // if endTimeMode do not add, but substract break!
             TimeItem currentEndTime;
@@ -152,12 +156,22 @@ namespace MONI.Data
       error = string.Empty;
       // check for pause item
       if (wdItemString.EndsWith("!")) {
-        double pauseDuration;
-        if (double.TryParse(wdItemString.Substring(0, wdItemString.Length - 1), NumberStyles.Float, CultureInfo.InvariantCulture, out pauseDuration)) {
-          workItem = new WorkItemTemp(wdItemString);
-          workItem.HourCount = pauseDuration;
-          workItem.IsPause = true;
-          success = true;
+        if (wdItemString.StartsWith("-")) {
+          TimeItem ti;
+          if (TimeItem.TryParse(wdItemString.Substring(1, wdItemString.Length - 2), out ti)) {
+            workItem = new WorkItemTemp(wdItemString);
+            workItem.DesiredEndtime = ti;
+            workItem.IsPause = true;
+            success = true;
+          }
+        } else {
+          double pauseDuration;
+          if (double.TryParse(wdItemString.Substring(0, wdItemString.Length - 1), NumberStyles.Float, CultureInfo.InvariantCulture, out pauseDuration)) {
+            workItem = new WorkItemTemp(wdItemString);
+            workItem.HourCount = pauseDuration;
+            workItem.IsPause = true;
+            success = true;
+          }
         }
       } else {
         // workitem: <count of hours|-endtime>;<projectnumber>-<positionnumber>[(<description>)]
