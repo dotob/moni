@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MONI.Data;
+using MONI.Util;
 using MONI.ViewModels;
 using MahApps.Metro.Controls;
 using NLog;
@@ -15,7 +16,7 @@ namespace MONI
   /// <summary>
   /// Interaction logic for MainView.xaml
   /// </summary>
-  public partial class MainView : MetroWindow
+  public partial class MainView : MetroWindow, IAddShortcutService
   {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
@@ -214,6 +215,12 @@ namespace MONI
 
     private void ShowPNSearch_Button_Click(object sender, RoutedEventArgs e) {
       this.ViewModel.PNSearch.ShowPNSearch = true;
+    }
+
+    public void AddShortCut(string key, string expansion) {
+      this.ViewModel.PNSearch.ShowPNSearch = false;
+      var sc = new ShortCut(key, expansion);
+      this.ViewModel.EditShortCut = new ShortcutViewModel(sc, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null) { IsNew = true};
     }
   }
 }

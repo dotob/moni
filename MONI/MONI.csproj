@@ -105,6 +105,7 @@
     <Compile Include="Util\DayOfWeekTranslatorConverter.cs" />
     <Compile Include="Util\EnvironmentInfos.cs" />
     <Compile Include="Util\ExceptionExtensions.cs" />
+    <Compile Include="Util\IAddShortcutService.cs" />
     <Compile Include="Util\LessThanColorConverter.cs" />
     <Compile Include="Util\Null2FalseConverter.cs" />
     <Compile Include="Util\TimeSpanUtil.cs" />

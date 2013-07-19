@@ -275,7 +275,9 @@ namespace MONI.Data
         var hoursToIncrementBy = stepsToIncrementBy * 15 / 60f;
         var parts = this.SplitIntoParts(text).ToList();
         int idx;
-        var part = this.FindPositionPart(parts, selectionStart, out idx);
+        bool moveCursorLeft;
+        int cursorInPartPosition;
+        var part = this.FindPositionPart(parts, selectionStart, out idx, out cursorInPartPosition);
         var newPart = part;
         if (idx == 0) {
           // is daystart, has no -
@@ -301,6 +303,10 @@ namespace MONI.Data
             }
             newPart = hIncremented.ToString(CultureInfo.InvariantCulture);
           }
+        }
+        // check if we need to move cursor to left
+        if (cursorInPartPosition > newPart.Length) {
+          selectionStart -= part.Length - newPart.Length;
         }
         if (idx >= 0) {
           parts[idx] = newPart;
@@ -349,7 +355,8 @@ namespace MONI.Data
       return splitted;
     }
 
-    public string FindPositionPart(IList<string> parts, int position, out int foundPartsIndex) {
+    public string FindPositionPart(IList<string> parts, int cursorPosition, out int foundPartsIndex, out int cursorInPartPosition) {
+      cursorInPartPosition = 0;
       var partsComplete = parts.Aggregate(string.Empty, (aggr, s) => aggr + s);
       for (int i = 0; i < parts.Count(); i++) {
         var partsLower = parts.Take(i).Aggregate(string.Empty, (aggr, s) => aggr + s);
@@ -358,16 +365,23 @@ namespace MONI.Data
         var b = partsLower.Length;
         var t = partsUpper.Length;
 
-        if ((position >= b && position < t) || partsUpper == partsComplete) {
+        if ((cursorPosition >= b && cursorPosition < t) || partsUpper == partsComplete) {
           if (parts[i] == this.itemSeparator.ToString() || parts[i] == this.hourProjectInfoSeparator.ToString()) {
+            // cursor left of separator
             foundPartsIndex = i - 1;
-            return parts.ElementAt(i - 1);
+            var prevPart = parts.ElementAt(foundPartsIndex);
+            // find out where in the found part the cursor is, need to use prevpart an its length
+            cursorInPartPosition = prevPart.Length;
+            return prevPart;
           } else {
+            // find out where in the found part the cursor is
+            cursorInPartPosition = cursorPosition - b;
             foundPartsIndex = i;
             return parts.ElementAt(i);
           }
         }
       }
+      // not found
       foundPartsIndex = -1;
       return string.Empty;
     }

@@ -91,9 +91,11 @@ namespace MONI.Tests
     public void WDPFindPositionPart_Pos0_Return0() {
       var parts = wdp.SplitIntoParts("9,4;12345-000,-16:00;12345-000");
       int idx;
-      var newText = wdp.FindPositionPart(parts, 2, out idx);
+      bool cursorNextoSeparator;
+      int cursorInPartPosition;
+      var newText = wdp.FindPositionPart(parts, 2, out idx, out cursorInPartPosition);
       Assert.AreEqual("4", newText, "for pos 2");
-      newText = wdp.FindPositionPart(parts, 3, out idx);
+      newText = wdp.FindPositionPart(parts, 3, out idx, out cursorInPartPosition);
       Assert.AreEqual("4", newText, "for pos 3");
     }
 
@@ -101,7 +103,9 @@ namespace MONI.Tests
     public void WDPFindPositionPart_Pos2_Return0() {
       var parts = wdp.SplitIntoParts("8");
       int idx;
-      var newText = wdp.FindPositionPart(parts, 1, out idx);
+      bool cursorNextoSeparator;
+      int cursorInPartPosition;
+      var newText = wdp.FindPositionPart(parts, 1, out idx, out cursorInPartPosition);
       Assert.AreEqual("8", newText);
     }
 
@@ -110,7 +114,9 @@ namespace MONI.Tests
       var parts = wdp.SplitIntoParts("9,4;12345-000,-16:00;12345-001");
       for (int i = 14; i <= 20; i++) {
         int idx;
-        var newText = wdp.FindPositionPart(parts, i, out idx);
+        bool cursorNextoSeparator;
+        int cursorInPartPosition;
+        var newText = wdp.FindPositionPart(parts, i, out idx, out cursorInPartPosition);
         Assert.AreEqual("-16:00", newText, string.Format("wrong text pos:{0}", i));
         Assert.AreEqual(6, idx);
       }

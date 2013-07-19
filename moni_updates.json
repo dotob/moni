@@ -27,6 +27,8 @@
 	"Version":"0.9.8.7",
 	"Changes":[
 		"pausen können nun nicht nur im stundenformat (z.b. 1!), sondern auch im zeitformat (z.b. -10:30!) angegeben werden",
+		"issue #28 closed: beim cursor up/down gab es ein problem wenn der neu eingesetzte textteil kürzer als der vcorige war. dann sprang der cursor in den nächsten eintrag.",
+		"issue #26 closed: shortcut anlegen aus der projektnummern suche",
 		],
 	"DownLoadURL" : "http://mtools"
 },
