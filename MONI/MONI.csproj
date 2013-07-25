@@ -131,6 +131,7 @@
     <Compile Include="Tests\TimeItemTester.cs" />
     <Compile Include="Util\Utils.cs" />
     <Compile Include="Util\ViewModelBase.cs" />
+    <Compile Include="Util\VisibilityConverter.cs" />
     <Compile Include="ViewModels\PNSearchViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ShortcutViewModel.cs" />
