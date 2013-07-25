@@ -16,6 +16,7 @@
                       x:Name="mv"
                       WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
+                      BorderThickness="1"
                       Icon="/MONI;component/Resources/moni.ico">
 
   <Window.Resources>
@@ -69,6 +70,10 @@
       </Style>
     </ResourceDictionary>
   </Window.Resources>
+
+  <Controls:MetroWindow.BorderBrush>
+    <SolidColorBrush Color="#808080" />
+  </Controls:MetroWindow.BorderBrush>
 
   <!-- *** window commands ***************************************************************** -->
   <Controls:MetroWindow.WindowCommands>
@@ -160,205 +165,208 @@
   <!-- *** flyouts ***************************************************************** -->
   <Controls:MetroWindow.Flyouts>
 
-    <!-- settings -->
-    <Controls:Flyout Header="Settings"
-                     Position="Right"
-                     Background="#333333"
-                     KeyboardNavigation.TabNavigation="Cycle"
-                     Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
-                     IsOpen="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={StaticResource null2FalseConverter}}">
-      <Controls:Flyout.ContentTemplate>
-        <DataTemplate DataType="{x:Type data:MoniSettings}">
-          <DataTemplate.Resources>
-            <Style TargetType="{x:Type TextBox}"
-                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-            </Style>
-            <Style TargetType="{x:Type CheckBox}"
-                   BasedOn="{StaticResource MetroCheckBox}">
-              <Setter Property="FocusVisualStyle"
-                      Value="{StaticResource FlyoutFocusVisual}" />
-            </Style>
-            <Style TargetType="{x:Type Button}"
-                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
-          </DataTemplate.Resources>
+    <Controls:FlyoutsControl x:Name="Flyouts">
+      <!-- settings -->
+      <Controls:Flyout Header="Settings"
+                       Position="Right"
+                       Background="#333333"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={StaticResource null2FalseConverter}}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate DataType="{x:Type data:MoniSettings}">
+            <DataTemplate.Resources>
+              <Style TargetType="{x:Type TextBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+              <Style TargetType="{x:Type CheckBox}"
+                     BasedOn="{StaticResource MetroCheckBox}">
+                <Setter Property="FocusVisualStyle"
+                        Value="{StaticResource FlyoutFocusVisual}" />
+              </Style>
+              <Style TargetType="{x:Type Button}"
+                     BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+            </DataTemplate.Resources>
 
-          <Grid Width="400"
-                Margin="10">
+            <Grid Width="400"
+                  Margin="10">
 
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="Auto"></RowDefinition>
-              <RowDefinition Height="*"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto"></ColumnDefinition>
-              <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+              </Grid.ColumnDefinitions>
 
-            <Label Grid.Column="0"
-                   Grid.Row="0">Daten-Verzeichnis</Label>
-            <TextBox Grid.Column="1"
-                     Grid.Row="0"
-                     Margin="2"
-                     Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="0">Daten-Verzeichnis</Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="0"
+                       Margin="2"
+                       Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-            <Label Grid.Column="0"
-                   Grid.Row="1">projekte.txt-Pfad</Label>
-            <TextBox Grid.Column="1"
-                     Grid.Row="1"
-                     Margin="2"
-                     Text="{Binding MainSettings.ProjectNumberFilePath, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            
-            <Label Grid.Column="0"
-                   Grid.Row="2">Monlist.exe-Pfad</Label>
-            <TextBox Grid.Column="1"
-                     Grid.Row="2"
-                     Margin="2"
-                     Text="{Binding MainSettings.MonlistExecutablePath, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            
-            <Label Grid.Column="0"
-                   Grid.Row="3">Mitarbeiternummer</Label>
-            <TextBox Grid.Column="1"
-                     Grid.Row="3"
-                     Margin="2"
-                     Text="{Binding MainSettings.MonlistEmployeeNumber, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="1">projekte.txt-Pfad</Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="1"
+                       Margin="2"
+                       Text="{Binding MainSettings.ProjectNumberFilePath, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-            <Label Grid.Column="0"
-                   Grid.Row="4">Project-Hitliste anzeigen</Label>
-            <CheckBox Grid.Column="1"
-                      Grid.Row="4"
-                      Margin="2"
-                      VerticalAlignment="Center"
-                      IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+              <Label Grid.Column="0"
+                     Grid.Row="2">Monlist.exe-Pfad</Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="2"
+                       Margin="2"
+                       Text="{Binding MainSettings.MonlistExecutablePath, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-            <Label Grid.Column="0"
-                   Grid.Row="5">Stunden pro Tag [h]</Label>
-            <TextBox Grid.Column="1"
-                     Grid.Row="5"
-                     Margin="2"
-                     Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="3">Mitarbeiternummer</Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="3"
+                       Margin="2"
+                       Text="{Binding MainSettings.MonlistEmployeeNumber, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-            <!-- auto break -->
-            <Label Grid.Column="0"
-                   Grid.Row="6">Automatische Pause einfügen</Label>
-            <CheckBox Grid.Column="1"
-                      Grid.Row="6"
-                      Margin="2"
-                      VerticalAlignment="Center"
-                      x:Name="autoPause"
-                      IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+              <Label Grid.Column="0"
+                     Grid.Row="4">Project-Hitliste anzeigen</Label>
+              <CheckBox Grid.Column="1"
+                        Grid.Row="4"
+                        Margin="2"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
-            <Label Grid.Column="0"
-                   Grid.Row="7"
-                   IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">Uhrzeit [hh:mm]</Label>
-            <TextBox Grid.Column="1"
+              <Label Grid.Column="0"
+                     Grid.Row="5">Stunden pro Tag [h]</Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="5"
+                       Margin="2"
+                       Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+
+              <!-- auto break -->
+              <Label Grid.Column="0"
+                     Grid.Row="6">Automatische Pause einfügen</Label>
+              <CheckBox Grid.Column="1"
+                        Grid.Row="6"
+                        Margin="2"
+                        VerticalAlignment="Center"
+                        x:Name="autoPause"
+                        IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+
+              <Label Grid.Column="0"
                      Grid.Row="7"
-                     Margin="2"
-                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
-                     Text="{Binding ParserSettings.DayBreakTime, Converter={StaticResource timeItemConverter}}"></TextBox>
+                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">Uhrzeit [hh:mm]</Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="7"
+                       Margin="2"
+                       IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
+                       Text="{Binding ParserSettings.DayBreakTime, Converter={StaticResource timeItemConverter}}"></TextBox>
 
-            <Label Grid.Column="0"
-                   Grid.Row="8"
-                   IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">Dauer [min]</Label>
-            <TextBox Grid.Column="1"
+              <Label Grid.Column="0"
                      Grid.Row="8"
-                     Margin="2"
-                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
-                     Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">Dauer [min]</Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="8"
+                       Margin="2"
+                       IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
+                       Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-            <UniformGrid Grid.Column="0"
-                         Grid.Row="9"
-                         Grid.ColumnSpan="2"
-                         VerticalAlignment="Bottom"
-                         Columns="2">
-              <Button Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
-              <Button Click="EditPreferencesSave_OnClick" IsDefault="True">Speichern</Button>
-            </UniformGrid>
+              <UniformGrid Grid.Column="0"
+                           Grid.Row="9"
+                           Grid.ColumnSpan="2"
+                           VerticalAlignment="Bottom"
+                           Columns="2">
+                <Button Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
+                <Button Click="EditPreferencesSave_OnClick"
+                        IsDefault="True">Speichern</Button>
+              </UniformGrid>
 
-          </Grid>
-        </DataTemplate>
-      </Controls:Flyout.ContentTemplate>
-    </Controls:Flyout>
+            </Grid>
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
 
-    <!-- edit / new shortcut -->
-    <Controls:Flyout Header="Shortcut"
-                     Position="Right"
-                     Background="#333333"
-                     KeyboardNavigation.TabNavigation="Cycle"
-                     Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
-                     IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={StaticResource null2FalseConverter}}">
-      <Controls:Flyout.ContentTemplate>
-        <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
-          <DataTemplate.Resources>
-            <Style TargetType="{x:Type TextBox}"
-                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-            </Style>
-            <Style TargetType="{x:Type CheckBox}"
-                   BasedOn="{StaticResource MetroCheckBox}">
-              <Setter Property="FocusVisualStyle"
-                      Value="{StaticResource FlyoutFocusVisual}" />
-            </Style>
-            <Style TargetType="{x:Type Button}"
-                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
-          </DataTemplate.Resources>
-          <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-          <views:ShortcutView x:Name="shortcutView"
-                              IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
-        </DataTemplate>
-      </Controls:Flyout.ContentTemplate>
-    </Controls:Flyout>
-    
-    <!-- search projectnumbers -->
-    <Controls:Flyout Header="Projektnummern-Suche"
-                     Position="Right"
-                     Background="#333333"
-                     KeyboardNavigation.TabNavigation="Cycle"
-                     Content="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
-                     IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}">
-      <Controls:Flyout.ContentTemplate>
-        <DataTemplate DataType="{x:Type viewModels:PNSearchViewModel}">
-          <DataTemplate.Resources>
-            <Style TargetType="{x:Type TextBox}"
-                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-            </Style>
-            <Style TargetType="{x:Type Button}"
-                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
-          </DataTemplate.Resources>
-          <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-          <views:PNSearchView x:Name="pnSearchView"
-                              IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
-                              AddShortCutService="{Binding ElementName=mv}"/>
-        </DataTemplate>
-      </Controls:Flyout.ContentTemplate>
-    </Controls:Flyout>    
-    
-    <!-- show update info -->
-    <Controls:Flyout Header="Update-Info"
-                     Position="Right"
-                     Background="#333333"
-                     KeyboardNavigation.TabNavigation="Cycle"
-                     Content="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
-                     IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}">
-      <Controls:Flyout.ContentTemplate>
-        <DataTemplate DataType="{x:Type viewModels:UpdateInfoViewModel}">
-          <DataTemplate.Resources>
-            <Style TargetType="{x:Type TextBox}"
-                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-            </Style>
-            <Style TargetType="{x:Type Button}"
-                   BasedOn="{StaticResource MetroFlyoutFlatButton}" />
-          </DataTemplate.Resources>
-          <views:UpdateInfoView />
-        </DataTemplate>
-      </Controls:Flyout.ContentTemplate>
-    </Controls:Flyout>
+      <!-- edit / new shortcut -->
+      <Controls:Flyout Header="Shortcut"
+                       Position="Right"
+                       Background="#333333"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={StaticResource null2FalseConverter}}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
+            <DataTemplate.Resources>
+              <Style TargetType="{x:Type TextBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+              <Style TargetType="{x:Type CheckBox}"
+                     BasedOn="{StaticResource MetroCheckBox}">
+                <Setter Property="FocusVisualStyle"
+                        Value="{StaticResource FlyoutFocusVisual}" />
+              </Style>
+              <Style TargetType="{x:Type Button}"
+                     BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+            </DataTemplate.Resources>
+            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+            <views:ShortcutView x:Name="shortcutView"
+                                IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
+
+      <!-- search projectnumbers -->
+      <Controls:Flyout Header="Projektnummern-Suche"
+                       Position="Right"
+                       Background="#333333"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate DataType="{x:Type viewModels:PNSearchViewModel}">
+            <DataTemplate.Resources>
+              <Style TargetType="{x:Type TextBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+              <Style TargetType="{x:Type Button}"
+                     BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+            </DataTemplate.Resources>
+            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+            <views:PNSearchView x:Name="pnSearchView"
+                                IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
+                                AddShortCutService="{Binding ElementName=mv}" />
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
+
+      <!-- show update info -->
+      <Controls:Flyout Header="Update-Info"
+                       Position="Right"
+                       Background="#333333"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate DataType="{x:Type viewModels:UpdateInfoViewModel}">
+            <DataTemplate.Resources>
+              <Style TargetType="{x:Type TextBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+              <Style TargetType="{x:Type Button}"
+                     BasedOn="{StaticResource MetroFlyoutFlatButton}" />
+            </DataTemplate.Resources>
+            <views:UpdateInfoView />
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
+    </Controls:FlyoutsControl>
 
   </Controls:MetroWindow.Flyouts>
 
