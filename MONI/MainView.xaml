@@ -17,6 +17,7 @@
                       WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
                       BorderThickness="1"
+                      BorderBrush="#808080"
                       Icon="/MONI;component/Resources/moni.ico">
 
   <Window.Resources>
@@ -37,12 +38,15 @@
       <Util1:DurationFGColorConverter x:Key="durationFgConverter" />
       <Util1:Null2CollapsedConverter x:Key="null2CollapsedConverter" />
       <Util1:Null2FalseConverter x:Key="null2FalseConverter" />
-      <Util1:FalseToCollapsedConverter x:Key="false2CollapsedConverter" />
       <Util1:TimeItemConverter x:Key="timeItemConverter" />
       <Util1:ScaleDoubleConverter x:Key="scaleDoubleConverter" />
       <Util1:TodayColorConverter x:Key="todayColorConverter" />
       <Util1:LessThanColorConverter x:Key="lessThanColorConverter" />
       <Util1:DayOfWeekTranslatorConverter x:Key="dayNameConverter" />
+
+      <Util1:VisibilityConverter x:Key="false2CollapsedConverter" />
+      <Util1:VisibilityConverter x:Key="false2HiddenConverter"
+                                 NotVisibleValue="Hidden" />
 
       <SolidColorBrush x:Key="lightText"
                        Color="DarkSlateGray" />
@@ -59,6 +63,22 @@
       <VisualBrush Stretch="Fill"
                    x:Key="downIcon"
                    Visual="{StaticResource appbar_chevron_down}" />
+
+      <!-- our own colored appbar ribbon -->
+      <Canvas Width="48"
+              Height="48"
+              Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0"
+              UseLayoutRounding="False"
+              x:Key="appbar_ribbon">
+        <Path Width="12"
+              Height="24"
+              Canvas.Left="18"
+              Canvas.Top="12"
+              Stretch="Fill"
+              Fill="#B10101"
+              Data="F1 M 18,36L 18,12L 30,12L 30,36L 24,30L 18,36 Z " />
+      </Canvas>
+
       <VisualBrush Stretch="Fill"
                    x:Key="ribbonIcon"
                    Visual="{StaticResource appbar_ribbon}" />
@@ -70,10 +90,6 @@
       </Style>
     </ResourceDictionary>
   </Window.Resources>
-
-  <Controls:MetroWindow.BorderBrush>
-    <SolidColorBrush Color="#808080" />
-  </Controls:MetroWindow.BorderBrush>
 
   <!-- *** window commands ***************************************************************** -->
   <Controls:MetroWindow.WindowCommands>
@@ -700,12 +716,9 @@
                       <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"
                                           SharedSizeGroup="0"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="1"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="2"></ColumnDefinition>
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="3"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
                       </Grid.ColumnDefinitions>
 
                       <TextBlock Grid.Column="0"
@@ -736,19 +749,9 @@
                                  Width="8"
                                  Height="15"
                                  Margin="0 -2 0 0"
-                                 Visibility="{Binding Value.WholeDayExpansion, Converter={StaticResource false2CollapsedConverter}}"
+                                 Visibility="{Binding Value.WholeDayExpansion, Converter={StaticResource false2HiddenConverter}}"
                                  Fill="{StaticResource ribbonIcon}"
-                                 ToolTip="Ersetzt ganzen Tag">
-                        <Rectangle.Resources>
-                          <SolidColorBrush x:Key="BlackBrush"
-                                           Color="#B10101" />
-                        </Rectangle.Resources>
-<!--                        <Rectangle.ToolTip> funktioniert eh nicht wegen overlay -->
-<!--                          <ToolTip>-->
-<!--                            <TextBlock Text="Ersetzt ganzen Tag"></TextBlock>-->
-<!--                          </ToolTip>-->
-<!--                        </Rectangle.ToolTip>-->
-                      </Rectangle>
+                                 ToolTip="Ersetzt ganzen Tag" />
                     </Grid>
 
                     <!--actions-->
@@ -780,7 +783,8 @@
                         </Style>
                       </Border.Style>
                       <StackPanel Orientation="Horizontal"
-                                  HorizontalAlignment="Center">
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center">
 
                         <Button Background="Transparent"
                                 Tag="{Binding Value}"
@@ -788,8 +792,8 @@
                                 Margin="10 0"
                                 Click="RemoveShortcut_OnClick"
                                 ToolTip="Shortcut löschen">
-                          <Rectangle Width="8"
-                                     Height="10"
+                          <Rectangle Width="10"
+                                     Height="12"
                                      Fill="{StaticResource deleteIcon}">
                           </Rectangle>
                         </Button>
@@ -800,8 +804,8 @@
                                 Margin="10 0"
                                 Click="EditShortcut_OnClick"
                                 ToolTip="Shortcut editieren">
-                          <Rectangle Width="8"
-                                     Height="10"
+                          <Rectangle Width="10"
+                                     Height="12"
                                      Fill="{StaticResource editIcon}">
                           </Rectangle>
                         </Button>
