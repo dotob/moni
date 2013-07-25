@@ -79,7 +79,8 @@
   <Controls:MetroWindow.WindowCommands>
     <Controls:WindowCommands>
       <Button Click="ToMonlist_Button_Click"
-              x:Name="OpenMonlist">
+              x:Name="OpenMonlist"
+              ToolTip="Daten in Monlist importieren">
         <StackPanel Orientation="Horizontal">
           <Rectangle Width="20"
                      Height="20">
@@ -91,15 +92,11 @@
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_cabinet_out}" />
             </Rectangle.Fill>
-            <Rectangle.ToolTip>
-              <ToolTip>
-                <TextBlock Text="Daten in Monlist importieren"></TextBlock>
-              </ToolTip>
-            </Rectangle.ToolTip>
           </Rectangle>
         </StackPanel>
       </Button>
-      <Button Click="GitHub_Button_Click">
+      <Button Click="GitHub_Button_Click"
+              ToolTip="MONI bei GitHub">
         <StackPanel Orientation="Horizontal">
           <Rectangle Width="20"
                      Height="20">
@@ -111,15 +108,11 @@
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_github}" />
             </Rectangle.Fill>
-            <Rectangle.ToolTip>
-              <ToolTip>
-                <TextBlock Text="MONI bei GitHub"></TextBlock>
-              </ToolTip>
-            </Rectangle.ToolTip>
           </Rectangle>
         </StackPanel>
       </Button>
-      <Button Click="ShowPNSearch_Button_Click">
+      <Button Click="ShowPNSearch_Button_Click"
+              ToolTip="Projektnummern-Suche">
         <StackPanel Orientation="Horizontal">
           <Rectangle Width="15"
                      Height="20">
@@ -131,15 +124,11 @@
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_page_search}" />
             </Rectangle.Fill>
-            <Rectangle.ToolTip>
-              <ToolTip>
-                <TextBlock Text="Projektnummern-Suche"></TextBlock>
-              </ToolTip>
-            </Rectangle.ToolTip>
           </Rectangle>
         </StackPanel>
       </Button>
-      <Button Click="EditPreferences_Button_Click">
+      <Button Click="EditPreferences_Button_Click"
+              ToolTip="Einstellungen">
         <StackPanel Orientation="Horizontal">
           <Rectangle Width="20"
                      Height="20">
@@ -151,11 +140,6 @@
               <VisualBrush Stretch="Fill"
                            Visual="{StaticResource appbar_settings}" />
             </Rectangle.Fill>
-            <Rectangle.ToolTip>
-              <ToolTip>
-                <TextBlock Text="Einstellungen"></TextBlock>
-              </ToolTip>
-            </Rectangle.ToolTip>
           </Rectangle>
         </StackPanel>
       </Button>
@@ -439,21 +423,15 @@
                      VerticalAlignment="Bottom"
                      Foreground="#CC7DBEDA"
                      Margin="2 0 5 2"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.HoursDuration, StringFormat='{}{0:f} h'}">
-            <TextBlock.ToolTip>
-              <ToolTip>Wochenstundenzahl</ToolTip>
-            </TextBlock.ToolTip>
-          </TextBlock>
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.HoursDuration, StringFormat='{}{0:f} h'}"
+                     ToolTip="Wochenstundenzahl" />
           <TextBlock HorizontalAlignment="Center"
                      FontWeight="Bold"
                      VerticalAlignment="Bottom"
                      Foreground="#CC119EDA"
                      FontSize="20"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat='{}KW: {0}'}">
-            <TextBlock.ToolTip>
-              <ToolTip>Kalenderwoche</ToolTip>
-            </TextBlock.ToolTip>
-          </TextBlock>
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat='{}KW: {0}'}"
+                     ToolTip="Kalenderwoche" />
         </StackPanel>
 
         <StackPanel Grid.Column="2"
@@ -465,19 +443,13 @@
                      VerticalAlignment="Bottom"
                      Foreground="#CC7DBEDA"
                      Margin="2 0 5 2"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.HoursDuration, StringFormat='{}{0:f} h'}">
-            <TextBlock.ToolTip>
-              <ToolTip>Ist-Stunden Monat</ToolTip>
-            </TextBlock.ToolTip>
-          </TextBlock>
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.HoursDuration, StringFormat='{}{0:f} h'}"
+                     ToolTip="Ist-Stunden Monat" />
           <TextBlock FontWeight="Bold"
                      VerticalAlignment="Bottom"
                      Margin="2 0 5 2"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.PreviewHours, StringFormat='{}({0:f} h'}">
-            <TextBlock.ToolTip>
-              <ToolTip>Prognose-Stunden Monat</ToolTip>
-            </TextBlock.ToolTip>
-
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.PreviewHours, StringFormat='{}({0:f} h'}"
+                     ToolTip="Prognose-Stunden Monat">
             <TextBlock.Foreground>
               <MultiBinding Converter="{StaticResource lessThanColorConverter}">
                 <MultiBinding.Bindings>
@@ -500,12 +472,8 @@
                      VerticalAlignment="Bottom"
                      Foreground="#CC7DBEDA"
                      Margin="2 0 5 2"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.NecessaryHours, StringFormat='{}{0:f} h)'}">
-            <TextBlock.ToolTip>
-              <ToolTip>Soll-Stunden Monat</ToolTip>
-            </TextBlock.ToolTip>
-
-          </TextBlock>
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.NecessaryHours, StringFormat='{}{0:f} h)'}"
+                     ToolTip="Soll-Stunden Monat" />
           <TextBlock FontWeight="Bold"
                      VerticalAlignment="Bottom"
                      FontSize="20"
@@ -691,13 +659,8 @@
                 Height="20"
                 Margin="10 0 0 0"
                 Style="{StaticResource ImageButtonStyle}"
-                Click="AddShortcut_OnClick">
-          <Button.ToolTip>
-            <ToolTip>
-              <TextBlock Text="Neuen Shortcut erstellen"
-                         Foreground="White"></TextBlock>
-            </ToolTip>
-          </Button.ToolTip>
+                Click="AddShortcut_OnClick"
+                ToolTip="Neuen Shortcut erstellen">
           <Rectangle Width="10"
                      Height="20">
             <Rectangle.Resources>
@@ -774,16 +737,17 @@
                                  Height="15"
                                  Margin="0 -2 0 0"
                                  Visibility="{Binding Value.WholeDayExpansion, Converter={StaticResource false2CollapsedConverter}}"
-                                 Fill="{StaticResource ribbonIcon}">
+                                 Fill="{StaticResource ribbonIcon}"
+                                 ToolTip="Ersetzt ganzen Tag">
                         <Rectangle.Resources>
                           <SolidColorBrush x:Key="BlackBrush"
                                            Color="#B10101" />
                         </Rectangle.Resources>
-                        <Rectangle.ToolTip>
-                          <ToolTip>
-                            <TextBlock Text="Ersetzt ganzen Tag"></TextBlock>
-                          </ToolTip>
-                        </Rectangle.ToolTip>
+<!--                        <Rectangle.ToolTip> funktioniert eh nicht wegen overlay -->
+<!--                          <ToolTip>-->
+<!--                            <TextBlock Text="Ersetzt ganzen Tag"></TextBlock>-->
+<!--                          </ToolTip>-->
+<!--                        </Rectangle.ToolTip>-->
                       </Rectangle>
                     </Grid>
 
@@ -822,12 +786,8 @@
                                 Tag="{Binding Value}"
                                 Style="{StaticResource ImageButtonStyle}"
                                 Margin="10 0"
-                                Click="RemoveShortcut_OnClick">
-                          <Button.ToolTip>
-                            <ToolTip>
-                              <TextBlock Text="Shortcut löschen"></TextBlock>
-                            </ToolTip>
-                          </Button.ToolTip>
+                                Click="RemoveShortcut_OnClick"
+                                ToolTip="Shortcut löschen">
                           <Rectangle Width="8"
                                      Height="10"
                                      Fill="{StaticResource deleteIcon}">
@@ -838,12 +798,8 @@
                                 Tag="{Binding Value}"
                                 Style="{StaticResource ImageButtonStyle}"
                                 Margin="10 0"
-                                Click="EditShortcut_OnClick">
-                          <Button.ToolTip>
-                            <ToolTip>
-                              <TextBlock Text="Shortcut editieren"></TextBlock>
-                            </ToolTip>
-                          </Button.ToolTip>
+                                Click="EditShortcut_OnClick"
+                                ToolTip="Shortcut editieren">
                           <Rectangle Width="8"
                                      Height="10"
                                      Fill="{StaticResource editIcon}">
