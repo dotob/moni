@@ -16,6 +16,7 @@
                       x:Name="mv"
                       WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
+                      BorderThickness="1"
                       Icon="/MONI;component/Resources/moni.ico">
 
   <Window.Resources>
@@ -70,9 +71,9 @@
     </ResourceDictionary>
   </Window.Resources>
 
-  <Controls:MetroWindow.GlowBrush>
-    <SolidColorBrush Color="{DynamicResource AccentColor}" />
-  </Controls:MetroWindow.GlowBrush>
+  <Controls:MetroWindow.BorderBrush>
+    <SolidColorBrush Color="#808080" />
+  </Controls:MetroWindow.BorderBrush>
 
   <!-- *** window commands ***************************************************************** -->
   <Controls:MetroWindow.WindowCommands>
