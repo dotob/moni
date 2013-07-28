@@ -7,7 +7,19 @@ namespace MONI.ValueConverter
 {
   public class TimeItemConverter : IValueConverter
   {
-    #region IValueConverter Members
+    private static TimeItemConverter instance;
+
+    // Explicit static constructor to tell C# compiler
+    // not to mark type as beforefieldinit
+    static TimeItemConverter() {
+    }
+
+    private TimeItemConverter() {
+    }
+
+    public static TimeItemConverter Instance {
+      get { return instance ?? (instance = new TimeItemConverter()); }
+    }
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
       var ti = value as TimeItem;
@@ -27,7 +39,5 @@ namespace MONI.ValueConverter
       }
       return Binding.DoNothing;
     }
-
-    #endregion
   }
 }

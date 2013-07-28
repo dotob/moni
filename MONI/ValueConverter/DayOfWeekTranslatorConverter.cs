@@ -1,11 +1,26 @@
 ﻿using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
 
 namespace MONI.ValueConverter
 {
-  public class DayOfWeekTranslatorConverter : IValueConverter
+  public sealed class DayOfWeekTranslatorConverter : IValueConverter
   {
+    private static DayOfWeekTranslatorConverter instance;
+
+    // Explicit static constructor to tell C# compiler
+    // not to mark type as beforefieldinit
+    static DayOfWeekTranslatorConverter() {
+    }
+
+    private DayOfWeekTranslatorConverter() {
+    }
+
+    public static DayOfWeekTranslatorConverter Instance {
+      get { return instance ?? (instance = new DayOfWeekTranslatorConverter()); }
+    }
+
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
       var dt = (DayOfWeek)value;
       switch (dt) {
@@ -29,7 +44,7 @@ namespace MONI.ValueConverter
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
-      throw new NotImplementedException();
+      return DependencyProperty.UnsetValue;
     }
   }
 }
