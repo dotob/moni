@@ -115,6 +115,7 @@
     <Compile Include="Util\IAddShortcutService.cs" />
     <Compile Include="Util\LessThanColorConverter.cs" />
     <Compile Include="Util\Null2FalseConverter.cs" />
+    <Compile Include="Util\QuickFillObservableCollection.cs" />
     <Compile Include="Util\TimeSpanUtil.cs" />
     <Compile Include="Util\TodayColorConverter.cs" />
     <Compile Include="Util\ScaleDoubleConverter.cs" />
@@ -162,6 +163,10 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Resources\Controls.ListBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\Controls.TextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

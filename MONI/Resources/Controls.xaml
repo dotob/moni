@@ -4,6 +4,7 @@
   <ResourceDictionary.MergedDictionaries>
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.TextBox.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.ListBox.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
   </ResourceDictionary.MergedDictionaries>
 

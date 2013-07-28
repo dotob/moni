@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,14 +12,12 @@ namespace MONI.ViewModels
   public class PNSearchViewModel : ViewModelBase
   {
     private bool showPnSearch;
-    private readonly string projectNumberFile;
     private string searchText;
     private ICommand cancelCommand;
 
     public PNSearchViewModel(string projectNumberFile) {
-      this.Results = new ObservableCollection<ProjectNumber>();
+      this.Results = new QuickFillObservableCollection<ProjectNumber>();
       this.ProjectNumbers = new List<ProjectNumber>();
-      this.projectNumberFile = projectNumberFile;
       Task.Factory.StartNew(()=> this.ReadPNFile(projectNumberFile));
     }
 
@@ -58,12 +55,10 @@ namespace MONI.ViewModels
       this.Results.Clear();
       var s = this.searchText;
       var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase));
-      foreach (var pn in res) {
-        this.Results.Add(pn);
-      }
+      this.Results.Fill(res);
     }
 
-    public ObservableCollection<ProjectNumber> Results { get; private set; }
+    public QuickFillObservableCollection<ProjectNumber> Results { get; private set; }
 
     public ICommand CancelCommand {
       get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(() => this.ShowPNSearch = false, () => true)); }
