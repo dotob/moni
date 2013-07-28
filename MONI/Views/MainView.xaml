@@ -1,8 +1,7 @@
-﻿<Controls:MetroWindow x:Class="MONI.MainView"
+﻿<Controls:MetroWindow x:Class="MONI.Views.MainView"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                      xmlns:Util1="clr-namespace:MONI.Util"
                       xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                       xmlns:data="clr-namespace:MONI.Data"
                       xmlns:viewModels="clr-namespace:MONI.ViewModels"
@@ -28,10 +27,10 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/FlatButton.xaml" />
-        <ResourceDictionary Source="Resources/Icons.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
       <valueConverter:DayTypeColorConverter x:Key="dayTypeColorConverter" />

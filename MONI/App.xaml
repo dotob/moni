@@ -1,7 +1,7 @@
 ﻿<Application x:Class="MONI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="MainView.xaml">
+             StartupUri="Views\MainView.xaml">
   <Application.Resources>
     <Style TargetType="{x:Type Button}"
            x:Key="ImageButtonStyle">
