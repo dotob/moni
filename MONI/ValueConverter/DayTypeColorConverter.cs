@@ -4,10 +4,12 @@ using System.Windows.Data;
 using System.Windows.Media;
 using MONI.Data;
 
-namespace MONI.Util {
-  public class DayTypeColorConverter :IValueConverter{
+namespace MONI.ValueConverter
+{
+  public class DayTypeColorConverter : IValueConverter
+  {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-      DayType dt = (DayType) value;
+      var dt = (DayType)value;
       Brush b = Brushes.Transparent;
       switch (dt) {
         case DayType.Unknown:

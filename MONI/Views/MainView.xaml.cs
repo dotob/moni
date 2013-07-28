@@ -11,7 +11,7 @@ using MONI.ViewModels;
 using MahApps.Metro.Controls;
 using NLog;
 
-namespace MONI
+namespace MONI.Views
 {
   /// <summary>
   /// Interaction logic for MainView.xaml

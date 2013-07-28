@@ -109,21 +109,20 @@
     <Compile Include="Tests\WorkDayParserExtensionsTester.cs" />
     <Compile Include="Tests\WorkDayParserMainTester.cs" />
     <Compile Include="Util\AppHelper.cs" />
-    <Compile Include="Util\DayOfWeekTranslatorConverter.cs" />
+    <Compile Include="ValueConverter\DayOfWeekTranslatorConverter.cs" />
     <Compile Include="Util\EnvironmentInfos.cs" />
     <Compile Include="Util\ExceptionExtensions.cs" />
     <Compile Include="Util\IAddShortcutService.cs" />
-    <Compile Include="Util\LessThanColorConverter.cs" />
-    <Compile Include="Util\Null2FalseConverter.cs" />
+    <Compile Include="ValueConverter\LessThanColorConverter.cs" />
+    <Compile Include="ValueConverter\Null2FalseConverter.cs" />
     <Compile Include="Util\QuickFillObservableCollection.cs" />
     <Compile Include="Util\TimeSpanUtil.cs" />
-    <Compile Include="Util\TodayColorConverter.cs" />
-    <Compile Include="Util\ScaleDoubleConverter.cs" />
-    <Compile Include="Util\TimeItemConverter.cs" />
-    <Compile Include="Util\DurationBGColorConverter.cs" />
-    <Compile Include="Util\DurationFGColorConverter.cs" />
-    <Compile Include="Util\Null2CollapsedConverter.cs" />
-    <Compile Include="Util\DayTypeColorConverter.cs" />
+    <Compile Include="ValueConverter\TodayColorConverter.cs" />
+    <Compile Include="ValueConverter\ScaleDoubleConverter.cs" />
+    <Compile Include="ValueConverter\TimeItemConverter.cs" />
+    <Compile Include="ValueConverter\DurationBGColorConverter.cs" />
+    <Compile Include="ValueConverter\DurationFGColorConverter.cs" />
+    <Compile Include="ValueConverter\DayTypeColorConverter.cs" />
     <Compile Include="Util\DelegateCommand.cs" />
     <Compile Include="Util\StringParserHelper.cs" />
     <Compile Include="Data\WorkDayParser.cs" />
@@ -131,7 +130,7 @@
     <Compile Include="Tests\TimeItemTester.cs" />
     <Compile Include="Util\Utils.cs" />
     <Compile Include="Util\ViewModelBase.cs" />
-    <Compile Include="Util\VisibilityConverter.cs" />
+    <Compile Include="ValueConverter\VisibilityConverter.cs" />
     <Compile Include="ViewModels\PNSearchViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ShortcutViewModel.cs" />
@@ -145,7 +144,7 @@
     <Compile Include="Views\ShortcutView.xaml.cs">
       <DependentUpon>ShortcutView.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainView.xaml">
+    <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -159,7 +158,7 @@
     <Compile Include="Data\WorkMonth.cs" />
     <Compile Include="Data\WorkWeek.cs" />
     <Compile Include="Data\WorkYear.cs" />
-    <Compile Include="MainView.xaml.cs">
+    <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>

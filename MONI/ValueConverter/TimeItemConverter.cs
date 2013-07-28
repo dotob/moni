@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
 using MONI.Data;
 
-namespace MONI.Util
+namespace MONI.ValueConverter
 {
   public class TimeItemConverter : IValueConverter
   {
@@ -20,13 +19,13 @@ namespace MONI.Util
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
       var tiAsString = value as string;
-     if (tiAsString != null) {
+      if (tiAsString != null) {
         TimeItem ti;
         if (TimeItem.TryParse(tiAsString, out ti)) {
           return ti;
         }
       }
-     return Binding.DoNothing;
+      return Binding.DoNothing;
     }
 
     #endregion

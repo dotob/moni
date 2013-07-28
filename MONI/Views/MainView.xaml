@@ -1,12 +1,12 @@
-﻿<Controls:MetroWindow x:Class="MONI.MainView"
+﻿<Controls:MetroWindow x:Class="MONI.Views.MainView"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                      xmlns:Util1="clr-namespace:MONI.Util"
                       xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                       xmlns:data="clr-namespace:MONI.Data"
                       xmlns:viewModels="clr-namespace:MONI.ViewModels"
                       xmlns:views="clr-namespace:MONI.Views"
+                      xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
                       Title="MONI"
                       Width="800"
                       MinWidth="600"
@@ -27,25 +27,25 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/FlatButton.xaml" />
-        <ResourceDictionary Source="Resources/Icons.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
-      <Util1:DayTypeColorConverter x:Key="dayTypeColorConverter" />
-      <Util1:DurationBGColorConverter x:Key="durationBgConverter" />
-      <Util1:DurationFGColorConverter x:Key="durationFgConverter" />
-      <Util1:Null2CollapsedConverter x:Key="null2CollapsedConverter" />
-      <Util1:Null2FalseConverter x:Key="null2FalseConverter" />
-      <Util1:TimeItemConverter x:Key="timeItemConverter" />
-      <Util1:ScaleDoubleConverter x:Key="scaleDoubleConverter" />
-      <Util1:TodayColorConverter x:Key="todayColorConverter" />
-      <Util1:LessThanColorConverter x:Key="lessThanColorConverter" />
-      <Util1:DayOfWeekTranslatorConverter x:Key="dayNameConverter" />
+      <valueConverter:DayTypeColorConverter x:Key="dayTypeColorConverter" />
+      <valueConverter:DurationBGColorConverter x:Key="durationBgConverter" />
+      <valueConverter:DurationFGColorConverter x:Key="durationFgConverter" />
+      <valueConverter:Null2FalseConverter x:Key="null2FalseConverter" />
+      <valueConverter:TimeItemConverter x:Key="timeItemConverter" />
+      <valueConverter:ScaleDoubleConverter x:Key="scaleDoubleConverter" />
+      <valueConverter:TodayColorConverter x:Key="todayColorConverter" />
+      <valueConverter:LessThanColorConverter x:Key="lessThanColorConverter" />
+      <valueConverter:DayOfWeekTranslatorConverter x:Key="dayNameConverter" />
 
-      <Util1:VisibilityConverter x:Key="false2CollapsedConverter" />
-      <Util1:VisibilityConverter x:Key="false2HiddenConverter"
+      <valueConverter:VisibilityConverter x:Key="null2CollapsedConverter" />
+      <valueConverter:VisibilityConverter x:Key="false2CollapsedConverter" />
+      <valueConverter:VisibilityConverter x:Key="false2HiddenConverter"
                                  NotVisibleValue="Hidden" />
 
       <SolidColorBrush x:Key="lightText"
