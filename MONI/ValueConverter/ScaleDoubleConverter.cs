@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media;
-using MONI.Data;
 
-namespace MONI.Util
+namespace MONI.ValueConverter
 {
-  public class DurationFGColorConverter : IValueConverter
+  public class ScaleDoubleConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-      double duration = (double)value;
-      Brush b = Brushes.DarkSlateGray;
-      if (duration < MoniSettings.Current.MainSettings.HoursPerDay) {
-        b = Brushes.WhiteSmoke;
+      double scale;
+      if (value is double && parameter != null && double.TryParse(parameter.ToString(), out scale)) {
+        return Math.Max(1, scale * (double)value);
       }
-      return b;
+      return value;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

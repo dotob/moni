@@ -4,15 +4,15 @@ using System.Windows.Data;
 using System.Windows.Media;
 using MONI.Data;
 
-namespace MONI.Util
+namespace MONI.ValueConverter
 {
-  public class DurationBGColorConverter : IValueConverter
+  public class DurationFGColorConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-      double duration = (double)value;
-      Brush b = Brushes.Transparent;
+      var duration = (double)value;
+      Brush b = Brushes.DarkSlateGray;
       if (duration < MoniSettings.Current.MainSettings.HoursPerDay) {
-        b = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B3CD6969"));
+        b = Brushes.WhiteSmoke;
       }
       return b;
     }

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace MONI.Util
+namespace MONI.ValueConverter
 {
   public class VisibilityConverter : IValueConverter
   {
