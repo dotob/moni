@@ -37,7 +37,6 @@
       <valueConverter:DayTypeColorConverter x:Key="dayTypeColorConverter" />
       <valueConverter:DurationBGColorConverter x:Key="durationBgConverter" />
       <valueConverter:DurationFGColorConverter x:Key="durationFgConverter" />
-      <valueConverter:Null2CollapsedConverter x:Key="null2CollapsedConverter" />
       <valueConverter:Null2FalseConverter x:Key="null2FalseConverter" />
       <valueConverter:TimeItemConverter x:Key="timeItemConverter" />
       <valueConverter:ScaleDoubleConverter x:Key="scaleDoubleConverter" />
@@ -45,6 +44,7 @@
       <valueConverter:LessThanColorConverter x:Key="lessThanColorConverter" />
       <valueConverter:DayOfWeekTranslatorConverter x:Key="dayNameConverter" />
 
+      <valueConverter:VisibilityConverter x:Key="null2CollapsedConverter" />
       <valueConverter:VisibilityConverter x:Key="false2CollapsedConverter" />
       <valueConverter:VisibilityConverter x:Key="false2HiddenConverter"
                                  NotVisibleValue="Hidden" />

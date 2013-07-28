@@ -122,7 +122,6 @@
     <Compile Include="ValueConverter\TimeItemConverter.cs" />
     <Compile Include="ValueConverter\DurationBGColorConverter.cs" />
     <Compile Include="ValueConverter\DurationFGColorConverter.cs" />
-    <Compile Include="ValueConverter\Null2CollapsedConverter.cs" />
     <Compile Include="ValueConverter\DayTypeColorConverter.cs" />
     <Compile Include="Util\DelegateCommand.cs" />
     <Compile Include="Util\StringParserHelper.cs" />
