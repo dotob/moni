@@ -7,7 +7,8 @@
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance ViewModels:PNSearchViewModel}">
+             d:DataContext="{d:DesignInstance ViewModels:PNSearchViewModel}"
+             x:Name="pnSearchView">
 
   <UserControl.Resources>
     <ResourceDictionary>
@@ -97,9 +98,11 @@
              x:Name="searchTextBox"
              Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
 
+    <!-- without setting MaxHeight we loose the listbox virtualization!!! -->
     <ListBox Grid.Column="0"
              Grid.ColumnSpan="2"
              Grid.Row="1"
+             MaxHeight="{Binding ElementName=pnSearchView, Path=ActualHeight, Mode=OneWay}"
              FocusVisualStyle="{x:Null}"
              IsTextSearchEnabled="False"
              Style="{DynamicResource VirtualisedMetroListBox}"
