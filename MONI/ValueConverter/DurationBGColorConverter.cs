@@ -2,18 +2,17 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
+using MONI.Data;
 
-namespace MONI.Util
+namespace MONI.ValueConverter
 {
-  public class TodayColorConverter : IValueConverter
+  public class DurationBGColorConverter : IValueConverter
   {
-    private static BrushConverter bc = new BrushConverter();
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-      bool isToday = (bool)value;
-      
-      Brush b = bc.ConvertFromString("#CC119EDA") as Brush;
-      if (isToday) {
-        b = bc.ConvertFromString("#F000638E") as Brush;
+      var duration = (double)value;
+      Brush b = Brushes.Transparent;
+      if (duration < MoniSettings.Current.MainSettings.HoursPerDay) {
+        b = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B3CD6969"));
       }
       return b;
     }

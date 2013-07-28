@@ -2,11 +2,12 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace MONI.Util {
+namespace MONI.ValueConverter
+{
   public class DayOfWeekTranslatorConverter : IValueConverter
   {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-      DayOfWeek dt = (DayOfWeek) value;
+      var dt = (DayOfWeek)value;
       switch (dt) {
         case DayOfWeek.Sunday:
           return "Sonntag";
