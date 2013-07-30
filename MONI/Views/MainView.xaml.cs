@@ -180,14 +180,14 @@ namespace MONI.Views
     private void WorkDayTextBox_OnKeyDown(object sender, KeyEventArgs e) {
       var tb = sender as TextBox;
       if (tb != null) {
-        if (e.Key == Key.Up) {
+        if (e.Key == Key.PageUp) {
           var selectionStart = tb.SelectionStart;
           var text = tb.Text;
           tb.Text = WorkDayParser.Instance.Increment(text, 1, ref selectionStart);
           tb.SelectionStart = selectionStart;
           e.Handled = true;
         }
-        if (e.Key == Key.Down) {
+        if (e.Key == Key.PageDown) {
           var selectionStart = tb.SelectionStart;
           var text = tb.Text;
           tb.Text = WorkDayParser.Instance.Decrement(text, 1, ref selectionStart);
