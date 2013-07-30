@@ -81,6 +81,14 @@ namespace MONI.Tests
     }
 
     [Test]
+    public void WDPCurserUp_ShouldNotGetNegativePosition_Decrement() {
+      int pos = 2;
+      var newText = wdp.Decrement("9:30,4;12345-000,-16:00;12345-000", 2, ref pos);
+      Assert.AreEqual("9,4;12345-000,-16:00;12345-000", newText);
+      Assert.GreaterOrEqual(pos, 0);
+    }
+
+    [Test]
     public void WDPCurserUp_DayStart_Increment() {
       int pos = 1;
       var newText = wdp.Increment("9,4;12345-000,-16:00;12345-000", 1, ref pos);
