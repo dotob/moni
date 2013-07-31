@@ -31,5 +31,14 @@
 		"issue #26 closed: shortcut anlegen aus der projektnummern suche",
 		],
 	"DownLoadURL" : "http://mtools"
+},{
+	"Version":"0.9.8.8",
+	"Changes":[
+		"Anzeige für einen ganzen Tag in der Lister der ShortCuts behoben.",
+		"Schnellere Projektnummern Suche.",
+		"Statt Up/Down für Zeitanpassung nun PageUp/PageDown um die Funktionalität der Up/Down Tasten wiederherzustellen.",
+		"Beim Setzen des Cursors bei der Zeitanpassung konnte es zu einer falschen Cursorposition kommen.",
+		],
+	"DownLoadURL" : "http://mtools"
 },
 ]
