@@ -14,6 +14,7 @@ namespace MONI.Data
     private readonly char itemSeparator = ',';
     private readonly char endTimeStartChar = '-';
     private readonly WorkDayParserSettings settings;
+    private readonly string automaticPauseDeactivation = "//";
 
     public WorkDayParser() {
     }
@@ -29,7 +30,7 @@ namespace MONI.Data
       userInput = userInput.Replace(Environment.NewLine, "");
       ShortCut wholeDayShortcut;
       userInput = this.PreProcessWholeDayExpansion(userInput, wdToFill.DateTime, out wholeDayShortcut);
-      bool ignoreBreakSettings = userInput.StartsWith("//");
+      bool ignoreBreakSettings = userInput.StartsWith(automaticPauseDeactivation);
       if (ignoreBreakSettings) {
         userInput = userInput.Substring(2);
       }
@@ -279,7 +280,7 @@ namespace MONI.Data
         int cursorInPartPosition;
         var part = this.FindPositionPart(parts, selectionStart, out idx, out cursorInPartPosition);
         var newPart = part;
-        if (idx == 0) {
+        if (idx == 0 || parts[0]==automaticPauseDeactivation) {
           // is daystart, has no -
           TimeItem ti;
           if (TimeItem.TryParse(part, out ti)) {
@@ -339,6 +340,11 @@ namespace MONI.Data
 
     public IList<string> SplitIntoPartsIntern(string text) {
       var splitted = new List<string>();
+      // check for pause deactivation
+      if (text.StartsWith(automaticPauseDeactivation)) {
+        splitted.Add(automaticPauseDeactivation);
+        text = text.Substring(automaticPauseDeactivation.Length);
+      }
       string tmp = string.Empty;
       foreach (char c in text) {
         if (c == this.itemSeparator || c == this.hourProjectInfoSeparator) {

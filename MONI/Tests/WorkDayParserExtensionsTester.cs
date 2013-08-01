@@ -96,6 +96,13 @@ namespace MONI.Tests
     }
 
     [Test]
+    public void WDPCurserUp_DayStartWithPauseDeactivation_Increment() {
+      int pos = 2;
+      var newText = wdp.Increment("//9,4;12345-000,-16:00;12345-000", 1, ref pos);
+      Assert.AreEqual("//9:15,4;12345-000,-16:00;12345-000", newText);
+    }
+
+    [Test]
     public void WDPFindPositionPart_Pos0_Return0() {
       var parts = wdp.SplitIntoParts("9,4;12345-000,-16:00;12345-000");
       int idx;

@@ -38,6 +38,7 @@
 		"Schnellere Projektnummern Suche.",
 		"Statt Up/Down für Zeitanpassung nun PageUp/PageDown um die Funktionalität der Up/Down Tasten wiederherzustellen.",
 		"Beim Setzen des Cursors bei der Zeitanpassung konnte es zu einer falschen Cursorposition kommen.",
+		"issue #33 closed: Up/Down für Zeitanpassung hat nicht funktioniert beim Tagesanfang wenn die automatische Pause über // abgeschaltet wurde.",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.8.8/MONI.exe"
 },
