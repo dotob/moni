@@ -30,7 +30,7 @@
 		"issue #28 closed: beim cursor up/down gab es ein problem wenn der neu eingesetzte textteil kürzer als der vcorige war. dann sprang der cursor in den nächsten eintrag.",
 		"issue #26 closed: shortcut anlegen aus der projektnummern suche",
 		],
-	"DownLoadURL" : "http://mtools"
+	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.8.7/MONI.exe"
 },{
 	"Version":"0.9.8.8",
 	"Changes":[
@@ -39,6 +39,6 @@
 		"Statt Up/Down für Zeitanpassung nun PageUp/PageDown um die Funktionalität der Up/Down Tasten wiederherzustellen.",
 		"Beim Setzen des Cursors bei der Zeitanpassung konnte es zu einer falschen Cursorposition kommen.",
 		],
-	"DownLoadURL" : "http://mtools"
+	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.8.7/MONI.exe"
 },
 ]
