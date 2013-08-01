@@ -169,6 +169,7 @@ namespace MONI.Views
 
     private void ToMonlist_Button_Click(object sender, RoutedEventArgs e) {
       this.ViewModel.ShowPasswordDialog = true;
+      this.passwordBox.Focus();
     }
 
     private void WorkDayTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
