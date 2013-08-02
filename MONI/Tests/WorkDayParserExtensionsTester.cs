@@ -93,7 +93,7 @@ namespace MONI.Tests
       int pos = cursorPosition;
       var newText = wdp.Decrement("9:30,4;12345-000,-16:15;12345-000", 1, ref pos);
       Assert.AreEqual("9:30,4;12345-000,-16;12345-000", newText);
-      Assert.GreaterOrEqual(pos, expectedCursorPosition);
+      Assert.AreEqual(pos, expectedCursorPosition);
     }
 
     [TestCase(17, 17), TestCase(18, 18), TestCase(19, 19), TestCase(20, 20), TestCase(21, 20), TestCase(22, 20)]
@@ -101,7 +101,7 @@ namespace MONI.Tests
       int pos = cursorPosition;
       var newText = wdp.Increment("9:30,4;12345-000,-16:45;12345-000", 1, ref pos);
       Assert.AreEqual("9:30,4;12345-000,-17;12345-000", newText);
-      Assert.GreaterOrEqual(pos, expectedCursorPosition);
+      Assert.AreEqual(pos, expectedCursorPosition);
     }
 
     [Test]
