@@ -307,7 +307,7 @@ namespace MONI.Data
         }
         // check if we need to move cursor to left
         if (cursorInPartPosition > newPart.Length) {
-          selectionStart -= part.Length - cursorInPartPosition - 1;
+          selectionStart -= -cursorInPartPosition + newPart.Length;
         }
         if (idx >= 0) {
           parts[idx] = newPart;
