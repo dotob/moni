@@ -64,13 +64,15 @@ In der Einstellung DataDirectory kann **#{appdata}** als Platzhalter für das Ap
 - **shift+tab**: In Eingabefeld des folgenden Tages gehen
 - **strg+cursor_links**: Vorige Woche anzeigen
 - **strg+cursor_rechts**: Nächste Woche anzeigen
+- **shift+strg+cursor_links**: Vorigen Monat anzeigen
+- **shift+strg+cursor_rechts**: Nächsten Monat anzeigen
 - **escape**: Gehe zu Heute
 
 ### Andere ###
 - **strg+u**: Eingabe des vorigen Tages in aktuellen Tag kopieren
 - **strg+n**: Neuen Eintrag mit Endzeit jetzt im aktuellen Tag erstellen
-- **cursor hoch**: Aktuellen Eintrag um 15min erhöhen bzw. erweitern
-- **cursor runter**: Aktuellen Eintrag um 15min erniedrigen bzw. verkürzen
+- **bild hoch**: Aktuellen Eintrag um 15min erhöhen bzw. erweitern
+- **bild runter**: Aktuellen Eintrag um 15min erniedrigen bzw. verkürzen
 
 # Dokumentation der Eingabe #
 
@@ -205,7 +207,7 @@ Ausgabe:
 
 - 8:00-16:00 12345-000  krank oder doc
 
-## Manuelle Pause ##
+## Manuelle Pause mit Stundenzahl ##
 
 Eingabe: 
 
@@ -219,6 +221,21 @@ Ausgabe:
 Erläuterung: 
 
 Endet ein Eintrag mit **!** dann wird die Stundenzahl als Pause eingefügt
+
+## Manuelle Pause mit Endzeit ##
+
+Eingabe: 
+
+**8:00,4;12345-000,-14!,3;12345-000**
+
+Ausgabe: 
+
+- 8:00-12:00 12345-000
+- 14:00-17:00 12345-000
+
+Erläuterung: 
+
+Endet ein Eintrag mit **!** dann wird eine Pause bis zur Endzeit eingefügt
 
 ## Automatische Pause ##
 

@@ -77,15 +77,23 @@ namespace MONI.Views
       } else if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt) {
         if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift) {
           switch (e.SystemKey) {
+              // MOVE MONTH
             case Key.Left:
-              // when figured out how to jump a month execute it here
+              if (this.ViewModel.PreviousMonthCommand.CanExecute(null)) {
+                //FocusManager.SetFocusedElement(this, this.btnPrev);
+                this.ViewModel.PreviousMonthCommand.Execute(null);
+              }
               break;
             case Key.Right:
-              // when figured out how to jump a month execute it here
+              if (this.ViewModel.NextMonthCommand.CanExecute(null)) {
+                //FocusManager.SetFocusedElement(this, this.btnNext);
+                this.ViewModel.NextMonthCommand.Execute(null);
+              }
               break;
           }
         } else {
           switch (e.SystemKey) {
+            // MOVE WEEK
             case Key.Left:
               if (this.ViewModel.PreviousWeekCommand.CanExecute(null)) {
                 FocusManager.SetFocusedElement(this, this.btnPrev);

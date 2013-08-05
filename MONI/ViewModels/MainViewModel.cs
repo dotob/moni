@@ -40,6 +40,8 @@ namespace MONI.ViewModels
     private DispatcherTimer throttleSaveAndCalc;
     private ReadWriteResult persistentResult;
     private bool showPasswordDialog;
+    private ICommand nextMonthCommand;
+    private ICommand previousMonthCommand;
 
     public MainViewModel(Dispatcher dispatcher) {
       // handle settings
@@ -146,6 +148,13 @@ namespace MONI.ViewModels
 
     public ICommand NextWeekCommand {
       get { return this.nextWeekCommand ?? (this.nextWeekCommand = new DelegateCommand(this.SelectNextWeek, () => true)); }
+    }
+
+    public ICommand PreviousMonthCommand {
+      get { return this.previousMonthCommand ?? (this.previousMonthCommand = new DelegateCommand(this.SelectPreviousMonth, () => true)); }
+    }
+    public ICommand NextMonthCommand {
+      get { return this.nextMonthCommand ?? (this.nextMonthCommand = new DelegateCommand(this.SelectNextMonth, () => true)); }
     }
 
     public MoniSettings Settings { get; set; }
@@ -255,29 +264,24 @@ namespace MONI.ViewModels
     public PNSearchViewModel PNSearch { get; set; }
 
     private void SelectPreviousWeek() {
-      var look4PrevWeek = this.workYear.Weeks.ElementAtOrDefault(this.workYear.Weeks.IndexOf(this.workWeek) - 1);
-      if (look4PrevWeek != null) {
-        this.WorkWeek = look4PrevWeek;
-      } else {
-        // load previous year
-        var lastWeekDay = this.WorkWeek.Days.First();
-        var lastDayOfPreviousYear = new DateTime(lastWeekDay.Year - 1, 12, 31, this.calendar);
-        this.SelectDate(lastDayOfPreviousYear);
-      }
-      this.WorkMonth = this.workWeek.Month;
+      var firstDayOfWeek = this.workWeek.StartDate;
+      this.SelectDate(firstDayOfWeek.AddDays(-7));
     }
 
     private void SelectNextWeek() {
-      var look4NextWeek = this.workYear.Weeks.ElementAtOrDefault(this.workYear.Weeks.IndexOf(this.workWeek) + 1);
-      if (look4NextWeek != null) {
-        this.WorkWeek = look4NextWeek;
-        this.WorkMonth = this.workWeek.Month;
-      } else {
-        // load next year
-        var lastWeekDay = this.WorkWeek.Days.Last();
-        var firstDayOfNextYear = new DateTime(lastWeekDay.Year + 1, 1, 1, this.calendar);
-        this.SelectDate(firstDayOfNextYear);
-      }
+      var firstDayOfWeek = this.workWeek.StartDate;
+      this.SelectDate(firstDayOfWeek.AddDays(7));
+    }
+
+
+    private void SelectPreviousMonth() {
+      var firstDayOfWeek = this.workWeek.StartDate;
+      this.SelectDate(firstDayOfWeek.AddMonths(-1));
+    }
+
+    private void SelectNextMonth() {
+      var firstDayOfWeek = this.workWeek.StartDate;
+      this.SelectDate(firstDayOfWeek.AddMonths(1));
     }
 
     public void SelectToday() {
@@ -288,9 +292,11 @@ namespace MONI.ViewModels
       if (this.workYear == null || date.Year != this.workYear.Year) {
         this.CreateAndLoadYear(date.Year);
       }
-      this.WorkMonth = this.WorkYear.Months.ElementAt(date.Month - 1);
+      if (this.workMonth == null || date.Month != this.workMonth.Month) {
+        this.WorkMonth = this.WorkYear.Months.ElementAt(date.Month - 1);
+        this.WorkMonth.CalcPreviewHours();
+      }
       this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == this.calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
-      this.WorkMonth.CalcPreviewHours();
     }
 
     private void CreateAndLoadYear(int year) {
