@@ -227,7 +227,7 @@
                        Text="{Binding MainSettings.MonlistEmployeeNumber, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
               <Label Grid.Column="0"
-                     Grid.Row="4">Project-Hitliste anzeigen</Label>
+                     Grid.Row="4">Projekt-Hitliste anzeigen</Label>
               <CheckBox Grid.Column="1"
                         Grid.Row="4"
                         Margin="2"
@@ -845,7 +845,7 @@
                  FontSize="20"
                  Foreground="#CC119EDA"
                  FontWeight="Bold"
-                 Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectListVisibility}">Project-Hitlist</TextBlock>
+                 Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectListVisibility}">Projekt-Hitliste</TextBlock>
       <ScrollViewer Grid.Column="2"
                     Grid.Row="1"
                     Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectListVisibility}">
