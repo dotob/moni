@@ -280,7 +280,7 @@ namespace MONI.Data
         int cursorInPartPosition;
         var part = this.FindPositionPart(parts, selectionStart, out idx, out cursorInPartPosition);
         var newPart = part;
-        if (idx == 0 || parts[0]==automaticPauseDeactivation) {
+        if (idx == 0 || (parts[0] == automaticPauseDeactivation && idx == 1)) {
           // is daystart, has no -
           TimeItem ti;
           if (TimeItem.TryParse(part, out ti)) {

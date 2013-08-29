@@ -111,11 +111,14 @@ namespace MONI.Tests
       Assert.AreEqual("9:15,4;12345-000,-16:00;12345-000", newText);
     }
 
-    [Test]
-    public void WDPCurserUp_DayStartWithPauseDeactivation_Increment() {
-      int pos = 2;
-      var newText = wdp.Increment("//9,4;12345-000,-16:00;12345-000", 1, ref pos);
-      Assert.AreEqual("//9:15,4;12345-000,-16:00;12345-000", newText);
+    [TestCase(2, 2, "//9:15,4;12345-000,-16;12345-000")]
+    [TestCase(3, 3, "//9:15,4;12345-000,-16;12345-000")]
+    [TestCase(19, 19, "//9,4;12345-000,-16:15;12345-000")]
+    public void WDPCurserUp_DayStartWithPauseDeactivation_Increment(int cursorPosition, int expectedCursorPosition, string expectedText) {
+      int pos = cursorPosition;
+      var newText = wdp.Increment("//9,4;12345-000,-16;12345-000", 1, ref pos);
+      Assert.AreEqual(expectedText, newText);
+      Assert.AreEqual(pos, expectedCursorPosition);
     }
 
     [Test]
