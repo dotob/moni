@@ -275,7 +275,7 @@ namespace MONI.ViewModels
       if (firstDayOfWeek.Month == dateTime.Month) {
         this.SelectDate(dateTime);
       } else {
-        var nuDate = firstDayOfWeek.AddMonths(1).AddDays(-1 * firstDayOfWeek.Day);
+        var nuDate = firstDayOfWeek.AddMonths(1).AddDays(-1 * firstDayOfWeek.Day+1);
         this.SelectDate(nuDate);
       }
     }
