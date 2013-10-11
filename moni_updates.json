@@ -34,13 +34,15 @@
 },{
 	"Version":"0.9.8.8",
 	"Changes":[
-		"Anzeige für einen ganzen Tag in der Lister der ShortCuts behoben.",
-		"Schnellere Projektnummern Suche.",
-		"Statt Up/Down für Zeitanpassung nun PageUp/PageDown um die Funktionalität der Up/Down Tasten wiederherzustellen.",
-		"Beim Setzen des Cursors bei der Zeitanpassung konnte es zu einer falschen Cursorposition kommen.",
-		"issue #33 closed: Up/Down für Zeitanpassung hat nicht funktioniert beim Tagesanfang wenn die automatische Pause über // abgeschaltet wurde.",
+		"Anzeige für einen ganzen Tag in der Liste der ShortCuts behoben",
+		"Schnellere Projektnummern Suche",
+		"Statt Up/Down für Zeitanpassung nun PageUp/PageDown um die Funktionalität der Up/Down Tasten wiederherzustellen",
+		"Beim Setzen des Cursors bei der Zeitanpassung konnte es zu einer falschen Cursorposition kommen",
+		"issue #33 closed: Up/Down für Zeitanpassung hat nicht funktioniert beim Tagesanfang wenn die automatische Pause über // abgeschaltet wurde",
 		"issue #27 closed: Einige Texte eingedeutscht",
 		"issue #33 closed: Man kann jetzt mit shift+strg+links/rechts einen Monat vor/zurück springen",
+		"issue #35 closed: Beim Wochen springen wurde eine Woche übersprungen wenn darin ein Monatswechsel lag",
+		"issue #25: Feature experimentell eingebaut, Mausklick auf einen Stundeneintrag selektiert den zugehörigen Text in der Textbox, funktioniert nicht in allen Situationen und nicht alle Textteile werden selektiert (Pausen gehen nicht, bei mehreren gleichen Texten wird aktuell nur der erste selektiert)",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.8.8/MONI.exe"
 },

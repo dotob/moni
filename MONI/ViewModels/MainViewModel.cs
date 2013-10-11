@@ -272,7 +272,12 @@ namespace MONI.ViewModels
     private void SelectNextWeek() {
       var firstDayOfWeek = this.workWeek.StartDate;
       var dateTime = firstDayOfWeek.AddDays(7);
-      this.SelectDate(dateTime);
+      if (firstDayOfWeek.Month == dateTime.Month) {
+        this.SelectDate(dateTime);
+      } else {
+        var nuDate = firstDayOfWeek.AddMonths(1).AddDays(-1 * firstDayOfWeek.Day);
+        this.SelectDate(nuDate);
+      }
     }
 
 
