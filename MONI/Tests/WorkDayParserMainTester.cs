@@ -195,7 +195,7 @@ namespace MONI.Tests {
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
       CollectionAssert.IsNotEmpty(wd.Items);
       CollectionAssert.AreEqual(new[] {
-                                        new WorkItem(new TimeItem(9, 15), new TimeItem(16, 30), "11111", "111","lalala", null)
+                                        new WorkItem(new TimeItem(9, 15), new TimeItem(16, 30), "11111", "111","lalala", null, string.Empty)
                                       }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }
@@ -208,7 +208,7 @@ namespace MONI.Tests {
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
       CollectionAssert.IsNotEmpty(wd.Items);
       CollectionAssert.AreEqual(new[] {
-                                        new WorkItem(new TimeItem(9, 15), new TimeItem(16, 30), "11111", "111","lal,ala", null)
+                                        new WorkItem(new TimeItem(9, 15), new TimeItem(16, 30), "11111", "111","lal,ala", null, string.Empty)
                                       }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }
@@ -224,7 +224,7 @@ namespace MONI.Tests {
       var workItemParserResult = wdp.Parse("9:00,2;ctb(useme),2;ktl", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
       CollectionAssert.IsNotEmpty(wd.Items);
-      CollectionAssert.AreEqual(new[] { new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111","useme", null), new WorkItem(new TimeItem(11, 0), new TimeItem(13, 0), "22222", "222","useme", null) }, wd.Items);
+      CollectionAssert.AreEqual(new[] { new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111", "useme", null, string.Empty), new WorkItem(new TimeItem(11, 0), new TimeItem(13, 0), "22222", "222", "useme", null, string.Empty) }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }
 
@@ -239,7 +239,7 @@ namespace MONI.Tests {
       var workItemParserResult = wdp.Parse("9:00,2;ctb(+ suffix),2;ktl", ref wd);
       Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
       CollectionAssert.IsNotEmpty(wd.Items);
-      CollectionAssert.AreEqual(new[] { new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111","prefix suffix", null), new WorkItem(new TimeItem(11, 0), new TimeItem(13, 0), "22222", "222","useme", null) }, wd.Items);
+      CollectionAssert.AreEqual(new[] { new WorkItem(new TimeItem(9, 0), new TimeItem(11, 0), "11111", "111", "prefix suffix", null, string.Empty), new WorkItem(new TimeItem(11, 0), new TimeItem(13, 0), "22222", "222", "useme", null, string.Empty) }, wd.Items);
       Assert.IsEmpty(workItemParserResult.Error);
     }
 

@@ -17,13 +17,14 @@
       this.Description = description;
     }
 
-    public WorkItem(TimeItem start, TimeItem end, string project, string position, string description, ShortCut shortCut) {
+    public WorkItem(TimeItem start, TimeItem end, string project, string position, string description, ShortCut shortCut, string originalString) {
       this.Start = start;
       this.End = end;
       this.Project = project;
       this.Position = position;
       this.Description = description;
       this.ShortCut = shortCut;
+      this.OriginalString = originalString;
     }
 
     public WorkItem(TimeItem start, TimeItem end) {
@@ -37,6 +38,7 @@
     public string Position { get; set; }
     public string Description { get; set; }
     public ShortCut ShortCut { get; set; }
+    public string OriginalString { get; set; }
 
     public string ProjectPosition {
       get { return string.Format("{0}-{1}", this.Project, this.Position); }

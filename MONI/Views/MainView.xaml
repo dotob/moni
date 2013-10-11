@@ -518,7 +518,8 @@
           <ItemsControl.ItemTemplate>
             <!-- this is a day -->
             <DataTemplate>
-              <Border BorderThickness="1"
+              <Border x:Name="dayBorder" 
+                      BorderThickness="1"
                       Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
                       Margin="1"
                       Padding="1"
@@ -564,7 +565,8 @@
                              Background="{Binding HoursDuration, Converter={x:Static valueConverter:DurationBGColorConverter.Instance}}"
                              HorizontalAlignment="Center"></TextBlock>
 
-                  <TextBox Loaded="TextBox_Loaded"
+                  <TextBox x:Name="userEntry"
+                           Loaded="TextBox_Loaded"
                            GotKeyboardFocus="WorkDayTextBox_OnGotKeyboardFocus"
                            PreviewKeyDown="WorkDayTextBox_OnKeyDown"
                            Grid.Column="1"
@@ -585,7 +587,8 @@
                                 Grid.IsSharedSizeScope="True">
                     <ItemsControl.ItemTemplate>
                       <DataTemplate>
-                        <Grid>
+                        <Grid PreviewMouseUp="UIElement_OnPreviewMouseUp"
+                              Tag="{Binding ElementName=userEntry}">
                           <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"
                                               SharedSizeGroup="1" />

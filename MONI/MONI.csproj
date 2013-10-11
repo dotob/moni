@@ -109,6 +109,7 @@
     <Compile Include="Tests\WorkDayParserExtensionsTester.cs" />
     <Compile Include="Tests\WorkDayParserMainTester.cs" />
     <Compile Include="Util\AppHelper.cs" />
+    <Compile Include="Util\VisualTreeExtensions.cs" />
     <Compile Include="ValueConverter\DayOfWeekTranslatorConverter.cs" />
     <Compile Include="Util\EnvironmentInfos.cs" />
     <Compile Include="Util\ExceptionExtensions.cs" />

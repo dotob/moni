@@ -124,7 +124,7 @@ namespace MONI.Data
               // the break is in an item
               if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
                 // insert new item
-                resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut));
+                resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut, workItemTemp.OriginalString));
                 lastTime = this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes / 60d;
                 if (!endTimeMode) {
                   // fixup currentEndTime, need to add the dayshiftbreak
@@ -137,7 +137,7 @@ namespace MONI.Data
                 }
               }
             }
-            resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut));
+            resultListTmp.Add(new WorkItem(lastTime, currentEndTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut, workItemTemp.OriginalString));
             lastTime = currentEndTime;
             success = true;
           }
