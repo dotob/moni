@@ -10,7 +10,6 @@ using MONI.Util;
 using MONI.ViewModels;
 using MahApps.Metro.Controls;
 using NLog;
-using System.Linq;
 
 namespace MONI.Views
 {
@@ -231,25 +230,6 @@ namespace MONI.Views
       this.ViewModel.PNSearch.ShowPNSearch = false;
       var sc = new ShortCut(key, expansion);
       this.ViewModel.EditShortCut = new ShortcutViewModel(sc, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null) { IsNew = true};
-    }
-
-    private void UIElement_OnPreviewMouseUp(object sender, MouseButtonEventArgs e) {
-      var o = sender as Grid;
-      if (o != null) {
-        var tb = o.Tag as TextBox;
-        if (tb != null) {
-          var workItem = o.DataContext as WorkItem;
-          if (workItem != null) {
-            tb.Focus();
-            var wholeString = tb.Text;
-            if (!string.IsNullOrWhiteSpace(wholeString)) {
-              var searchString = workItem.OriginalString;
-              int selStart = wholeString.IndexOf(searchString,StringComparison.InvariantCulture);
-              tb.Select(selStart, searchString.Length);
-            }
-          }
-        }
-      }
     }
   }
 }

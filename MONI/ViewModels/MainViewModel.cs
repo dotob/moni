@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -6,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
@@ -13,6 +15,7 @@ using MONI.Data;
 using MONI.Util;
 using NLog;
 using Newtonsoft.Json;
+using Calendar = System.Globalization.Calendar;
 
 namespace MONI.ViewModels
 {
@@ -70,7 +73,33 @@ namespace MONI.ViewModels
         this.throttleSaveAndCalc = new DispatcherTimer(DispatcherPriority.DataBind, dispatcher);
         this.throttleSaveAndCalc.Tick += new EventHandler(this.throttleSaveAndCalc_Tick);
       }
+
+      this.SelectUserEntry += DoSelectUserEntry;
     }
+
+    private static void DoSelectUserEntry(object o)
+    {
+      var bindedValues = o as IEnumerable;
+      if (bindedValues == null) {
+        return;
+      }
+      var workItem = bindedValues.OfType<object>().ElementAtOrDefault(0) as WorkItem;
+      var tb = bindedValues.OfType<object>().ElementAtOrDefault(1) as TextBox;
+      if (workItem == null || tb == null) {
+        return;
+      }
+      tb.Focus();
+      var wholeString = tb.Text;
+      if (!string.IsNullOrWhiteSpace(wholeString)) {
+        var searchString = workItem.OriginalString;
+        int selStart = wholeString.IndexOf(searchString, StringComparison.InvariantCulture);
+        if (selStart >= 0) {
+          tb.Select(selStart, searchString.Length);
+        }
+      }
+    }
+
+    public Action<object> SelectUserEntry { get; private set; }
 
     public UpdateInfoViewModel UpdateInfoViewModel { get; set; }
 

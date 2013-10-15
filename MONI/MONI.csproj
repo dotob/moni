@@ -109,12 +109,20 @@
     <Compile Include="Tests\WorkDayParserExtensionsTester.cs" />
     <Compile Include="Tests\WorkDayParserMainTester.cs" />
     <Compile Include="Util\AppHelper.cs" />
+    <Compile Include="Util\AttachedCommandBehavior\BehaviorBinding.cs" />
+    <Compile Include="Util\AttachedCommandBehavior\CommandBehavior.cs" />
+    <Compile Include="Util\AttachedCommandBehavior\CommandBehaviorBinding.cs" />
+    <Compile Include="Util\AttachedCommandBehavior\CommandBehaviorCollection.cs" />
+    <Compile Include="Util\AttachedCommandBehavior\EventHandlerGenerator.cs" />
+    <Compile Include="Util\AttachedCommandBehavior\ExecutionStrategy.cs" />
+    <Compile Include="Util\AttachedCommandBehavior\SimpleCommand.cs" />
     <Compile Include="Util\VisualTreeExtensions.cs" />
     <Compile Include="ValueConverter\DayOfWeekTranslatorConverter.cs" />
     <Compile Include="Util\EnvironmentInfos.cs" />
     <Compile Include="Util\ExceptionExtensions.cs" />
     <Compile Include="Util\IAddShortcutService.cs" />
     <Compile Include="ValueConverter\LessThanColorConverter.cs" />
+    <Compile Include="ValueConverter\MultiBindingObjectConverter.cs" />
     <Compile Include="ValueConverter\Null2FalseConverter.cs" />
     <Compile Include="Util\QuickFillObservableCollection.cs" />
     <Compile Include="Util\TimeSpanUtil.cs" />
@@ -233,6 +241,8 @@
       <Link>DllsAsResource\Microsoft.Windows.Shell.dll</Link>
     </EmbeddedResource>
     <Content Include="Resources\UpdateInfoTest.json.txt" />
+    <None Include="Util\AttachedCommandBehavior\ACB.cd" />
+    <None Include="Util\AttachedCommandBehavior\LICENSE.md" />
     <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>

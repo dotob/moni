@@ -7,6 +7,7 @@
                       xmlns:viewModels="clr-namespace:MONI.ViewModels"
                       xmlns:views="clr-namespace:MONI.Views"
                       xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
+                      xmlns:attachedCommandBehavior="clr-namespace:AttachedCommandBehavior"
                       Title="MONI"
                       Width="800"
                       MinWidth="600"
@@ -587,8 +588,22 @@
                                 Grid.IsSharedSizeScope="True">
                     <ItemsControl.ItemTemplate>
                       <DataTemplate>
-                        <Grid PreviewMouseUp="UIElement_OnPreviewMouseUp"
-                              Tag="{Binding ElementName=userEntry}">
+                        <Grid>
+                          <attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+                            <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseLeftButtonUp"
+                                                                     Action="{Binding ElementName=mv, Path=ViewModel.SelectUserEntry, Mode=OneWay}">
+                              <attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                                <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
+                                  <!-- WorkItem -->
+                                  <Binding Mode="OneWay" />
+                                  <!-- TextBox -->
+                                  <Binding ElementName="userEntry"
+                                           Mode="OneWay" />
+                                </MultiBinding>
+                              </attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                            </attachedCommandBehavior:BehaviorBinding>
+                          </attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+
                           <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"
                                               SharedSizeGroup="1" />
