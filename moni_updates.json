@@ -45,5 +45,11 @@
 		"issue #25: Feature experimentell eingebaut, Mausklick auf einen Stundeneintrag selektiert den zugehörigen Text in der Textbox, funktioniert nicht in allen Situationen und nicht alle Textteile werden selektiert (Pausen gehen nicht, bei mehreren gleichen Texten wird aktuell nur der erste selektiert)",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.8.8/MONI.exe"
+},{
+	"Version":"0.9.8.9",
+	"Changes":[
+		"issue #36: Fehler behoben, der durch issue #25 verursacht wurde (es konnte zu einer Exception kommen)",
+		],
+	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.8.9/MONI.exe"
 },
 ]
