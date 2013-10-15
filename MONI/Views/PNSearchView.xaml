@@ -104,6 +104,7 @@
              Grid.Row="1"
              MaxHeight="{Binding ElementName=pnSearchView, Path=ActualHeight, Mode=OneWay}"
              FocusVisualStyle="{x:Null}"
+             Background="Transparent"
              IsTextSearchEnabled="False"
              Style="{DynamicResource VirtualisedMetroListBox}"
              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
