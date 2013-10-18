@@ -17,6 +17,7 @@
                       x:Name="mv"
                       WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
+                      ShowWindowCommandsOnTop="False"
                       BorderThickness="1"
                       BorderBrush="#808080"
                       Icon="/MONI;component/Resources/moni.ico">
