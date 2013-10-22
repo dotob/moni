@@ -161,7 +161,6 @@
       <!-- settings -->
       <Controls:Flyout Header="Settings"
                        Position="Right"
-                       Background="#333333"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
                        IsOpen="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}">
@@ -170,11 +169,6 @@
             <DataTemplate.Resources>
               <Style TargetType="{x:Type TextBox}"
                      BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-              </Style>
-              <Style TargetType="{x:Type CheckBox}"
-                     BasedOn="{StaticResource MetroCheckBox}">
-                <Setter Property="FocusVisualStyle"
-                        Value="{StaticResource FlyoutFocusVisual}" />
               </Style>
               <Style TargetType="{x:Type Button}"
                      BasedOn="{StaticResource MetroFlyoutFlatButton}" />
@@ -289,7 +283,6 @@
       <!-- edit / new shortcut -->
       <Controls:Flyout Header="Shortcut"
                        Position="Right"
-                       Background="#333333"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
                        IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}">
@@ -298,11 +291,6 @@
             <DataTemplate.Resources>
               <Style TargetType="{x:Type TextBox}"
                      BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-              </Style>
-              <Style TargetType="{x:Type CheckBox}"
-                     BasedOn="{StaticResource MetroCheckBox}">
-                <Setter Property="FocusVisualStyle"
-                        Value="{StaticResource FlyoutFocusVisual}" />
               </Style>
               <Style TargetType="{x:Type Button}"
                      BasedOn="{StaticResource MetroFlyoutFlatButton}" />
@@ -317,7 +305,6 @@
       <!-- search projectnumbers -->
       <Controls:Flyout Header="Projektnummern-Suche"
                        Position="Right"
-                       Background="#333333"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
                        IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}">
@@ -341,7 +328,6 @@
       <!-- show update info -->
       <Controls:Flyout Header="Update-Info"
                        Position="Right"
-                       Background="#333333"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
                        IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}">

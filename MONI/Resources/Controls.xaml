@@ -2,11 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TextBlock.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TextBox.xaml" />
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Label.xaml" />
+
     <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.TextBox.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.ListBox.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.Flyout.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
   </ResourceDictionary.MergedDictionaries>
 
   <Style TargetType="{x:Type TextBox}"
@@ -21,11 +24,9 @@
          TargetType="{x:Type TextBox}"
          BasedOn="{StaticResource MetroFlyoutTextBox}">
     <Setter Property="BorderBrush"
-            Value="Black" />
+            Value="#1F1F1F" />
     <Setter Property="Background"
-            Value="#666666" />
-    <Setter Property="Foreground"
-            Value="White" />
+            Value="#404040" />
     <Setter Property="VerticalAlignment"
             Value="Center" />
     <Setter Property="Validation.ErrorTemplate"
@@ -51,7 +52,15 @@
             Value="{x:Null}" />
   </Style>
 
-  <Style x:Key="BaseTextBlockStyle"
+  <Style TargetType="{x:Type Label}"
+         BasedOn="{StaticResource MetroLabel}">
+    <Setter Property="VerticalAlignment"
+            Value="Center" />
+    <Setter Property="Foreground"
+            Value="{DynamicResource LabelTextBrush}" />
+  </Style>
+
+  <Style x:Key="BaseMetroTextBlock"
          TargetType="{x:Type TextBlock}"
          BasedOn="{StaticResource MetroTextBlock}">
     <Setter Property="VerticalAlignment"
@@ -59,6 +68,6 @@
   </Style>
 
   <Style TargetType="{x:Type TextBlock}"
-         BasedOn="{StaticResource BaseTextBlockStyle}" />
+         BasedOn="{StaticResource BaseMetroTextBlock}" />
 
 </ResourceDictionary>
