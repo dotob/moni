@@ -25,14 +25,7 @@
   <Window.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/FlatButton.xaml" />
       </ResourceDictionary.MergedDictionaries>
 
       <valueConverter:VisibilityConverter x:Key="null2CollapsedConverter" />
@@ -74,12 +67,6 @@
       <VisualBrush Stretch="Fill"
                    x:Key="ribbonIcon"
                    Visual="{StaticResource appbar_ribbon}" />
-
-      <Style TargetType="{x:Type TextBox}"
-             BasedOn="{StaticResource MetroTextBox}">
-        <Setter Property="Validation.ErrorTemplate"
-                Value="{x:Null}" />
-      </Style>
     </ResourceDictionary>
   </Window.Resources>
 
@@ -170,8 +157,6 @@
               <Style TargetType="{x:Type TextBox}"
                      BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
               </Style>
-              <Style TargetType="{x:Type Button}"
-                     BasedOn="{StaticResource MetroFlyoutFlatButton}" />
             </DataTemplate.Resources>
 
             <Grid Width="400"
@@ -292,8 +277,6 @@
               <Style TargetType="{x:Type TextBox}"
                      BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
               </Style>
-              <Style TargetType="{x:Type Button}"
-                     BasedOn="{StaticResource MetroFlyoutFlatButton}" />
             </DataTemplate.Resources>
             <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
             <views:ShortcutView x:Name="shortcutView"
@@ -314,8 +297,6 @@
               <Style TargetType="{x:Type TextBox}"
                      BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
               </Style>
-              <Style TargetType="{x:Type Button}"
-                     BasedOn="{StaticResource MetroFlyoutFlatButton}" />
             </DataTemplate.Resources>
             <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
             <views:PNSearchView x:Name="pnSearchView"
@@ -337,8 +318,6 @@
               <Style TargetType="{x:Type TextBox}"
                      BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
               </Style>
-              <Style TargetType="{x:Type Button}"
-                     BasedOn="{StaticResource MetroFlyoutFlatButton}" />
             </DataTemplate.Resources>
             <views:UpdateInfoView />
           </DataTemplate>
