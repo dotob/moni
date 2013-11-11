@@ -255,8 +255,8 @@
                            Grid.ColumnSpan="2"
                            VerticalAlignment="Bottom"
                            Columns="2">
-                <Button Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
-                <Button Click="EditPreferencesSave_OnClick"
+                <Button Margin="0,0,2,0" Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
+                <Button Margin="2,0,0,0" Click="EditPreferencesSave_OnClick"
                         IsDefault="True">Speichern</Button>
               </UniformGrid>
 
@@ -362,7 +362,7 @@
                 Grid.RowSpan="2"
                 x:Name="btnPrev"
                 Background="#537DBBDA"
-                Margin="0 3 0 2"
+                Margin="2 3 1 2"
                 Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}">
           <Rectangle Width="15"
                      Height="15">
@@ -459,7 +459,7 @@
                 Grid.RowSpan="2"
                 x:Name="btnNext"
                 Background="#537DBBDA"
-                Margin="0 3 11 2"
+                Margin="1 3 11 2"
                 Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}">
           <Rectangle Width="15"
                      Height="15">
@@ -892,7 +892,7 @@
       <Border Background="White"
               Width="400"
               Height="150">
-        <Grid VerticalAlignment="Center">
+        <Grid VerticalAlignment="Center" Margin="2">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -912,9 +912,11 @@
 
           <Button Grid.Column="0"
                   Grid.Row="3"
+                  Margin="0,0,2,0"
                   Click="PasswordCancel_OnClick">Abbrechen</Button>
           <Button Grid.Column="1"
                   Grid.Row="3"
+                  Margin="2,0,0,0"
                   Click="PasswordOK_OnClick"
                   IsDefault="True">OK</Button>
         </Grid>

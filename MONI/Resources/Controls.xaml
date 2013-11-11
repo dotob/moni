@@ -16,9 +16,9 @@
     <Setter Property="Control.Template">
       <Setter.Value>
         <ControlTemplate TargetType="{x:Type Control}">
-          <Rectangle Margin="3"
+          <Rectangle Margin="1"
                      Stroke="{DynamicResource BlackBrush}"
-                     StrokeDashArray="2 2"
+                     StrokeDashArray="1.5 1.5"
                      StrokeThickness="1"
                      SnapsToDevicePixels="True"/>
         </ControlTemplate>
