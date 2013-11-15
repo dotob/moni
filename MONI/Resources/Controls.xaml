@@ -41,8 +41,6 @@
             Value="{DynamicResource TextBoxMouseOverBorderBrush}" />
     <Setter Property="VerticalAlignment"
             Value="Center" />
-    <Setter Property="Validation.ErrorTemplate"
-            Value="{x:Null}" />
   </Style>
 
   <Style x:Key="MONIMetroFlyoutTextBox"
@@ -58,8 +56,6 @@
             Value="#404040" />
     <Setter Property="VerticalAlignment"
             Value="Center" />
-    <Setter Property="Validation.ErrorTemplate"
-            Value="{x:Null}" />
   </Style>
 
   <Style TargetType="{x:Type ComboBox}"
@@ -77,8 +73,6 @@
         </ItemsPanelTemplate>
       </Setter.Value>
     </Setter>
-    <Setter Property="Validation.ErrorTemplate"
-            Value="{x:Null}" />
   </Style>
 
   <Style TargetType="{x:Type Label}"

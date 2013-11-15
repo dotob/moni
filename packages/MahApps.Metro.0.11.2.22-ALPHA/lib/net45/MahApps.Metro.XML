@@ -36,10 +36,29 @@
             This method handles the window size if the taskbar is set to auto-hide.
             </summary>
         </member>
+        <member name="M:MahApps.Metro.Behaviours.BorderlessWindowBehavior.AddBorder">
+            <summary>
+            show activated border with given brush and thickness from associated object
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Behaviours.BorderlessWindowBehavior.RemoveBorder">
+            <summary>
+            show deactivated border with thickness from associated object
+            </summary>
+        </member>
         <member name="T:MahApps.Metro.Controls.ComboBoxHelper">
             <summary>
             A helper class that provides various attached properties for the ComboBox control.
             <see cref="T:System.Windows.Controls.ComboBox"/>
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.CustomValidationPopup">
+            <summary>
+            This custom popup is used by the validation error template.
+            It provides some additional nice features:
+                - repositioning if host-window size or location changed
+                - repositioning if host-window gets maximized and vice versa
+                - it's only topmost if the host-window is activated
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.ControlsHelper">
