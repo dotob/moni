@@ -200,7 +200,7 @@ namespace MONI.Data
             if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
               if (this.settings != null) {
-                var abbrevString = projectPosDescString.TokenReturnInputIfFail("(", 1);
+                var abbrevString = projectPosDescString.TokenReturnInputIfFail("(", 1).Trim();
                 ShortCut shortCut = this.settings.GetValidShortCuts(dateTime).FirstOrDefault(s => s.Key == abbrevString);
                 if (shortCut != null) {
                   workItem.ShortCut = shortCut;

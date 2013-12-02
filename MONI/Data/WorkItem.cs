@@ -58,7 +58,7 @@
     }
 
     public override string ToString() {
-      return string.Format("{0}-{1} ; {2}:{3} ; {4}", this.Start, this.End, this.Project, this.Position, this.Description);
+      return string.Format("{0}-{1} ; {2}-{3} ; {4}", this.Start, this.End, this.Project, this.Position, this.Description);
     }
   }
 }
