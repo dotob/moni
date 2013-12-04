@@ -5,16 +5,19 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using MONI.Data.SpecialDays;
+using MONI.ViewModels;
 
 namespace MONI.Data
 {
   public class WorkYear : INotifyPropertyChanged
   {
     private readonly int hitListLookBackInWeeks;
+    private readonly PositionSearchViewModel positionSearch;
     public int Year { get; set; }
 
-    public WorkYear(int year, IEnumerable<ShortCut> shortCuts, int hitListLookBackInWeeks, float hoursPerDay) {
+    public WorkYear(int year, IEnumerable<ShortCut> shortCuts, int hitListLookBackInWeeks, float hoursPerDay, PositionSearchViewModel positionSearch) {
       this.hitListLookBackInWeeks = hitListLookBackInWeeks;
+      this.positionSearch = positionSearch;
       this.Year = year;
       this.Months = new ObservableCollection<WorkMonth>();
       this.Weeks = new ObservableCollection<WorkWeek>();
@@ -35,6 +38,7 @@ namespace MONI.Data
     private void workWeek_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
       this.OnPropertyChanged("HoursDuration");
       this.OnPropertyChanged("ProjectHitList");
+      this.OnPropertyChanged("PositionHitlist");
     }
 
     public ObservableCollection<WorkMonth> Months { get; set; }
@@ -56,6 +60,29 @@ namespace MONI.Data
                     g.OrderByDescending(p => p.WorkDay.DateTime).Select(p => p.Description).FirstOrDefault())
           );
         return new ObservableCollection<HitlistInfo>(hitlistInfos);
+      }
+    }
+
+    public ObservableCollection<HitlistInfo> PositionHitlist {
+      get {
+        if (positionSearch != null) {
+          var allDays = this.Months.SelectMany(m => m.Days);
+          var daysFromLookback = this.hitListLookBackInWeeks > 0 ? allDays.Where(m => m.DateTime > DateTime.Now.AddDays(this.hitListLookBackInWeeks*-7)) : allDays;
+          var hitlistInfos = daysFromLookback
+            .SelectMany(d => d.Items)
+            .GroupBy(p => p.Position)
+            .OrderByDescending(g => g.Count())
+            .Select(g =>
+                    new HitlistInfo(
+                      g.Key,
+                      g.Count(),
+                      g.Sum(wi => wi.HoursDuration),
+                      positionSearch.GetDescriptionForPositionNumber(g.Key))
+            );
+          return new ObservableCollection<HitlistInfo>(hitlistInfos);
+        } else {
+          return new ObservableCollection<HitlistInfo>();
+        }
       }
     }
 

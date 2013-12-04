@@ -134,6 +134,7 @@
     <Compile Include="Util\Utils.cs" />
     <Compile Include="Util\ViewModelBase.cs" />
     <Compile Include="ValueConverter\VisibilityConverter.cs" />
+    <Compile Include="ViewModels\PositionSearchViewModel.cs" />
     <Compile Include="ViewModels\PNSearchViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ShortcutViewModel.cs" />
