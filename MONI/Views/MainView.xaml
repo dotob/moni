@@ -138,6 +138,8 @@
           </Rectangle>
         </StackPanel>
       </Button>
+      <Button Content="Hilfe"
+              Click="ShowHelp_Button_OnClick" />
     </Controls:WindowCommands>
   </Controls:MetroWindow.WindowCommands>
 
@@ -145,6 +147,30 @@
   <Controls:MetroWindow.Flyouts>
 
     <Controls:FlyoutsControl x:Name="Flyouts">
+      <!-- shortcut help -->
+      <Controls:Flyout Header=" Hilfe"
+                       Width="700"
+                       Position="Right"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.ShowHelp}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate>
+            <DataTemplate.Resources>
+              <valueConverter:MarkdownToFlowDocumentConverter x:Key="MarkdownToFlowDocumentConverter"/>
+            </DataTemplate.Resources>
+            <Grid>
+              <Rectangle Fill="White"
+                         Margin="10"></Rectangle>
+              <FlowDocumentScrollViewer Margin="10"
+                                        VerticalScrollBarVisibility="Auto"
+                                        HorizontalScrollBarVisibility="Disabled"
+                                        Document="{Binding Path=Help, Converter={StaticResource MarkdownToFlowDocumentConverter}}" />
+            </Grid>
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
+
       <!-- settings -->
       <Controls:Flyout Header="Settings"
                        Position="Right"

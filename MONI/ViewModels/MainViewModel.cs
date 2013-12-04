@@ -5,7 +5,11 @@ using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -79,9 +83,38 @@ namespace MONI.ViewModels {
       this.SelectUserEntry += DoSelectUserEntry;
     }
 
+    private string help;
+
+    public string Help
+    {
+      get { return this.help; }
+      set
+      {
+        if (Equals(value, this.help)) {
+          return;
+        }
+        this.help = value;
+        this.OnPropertyChanged(() => this.Help);
+      }
+    }
+
+    private bool showHelp;
+
+    public bool ShowHelp
+    {
+      get { return this.showHelp; }
+      set
+      {
+        if (Equals(value, this.showHelp)) {
+          return;
+        }
+        this.showHelp = value;
+        this.OnPropertyChanged(() => this.ShowHelp);
+      }
+    }
+
     protected PositionSearchViewModel PositionSearch { get; set; }
     public PNSearchViewModel PNSearch { get; set; }
-
 
     public Action<object> SelectUserEntry { get; private set; }
 

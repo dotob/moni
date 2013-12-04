@@ -61,6 +61,7 @@
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.0.11.2.22-ALPHA\lib\net40\System.Windows.Interactivity.dll</HintPath>
@@ -110,12 +111,15 @@
     <Compile Include="Util\AttachedCommandBehavior\EventHandlerGenerator.cs" />
     <Compile Include="Util\AttachedCommandBehavior\ExecutionStrategy.cs" />
     <Compile Include="Util\AttachedCommandBehavior\SimpleCommand.cs" />
+    <Compile Include="Util\Markdown\HtmlToXamlConverter.cs" />
+    <Compile Include="Util\Markdown\Markdown.cs" />
     <Compile Include="Util\VisualTreeExtensions.cs" />
     <Compile Include="ValueConverter\DayOfWeekTranslatorConverter.cs" />
     <Compile Include="Util\EnvironmentInfos.cs" />
     <Compile Include="Util\ExceptionExtensions.cs" />
     <Compile Include="Util\IAddShortcutService.cs" />
     <Compile Include="ValueConverter\LessThanColorConverter.cs" />
+    <Compile Include="ValueConverter\MarkdownToFlowDocumentConverter.cs" />
     <Compile Include="ValueConverter\MultiBindingObjectConverter.cs" />
     <Compile Include="ValueConverter\Null2FalseConverter.cs" />
     <Compile Include="Util\QuickFillObservableCollection.cs" />

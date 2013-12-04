@@ -275,5 +275,10 @@ namespace MONI.Views
       var sc = new ShortCut(key, expansion);
       this.ViewModel.EditShortCut = new ShortcutViewModel(sc, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null) { IsNew = true};
     }
+
+    private void ShowHelp_Button_OnClick(object sender, RoutedEventArgs e)
+    {
+      this.ViewModel.ShowHelp = true;
+    }
   }
 }
