@@ -15,6 +15,8 @@ Außerdem bietet Moni weitere Features, die die Eingabe vereinfachen:
 - Monatsstatistik
 - Keyboardnavigation
 - Projektnummernsuche
+- Positionsnummernsuche
+- Hitlisten für meistgenutze Projekt- und Positionsnummern
 
 
 ## Das Interface ##
@@ -56,23 +58,26 @@ Für die Settings-Datei wird eine Standardversion genommen, falls im Startverzei
 
 In der Einstellung DataDirectory kann **#{appdata}** als Platzhalter für das ApplicationData-Verzeichnis (+/moni) genutzt werden.
 
+
+<!--- shorthelp: ab hier wird in moni angezeigt --->
 ## Keyboad Shortcuts ##
 
 ### Navigation ####
 
-- **tab**: In Eingabefeld des vorigen Tages gehen
-- **shift+tab**: In Eingabefeld des folgenden Tages gehen
+- **tab**: In Eingabefeld des folgenden Tages gehen (nur innerhalb einer Woche)
+- **shift+tab**: In Eingabefeld des vorigen Tages gehen (nur innerhalb einer Woche)
 - **strg+cursor_links**: Vorige Woche anzeigen
 - **strg+cursor_rechts**: Nächste Woche anzeigen
-- **shift+strg+cursor_links**: Vorigen Monat anzeigen
-- **shift+strg+cursor_rechts**: Nächsten Monat anzeigen
+- **shift+strg+cursor_links**: Gleichen Tag im vorigen Monat anzeigen
+- **shift+strg+cursor_rechts**: Gleichen Tag im nächsten Monat anzeigen
 - **escape**: Gehe zu Heute
 
-### Andere ###
+### Andere Helferlein ###
 - **strg+u**: Eingabe des vorigen Tages in aktuellen Tag kopieren
 - **strg+n**: Neuen Eintrag mit Endzeit jetzt im aktuellen Tag erstellen
 - **bild hoch**: Aktuellen Eintrag um 15min erhöhen bzw. erweitern
 - **bild runter**: Aktuellen Eintrag um 15min erniedrigen bzw. verkürzen
+- **strg+1**: Bereitet die aktuelle Eingabe für einen neuen Eintrag der Länge 1 Stunde vor (hängt also ",1;" an). Geht genauso auch für die anderen Zahlen von 2-9.
 
 # Dokumentation der Eingabe #
 

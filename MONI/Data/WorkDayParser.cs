@@ -9,12 +9,12 @@ namespace MONI.Data
   public class WorkDayParser
   {
 
-    private readonly char dayStartSeparator = ',';
-    private readonly char hourProjectInfoSeparator = ';';
-    private readonly char itemSeparator = ',';
-    private readonly char endTimeStartChar = '-';
-    private readonly WorkDayParserSettings settings;
-    private readonly string automaticPauseDeactivation = "//";
+    public char dayStartSeparator = ',';
+    public char hourProjectInfoSeparator = ';';
+    public char itemSeparator = ',';
+    public char endTimeStartChar = '-';
+    public WorkDayParserSettings settings;
+    public string automaticPauseDeactivation = "//";
 
     public WorkDayParser() {
     }

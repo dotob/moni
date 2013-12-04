@@ -73,6 +73,33 @@ namespace MONI.Views
               e.Handled = true;
             }
             break;
+          case Key.D1:
+            HandleHourAppend(e, 1);
+            break;
+          case Key.D2:
+            HandleHourAppend(e, 2);
+            break;
+          case Key.D3:
+            HandleHourAppend(e, 3);
+            break;
+          case Key.D4:
+            HandleHourAppend(e, 4);
+            break;
+          case Key.D5:
+            HandleHourAppend(e, 5);
+            break;
+          case Key.D6:
+            HandleHourAppend(e, 6);
+            break;
+          case Key.D7:
+            HandleHourAppend(e, 7);
+            break;
+          case Key.D8:
+            HandleHourAppend(e, 8);
+            break;
+          case Key.D9:
+            HandleHourAppend(e, 9);
+            break;
         }
       } else if ((Keyboard.Modifiers & ModifierKeys.Alt) == ModifierKeys.Alt) {
         if ((Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift) {
@@ -113,6 +140,23 @@ namespace MONI.Views
           // goto today
           this.ViewModel.SelectToday();
         }
+      }
+    }
+
+    private static void HandleHourAppend(KeyEventArgs e, int i) {
+      var activeTB2 = e.OriginalSource as TextBox;
+      if (activeTB2 != null) {
+        string newText = string.Empty;
+        string oldText = activeTB2.Text;
+        if (oldText.EndsWith(WorkDayParser.Instance.itemSeparator.ToString())) {
+          newText = oldText;
+        } else {
+          newText = oldText + WorkDayParser.Instance.itemSeparator;
+        }
+        newText = newText + i.ToString() + WorkDayParser.Instance.hourProjectInfoSeparator;
+        activeTB2.Text = newText;
+        activeTB2.Select(newText.Length, 0);
+        e.Handled = true;
       }
     }
 
