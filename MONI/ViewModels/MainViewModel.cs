@@ -80,7 +80,25 @@ namespace MONI.ViewModels {
         this.throttleSaveAndCalc.Tick += this.throttleSaveAndCalc_Tick;
       }
 
+      // load help
+      this.Help = this.ReadHelp();
+         
       this.SelectUserEntry += DoSelectUserEntry;
+    }
+
+    private string ReadHelp() {
+      string completeHelp = Encoding.UTF8.GetString(Properties.Resources.README);
+      var asLines = completeHelp.Split(new string[]{Environment.NewLine}, StringSplitOptions.None);
+      var sb = new StringBuilder();
+      var gotit = false;
+      foreach (var asLine in asLines) {
+        if (gotit) {
+          sb.AppendLine(asLine);
+        } else {
+          gotit = asLine.Contains("shorthelp:");
+        }
+      }
+      return sb.ToString();
     }
 
     private string help;
@@ -240,7 +258,6 @@ namespace MONI.ViewModels {
         this.OnPropertyChanged(() => this.ShowPasswordDialog);
       }
     }
-
 
     public void DragOver(IDropInfo dropInfo) {
       dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;

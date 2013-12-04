@@ -276,9 +276,16 @@ namespace MONI.Views
       this.ViewModel.EditShortCut = new ShortcutViewModel(sc, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null) { IsNew = true};
     }
 
-    private void ShowHelp_Button_OnClick(object sender, RoutedEventArgs e)
+    private void HelpCanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-      this.ViewModel.ShowHelp = true;
+      e.CanExecute = true;
+      e.Handled = true;
+    }
+
+    private void HelpExecuted(object sender, ExecutedRoutedEventArgs e)
+    {
+      this.ViewModel.ShowHelp = !this.ViewModel.ShowHelp;
+      e.Handled = true;
     }
   }
 }

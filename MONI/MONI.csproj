@@ -229,6 +229,7 @@
       <Link>DllsAsResource\System.Windows.Interactivity.dll</Link>
     </EmbeddedResource>
     <Content Include="Resources\UpdateInfoTest.json.txt" />
+    <None Include="Resources\README.md" />
     <None Include="Util\AttachedCommandBehavior\ACB.cd" />
     <None Include="Util\AttachedCommandBehavior\LICENSE.md" />
     <Resource Include="Resources\Entypo.ttf" />

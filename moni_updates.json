@@ -59,6 +59,7 @@
 		"Positionsnummern-Suche ähnlich der Projektnummern-Suche (Wunsch GB10)",
 		"Hitlisten-Rückblick nun einstellbar",
 		"Neue Funktion: Strg+<Zahl von 1-9> hängt an die aktuelle Eingabe z.B. ,1; an. Also bereitet quasi einen neues Item vor mit der Stundenzahl.",
+		"Neue Funktion: F1 öffnet/schließt eine Eingabe-Hilfe",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.8.9/MONI.exe"
 },

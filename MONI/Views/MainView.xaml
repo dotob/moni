@@ -21,8 +21,13 @@
                       BorderThickness="1"
                       BorderBrush="#808080"
                       Icon="/MONI;component/Resources/moni.ico">
+    <Window.CommandBindings>
+        <CommandBinding Command="Help" 
+        CanExecute="HelpCanExecute"
+        Executed="HelpExecuted" />
+    </Window.CommandBindings>
 
-  <Window.Resources>
+    <Window.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
@@ -138,8 +143,8 @@
           </Rectangle>
         </StackPanel>
       </Button>
-      <Button Content="Hilfe"
-              Click="ShowHelp_Button_OnClick" />
+      <Button Content="?"
+              Command="Help" />
     </Controls:WindowCommands>
   </Controls:MetroWindow.WindowCommands>
 
@@ -189,6 +194,9 @@
                   Margin="10">
 
               <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
