@@ -62,5 +62,12 @@
 		"Neue Funktion: F1 öffnet/schließt eine Eingabe-Hilfe",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.0/MONI.exe"
+},{
+	"Version":"0.9.9.1",
+	"Changes":[
+		"Klicken auf eine Zeiteintrag unterhalb der Textbox markiert den zugehörigen Text",
+		"Klicken auf Projekt-/Positionsnummerneintrag in der Hitliste fügt diese in die aktuell textbox am Ende ein (vorrausgesetzt der Text in der Textbox paßt dazu)",
+		],
+	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.0/MONI.exe"
 },
 ]

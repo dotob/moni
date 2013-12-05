@@ -11,20 +11,17 @@ using MONI.ViewModels;
 using MahApps.Metro.Controls;
 using NLog;
 
-namespace MONI.Views
-{
+namespace MONI.Views {
   /// <summary>
   /// Interaction logic for MainView.xaml
   /// </summary>
-  public partial class MainView : MetroWindow, IAddShortcutService
-  {
+  public partial class MainView : MetroWindow, IAddShortcutService {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
     public MainView() {
       try {
         this.ViewModel = new MainViewModel(this.Dispatcher);
-      }
-      catch (Exception exception) {
+      } catch (Exception exception) {
         MessageBox.Show(this, exception.Message, "Fehler beim Starten", MessageBoxButton.OK, MessageBoxImage.Error);
         logger.ErrorException("error while starting", exception);
       }
@@ -32,15 +29,14 @@ namespace MONI.Views
       this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
       this.CheckForMonlist();
       this.Closed += (sender, e) => this.ViewModel.Save();
-      this.Activated += (s, e) =>
-        {
-          var readWriteResult = this.ViewModel.PersistentResult;
-          if (readWriteResult != null && !readWriteResult.Success) {
-            this.ViewModel.PersistentResult = null; // reset error because we have shown it. unfortunately activate gets called after messagebox ok. so this could be an endless loop
-            MessageBox.Show(this, readWriteResult.Error, "Fehler beim Daten einlesen", MessageBoxButton.OK, MessageBoxImage.Error);
-            this.Close();
-          }
-        };
+      this.Activated += (s, e) => {
+        var readWriteResult = this.ViewModel.PersistentResult;
+        if (readWriteResult != null && !readWriteResult.Success) {
+          this.ViewModel.PersistentResult = null; // reset error because we have shown it. unfortunately activate gets called after messagebox ok. so this could be an endless loop
+          MessageBox.Show(this, readWriteResult.Error, "Fehler beim Daten einlesen", MessageBoxButton.OK, MessageBoxImage.Error);
+          this.Close();
+        }
+      };
     }
 
     private void CheckForMonlist() {
@@ -126,7 +122,7 @@ namespace MONI.Views
           }
         } else {
           switch (e.SystemKey) {
-            // MOVE WEEK
+              // MOVE WEEK
             case Key.Left:
               if (this.ViewModel.PreviousWeekCommand.CanExecute(null)) {
                 FocusManager.SetFocusedElement(this, this.btnPrev);
@@ -285,19 +281,55 @@ namespace MONI.Views
     public void AddShortCut(string key, string expansion) {
       this.ViewModel.PNSearch.ShowPNSearch = false;
       var sc = new ShortCut(key, expansion);
-      this.ViewModel.EditShortCut = new ShortcutViewModel(sc, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null) { IsNew = true};
+      this.ViewModel.EditShortCut = new ShortcutViewModel(sc, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null) {IsNew = true};
     }
 
-    private void HelpCanExecute(object sender, CanExecuteRoutedEventArgs e)
-    {
+    private void HelpCanExecute(object sender, CanExecuteRoutedEventArgs e) {
       e.CanExecute = true;
       e.Handled = true;
     }
 
-    private void HelpExecuted(object sender, ExecutedRoutedEventArgs e)
-    {
+    private void HelpExecuted(object sender, ExecutedRoutedEventArgs e) {
       this.ViewModel.ShowHelp = !this.ViewModel.ShowHelp;
       e.Handled = true;
+    }
+
+    private void Project_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+      var b = sender as Border;
+      if (b != null) {
+        var hitlistInfo = b.Tag as HitlistInfo;
+        if (hitlistInfo != null) {
+          string newText = string.Empty;
+          string oldText = this.ActiveInputTextBox.Text;
+          if (!string.IsNullOrWhiteSpace(oldText)) {
+            if (oldText.EndsWith(WorkDayParser.Instance.hourProjectInfoSeparator.ToString())) {
+              newText = oldText + hitlistInfo.Key + WorkDayParser.Instance.projectPositionSeparator;
+              this.ActiveInputTextBox.Text = newText;
+              this.ActiveInputTextBox.Select(newText.Length, 0);
+              this.ActiveInputTextBox.Focus();
+            }
+          }
+        }
+      }
+    }
+
+    private void Position_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+      var b = sender as Border;
+      if (b != null) {
+        var hitlistInfo = b.Tag as HitlistInfo;
+        if (hitlistInfo != null) {
+          string newText = string.Empty;
+          string oldText = this.ActiveInputTextBox.Text;
+          if (!string.IsNullOrWhiteSpace(oldText)) {
+            if (oldText.EndsWith(WorkDayParser.Instance.projectPositionSeparator.ToString())) {
+              newText += oldText + hitlistInfo.Key;
+              this.ActiveInputTextBox.Text = newText;
+              this.ActiveInputTextBox.Select(newText.Length, 0);
+              this.ActiveInputTextBox.Focus();
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -13,6 +13,8 @@ namespace MONI.Data
     public char hourProjectInfoSeparator = ';';
     public char itemSeparator = ',';
     public char endTimeStartChar = '-';
+    public char pauseChar = '!';
+    public char projectPositionSeparator = '-';
     public WorkDayParserSettings settings;
     public string automaticPauseDeactivation = "//";
 
@@ -156,8 +158,8 @@ namespace MONI.Data
       workItem = null;
       error = string.Empty;
       // check for pause item
-      if (wdItemString.EndsWith("!")) {
-        if (wdItemString.StartsWith("-")) {
+      if (wdItemString.EndsWith(pauseChar.ToString())) {
+        if (wdItemString.StartsWith(endTimeStartChar.ToString())) {
           TimeItem ti;
           if (TimeItem.TryParse(wdItemString.Substring(1, wdItemString.Length - 2), out ti)) {
             workItem = new WorkItemTemp(wdItemString);
@@ -220,7 +222,7 @@ namespace MONI.Data
               }
 
               var projectPosString = projectPosDescString.TokenReturnInputIfFail("(", 1);
-              var parts = projectPosString.Split('-').Select(s => s.Trim()).ToList();
+              var parts = projectPosString.Split(projectPositionSeparator).Select(s => s.Trim()).ToList();
               if (parts.Any()) {
                 workItem.ProjectString = parts.ElementAtOrDefault(0);
                 workItem.PosString = parts.ElementAtOrDefault(1) ?? string.Empty;
@@ -291,7 +293,7 @@ namespace MONI.Data
           TimeItem ti;
           if (TimeItem.TryParse(part.TrimStart(this.endTimeStartChar), out ti)) {
             var tiIncremented = IncDecTimeItem(incDec, ti, hoursToIncrementBy);
-            newPart = string.Format("-{0}", tiIncremented.ToShortString());
+            newPart = string.Format("{0}", endTimeStartChar, tiIncremented.ToShortString());
           }
         } else {
           double t;
