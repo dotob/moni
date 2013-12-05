@@ -76,6 +76,8 @@ In der Einstellung DataDirectory kann **#{appdata}** als Platzhalter für das Ap
 - **F1**: Diese Hilfe
 - **strg+u**: Eingabe des vorigen Tages in aktuellen Tag kopieren
 - **strg+n**: Neuen Eintrag mit Endzeit jetzt im aktuellen Tag erstellen
+- **strg+f**: Projektnummernsuche öffnen
+- **strg+q**: MONI beenden
 - **bild hoch**: Aktuellen Eintrag um 15min erhöhen bzw. erweitern
 - **bild runter**: Aktuellen Eintrag um 15min erniedrigen bzw. verkürzen
 - **strg+1**: Bereitet die aktuelle Eingabe für einen neuen Eintrag der Länge 1 Stunde vor (hängt also ",1;" an). Geht genauso auch für die anderen Zahlen von 2-9.

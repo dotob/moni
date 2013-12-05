@@ -131,7 +131,7 @@ namespace MONI.ViewModels {
       }
     }
 
-    protected PositionSearchViewModel PositionSearch { get; set; }
+    public PositionSearchViewModel PositionSearch { get; set; }
     public PNSearchViewModel PNSearch { get; set; }
 
     public Action<object> SelectUserEntry { get; private set; }

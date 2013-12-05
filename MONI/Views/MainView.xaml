@@ -112,13 +112,29 @@
         </StackPanel>
       </Button>
       <Button Click="ShowPNSearch_Button_Click"
-              ToolTip="Projekt-/Positionsnummern-Suche">
+              ToolTip="Projektnummern-Suche">
         <StackPanel Orientation="Horizontal">
           <Rectangle Width="15"
                      Height="20">
             <Rectangle.Resources>
               <SolidColorBrush x:Key="BlackBrush"
                                Color="White" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_page_search}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </StackPanel>
+      </Button>
+      <Button Click="ShowPositionSearch_Button_Click"
+              ToolTip="Positionsnummern-Suche">
+        <StackPanel Orientation="Horizontal">
+          <Rectangle Width="15"
+                     Height="20">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="Yellow" />
             </Rectangle.Resources>
             <Rectangle.Fill>
               <VisualBrush Stretch="Fill"
@@ -349,6 +365,27 @@
                        IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}">
         <Controls:Flyout.ContentTemplate>
           <DataTemplate DataType="{x:Type viewModels:PNSearchViewModel}">
+            <DataTemplate.Resources>
+              <Style TargetType="{x:Type TextBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+            </DataTemplate.Resources>
+            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+            <views:PNSearchView x:Name="pnSearchView"
+                                IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
+                                AddShortCutService="{Binding ElementName=mv}" />
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
+        
+      <!-- search positionnumbers -->
+      <Controls:Flyout Header="Positionsnummern-Suche"
+                       Position="Right"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.PositionSearch.ShowPNSearch}">
+        <Controls:Flyout.ContentTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:PositionSearchViewModel}">
             <DataTemplate.Resources>
               <Style TargetType="{x:Type TextBox}"
                      BasedOn="{StaticResource MONIMetroFlyoutTextBox}">

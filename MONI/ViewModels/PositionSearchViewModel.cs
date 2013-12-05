@@ -52,8 +52,10 @@ namespace MONI.ViewModels {
     private void Search() {
       this.Results.Clear();
       var s = this.searchText;
-      var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase));
-      this.Results.Fill(res);
+      if (!string.IsNullOrWhiteSpace(s)) {
+        var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase));
+        this.Results.Fill(res);
+      }
     }
 
     public QuickFillObservableCollection<PositionNumber> Results { get; private set; }

@@ -73,6 +73,12 @@ namespace MONI.Views
               e.Handled = true;
             }
             break;
+          case Key.Q:
+            Application.Current.Shutdown();
+            break;
+          case Key.F:
+            this.ViewModel.PNSearch.ShowPNSearch = true;
+            break;
           case Key.D1:
             HandleHourAppend(e, 1);
             break;
@@ -148,14 +154,16 @@ namespace MONI.Views
       if (activeTB2 != null) {
         string newText = string.Empty;
         string oldText = activeTB2.Text;
-        if (oldText.EndsWith(WorkDayParser.Instance.itemSeparator.ToString())) {
-          newText = oldText;
-        } else {
-          newText = oldText + WorkDayParser.Instance.itemSeparator;
+        if (!string.IsNullOrWhiteSpace(oldText)) {
+          if (oldText.EndsWith(WorkDayParser.Instance.itemSeparator.ToString())) {
+            newText = oldText;
+          } else {
+            newText = oldText + WorkDayParser.Instance.itemSeparator;
+          }
+          newText = newText + i.ToString() + WorkDayParser.Instance.hourProjectInfoSeparator;
+          activeTB2.Text = newText;
+          activeTB2.Select(newText.Length, 0);
         }
-        newText = newText + i.ToString() + WorkDayParser.Instance.hourProjectInfoSeparator;
-        activeTB2.Text = newText;
-        activeTB2.Select(newText.Length, 0);
         e.Handled = true;
       }
     }
@@ -268,6 +276,10 @@ namespace MONI.Views
 
     private void ShowPNSearch_Button_Click(object sender, RoutedEventArgs e) {
       this.ViewModel.PNSearch.ShowPNSearch = true;
+    }
+
+    private void ShowPositionSearch_Button_Click(object sender, RoutedEventArgs e) {
+      this.ViewModel.PositionSearch.ShowPNSearch = true;
     }
 
     public void AddShortCut(string key, string expansion) {
