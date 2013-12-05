@@ -613,7 +613,8 @@
 
             <!-- week view -->
             <ScrollViewer Grid.Row="1"
-                          Grid.Column="0">
+                          Grid.Column="0"
+                          VerticalScrollBarVisibility="Auto">
                 <!-- days -->
                 <ItemsControl ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}"
                               Grid.IsSharedSizeScope="True">
@@ -810,7 +811,8 @@
                 </Button>
             </StackPanel>
             <ScrollViewer Grid.Row="1"
-                          Grid.Column="1">
+                          Grid.Column="1" 
+                          VerticalScrollBarVisibility="Auto">
                 <ItemsControl Margin="0 1 0 0"
                               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}"
                               HorizontalContentAlignment="Stretch"
@@ -982,6 +984,7 @@
             </TextBlock>
             <ScrollViewer Grid.Column="2"
                           Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
                           Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
                 <ItemsControl Margin="0 1 0 0"
                               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist}"
@@ -1044,6 +1047,7 @@
             </TextBlock>
             <ScrollViewer Grid.Column="3"
                           Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto"
                           Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
                 <ItemsControl Margin="0 1 0 0"
                               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist}"
