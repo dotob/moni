@@ -81,6 +81,8 @@ In der Einstellung DataDirectory kann **#{appdata}** als Platzhalter für das Ap
 - **bild hoch**: Aktuellen Eintrag um 15min erhöhen bzw. erweitern
 - **bild runter**: Aktuellen Eintrag um 15min erniedrigen bzw. verkürzen
 - **strg+1**: Bereitet die aktuelle Eingabe für einen neuen Eintrag der Länge 1 Stunde vor (hängt also ",1;" an). Geht genauso auch für die anderen Zahlen von 2-9.
+- **click auf Eintrag unter Textbox**: Selektiert den dafür verantwortlichen Text
+- **click auf Eintrag in Hitlisten**: Fügt die Nummer der aktuellen Textbox hinzu
 
 # Dokumentation der Eingabe #
 
