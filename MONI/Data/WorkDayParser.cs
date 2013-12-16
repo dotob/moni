@@ -212,7 +212,7 @@ namespace MONI.Data
                     // replace description in expanded
                     expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + expanded.Token("(", 2).Token(")", 1) + projectPosDescString.Token("(+", 2).Token(")", 1) + ")";
                   } else if (!string.IsNullOrEmpty(projectPosDescString.Token("(", 2).Token(")", 1))) {
-                    // replace description in expanded
+                    // append to description in expanded
                     expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + projectPosDescString.Token("(", 2).Token(")", 1) + ")";
                   }
                   projectPosDescString = expanded;
@@ -293,7 +293,7 @@ namespace MONI.Data
           TimeItem ti;
           if (TimeItem.TryParse(part.TrimStart(this.endTimeStartChar), out ti)) {
             var tiIncremented = IncDecTimeItem(incDec, ti, hoursToIncrementBy);
-            newPart = string.Format("{0}", endTimeStartChar, tiIncremented.ToShortString());
+            newPart = string.Format("{0}{1}", endTimeStartChar, tiIncremented.ToShortString());
           }
         } else {
           double t;

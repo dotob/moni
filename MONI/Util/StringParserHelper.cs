@@ -67,6 +67,20 @@ namespace MONI.Util {
       return s.Token(separator, token, string.Empty);
     }
 
+    public static Tuple<string, string> SplitOnFirst(this string s, string separator) {
+      if (!string.IsNullOrWhiteSpace(s)) {
+        if (!string.IsNullOrWhiteSpace(separator)) {
+          var idx = s.IndexOf(separator, StringComparison.CurrentCulture);
+          if (idx >= 0) {
+            return new Tuple<string, string>(s.Substring(0, idx), s.Substring(idx + separator.Length));
+          }
+          return new Tuple<string, string>(s, s);
+        }
+        return new Tuple<string, string>(s, s);
+      }
+      return new Tuple<string, string>(string.Empty, string.Empty);
+    }
+
     /// <summary>
     ///   small convenience method to access token (parts) of a string
     ///   <example>

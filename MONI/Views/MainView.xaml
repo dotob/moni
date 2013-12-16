@@ -13,7 +13,7 @@
                       MinWidth="600"
                       Height="700"
                       MinHeight="500"
-                      PreviewKeyDown="mv_PreviewKeyDown"
+                      PreviewKeyUp="mv_PreviewKeyUp"
                       x:Name="mv"
                       WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"

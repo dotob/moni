@@ -46,7 +46,7 @@ namespace MONI.Views {
 
     public MainViewModel ViewModel { get; set; }
 
-    private void mv_PreviewKeyDown(object sender, KeyEventArgs e) {
+    private void mv_PreviewKeyUp(object sender, KeyEventArgs e) {
       if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) {
         switch (e.Key) {
           case Key.U:
