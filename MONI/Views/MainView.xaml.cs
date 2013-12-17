@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MONI.Data;
+using MONI.Parser;
 using MONI.Util;
 using MONI.ViewModels;
 using MahApps.Metro.Controls;
@@ -151,12 +152,12 @@ namespace MONI.Views {
         string newText = string.Empty;
         string oldText = activeTB2.Text;
         if (!string.IsNullOrWhiteSpace(oldText)) {
-          if (oldText.EndsWith(WorkDayParser.Instance.itemSeparator.ToString())) {
+          if (oldText.EndsWith(WorkDayParser.itemSeparator.ToString())) {
             newText = oldText;
           } else {
-            newText = oldText + WorkDayParser.Instance.itemSeparator;
+            newText = oldText + WorkDayParser.itemSeparator;
           }
-          newText = newText + i.ToString() + WorkDayParser.Instance.hourProjectInfoSeparator;
+          newText = newText + i.ToString() + WorkDayParser.hourProjectInfoSeparator;
           activeTB2.Text = newText;
           activeTB2.Select(newText.Length, 0);
         }
@@ -240,14 +241,14 @@ namespace MONI.Views {
         if (e.Key == Key.PageUp) {
           var selectionStart = tb.SelectionStart;
           var text = tb.Text;
-          tb.Text = WorkDayParser.Instance.Increment(text, 1, ref selectionStart);
+          tb.Text = WorkDayParserExtensions.Increment(text, 1, ref selectionStart);
           tb.SelectionStart = selectionStart;
           e.Handled = true;
         }
         if (e.Key == Key.PageDown) {
           var selectionStart = tb.SelectionStart;
           var text = tb.Text;
-          tb.Text = WorkDayParser.Instance.Decrement(text, 1, ref selectionStart);
+          tb.Text = WorkDayParserExtensions.Decrement(text, 1, ref selectionStart);
           tb.SelectionStart = selectionStart;
           e.Handled = true;
         }
@@ -302,8 +303,8 @@ namespace MONI.Views {
           string newText = string.Empty;
           string oldText = this.ActiveInputTextBox.Text;
           if (!string.IsNullOrWhiteSpace(oldText)) {
-            if (oldText.EndsWith(WorkDayParser.Instance.hourProjectInfoSeparator.ToString())) {
-              newText = oldText + hitlistInfo.Key + WorkDayParser.Instance.projectPositionSeparator;
+            if (oldText.EndsWith(WorkDayParser.hourProjectInfoSeparator.ToString())) {
+              newText = oldText + hitlistInfo.Key + WorkDayParser.projectPositionSeparator;
               this.ActiveInputTextBox.Text = newText;
               this.ActiveInputTextBox.Select(newText.Length, 0);
               this.ActiveInputTextBox.Focus();
@@ -321,7 +322,7 @@ namespace MONI.Views {
           string newText = string.Empty;
           string oldText = this.ActiveInputTextBox.Text;
           if (!string.IsNullOrWhiteSpace(oldText)) {
-            if (oldText.EndsWith(WorkDayParser.Instance.projectPositionSeparator.ToString())) {
+            if (oldText.EndsWith(WorkDayParser.projectPositionSeparator.ToString())) {
               newText += oldText + hitlistInfo.Key;
               this.ActiveInputTextBox.Text = newText;
               this.ActiveInputTextBox.Select(newText.Length, 0);

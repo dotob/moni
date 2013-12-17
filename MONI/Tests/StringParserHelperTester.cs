@@ -90,5 +90,46 @@ namespace MONI.Tests
       Assert.AreEqual("abc,def", splitted.Item1);
       Assert.AreEqual("ghj", splitted.Item2);
     }
+
+
+    [Test]
+    public void SplitOnLast_EmptyString() {
+      string s = string.Empty;
+      var splitted = s.SplitOnLast(",");
+      Assert.AreEqual(string.Empty, splitted.Item1);
+      Assert.AreEqual(string.Empty, splitted.Item2);
+    }
+
+    [Test]
+    public void SplitOnLast_OnlyOneOccurenceButOnlyLeftSide() {
+      string s = "abc,";
+      var splitted = s.SplitOnLast(",");
+      Assert.AreEqual("abc", splitted.Item1);
+      Assert.AreEqual(string.Empty, splitted.Item2);
+    }
+
+    [Test]
+    public void SplitOnLast_OnlyOneOccurence() {
+      string s = "abc,def";
+      var splitted = s.SplitOnLast(",");
+      Assert.AreEqual("abc", splitted.Item1);
+      Assert.AreEqual("def", splitted.Item2);
+    }
+
+    [Test]
+    public void SplitOnLast_MultipleOccurences() {
+      string s = "abc,def,ghj";
+      var splitted = s.SplitOnLast(",");
+      Assert.AreEqual("abc,def", splitted.Item1);
+      Assert.AreEqual("ghj", splitted.Item2);
+    }
+
+    [Test]
+    public void SplitOnLast_OneOccurenceLongSeparator() {
+      string s = "abc,def,,ghj";
+      var splitted = s.SplitOnLast(",,");
+      Assert.AreEqual("abc,def", splitted.Item1);
+      Assert.AreEqual("ghj", splitted.Item2);
+    }
   }
 }

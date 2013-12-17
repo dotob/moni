@@ -94,7 +94,10 @@
     <Compile Include="Data\SpecialDays\SpecialDaysUtils.cs" />
     <Compile Include="Data\TextFilePersistenceLayer.cs" />
     <Compile Include="Data\UpdateInfo.cs" />
+    <Compile Include="Parser\DescriptionParser.cs" />
+    <Compile Include="Parser\WorkDayParserExtensions.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Tests\DescriptionParserTester.cs" />
     <Compile Include="Tests\UpdateInfoTester.cs" />
     <Compile Include="Tests\HoursDuration_Tester.cs" />
     <Compile Include="Tests\MainViewModelTester.cs" />
@@ -131,8 +134,8 @@
     <Compile Include="ValueConverter\DurationFGColorConverter.cs" />
     <Compile Include="ValueConverter\DayTypeColorConverter.cs" />
     <Compile Include="Util\DelegateCommand.cs" />
-    <Compile Include="Util\StringParserHelper.cs" />
-    <Compile Include="Data\WorkDayParser.cs" />
+    <Compile Include="Parser\StringParserHelper.cs" />
+    <Compile Include="Parser\WorkDayParser.cs" />
     <Compile Include="Tests\CalendarInitTester.cs" />
     <Compile Include="Tests\TimeItemTester.cs" />
     <Compile Include="Util\Utils.cs" />

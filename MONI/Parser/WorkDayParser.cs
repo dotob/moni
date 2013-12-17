@@ -9,14 +9,14 @@ namespace MONI.Data
   public class WorkDayParser
   {
 
-    public char dayStartSeparator = ',';
-    public char hourProjectInfoSeparator = ';';
-    public char itemSeparator = ',';
-    public char endTimeStartChar = '-';
-    public char pauseChar = '!';
-    public char projectPositionSeparator = '-';
+    public static char dayStartSeparator = ',';
+    public static char hourProjectInfoSeparator = ';';
+    public static char itemSeparator = ',';
+    public static char endTimeStartChar = '-';
+    public static char pauseChar = '!';
+    public static char projectPositionSeparator = '-';
+    public static string automaticPauseDeactivation = "//";
     public WorkDayParserSettings settings;
-    public string automaticPauseDeactivation = "//";
 
     public WorkDayParser() {
     }
@@ -45,7 +45,7 @@ namespace MONI.Data
         // eg 7,... or 7:30,...
         if (this.GetDayStartTime(userInput, out dayStartTime, out remainingString, out error)) {
           // proceed with parsing items
-          var parts = remainingString.SplitWithIgnoreRegions(new[]{this.itemSeparator}, new IgnoreRegion('(',')'));
+          var parts = remainingString.SplitWithIgnoreRegions(new[]{itemSeparator}, new IgnoreRegion('(',')'));
           var wdItemsAsString = parts.Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
           if (wdItemsAsString.Any()) {
             List<WorkItemTemp> tmpList = new List<WorkItemTemp>();
@@ -178,9 +178,9 @@ namespace MONI.Data
         }
       } else {
         // workitem: <count of hours|-endtime>;<projectnumber>-<positionnumber>[(<description>)]
-        var timeString = wdItemString.Token(this.hourProjectInfoSeparator.ToString(), 1, wdItemString).Trim();
+        var timeString = wdItemString.Token(hourProjectInfoSeparator.ToString(), 1, wdItemString).Trim();
         if (!string.IsNullOrEmpty(timeString)) {
-          if (timeString.StartsWith(this.endTimeStartChar.ToString())) {
+          if (timeString.StartsWith(endTimeStartChar.ToString())) {
             TimeItem ti;
             if (TimeItem.TryParse(timeString.Substring(1), out ti)) {
               workItem = new WorkItemTemp(wdItemString);
@@ -198,7 +198,7 @@ namespace MONI.Data
             }
           }
           if (workItem != null) {
-            var projectPosDescString = wdItemString.Token(this.hourProjectInfoSeparator.ToString(), 2).Trim();
+            var projectPosDescString = wdItemString.Token(hourProjectInfoSeparator.ToString(), 2).Trim();
             if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
               if (this.settings != null) {
@@ -209,10 +209,10 @@ namespace MONI.Data
                   var expanded = shortCut.Expansion;
                   // if there is an desc given use its value instead of the one in the abbrev
                   if (!string.IsNullOrEmpty(projectPosDescString.Token("(+", 2).Token(")", 1))) {
-                    // replace description in expanded
+                    // append description in expanded
                     expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + expanded.Token("(", 2).Token(")", 1) + projectPosDescString.Token("(+", 2).Token(")", 1) + ")";
                   } else if (!string.IsNullOrEmpty(projectPosDescString.Token("(", 2).Token(")", 1))) {
-                    // append to description in expanded
+                    // replace to description in expanded
                     expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + projectPosDescString.Token("(", 2).Token(")", 1) + ")";
                   }
                   projectPosDescString = expanded;
@@ -247,7 +247,7 @@ namespace MONI.Data
 
     private bool GetDayStartTime(string input, out TimeItem dayStartTime, out string remainingString, out string error) {
       bool success = false;
-      var dayStartToken = input.Token(this.dayStartSeparator.ToString(), 1, input); // do not trim here, need original length later
+      var dayStartToken = input.Token(dayStartSeparator.ToString(), 1, input); // do not trim here, need original length later
       if (!string.IsNullOrEmpty(dayStartToken.Trim())) {
         if (TimeItem.TryParse(dayStartToken, out dayStartTime)) {
           remainingString = dayStartToken.Length < input.Length ? input.Substring(dayStartToken.Length + 1) : string.Empty; // seems like no daystartseparator
@@ -265,135 +265,6 @@ namespace MONI.Data
       return success;
     }
 
-    public string Increment(string text, int stepsToIncrementBy, ref int selectionStart) {
-      return this.IncDec(text, stepsToIncrementBy, INCDEC_OPERATOR.INCREMENT, ref selectionStart);
-    }
-
-    public string Decrement(string text, int stepsToIncrementBy, ref int selectionStart) {
-      return this.IncDec(text, stepsToIncrementBy, INCDEC_OPERATOR.DECREMENT, ref selectionStart);
-    }
-
-    public string IncDec(string text, int stepsToIncrementBy, INCDEC_OPERATOR incDec, ref int selectionStart) {
-      if (!string.IsNullOrWhiteSpace(text)) {
-        var hoursToIncrementBy = stepsToIncrementBy * 15 / 60f;
-        var parts = this.SplitIntoParts(text).ToList();
-        int idx;
-        bool moveCursorLeft;
-        int cursorInPartPosition;
-        var part = this.FindPositionPart(parts, selectionStart, out idx, out cursorInPartPosition);
-        var newPart = part;
-        if (idx == 0 || (parts[0] == automaticPauseDeactivation && idx == 1)) {
-          // is daystart, has no -
-          TimeItem ti;
-          if (TimeItem.TryParse(part, out ti)) {
-            var tiIncremented = IncDecTimeItem(incDec, ti, hoursToIncrementBy);
-            newPart = string.Format("{0}", tiIncremented.ToShortString());
-          }
-        } else if (part.StartsWith(this.endTimeStartChar.ToString())) {
-          TimeItem ti;
-          if (TimeItem.TryParse(part.TrimStart(this.endTimeStartChar), out ti)) {
-            var tiIncremented = IncDecTimeItem(incDec, ti, hoursToIncrementBy);
-            newPart = string.Format("{0}{1}", endTimeStartChar, tiIncremented.ToShortString());
-          }
-        } else {
-          double t;
-          if (double.TryParse(part, NumberStyles.Any, CultureInfo.InvariantCulture, out t)) {
-            double hIncremented;
-            if (incDec == INCDEC_OPERATOR.INCREMENT) {
-              hIncremented = t + hoursToIncrementBy;
-            } else {
-              hIncremented = t - hoursToIncrementBy;
-            }
-            newPart = hIncremented.ToString(CultureInfo.InvariantCulture);
-          }
-        }
-        // check if we need to move cursor to left
-        if (cursorInPartPosition > newPart.Length) {
-          selectionStart = selectionStart - cursorInPartPosition + newPart.Length;
-        }
-        if (idx >= 0) {
-          parts[idx] = newPart;
-        }
-        return parts.Aggregate(string.Empty, (aggr, s) => aggr + s);
-      }
-      return string.Empty;
-    }
-
-    private static TimeItem IncDecTimeItem(INCDEC_OPERATOR incDec, TimeItem ti, float hoursToIncrementBy) {
-      TimeItem tiIncremented;
-      if (incDec == INCDEC_OPERATOR.INCREMENT) {
-        tiIncremented = ti + hoursToIncrementBy;
-      } else {
-        tiIncremented = ti - hoursToIncrementBy;
-      }
-      return tiIncremented;
-    }
-
-    public IList<string> SplitIntoParts(string text) {
-      var ret = new List<string>();
-      var lines = text.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
-      foreach (var line in lines) {
-        ret.AddRange(SplitIntoPartsIntern(line));
-        ret.Add(Environment.NewLine);
-      }
-      // remove last newline
-      return ret.Take(ret.Count - 1).ToList();
-    }
-
-    public IList<string> SplitIntoPartsIntern(string text) {
-      var splitted = new List<string>();
-      // check for pause deactivation
-      if (text.StartsWith(automaticPauseDeactivation)) {
-        splitted.Add(automaticPauseDeactivation);
-        text = text.Substring(automaticPauseDeactivation.Length);
-      }
-      string tmp = string.Empty;
-      foreach (char c in text) {
-        if (c == this.itemSeparator || c == this.hourProjectInfoSeparator) {
-          splitted.Add(tmp);
-          splitted.Add(c.ToString());
-          tmp = string.Empty;
-        } else {
-          tmp += c;
-        }
-      }
-      if (!string.IsNullOrEmpty(tmp)) {
-        splitted.Add(tmp);
-      }
-      return splitted;
-    }
-
-    public string FindPositionPart(IList<string> parts, int cursorPosition, out int foundPartsIndex, out int cursorInPartPosition) {
-      cursorInPartPosition = 0;
-      var partsComplete = parts.Aggregate(string.Empty, (aggr, s) => aggr + s);
-      for (int i = 0; i < parts.Count(); i++) {
-        var partsLower = parts.Take(i).Aggregate(string.Empty, (aggr, s) => aggr + s);
-        var partsUpper = parts.Take(i + 1).Aggregate(string.Empty, (aggr, s) => aggr + s);
-
-        var b = partsLower.Length;
-        var t = partsUpper.Length;
-
-        if ((cursorPosition >= b && cursorPosition < t) || partsUpper == partsComplete) {
-          if (parts[i] == this.itemSeparator.ToString() || parts[i] == this.hourProjectInfoSeparator.ToString()) {
-            // cursor left of separator
-            foundPartsIndex = i - 1;
-            var prevPart = parts.ElementAt(foundPartsIndex);
-            // find out where in the found part the cursor is, need to use prevpart an its length
-            cursorInPartPosition = prevPart.Length;
-            return prevPart;
-          } else {
-            // find out where in the found part the cursor is
-            cursorInPartPosition = cursorPosition - b;
-            foundPartsIndex = i;
-            return parts.ElementAt(i);
-          }
-        }
-      }
-      // not found
-      foundPartsIndex = -1;
-      return string.Empty;
-    }
-
     public string AddCurrentTime(string originalString) {
       // test for daystart
       string newString = originalString;
@@ -407,12 +278,6 @@ namespace MONI.Data
       }
       return newString;
     }
-  }
-
-  public enum INCDEC_OPERATOR
-  {
-    INCREMENT,
-    DECREMENT
   }
 
   public class WorkDayParserResult
