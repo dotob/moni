@@ -431,7 +431,7 @@
                             </Style>
                         </DataTemplate.Resources>
                         <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-                        <views:PNSearchView x:Name="pnSearchView"
+                        <views:PositionSearchView x:Name="posSearchView"
                                             IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
                                             AddShortCutService="{Binding ElementName=mv}" />
                     </DataTemplate>

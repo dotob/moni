@@ -146,6 +146,9 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ShortcutViewModel.cs" />
     <Compile Include="ViewModels\UpdateInfoViewModel.cs" />
+    <Compile Include="Views\PositionSearchView.xaml.cs">
+      <DependentUpon>PositionSearchView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UpdateInfoView.xaml.cs">
       <DependentUpon>UpdateInfoView.xaml</DependentUpon>
     </Compile>
@@ -155,6 +158,10 @@
     <Compile Include="Views\ShortcutView.xaml.cs">
       <DependentUpon>ShortcutView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\PositionSearchView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

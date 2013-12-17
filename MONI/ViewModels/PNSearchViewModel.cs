@@ -15,20 +15,26 @@ namespace MONI.ViewModels
     private string searchText;
     private ICommand cancelCommand;
 
-    public PNSearchViewModel(string projectNumberFile) {
+    public PNSearchViewModel(string projectNumberFiles) {
       this.Results = new QuickFillObservableCollection<ProjectNumber>();
       this.ProjectNumbers = new List<ProjectNumber>();
-      Task.Factory.StartNew(()=> this.ReadPNFile(projectNumberFile));
+      Task.Factory.StartNew(()=> this.ReadPNFile(projectNumberFiles));
     }
 
-    private void ReadPNFile(string pnFilePath) {
-      if (!string.IsNullOrWhiteSpace(pnFilePath) && File.Exists(pnFilePath)) {
-        var allPnLines = File.ReadAllLines(pnFilePath, Encoding.Default);
-        foreach (string line in allPnLines.Skip(1)) {
-          var pn = new ProjectNumber();
-          pn.Number = line.Substring(0, 5);
-          pn.Description = line.Substring(14);
-          this.ProjectNumbers.Add(pn);
+    private void ReadPNFile(string pnFilePaths) {
+      if (!string.IsNullOrWhiteSpace(pnFilePaths)) {
+        foreach (var pnFile in pnFilePaths.Split(';')) {
+          if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile)) {
+            var allPnLines = File.ReadAllLines(pnFile, Encoding.Default);
+            foreach (string line in allPnLines.Skip(1)) {
+              var pn = new ProjectNumber();
+              pn.Number = line.Substring(0, 5);
+              pn.Description = line.Substring(14);
+              this.ProjectNumbers.Add(pn);
+            }
+            // break after first file worked
+            break;
+          }
         }
       }
     }

@@ -67,6 +67,10 @@
 	"Changes":[
 		"Klicken auf eine Zeiteintrag unterhalb der Textbox markiert den zugehörigen Text",
 		"Klicken auf Projekt-/Positionsnummerneintrag in der Hitliste fügt diese in die aktuelle Textbox am Ende ein (vorrausgesetzt der Text in der Textbox paßt dazu)",
+		"Parser verbessert: Es können jetzt in einem Kommentar auch Klammern benutzt werden. Dabei zählt die letzte geschlossen Klammer als Ende des Kommentars.",
+		"Bugfix: Es konnten keine eckigen Klammern eingegeben werden",
+		"Positionsnummern-Suche (GB10): Aufnahme von Kunden, Anpassung an CSV Format",
+		"Projekt-/Positionsnummern-Suche: Hier können jetzt in den Einstellungen mehrere Dateien (getrennt durch ;) angegeben werden. Die erste Datei, die gefunden wird, wird benutzt.",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.0/MONI.exe"
 },
