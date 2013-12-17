@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using MONI.Parser;
 using MONI.Util;
 
 namespace MONI.Data
@@ -208,12 +209,14 @@ namespace MONI.Data
                   workItem.ShortCut = shortCut;
                   var expanded = shortCut.Expansion;
                   // if there is an desc given use its value instead of the one in the abbrev
-                  if (!string.IsNullOrEmpty(projectPosDescString.Token("(+", 2).Token(")", 1))) {
+                  var desc = DescriptionParser.ParseDescription(projectPosDescString);
+                  var descExpanded = DescriptionParser.ParseDescription(expanded);
+                  if (!string.IsNullOrWhiteSpace(desc.Description) && desc.UsedAppendDelimiter) {
                     // append description in expanded
-                    expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + expanded.Token("(", 2).Token(")", 1) + projectPosDescString.Token("(+", 2).Token(")", 1) + ")";
-                  } else if (!string.IsNullOrEmpty(projectPosDescString.Token("(", 2).Token(")", 1))) {
+                    expanded = string.Format("{0}({1}{2})", descExpanded.BeforeDescription, descExpanded.Description, desc.Description);
+                  } else if (!string.IsNullOrWhiteSpace(desc.Description)) {
                     // replace to description in expanded
-                    expanded = expanded.TokenReturnInputIfFail("(", 1) + "(" + projectPosDescString.Token("(", 2).Token(")", 1) + ")";
+                    expanded = string.Format("{0}({1})", descExpanded.BeforeDescription, desc.Description);
                   }
                   projectPosDescString = expanded;
                 } else if (wholeDayShortcut != null) {
@@ -230,9 +233,9 @@ namespace MONI.Data
               } else {
                 error = string.Format("Projektnummer kann nicht erkannt werden: {0}", projectPosDescString);
               }
-              var descString = projectPosDescString.Token("(", 2).Token(")", 1);
-              if (!string.IsNullOrEmpty(descString)) {
-                workItem.Description = descString;
+              var descNoExpand = DescriptionParser.ParseDescription(projectPosDescString);
+              if (!string.IsNullOrWhiteSpace(descNoExpand.Description)) {
+                workItem.Description = descNoExpand.Description;
               }
             } else {
               error = string.Format("Projektnummer ist leer: {0}", wdItemString);

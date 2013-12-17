@@ -10,6 +10,7 @@ namespace MONI.Parser {
           Tuple<string, string> splitOnFirst = s.SplitOnFirst("(+");
           ret.BeforeDescription = splitOnFirst.Item1;
           ret.Description = splitOnFirst.Item2.SplitOnLast(")").Item1;
+          ret.UsedAppendDelimiter = true;
         } else if (s.Contains("(")) {
           Tuple<string, string> splitOnFirst = s.SplitOnFirst("(");
           ret.BeforeDescription = splitOnFirst.Item1;
@@ -25,6 +26,7 @@ namespace MONI.Parser {
   public class DescriptionParserResult {
     public string BeforeDescription { get; set; }
     public string Description { get; set; }
+    public bool UsedAppendDelimiter { get; set; }
     public DescriptionParserResult() {
       BeforeDescription = string.Empty;
       Description = string.Empty;
