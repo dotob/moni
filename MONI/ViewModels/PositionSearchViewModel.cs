@@ -32,9 +32,9 @@ namespace MONI.ViewModels {
               try {
                 var pn = new PositionNumber();
                 string[] columns = line.Split(';');
-                pn.Number = columns[4];
-                pn.Description = columns[0];
-                pn.Customer = columns[1];
+                pn.Number = columns[0];
+                pn.Description = columns[1];
+                pn.Customer = columns[2];
                 this.ProjectNumbers.Add(pn);
               } catch (Exception e) {
                 logger.Warn("Could not read as positionnumber info: {0}", line);
@@ -69,7 +69,7 @@ namespace MONI.ViewModels {
       this.Results.Clear();
       var s = this.searchText;
       if (!string.IsNullOrWhiteSpace(s)) {
-        var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase));
+        var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Customer, s, RegexOptions.IgnoreCase));
         this.Results.Fill(res);
       }
     }
