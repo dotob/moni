@@ -23,7 +23,8 @@ namespace MONI.ViewModels
 
     private void ReadPNFile(string pnFilePaths) {
       if (!string.IsNullOrWhiteSpace(pnFilePaths)) {
-        foreach (var pnFile in pnFilePaths.Split(';')) {
+        foreach (var pnFileUnpatched in pnFilePaths.Split(';')) {
+          var pnFile = Utils.PatchFilePath(pnFileUnpatched);
           if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile)) {
             var allPnLines = File.ReadAllLines(pnFile, Encoding.Default);
             foreach (string line in allPnLines.Skip(1)) {

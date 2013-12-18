@@ -24,5 +24,9 @@ namespace MONI.Util
       var moniAppData = Path.Combine(appData, "moni");
       return moniAppData;
     }
+
+    public static string PatchFilePath(string path) {
+      return path.Replace("#{appdata}", MoniAppDataPath()).Replace("#{userhome}", Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+    }
   }
 }

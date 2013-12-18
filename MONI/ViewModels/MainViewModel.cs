@@ -70,7 +70,7 @@ namespace MONI.ViewModels {
       this.UpdateInfoViewModel = new UpdateInfoViewModel(this.Settings.MainSettings.UpdateInfoURL, currentVersion);
 
       // read persistencedata
-      string dataDirectory = this.MonlistSettings.MainSettings.DataDirectory.Replace("#{appdata}", Utils.MoniAppDataPath());
+      string dataDirectory = Utils.PatchFilePath(this.MonlistSettings.MainSettings.DataDirectory);
       this.persistenceLayer = new TextFilePersistenceLayer(dataDirectory);
       this.csvExporter = new CSVExporter(dataDirectory);
       //this.persistentResult = this.persistenceLayer.ReadData();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using MONI.Data;
+using MONI.Util;
 using NUnit.Framework;
 using Newtonsoft.Json;
 
@@ -93,6 +94,10 @@ namespace MONI.Tests
       var validShortCuts = WorkDayParserSettings.ValidShortCuts(shortCuts, new DateTime(2000, 1, 1));
       CollectionAssert.IsEmpty(validShortCuts);
     }
-     
+
+    [Test]
+    public void Paths() {
+      string patchFilePath = Utils.PatchFilePath("#{userhome}");
+    }
   }
 }
