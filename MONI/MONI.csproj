@@ -117,6 +117,7 @@
     <Compile Include="Util\Markdown\HtmlToXamlConverter.cs" />
     <Compile Include="Util\Markdown\Markdown.cs" />
     <Compile Include="Util\VisualTreeExtensions.cs" />
+    <Compile Include="ValueConverter\HighLightSearchTextConverter.cs" />
     <Compile Include="ValueConverter\DayOfWeekTranslatorConverter.cs" />
     <Compile Include="Util\EnvironmentInfos.cs" />
     <Compile Include="Util\ExceptionExtensions.cs" />

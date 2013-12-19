@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using MONI.Data;
 using MONI.Util;
 using NUnit.Framework;
@@ -98,6 +99,26 @@ namespace MONI.Tests
     [Test]
     public void Paths() {
       string patchFilePath = Utils.PatchFilePath("#{userhome}");
+    }
+
+    [Test]
+    public void Regex() {
+      Regex sr = new Regex(string.Format("(?<pre>.*?)(?<searchText>{0})", "l"), RegexOptions.Compiled);
+      Match m = sr.Match("muller");
+      while (m.Success) {
+        m.ToString();
+        foreach (Group g in m.Groups) {
+          g.ToString();
+        }
+        m = m.NextMatch();
+      }
+      MatchCollection matchCollection = sr.Matches("mulller");
+      foreach (Match match in matchCollection) {
+        foreach (var g in match.Groups) {
+          g.ToString();
+        }
+        match.ToString();
+      }
     }
   }
 }

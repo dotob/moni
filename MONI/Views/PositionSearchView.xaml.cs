@@ -17,8 +17,8 @@ namespace MONI.Views
 
     private static void IsOpenPropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e) {
       var view = dependencyObject as PositionSearchView;
-      if (view != null && e.NewValue != e.OldValue && (bool)e.NewValue && view.searchTextBox.Focusable) {
-        view.searchTextBox.Focus();
+      if (view != null && e.NewValue != e.OldValue && (bool)e.NewValue && view.posNumSearchTextBox.Focusable) {
+        view.posNumSearchTextBox.Focus();
       }
     }
 
