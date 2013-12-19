@@ -75,6 +75,6 @@
 		"Projekt-/Positionsnummern-Suche: Der Suchtext kann ein Regulärer Ausdruck sein, leider gabs Ärger beim Eingeben. Jetzt nicht mehr.",
 		"Alle Pfade unterstützen jetzt #{appdata} und #{userhome} als Platzhalter.",
 		],
-	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.0/MONI.exe"
+	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.1/MONI.exe"
 },
 ]

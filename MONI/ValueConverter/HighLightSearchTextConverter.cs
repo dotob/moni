@@ -39,16 +39,15 @@ namespace MONI.ValueConverter {
 
           if (!string.IsNullOrWhiteSpace(preText)) {
             wp.Inlines.Add(new Run(preText));
+          }
+          Run lastRun = wp.Inlines.LastInline as Run;
+          if (lastRun != null && lastRun.Background == highLightBrush) {
+            lastRun.Text += matchText;
           } else {
-            Run lastRun = wp.Inlines.LastInline as Run;
-            if (lastRun != null && lastRun.Background == highLightBrush) {
-              lastRun.Text += matchText;
-            } else {
-              var run = new Run(matchText);
-              run.Background = highLightBrush;
-              run.Foreground = Brushes.DimGray;
-              wp.Inlines.Add(run);
-            }
+            var run = new Run(matchText);
+            run.Background = highLightBrush;
+            run.Foreground = Brushes.DimGray;
+            wp.Inlines.Add(run);
           }
           found = true;
         }
