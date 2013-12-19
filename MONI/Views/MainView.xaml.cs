@@ -48,19 +48,19 @@ namespace MONI.Views {
     public MainViewModel ViewModel { get; set; }
 
     private void mv_PreviewKeyUp(object sender, KeyEventArgs e) {
-      if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) {
+      var activeTB = e.OriginalSource as TextBox;
+      if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
+      {
         switch (e.Key) {
           case Key.U:
-            var activeControl = e.OriginalSource as TextBox;
-            if (activeControl != null) {
-              var currentDay = activeControl.DataContext as WorkDay;
+            if (activeTB != null && activeTB.Name == "userEntry") {
+              var currentDay = activeTB.DataContext as WorkDay;
               this.ViewModel.CopyFromPreviousDay(currentDay);
               e.Handled = true;
             }
             break;
           case Key.N:
-            var activeTB = e.OriginalSource as TextBox;
-            if (activeTB != null) {
+            if (activeTB != null && activeTB.Name == "userEntry") {
               var currentDay = activeTB.DataContext as WorkDay;
               if (currentDay != null) {
                 this.ViewModel.AddCurrentTime(currentDay);
@@ -148,7 +148,7 @@ namespace MONI.Views {
 
     private static void HandleHourAppend(KeyEventArgs e, int i) {
       var activeTB2 = e.OriginalSource as TextBox;
-      if (activeTB2 != null) {
+      if (activeTB2 != null && activeTB2.Name == "userEntry") {
         string newText = string.Empty;
         string oldText = activeTB2.Text;
         if (!string.IsNullOrWhiteSpace(oldText)) {

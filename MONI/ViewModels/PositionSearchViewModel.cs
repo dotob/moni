@@ -70,8 +70,12 @@ namespace MONI.ViewModels {
       this.Results.Clear();
       var s = this.searchText;
       if (!string.IsNullOrWhiteSpace(s)) {
-        var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Customer, s, RegexOptions.IgnoreCase));
-        this.Results.Fill(res);
+        try {
+          var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Customer, s, RegexOptions.IgnoreCase));
+          this.Results.Fill(res);
+        } catch (Exception e) {
+          // ignore, usually there is an unfinished regex
+        }
       }
     }
 

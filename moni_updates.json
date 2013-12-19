@@ -71,6 +71,7 @@
 		"Bugfix: Es konnten keine eckigen Klammern eingegeben werden",
 		"Positionsnummern-Suche (GB10): Aufnahme von Kunden, Anpassung an CSV Format",
 		"Projekt-/Positionsnummern-Suche: Hier können jetzt in den Einstellungen mehrere Dateien (getrennt durch ;) angegeben werden. Die erste Datei, die gefunden wird, wird benutzt.",
+		"Projekt-/Positionsnummern-Suche: Der Suchtext wird nun in den Suchergebnissen hervorgehoben",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.0/MONI.exe"
 },

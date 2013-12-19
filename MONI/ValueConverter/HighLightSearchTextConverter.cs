@@ -11,6 +11,7 @@ using System.Windows.Media;
 namespace MONI.ValueConverter {
   public sealed class HighLightSearchTextConverter : IMultiValueConverter {
     private static HighLightSearchTextConverter instance;
+    SolidColorBrush highLightBrush = Brushes.Yellow;
 
     // Explicit static constructor to tell C# compiler
     // not to mark type as beforefieldinit
@@ -33,10 +34,22 @@ namespace MONI.ValueConverter {
         MatchCollection matchCollection = sr.Matches(result);
         foreach (Match match in matchCollection) {
           lastchars = result.Substring(match.Index + match.Length);
-          wp.Inlines.Add(new Run(match.Groups["pre"].ToString()));
-          var run = new Run(match.Groups["searchText"].ToString());
-          run.Background = Brushes.Yellow;
-          wp.Inlines.Add(run);
+          string preText = match.Groups["pre"].ToString();
+          string matchText = match.Groups["searchText"].ToString();
+
+          if (!string.IsNullOrWhiteSpace(preText)) {
+            wp.Inlines.Add(new Run(preText));
+          } else {
+            Run lastRun = wp.Inlines.LastInline as Run;
+            if (lastRun != null && lastRun.Background == highLightBrush) {
+              lastRun.Text += matchText;
+            } else {
+              var run = new Run(matchText);
+              run.Background = highLightBrush;
+              run.Foreground = Brushes.DimGray;
+              wp.Inlines.Add(run);
+            }
+          }
           found = true;
         }
         if (found) {
