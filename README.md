@@ -56,7 +56,8 @@ Beim ersten starten möchte moni gern loggen, eine Settings-Datei und ein Daten-
 
 Für die Settings-Datei wird eine Standardversion genommen, falls im Startverzeichnis keine **settings.json.skeleton** liegt. Sonst wird diese als vorlage genutzt. 
 
-In der Einstellung DataDirectory kann **#{appdata}** als Platzhalter für das ApplicationData-Verzeichnis (+/moni) genutzt werden.
+In allen Pfadangaben kann **#{appdata}** als Platzhalter für das ApplicationData-Verzeichnis (+/moni) genutzt werden.
+In allen Pfadangaben kann **#{userhome}** als Platzhalter für das Benutzer-Verzeichnis genutzt werden.
 
 
 <!--- shorthelp: ab hier wird in moni angezeigt --->
@@ -163,7 +164,7 @@ Ausgabe:
 
 Erläuterung: 
 
-Beschreibungen können pro Eintrag in **Klammern** angegeben werden
+Beschreibungen können pro Eintrag in **Klammern** angegeben werden. Es können auch Klammern und ,:; in Beschreibungen angegeben werden.
 
 ## Abkürzungen ##
 

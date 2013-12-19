@@ -56,7 +56,8 @@ Beim ersten starten möchte moni gern loggen, eine Settings-Datei und ein Daten-
 
 Für die Settings-Datei wird eine Standardversion genommen, falls im Startverzeichnis keine **settings.json.skeleton** liegt. Sonst wird diese als vorlage genutzt. 
 
-In der Einstellung DataDirectory kann **#{appdata}** als Platzhalter für das ApplicationData-Verzeichnis (+/moni) genutzt werden.
+In allen Pfadangaben kann **#{appdata}** als Platzhalter für das ApplicationData-Verzeichnis (+/moni) genutzt werden.
+In allen Pfadangaben kann **#{userhome}** als Platzhalter für das Benutzer-Verzeichnis genutzt werden.
 
 
 <!--- shorthelp: ab hier wird in moni angezeigt --->
@@ -76,9 +77,13 @@ In der Einstellung DataDirectory kann **#{appdata}** als Platzhalter für das Ap
 - **F1**: Diese Hilfe
 - **strg+u**: Eingabe des vorigen Tages in aktuellen Tag kopieren
 - **strg+n**: Neuen Eintrag mit Endzeit jetzt im aktuellen Tag erstellen
+- **strg+f**: Projektnummernsuche öffnen
+- **strg+q**: MONI beenden
 - **bild hoch**: Aktuellen Eintrag um 15min erhöhen bzw. erweitern
 - **bild runter**: Aktuellen Eintrag um 15min erniedrigen bzw. verkürzen
 - **strg+1**: Bereitet die aktuelle Eingabe für einen neuen Eintrag der Länge 1 Stunde vor (hängt also ",1;" an). Geht genauso auch für die anderen Zahlen von 2-9.
+- **click auf Eintrag unter Textbox**: Selektiert den dafür verantwortlichen Text
+- **click auf Eintrag in Hitlisten**: Fügt die Nummer der aktuellen Textbox hinzu
 
 # Dokumentation der Eingabe #
 
@@ -159,7 +164,7 @@ Ausgabe:
 
 Erläuterung: 
 
-Beschreibungen können pro Eintrag in **Klammern** angegeben werden
+Beschreibungen können pro Eintrag in **Klammern** angegeben werden. Es können auch Klammern und ,:; in Beschreibungen angegeben werden.
 
 ## Abkürzungen ##
 
