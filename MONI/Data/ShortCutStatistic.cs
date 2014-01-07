@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace MONI.Data
 {
@@ -13,6 +14,7 @@ namespace MONI.Data
     }
 
     private double usedInMonth;
+    [JsonIgnore]
     public double UsedInMonth {
       get { return this.usedInMonth; }
       set {
@@ -28,7 +30,9 @@ namespace MONI.Data
     }
 
     private ObservableCollection<UsageInfo> usageHistory;
-    public ObservableCollection<UsageInfo> UsageHistory {
+    [JsonIgnore]
+    public ObservableCollection<UsageInfo> UsageHistory
+    {
       get { return this.usageHistory; }
       set {
         if (this.usageHistory == value) {
