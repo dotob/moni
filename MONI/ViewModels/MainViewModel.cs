@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -420,6 +421,7 @@ namespace MONI.ViewModels {
         // need to save years data
         this.Save();
       }
+      var sw = Stopwatch.StartNew();
       this.WorkYear = new WorkYear(year, this.MonlistSettings.ParserSettings.ShortCuts,
                                    this.MonlistSettings.MainSettings.HitListLookBackInWeeks,
                                    this.MonlistSettings.MainSettings.HoursPerDay,
@@ -427,6 +429,7 @@ namespace MONI.ViewModels {
       this.loadingData = true;
       this.PersistentResult = this.persistenceLayer.SetDataOfYear(this.WorkYear);
       this.loadingData = false;
+      Console.WriteLine("reading data took: {0}ms", sw.ElapsedMilliseconds);
     }
 
     public void Save() {

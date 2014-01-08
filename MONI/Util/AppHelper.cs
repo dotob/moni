@@ -151,15 +151,17 @@ namespace MONI.Util
       var config = new LoggingConfiguration();
 
       // Step 2. Create targets and add them to the configuration 
-      var consoleTarget = new ColoredConsoleTarget();
-      config.AddTarget("console", consoleTarget);
-
       var fileTarget = new FileTarget();
       config.AddTarget("file", fileTarget);
 
-      // Step 3. Set target properties 
-      consoleTarget.Layout = "${longdate} ${level:uppercase=true} ${logger} ${message} ${exception:format=Message,Type,StackTrace:separator=//}";
-      
+      ColoredConsoleTarget consoleTarget = null;
+      if (false) {
+        consoleTarget = new ColoredConsoleTarget();
+        config.AddTarget("console", consoleTarget);
+        // Step 3. Set target properties 
+        consoleTarget.Layout = "${longdate} ${level:uppercase=true} ${logger} ${message} ${exception:format=Message,Type,StackTrace:separator=//}";
+      }
+
       // check where we can write
       if (Utils.CanCreateFile(".")) {
         fileTarget.FileName = "${basedir}/logs/" + this.ApplicationName + ".${shortdate}.log";
@@ -172,8 +174,10 @@ namespace MONI.Util
       fileTarget.Layout = "${longdate} ${level:uppercase=true} ${logger} ${message} ${exception:format=Message,Type,StackTrace:separator=//}";
 
       // Step 4. Define rules
-      var rule1 = new LoggingRule("*", LogLevel.Debug, consoleTarget);
-      config.LoggingRules.Add(rule1);
+      if (consoleTarget != null) {
+        var rule1 = new LoggingRule("*", LogLevel.Debug, consoleTarget);
+        config.LoggingRules.Add(rule1);
+      }
 
       var rule2 = new LoggingRule("*", LogLevel.Debug, fileTarget);
       config.LoggingRules.Add(rule2);

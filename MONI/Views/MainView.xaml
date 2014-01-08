@@ -20,6 +20,7 @@
                       ShowWindowCommandsOnTop="False"
                       BorderThickness="1"
                       BorderBrush="#808080"
+                      Loaded="MainView_OnLoaded"
                       Icon="/MONI;component/Resources/moni.ico">
     <Window.CommandBindings>
         <CommandBinding Command="Help"
@@ -781,11 +782,13 @@
             </ScrollViewer>
 
             <!-- shortcuts -->
-            <StackPanel Grid.Column="1"
+            <StackPanel x:Name="shortCutHeader"
+                        Grid.Column="1"
                         Grid.Row="0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Visibility="Collapsed">
                 <TextBlock FontSize="20"
                            Foreground="#CC119EDA"
                            FontWeight="Bold">
@@ -810,9 +813,11 @@
                     </Rectangle>
                 </Button>
             </StackPanel>
-            <ScrollViewer Grid.Row="1"
+            <ScrollViewer x:Name="shortCutList"
+                          Grid.Row="1"
                           Grid.Column="1" 
-                          VerticalScrollBarVisibility="Auto">
+                          VerticalScrollBarVisibility="Auto"
+                          Visibility="Collapsed">
                 <ItemsControl Margin="0 1 0 0"
                               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}"
                               HorizontalContentAlignment="Stretch"
@@ -955,12 +960,6 @@
                                                 Opacity="0.5"
                                                 IsHitTestVisible="False"
                                                 Margin="1">
-                                                <!-- sloooooooooooooooooooooow -->
-                                                <!--<Border.ToolTip>
-                          <ToolTip>
-                            <TextBlock Text="{Binding Hours, PresentationTraceSources.TraceLevel=High}"></TextBlock>
-                          </ToolTip>
-                        </Border.ToolTip>-->
                                             </Border>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>

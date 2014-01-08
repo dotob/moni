@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 using MONI.Data;
 using MONI.Parser;
 using MONI.Util;
@@ -18,6 +19,7 @@ namespace MONI.Views {
   /// </summary>
   public partial class MainView : MetroWindow, IAddShortcutService {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+    private DispatcherTimer deferredUiActivationTimer;
 
     public MainView() {
       try {
@@ -331,6 +333,16 @@ namespace MONI.Views {
           }
         }
       }
+    }
+
+    private void MainView_OnLoaded(object sender, RoutedEventArgs e) {
+      this.deferredUiActivationTimer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Background, (f,a) => ShowShortcuts(), this.Dispatcher);
+    }
+
+    private void ShowShortcuts() {
+      this.shortCutHeader.Visibility = Visibility.Visible;
+      this.shortCutList.Visibility = Visibility.Visible;
+      this.deferredUiActivationTimer.Stop();
     }
   }
 }
