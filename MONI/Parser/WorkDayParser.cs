@@ -204,7 +204,7 @@ namespace MONI.Data
               // expand abbreviations
               if (this.settings != null) {
                 var abbrevString = projectPosDescString.TokenReturnInputIfFail("(", 1).Trim();
-                ShortCut shortCut = this.settings.GetValidShortCuts(dateTime).FirstOrDefault(s => s.Key == abbrevString);
+                ShortCut shortCut = this.settings.GetValidShortCuts(dateTime).Where(s => !s.WholeDayExpansion).FirstOrDefault(s => s.Key == abbrevString);
                 if (shortCut != null) {
                   workItem.ShortCut = shortCut;
                   var expanded = shortCut.Expansion;

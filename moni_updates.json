@@ -76,5 +76,13 @@
 		"Alle Pfade unterstützen jetzt #{appdata} und #{userhome} als Platzhalter.",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.1/MONI.exe"
+},{
+	"Version":"0.9.9.2",
+	"Changes":[
+		"Gefixed: Ganztages Shortcuts wurden auch in Stundeneinträgen genutzt. Das sollte nicht.",
+		"Verbessert: Starten geht jetzt etwas schneller (30%). Die shortcuts werden verzögert angezeigt.",
+		"Gefixed: Die Einstellungen haben unnötig viele Daten abgespeichert",
+		],
+	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.2/MONI.exe"
 },
 ]
