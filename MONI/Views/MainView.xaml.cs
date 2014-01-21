@@ -51,8 +51,7 @@ namespace MONI.Views {
 
     private void mv_PreviewKeyUp(object sender, KeyEventArgs e) {
       var activeTB = e.OriginalSource as TextBox;
-      if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control)
-      {
+      if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && (Keyboard.Modifiers & ModifierKeys.Alt) != ModifierKeys.Alt) {
         switch (e.Key) {
           case Key.U:
             if (activeTB != null && activeTB.Name == "userEntry") {

@@ -71,7 +71,7 @@ namespace MONI.ViewModels
       if (shortCut != null) {
         shortCut.GetData(this.Model);
       } else {
-        this.moniSettings.ParserSettings.ShortCuts.Add(this.Model);
+        this.moniSettings.ParserSettings.ShortCuts.Insert(0, this.Model);
       }
       this.Model = null;
       this.workWeek.Month.ReloadShortcutStatistic(this.moniSettings.ParserSettings.GetValidShortCuts(this.workWeek.StartDate));
