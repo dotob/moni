@@ -19,9 +19,12 @@ namespace MONI.ValueConverter
     }
 
     private TodayColorConverter() {
+      // set opacity here and not for the rectangle, because it's even faster
       this.todayBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F000638E"));
+      this.todayBrush.Opacity = 0.5;
       this.todayBrush.Freeze();
       this.notTodayBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CC119EDA"));
+      this.notTodayBrush.Opacity = 0.5;
       this.notTodayBrush.Freeze();
     }
 
