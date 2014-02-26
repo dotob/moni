@@ -6,11 +6,13 @@ using System.Globalization;
 using System.Linq;
 using MONI.Data.SpecialDays;
 using MONI.Util;
+using NLog;
 
 namespace MONI.Data
 {
   public class WorkMonth : INotifyPropertyChanged
   {
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     private readonly int month;
     private readonly float hoursPerDay;
     private readonly int year;
@@ -162,12 +164,29 @@ namespace MONI.Data
     public void CalcShortCutStatistic()
     {
       foreach (var kvp in this.ShortCutStatistic) {
+        // complete hours over all days
         kvp.Value.UsedInMonth = this.Days.SelectMany(d => d.Items).Where(i => i.ShortCut != null && Equals(kvp.Value, i.ShortCut)).Sum(i => i.HoursDuration);
+        
+        // generate complete usage information over all days
         var usageInfos =
-          from workDay in this.Days
-          let hours = workDay.Items.Where(i => i.ShortCut != null && Equals(kvp.Value, i.ShortCut)).Sum(i => i.HoursDuration)
-          select new UsageInfo { Hours = hours, IsToday = workDay.IsToday };
-        kvp.Value.UsageHistory = new QuickFillObservableCollection<UsageInfo>(usageInfos);
+          (from workDay in this.Days
+            let hours = workDay.Items.Where(i => i.ShortCut != null && Equals(kvp.Value, i.ShortCut)).Sum(i => i.HoursDuration)
+            select new UsageInfo { Day = workDay.Day, Hours = hours, IsToday = workDay.IsToday }).ToList();
+        
+        if (kvp.Value.UsageHistory == null) {
+          logger.Debug("CalcShortCutStatistic => {0} Initial calculated shortcut statistics ({1}, {2})", usageInfos.Count(), kvp.Key, usageInfos.Sum(ui => ui.Hours));
+          kvp.Value.UsageHistory = new QuickFillObservableCollection<UsageInfo>(usageInfos);
+        } else {
+          foreach (var ui in kvp.Value.UsageHistory) {
+            var calculatedUI = usageInfos.ElementAtOrDefault(ui.Day - 1);
+            if (calculatedUI != null) {
+              ui.Hours = calculatedUI.Hours;
+              ui.IsToday = calculatedUI.IsToday;
+            } else {
+              logger.Error("CalcShortCutStatistic => No usage info found for day {0}, shortcut {1}!", ui.Day, kvp.Key);
+            }
+          }
+        }
       }
     }
 

@@ -23,7 +23,7 @@ namespace MONI.Util
       }
     }
 
-    public void Fill(IEnumerable<T> sourceItems) {
+    public void Fill(IEnumerable<T> sourceItems, bool clearCollection = false) {
       if (sourceItems == null) {
         return;
       }
@@ -33,6 +33,9 @@ namespace MONI.Util
       }
       this.suspendCollectionChanged = true;
       try {
+        if (clearCollection) {
+          this.Clear();
+        }
         this.InsertItem(this.Count, enumerator.Current);
         while (enumerator.MoveNext()) {
           this.InsertItem(this.Count, enumerator.Current);
