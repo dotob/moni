@@ -84,6 +84,7 @@
 		"Gefixed: Die Einstellungen haben unnötig viele Daten abgespeichert",
 		"Gefixed: Eingaben von @ schließt MONI",
 		"Verbessert: Ein neuer Shortcut wird nun ganz oben statt ganz unten eingefügt",
+		"Verbessert: Verzögerungen bei der Eingabe treten jetzt nicht mehr auf",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.2/MONI.exe"
 },
