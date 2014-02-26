@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using MONI.Data.SpecialDays;
+using MONI.Util;
 
 namespace MONI.Data
 {
@@ -158,15 +159,15 @@ namespace MONI.Data
       }
     }
 
-    public void CalcShortCutStatistic() {
+    public void CalcShortCutStatistic()
+    {
       foreach (var kvp in this.ShortCutStatistic) {
-        KeyValuePair<string, ShortCutStatistic> kvp1 = kvp;
-        kvp.Value.UsedInMonth = this.Days.SelectMany(d => d.Items).Where(i => i.ShortCut != null).Where(i => Equals(kvp1.Value, i.ShortCut)).Sum(i => i.HoursDuration);
-        kvp.Value.UsageHistory = new ObservableCollection<UsageInfo>();
-        foreach (var workDay in Days) {
-          var hours = workDay.Items.Where(i => i.ShortCut != null).Where(i => Equals(kvp1.Value, i.ShortCut)).Sum(i => i.HoursDuration);
-          kvp.Value.UsageHistory.Add(new UsageInfo {Hours = hours, IsToday = workDay.IsToday});
-        }
+        kvp.Value.UsedInMonth = this.Days.SelectMany(d => d.Items).Where(i => i.ShortCut != null && Equals(kvp.Value, i.ShortCut)).Sum(i => i.HoursDuration);
+        var usageInfos =
+          from workDay in this.Days
+          let hours = workDay.Items.Where(i => i.ShortCut != null && Equals(kvp.Value, i.ShortCut)).Sum(i => i.HoursDuration)
+          select new UsageInfo { Hours = hours, IsToday = workDay.IsToday };
+        kvp.Value.UsageHistory = new QuickFillObservableCollection<UsageInfo>(usageInfos);
       }
     }
 
