@@ -168,7 +168,7 @@
     <!-- *** flyouts ***************************************************************** -->
     <Controls:MetroWindow.Flyouts>
 
-        <Controls:FlyoutsControl x:Name="Flyouts">
+        <Controls:FlyoutsControl>
             <!-- shortcut help -->
             <Controls:Flyout Header=" Hilfe"
                              Width="700"
