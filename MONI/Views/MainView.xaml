@@ -82,85 +82,61 @@
       <Button Click="ToMonlist_Button_Click"
               x:Name="OpenMonlist"
               ToolTip="Daten in Monlist importieren">
-        <StackPanel Orientation="Horizontal">
-          <Rectangle Width="20"
-                     Height="20">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="White" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_cabinet_out}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </StackPanel>
+        <Rectangle Width="20"
+                   Height="20"
+                   Fill="{DynamicResource WhiteBrush}">
+          <Rectangle.OpacityMask>
+            <VisualBrush Stretch="UniformToFill"
+                         Visual="{StaticResource appbar_cabinet_out}" />
+          </Rectangle.OpacityMask>
+        </Rectangle>
       </Button>
       <Button Click="GitHub_Button_Click"
               ToolTip="MONI bei GitHub">
-        <StackPanel Orientation="Horizontal">
-          <Rectangle Width="20"
-                     Height="20">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="White" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_github}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </StackPanel>
+        <Rectangle Width="20"
+                   Height="20"
+                   Fill="{DynamicResource WhiteBrush}">
+          <Rectangle.OpacityMask>
+            <VisualBrush Stretch="UniformToFill"
+                         Visual="{StaticResource appbar_github}" />
+          </Rectangle.OpacityMask>
+        </Rectangle>
       </Button>
       <Button Click="ShowPNSearch_Button_Click"
               ToolTip="Projektnummern-Suche">
-        <StackPanel Orientation="Horizontal">
-          <Rectangle Width="15"
-                     Height="20">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="White" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_page_search}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </StackPanel>
+        <Rectangle Width="20"
+                   Height="20"
+                   Fill="{DynamicResource WhiteBrush}">
+          <Rectangle.OpacityMask>
+            <VisualBrush Stretch="Uniform"
+                         Visual="{StaticResource appbar_page_search}" />
+          </Rectangle.OpacityMask>
+        </Rectangle>
       </Button>
       <Button Click="ShowPositionSearch_Button_Click"
               ToolTip="Positionsnummern-Suche">
-        <StackPanel Orientation="Horizontal">
-          <Rectangle Width="15"
-                     Height="20">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="Yellow" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_page_search}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </StackPanel>
+        <Rectangle Width="20"
+                   Height="20"
+                   Fill="{DynamicResource WhiteBrush}">
+          <Rectangle.OpacityMask>
+            <VisualBrush Stretch="Uniform"
+                         Visual="{StaticResource appbar_page_search}" />
+          </Rectangle.OpacityMask>
+        </Rectangle>
       </Button>
       <Button Click="EditPreferences_Button_Click"
               ToolTip="Einstellungen">
-        <StackPanel Orientation="Horizontal">
-          <Rectangle Width="20"
-                     Height="20">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="White" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_settings}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </StackPanel>
+        <Rectangle Width="20"
+                   Height="20"
+                   Fill="{DynamicResource WhiteBrush}">
+          <Rectangle.OpacityMask>
+            <VisualBrush Stretch="UniformToFill"
+                         Visual="{StaticResource appbar_settings}" />
+          </Rectangle.OpacityMask>
+        </Rectangle>
       </Button>
       <Button Content="?"
+              FontSize="18"
               Command="Help" />
     </Controls:WindowCommands>
   </Controls:MetroWindow.WindowCommands>
