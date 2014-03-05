@@ -22,1134 +22,1133 @@
                       BorderBrush="#808080"
                       Loaded="MainView_OnLoaded"
                       Icon="/MONI;component/Resources/moni.ico">
-    <Window.CommandBindings>
-        <CommandBinding Command="Help"
-                        CanExecute="HelpCanExecute"
-                        Executed="HelpExecuted" />
-    </Window.CommandBindings>
+  <Window.CommandBindings>
+    <CommandBinding Command="Help"
+                    CanExecute="HelpCanExecute"
+                    Executed="HelpExecuted" />
+  </Window.CommandBindings>
 
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
-            </ResourceDictionary.MergedDictionaries>
+  <Window.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
+      </ResourceDictionary.MergedDictionaries>
 
-            <valueConverter:VisibilityConverter x:Key="null2CollapsedConverter" />
-            <valueConverter:VisibilityConverter x:Key="false2CollapsedConverter" />
-            <valueConverter:VisibilityConverter x:Key="false2HiddenConverter"
-                                                NotVisibleValue="Hidden" />
+      <valueConverter:VisibilityConverter x:Key="null2CollapsedConverter" />
+      <valueConverter:VisibilityConverter x:Key="false2CollapsedConverter" />
+      <valueConverter:VisibilityConverter x:Key="false2HiddenConverter"
+                                          NotVisibleValue="Hidden" />
 
-            <SolidColorBrush x:Key="lightText"
-                             Color="DarkSlateGray" />
+      <SolidColorBrush x:Key="lightText"
+                       Color="DarkSlateGray" />
 
-            <VisualBrush Stretch="Fill"
-                         x:Key="editIcon"
-                         Visual="{StaticResource appbar_edit}" />
-            <VisualBrush Stretch="Fill"
-                         x:Key="deleteIcon"
-                         Visual="{StaticResource appbar_delete}" />
-            <VisualBrush Stretch="Fill"
-                         x:Key="upIcon"
-                         Visual="{StaticResource appbar_chevron_up}" />
-            <VisualBrush Stretch="Fill"
-                         x:Key="downIcon"
-                         Visual="{StaticResource appbar_chevron_down}" />
+      <VisualBrush Stretch="Fill"
+                   x:Key="editIcon"
+                   Visual="{StaticResource appbar_edit}" />
+      <VisualBrush Stretch="Fill"
+                   x:Key="deleteIcon"
+                   Visual="{StaticResource appbar_delete}" />
+      <VisualBrush Stretch="Fill"
+                   x:Key="upIcon"
+                   Visual="{StaticResource appbar_chevron_up}" />
+      <VisualBrush Stretch="Fill"
+                   x:Key="downIcon"
+                   Visual="{StaticResource appbar_chevron_down}" />
 
-            <!-- our own colored appbar ribbon -->
-            <Canvas Width="48"
-                    Height="48"
-                    Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0"
-                    UseLayoutRounding="False"
-                    x:Key="appbar_ribbon">
-                <Path Width="12"
-                      Height="24"
-                      Canvas.Left="18"
-                      Canvas.Top="12"
-                      Stretch="Fill"
-                      Fill="#B10101"
-                      Data="F1 M 18,36L 18,12L 30,12L 30,36L 24,30L 18,36 Z " />
-            </Canvas>
+      <!-- our own colored appbar ribbon -->
+      <Canvas Width="48"
+              Height="48"
+              Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0"
+              UseLayoutRounding="False"
+              x:Key="appbar_ribbon">
+        <Path Width="12"
+              Height="24"
+              Canvas.Left="18"
+              Canvas.Top="12"
+              Stretch="Fill"
+              Fill="#B10101"
+              Data="F1 M 18,36L 18,12L 30,12L 30,36L 24,30L 18,36 Z " />
+      </Canvas>
 
-            <VisualBrush Stretch="Fill"
-                         x:Key="ribbonIcon"
-                         Visual="{StaticResource appbar_ribbon}" />
-        </ResourceDictionary>
-    </Window.Resources>
+      <VisualBrush Stretch="Fill"
+                   x:Key="ribbonIcon"
+                   Visual="{StaticResource appbar_ribbon}" />
+    </ResourceDictionary>
+  </Window.Resources>
 
-    <!-- *** window commands ***************************************************************** -->
-    <Controls:MetroWindow.WindowCommands>
-        <Controls:WindowCommands>
-            <Button Click="ToMonlist_Button_Click"
-                    x:Name="OpenMonlist"
-                    ToolTip="Daten in Monlist importieren">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="20"
-                               Height="20">
-                        <Rectangle.Resources>
-                            <SolidColorBrush x:Key="BlackBrush"
-                                             Color="White" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-                                         Visual="{StaticResource appbar_cabinet_out}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </StackPanel>
-            </Button>
-            <Button Click="GitHub_Button_Click"
-                    ToolTip="MONI bei GitHub">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="20"
-                               Height="20">
-                        <Rectangle.Resources>
-                            <SolidColorBrush x:Key="BlackBrush"
-                                             Color="White" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-                                         Visual="{StaticResource appbar_github}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </StackPanel>
-            </Button>
-            <Button Click="ShowPNSearch_Button_Click"
-                    ToolTip="Projektnummern-Suche">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="15"
-                               Height="20">
-                        <Rectangle.Resources>
-                            <SolidColorBrush x:Key="BlackBrush"
-                                             Color="White" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-                                         Visual="{StaticResource appbar_page_search}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </StackPanel>
-            </Button>
-            <Button Click="ShowPositionSearch_Button_Click"
-                    ToolTip="Positionsnummern-Suche">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="15"
-                               Height="20">
-                        <Rectangle.Resources>
-                            <SolidColorBrush x:Key="BlackBrush"
-                                             Color="Yellow" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-                                         Visual="{StaticResource appbar_page_search}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </StackPanel>
-            </Button>
-            <Button Click="EditPreferences_Button_Click"
-                    ToolTip="Einstellungen">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="20"
-                               Height="20">
-                        <Rectangle.Resources>
-                            <SolidColorBrush x:Key="BlackBrush"
-                                             Color="White" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-                                         Visual="{StaticResource appbar_settings}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </StackPanel>
-            </Button>
-            <Button Content="?"
-                    Command="Help" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.WindowCommands>
+  <!-- *** window commands ***************************************************************** -->
+  <Controls:MetroWindow.WindowCommands>
+    <Controls:WindowCommands>
+      <Button Click="ToMonlist_Button_Click"
+              x:Name="OpenMonlist"
+              ToolTip="Daten in Monlist importieren">
+        <StackPanel Orientation="Horizontal">
+          <Rectangle Width="20"
+                     Height="20">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="White" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_cabinet_out}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </StackPanel>
+      </Button>
+      <Button Click="GitHub_Button_Click"
+              ToolTip="MONI bei GitHub">
+        <StackPanel Orientation="Horizontal">
+          <Rectangle Width="20"
+                     Height="20">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="White" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_github}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </StackPanel>
+      </Button>
+      <Button Click="ShowPNSearch_Button_Click"
+              ToolTip="Projektnummern-Suche">
+        <StackPanel Orientation="Horizontal">
+          <Rectangle Width="15"
+                     Height="20">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="White" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_page_search}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </StackPanel>
+      </Button>
+      <Button Click="ShowPositionSearch_Button_Click"
+              ToolTip="Positionsnummern-Suche">
+        <StackPanel Orientation="Horizontal">
+          <Rectangle Width="15"
+                     Height="20">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="Yellow" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_page_search}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </StackPanel>
+      </Button>
+      <Button Click="EditPreferences_Button_Click"
+              ToolTip="Einstellungen">
+        <StackPanel Orientation="Horizontal">
+          <Rectangle Width="20"
+                     Height="20">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="White" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_settings}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </StackPanel>
+      </Button>
+      <Button Content="?"
+              Command="Help" />
+    </Controls:WindowCommands>
+  </Controls:MetroWindow.WindowCommands>
 
-    <!-- *** flyouts ***************************************************************** -->
-    <Controls:MetroWindow.Flyouts>
+  <!-- *** flyouts ***************************************************************** -->
+  <Controls:MetroWindow.Flyouts>
 
-        <Controls:FlyoutsControl>
-            <!-- shortcut help -->
-            <Controls:Flyout Header=" Hilfe"
-                             Width="700"
-                             Position="Right"
-                             KeyboardNavigation.TabNavigation="Cycle"
-                             Content="{Binding ElementName=mv, Path=ViewModel}"
-                             IsOpen="{Binding ElementName=mv, Path=ViewModel.ShowHelp}">
-                <Controls:Flyout.ContentTemplate>
-                    <DataTemplate>
-                        <DataTemplate.Resources>
-                            <valueConverter:MarkdownToFlowDocumentConverter x:Key="MarkdownToFlowDocumentConverter" />
-                        </DataTemplate.Resources>
-                        <Grid>
-                            <Rectangle Fill="White"
-                                       Margin="10">
-                            </Rectangle>
-                            <FlowDocumentScrollViewer Margin="10"
-                                                      VerticalScrollBarVisibility="Auto"
-                                                      HorizontalScrollBarVisibility="Disabled"
-                                                      Document="{Binding Path=Help, Converter={StaticResource MarkdownToFlowDocumentConverter}}" />
-                        </Grid>
-                    </DataTemplate>
-                </Controls:Flyout.ContentTemplate>
-            </Controls:Flyout>
+    <Controls:FlyoutsControl>
+      <!-- shortcut help -->
+      <Controls:Flyout Header=" Hilfe"
+                       Width="700"
+                       Position="Right"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.ShowHelp}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate>
+            <DataTemplate.Resources>
+              <valueConverter:MarkdownToFlowDocumentConverter x:Key="MarkdownToFlowDocumentConverter" />
+            </DataTemplate.Resources>
+            <Grid>
+              <Rectangle Fill="White"
+                         Margin="10">
+              </Rectangle>
+              <FlowDocumentScrollViewer Margin="10"
+                                        VerticalScrollBarVisibility="Auto"
+                                        HorizontalScrollBarVisibility="Disabled"
+                                        Document="{Binding Path=Help, Converter={StaticResource MarkdownToFlowDocumentConverter}}" />
+            </Grid>
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
 
-            <!-- settings -->
-            <Controls:Flyout Header="Settings"
-                             Position="Right"
-                             KeyboardNavigation.TabNavigation="Cycle"
-                             Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
-                             IsOpen="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}">
-                <Controls:Flyout.ContentTemplate>
-                    <DataTemplate DataType="{x:Type data:MoniSettings}">
-                        <DataTemplate.Resources>
-                            <Style TargetType="{x:Type TextBox}"
-                                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-                            </Style>
-                        </DataTemplate.Resources>
+      <!-- settings -->
+      <Controls:Flyout Header="Settings"
+                       Position="Right"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate DataType="{x:Type data:MoniSettings}">
+            <DataTemplate.Resources>
+              <Style TargetType="{x:Type TextBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+            </DataTemplate.Resources>
 
-                        <Grid Width="400"
-                              Margin="10">
+            <Grid Width="400"
+                  Margin="10">
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="Auto"></RowDefinition>
-                                <RowDefinition Height="*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+              </Grid.RowDefinitions>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+              </Grid.ColumnDefinitions>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="0">
-                                Daten-Verzeichnis
-                            </Label>
-                            <TextBox Grid.Column="1"
-                                     Grid.Row="0"
-                                     Margin="2"
-                                     Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}">
-                            </TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="0">
+                Daten-Verzeichnis
+              </Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="0"
+                       Margin="2"
+                       Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}">
+              </TextBox>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="1">
-                                projekte.txt-Pfad
-                            </Label>
-                            <TextBox Grid.Column="1"
-                                     Grid.Row="1"
-                                     Margin="2"
-                                     Text="{Binding MainSettings.ProjectNumberFilePath, UpdateSourceTrigger=PropertyChanged}">
-                            </TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="1">
+                projekte.txt-Pfad
+              </Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="1"
+                       Margin="2"
+                       Text="{Binding MainSettings.ProjectNumberFilePath, UpdateSourceTrigger=PropertyChanged}">
+              </TextBox>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="2">
-                                positionsnummern.txt-Pfad
-                            </Label>
-                            <TextBox Grid.Column="1"
-                                     Grid.Row="2"
-                                     Margin="2"
-                                     Text="{Binding MainSettings.PositionNumberFilePath, UpdateSourceTrigger=PropertyChanged}">
-                            </TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="2">
+                positionsnummern.txt-Pfad
+              </Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="2"
+                       Margin="2"
+                       Text="{Binding MainSettings.PositionNumberFilePath, UpdateSourceTrigger=PropertyChanged}">
+              </TextBox>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="3">
-                                Monlist.exe-Pfad
-                            </Label>
-                            <TextBox Grid.Column="1"
-                                     Grid.Row="3"
-                                     Margin="2"
-                                     Text="{Binding MainSettings.MonlistExecutablePath, UpdateSourceTrigger=PropertyChanged}">
-                            </TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="3">
+                Monlist.exe-Pfad
+              </Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="3"
+                       Margin="2"
+                       Text="{Binding MainSettings.MonlistExecutablePath, UpdateSourceTrigger=PropertyChanged}">
+              </TextBox>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="4">
-                                Mitarbeiternummer
-                            </Label>
-                            <TextBox Grid.Column="1"
-                                     Grid.Row="4"
-                                     Margin="2"
-                                     Text="{Binding MainSettings.MonlistEmployeeNumber, UpdateSourceTrigger=PropertyChanged}">
-                            </TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="4">
+                Mitarbeiternummer
+              </Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="4"
+                       Margin="2"
+                       Text="{Binding MainSettings.MonlistEmployeeNumber, UpdateSourceTrigger=PropertyChanged}">
+              </TextBox>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="5">
-                                Projekt-Hitliste anzeigen
-                            </Label>
-                            <CheckBox Grid.Column="1"
-                                      Grid.Row="5"
-                                      Margin="2"
-                                      VerticalAlignment="Center"
-                                      IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}">
-                            </CheckBox>
+              <Label Grid.Column="0"
+                     Grid.Row="5">
+                Projekt-Hitliste anzeigen
+              </Label>
+              <CheckBox Grid.Column="1"
+                        Grid.Row="5"
+                        Margin="2"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}">
+              </CheckBox>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="6">
-                                Positions-Hitliste anzeigen
-                            </Label>
-                            <CheckBox Grid.Column="1"
-                                      Grid.Row="6"
-                                      Margin="2"
-                                      VerticalAlignment="Center"
-                                      IsChecked="{Binding MainSettings.ShowPositionHitList, UpdateSourceTrigger=PropertyChanged}">
-                            </CheckBox>
+              <Label Grid.Column="0"
+                     Grid.Row="6">
+                Positions-Hitliste anzeigen
+              </Label>
+              <CheckBox Grid.Column="1"
+                        Grid.Row="6"
+                        Margin="2"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding MainSettings.ShowPositionHitList, UpdateSourceTrigger=PropertyChanged}">
+              </CheckBox>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="7">
-                                Hitlisten-Rückblick [Wochen]
-                            </Label>
-                            <TextBox Grid.Column="1"
-                                     Grid.Row="7"
-                                     Margin="2"
-                                     Text="{Binding MainSettings.HitListLookBackInWeeks, UpdateSourceTrigger=PropertyChanged}">
-                            </TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="7">
+                Hitlisten-Rückblick [Wochen]
+              </Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="7"
+                       Margin="2"
+                       Text="{Binding MainSettings.HitListLookBackInWeeks, UpdateSourceTrigger=PropertyChanged}">
+              </TextBox>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="8">
-                                Stunden pro Tag [h]
-                            </Label>
-                            <TextBox Grid.Column="1"
-                                     Grid.Row="8"
-                                     Margin="2"
-                                     Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}">
-                            </TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="8">
+                Stunden pro Tag [h]
+              </Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="8"
+                       Margin="2"
+                       Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}">
+              </TextBox>
 
-                            <!-- auto break -->
-                            <Label Grid.Column="0"
-                                   Grid.Row="9">
-                                Automatische Pause einfügen
-                            </Label>
-                            <CheckBox Grid.Column="1"
-                                      Grid.Row="9"
-                                      Margin="2"
-                                      VerticalAlignment="Center"
-                                      x:Name="autoPause"
-                                      IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}">
-                            </CheckBox>
+              <!-- auto break -->
+              <Label Grid.Column="0"
+                     Grid.Row="9">
+                Automatische Pause einfügen
+              </Label>
+              <CheckBox Grid.Column="1"
+                        Grid.Row="9"
+                        Margin="2"
+                        VerticalAlignment="Center"
+                        x:Name="autoPause"
+                        IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}">
+              </CheckBox>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="10"
-                                   IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
-                                Uhrzeit [hh:mm]
-                            </Label>
-                            <TextBox Grid.Column="1"
-                                     Grid.Row="10"
-                                     Margin="2"
-                                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
-                                     Text="{Binding ParserSettings.DayBreakTime, Converter={x:Static valueConverter:TimeItemConverter.Instance}}">
-                            </TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="10"
+                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
+                Uhrzeit [hh:mm]
+              </Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="10"
+                       Margin="2"
+                       IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
+                       Text="{Binding ParserSettings.DayBreakTime, Converter={x:Static valueConverter:TimeItemConverter.Instance}}">
+              </TextBox>
 
-                            <Label Grid.Column="0"
-                                   Grid.Row="11"
-                                   IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
-                                Dauer [min]
-                            </Label>
-                            <TextBox Grid.Column="1"
-                                     Grid.Row="11"
-                                     Margin="2"
-                                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
-                                     Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}">
-                            </TextBox>
+              <Label Grid.Column="0"
+                     Grid.Row="11"
+                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
+                Dauer [min]
+              </Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="11"
+                       Margin="2"
+                       IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
+                       Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}">
+              </TextBox>
 
-                            <UniformGrid Grid.Column="0"
-                                         Grid.Row="12"
-                                         Grid.ColumnSpan="2"
-                                         VerticalAlignment="Bottom"
-                                         Columns="2">
-                                <Button Margin="0,0,2,0" Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
-                                <Button Margin="2,0,0,0" Click="EditPreferencesSave_OnClick"
-                                        IsDefault="True">
-                                    Speichern
-                                </Button>
-                            </UniformGrid>
-
-                        </Grid>
-                    </DataTemplate>
-                </Controls:Flyout.ContentTemplate>
-            </Controls:Flyout>
-
-            <!-- edit / new shortcut -->
-            <Controls:Flyout Header="Shortcut"
-                             Position="Right"
-                             KeyboardNavigation.TabNavigation="Cycle"
-                             Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
-                             IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}">
-                <Controls:Flyout.ContentTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
-                        <DataTemplate.Resources>
-                            <Style TargetType="{x:Type TextBox}"
-                                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-                            </Style>
-                        </DataTemplate.Resources>
-                        <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-                        <views:ShortcutView x:Name="shortcutView"
-                                            IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
-                    </DataTemplate>
-                </Controls:Flyout.ContentTemplate>
-            </Controls:Flyout>
-
-            <!-- search projectnumbers -->
-            <Controls:Flyout Header="Projektnummern-Suche"
-                             Position="Right"
-                             KeyboardNavigation.TabNavigation="Cycle"
-                             Content="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
-                             IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}">
-                <Controls:Flyout.ContentTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:PNSearchViewModel}">
-                        <DataTemplate.Resources>
-                            <Style TargetType="{x:Type TextBox}"
-                                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-                            </Style>
-                        </DataTemplate.Resources>
-                        <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-                        <views:PNSearchView x:Name="pnSearchView"
-                                            IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
-                                            AddShortCutService="{Binding ElementName=mv}" />
-                    </DataTemplate>
-                </Controls:Flyout.ContentTemplate>
-            </Controls:Flyout>
-
-            <!-- search positionnumbers -->
-            <Controls:Flyout Header="Positionsnummern-Suche"
-                             Position="Right"
-                             KeyboardNavigation.TabNavigation="Cycle"
-                             Content="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
-                             IsOpen="{Binding ElementName=mv, Path=ViewModel.PositionSearch.ShowPNSearch}">
-                <Controls:Flyout.ContentTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:PositionSearchViewModel}">
-                        <DataTemplate.Resources>
-                            <Style TargetType="{x:Type TextBox}"
-                                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-                            </Style>
-                        </DataTemplate.Resources>
-                        <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-                        <views:PositionSearchView x:Name="posSearchView"
-                                            IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
-                                            AddShortCutService="{Binding ElementName=mv}" />
-                    </DataTemplate>
-                </Controls:Flyout.ContentTemplate>
-            </Controls:Flyout>
-
-            <!-- show update info -->
-            <Controls:Flyout Header="Update-Info"
-                             Position="Right"
-                             KeyboardNavigation.TabNavigation="Cycle"
-                             Content="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
-                             IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}">
-                <Controls:Flyout.ContentTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:UpdateInfoViewModel}">
-                        <DataTemplate.Resources>
-                            <Style TargetType="{x:Type TextBox}"
-                                   BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
-                            </Style>
-                        </DataTemplate.Resources>
-                        <views:UpdateInfoView />
-                    </DataTemplate>
-                </Controls:Flyout.ContentTemplate>
-            </Controls:Flyout>
-        </Controls:FlyoutsControl>
-
-    </Controls:MetroWindow.Flyouts>
-
-    <!-- *** layout root ***************************************************************** -->
-    <Grid RenderOptions.ClearTypeHint="Enabled"
-          TextOptions.TextFormattingMode="Display">
-        <Grid Margin="0 0 2 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-
-            <!-- infos and week change buttons-->
-            <Grid Grid.Column="0"
-                  Grid.Row="0">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="50" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="61" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-
-                <Button Grid.Column="0"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        x:Name="btnPrev"
-                        Background="#537DBBDA"
-                        Margin="2 3 1 2"
-                        Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}">
-                    <Rectangle Width="15"
-                               Height="15">
-                        <Rectangle.Resources>
-                            <SolidColorBrush x:Key="BlackBrush"
-                                             Color="#CC119EDA" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-                                         Visual="{StaticResource appbar_arrow_left}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Button>
-
-                <TextBlock Grid.Column="1"
-                           Grid.Row="0"
-                           HorizontalAlignment="Center"
-                           FontWeight="Bold"
+              <UniformGrid Grid.Column="0"
+                           Grid.Row="12"
+                           Grid.ColumnSpan="2"
                            VerticalAlignment="Bottom"
-                           Foreground="#CC119EDA"
-                           FontSize="20"
-                           Text="{Binding ElementName=mv, Path=ViewModel.WorkYear.Year}" />
-
-                <StackPanel Grid.Column="2"
-                            Grid.Row="0"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom">
-                    <TextBlock HorizontalAlignment="Center"
-                               FontWeight="Bold"
-                               VerticalAlignment="Bottom"
-                               Foreground="#CC7DBEDA"
-                               Margin="2 0 5 2"
-                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.HoursDuration, StringFormat='{}{0:f} h'}"
-                               ToolTip="Wochenstundenzahl" />
-                    <TextBlock HorizontalAlignment="Center"
-                               FontWeight="Bold"
-                               VerticalAlignment="Bottom"
-                               Foreground="#CC119EDA"
-                               FontSize="20"
-                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat='{}KW: {0}'}"
-                               ToolTip="Kalenderwoche" />
-                </StackPanel>
-
-                <StackPanel Grid.Column="2"
-                            Grid.Row="1"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom">
-                    <TextBlock FontWeight="Bold"
-                               VerticalAlignment="Bottom"
-                               Foreground="#CC7DBEDA"
-                               Margin="2 0 5 2"
-                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.HoursDuration, StringFormat='{}{0:f} h'}"
-                               ToolTip="Ist-Stunden Monat" />
-                    <TextBlock FontWeight="Bold"
-                               VerticalAlignment="Bottom"
-                               Margin="2 0 5 2"
-                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.PreviewHours, StringFormat='{}({0:f} h'}"
-                               ToolTip="Prognose-Stunden Monat">
-                        <TextBlock.Foreground>
-                            <MultiBinding Converter="{x:Static valueConverter:LessThanColorConverter.Instance}">
-                                <MultiBinding.Bindings>
-                                    <Binding Path="ViewModel.WorkWeek.Month.NecessaryHours"
-                                             ElementName="mv"
-                                             Mode="OneWay" />
-                                    <Binding Path="ViewModel.WorkWeek.Month.PreviewHours"
-                                             ElementName="mv"
-                                             Mode="OneWay" />
-                                </MultiBinding.Bindings>
-                            </MultiBinding>
-                        </TextBlock.Foreground>
-                    </TextBlock>
-                    <TextBlock FontWeight="Bold"
-                               VerticalAlignment="Bottom"
-                               Foreground="#CC7DBEDA"
-                               Margin="2 0 5 2"
-                               Text="von">
-                    </TextBlock>
-                    <TextBlock FontWeight="Bold"
-                               VerticalAlignment="Bottom"
-                               Foreground="#CC7DBEDA"
-                               Margin="2 0 5 2"
-                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.NecessaryHours, StringFormat='{}{0:f} h)'}"
-                               ToolTip="Soll-Stunden Monat" />
-                    <TextBlock FontWeight="Bold"
-                               VerticalAlignment="Bottom"
-                               FontSize="20"
-                               Foreground="#CC119EDA"
-                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.MonthName}">
-                    </TextBlock>
-                </StackPanel>
-
-                <Button Grid.Column="3"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        x:Name="btnNext"
-                        Background="#537DBBDA"
-                        Margin="1 3 11 2"
-                        Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}">
-                    <Rectangle Width="15"
-                               Height="15">
-                        <Rectangle.Resources>
-                            <SolidColorBrush x:Key="BlackBrush"
-                                             Color="#CC119EDA" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-                                         Visual="{StaticResource appbar_arrow_right}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
+                           Columns="2">
+                <Button Margin="0,0,2,0"
+                        Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
+                <Button Margin="2,0,0,0"
+                        Click="EditPreferencesSave_OnClick"
+                        IsDefault="True">
+                  Speichern
                 </Button>
+              </UniformGrid>
 
             </Grid>
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
 
-            <!-- week view -->
-            <ScrollViewer Grid.Row="1"
-                          Grid.Column="0"
-                          VerticalScrollBarVisibility="Auto">
-                <!-- days -->
-                <ItemsControl ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}"
-                              Grid.IsSharedSizeScope="True">
+      <!-- edit / new shortcut -->
+      <Controls:Flyout Header="Shortcut"
+                       Position="Right"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
+            <DataTemplate.Resources>
+              <Style TargetType="{x:Type TextBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+            </DataTemplate.Resources>
+            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+            <views:ShortcutView x:Name="shortcutView"
+                                IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
+
+      <!-- search projectnumbers -->
+      <Controls:Flyout Header="Projektnummern-Suche"
+                       Position="Right"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate DataType="{x:Type viewModels:PNSearchViewModel}">
+            <DataTemplate.Resources>
+              <Style TargetType="{x:Type TextBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+            </DataTemplate.Resources>
+            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+            <views:PNSearchView x:Name="pnSearchView"
+                                IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
+                                AddShortCutService="{Binding ElementName=mv}" />
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
+
+      <!-- search positionnumbers -->
+      <Controls:Flyout Header="Positionsnummern-Suche"
+                       Position="Right"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.PositionSearch.ShowPNSearch}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate DataType="{x:Type viewModels:PositionSearchViewModel}">
+            <DataTemplate.Resources>
+              <Style TargetType="{x:Type TextBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+            </DataTemplate.Resources>
+            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+            <views:PositionSearchView x:Name="posSearchView"
+                                      IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
+                                      AddShortCutService="{Binding ElementName=mv}" />
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
+
+      <!-- show update info -->
+      <Controls:Flyout Header="Update-Info"
+                       Position="Right"
+                       KeyboardNavigation.TabNavigation="Cycle"
+                       Content="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
+                       IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}">
+        <Controls:Flyout.ContentTemplate>
+          <DataTemplate DataType="{x:Type viewModels:UpdateInfoViewModel}">
+            <DataTemplate.Resources>
+              <Style TargetType="{x:Type TextBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+            </DataTemplate.Resources>
+            <views:UpdateInfoView />
+          </DataTemplate>
+        </Controls:Flyout.ContentTemplate>
+      </Controls:Flyout>
+    </Controls:FlyoutsControl>
+
+  </Controls:MetroWindow.Flyouts>
+
+  <!-- *** layout root ***************************************************************** -->
+  <Grid RenderOptions.ClearTypeHint="Enabled"
+        TextOptions.TextFormattingMode="Display">
+    <Grid Margin="0 0 2 0">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="4*" />
+        <ColumnDefinition Width="2*" />
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="50" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <!-- infos and week change buttons-->
+      <Grid Grid.Column="0"
+            Grid.Row="0">
+
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="50" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="61" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Button Grid.Column="0"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                x:Name="btnPrev"
+                Background="#537DBBDA"
+                Margin="2 3 1 2"
+                Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}">
+          <Rectangle Width="15"
+                     Height="15">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="#CC119EDA" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_arrow_left}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
+
+        <TextBlock Grid.Column="1"
+                   Grid.Row="0"
+                   HorizontalAlignment="Center"
+                   FontWeight="Bold"
+                   VerticalAlignment="Bottom"
+                   Foreground="#CC119EDA"
+                   FontSize="20"
+                   Text="{Binding ElementName=mv, Path=ViewModel.WorkYear.Year}" />
+
+        <StackPanel Grid.Column="2"
+                    Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+          <TextBlock HorizontalAlignment="Center"
+                     FontWeight="Bold"
+                     VerticalAlignment="Bottom"
+                     Foreground="#CC7DBEDA"
+                     Margin="2 0 5 2"
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.HoursDuration, StringFormat='{}{0:f} h'}"
+                     ToolTip="Wochenstundenzahl" />
+          <TextBlock HorizontalAlignment="Center"
+                     FontWeight="Bold"
+                     VerticalAlignment="Bottom"
+                     Foreground="#CC119EDA"
+                     FontSize="20"
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat='{}KW: {0}'}"
+                     ToolTip="Kalenderwoche" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="2"
+                    Grid.Row="1"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Bottom">
+          <TextBlock FontWeight="Bold"
+                     VerticalAlignment="Bottom"
+                     Foreground="#CC7DBEDA"
+                     Margin="2 0 5 2"
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.HoursDuration, StringFormat='{}{0:f} h'}"
+                     ToolTip="Ist-Stunden Monat" />
+          <TextBlock FontWeight="Bold"
+                     VerticalAlignment="Bottom"
+                     Margin="2 0 5 2"
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.PreviewHours, StringFormat='{}({0:f} h'}"
+                     ToolTip="Prognose-Stunden Monat">
+            <TextBlock.Foreground>
+              <MultiBinding Converter="{x:Static valueConverter:LessThanColorConverter.Instance}">
+                <MultiBinding.Bindings>
+                  <Binding Path="ViewModel.WorkWeek.Month.NecessaryHours"
+                           ElementName="mv"
+                           Mode="OneWay" />
+                  <Binding Path="ViewModel.WorkWeek.Month.PreviewHours"
+                           ElementName="mv"
+                           Mode="OneWay" />
+                </MultiBinding.Bindings>
+              </MultiBinding>
+            </TextBlock.Foreground>
+          </TextBlock>
+          <TextBlock FontWeight="Bold"
+                     VerticalAlignment="Bottom"
+                     Foreground="#CC7DBEDA"
+                     Margin="2 0 5 2"
+                     Text="von">
+          </TextBlock>
+          <TextBlock FontWeight="Bold"
+                     VerticalAlignment="Bottom"
+                     Foreground="#CC7DBEDA"
+                     Margin="2 0 5 2"
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.NecessaryHours, StringFormat='{}{0:f} h)'}"
+                     ToolTip="Soll-Stunden Monat" />
+          <TextBlock FontWeight="Bold"
+                     VerticalAlignment="Bottom"
+                     FontSize="20"
+                     Foreground="#CC119EDA"
+                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.MonthName}">
+          </TextBlock>
+        </StackPanel>
+
+        <Button Grid.Column="3"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                x:Name="btnNext"
+                Background="#537DBBDA"
+                Margin="1 3 11 2"
+                Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}">
+          <Rectangle Width="15"
+                     Height="15">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="#CC119EDA" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_arrow_right}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
+
+      </Grid>
+
+      <!-- week view -->
+      <ScrollViewer Grid.Row="1"
+                    Grid.Column="0"
+                    VerticalScrollBarVisibility="Auto">
+        <!-- days -->
+        <ItemsControl ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}"
+                      Grid.IsSharedSizeScope="True">
+          <ItemsControl.ItemTemplate>
+            <!-- this is a day -->
+            <DataTemplate>
+              <Border x:Name="dayBorder"
+                      BorderThickness="1"
+                      Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
+                      Margin="1"
+                      Padding="1"
+                      SnapsToDevicePixels="True">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"
+                                      SharedSizeGroup="Labels">
+                    </ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                  </Grid.ColumnDefinitions>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                  </Grid.RowDefinitions>
+
+                  <TextBlock Grid.Column="0"
+                             Grid.Row="0"
+                             Margin="0 4 0 0"
+                             Text="{Binding DayOfWeek, Converter={x:Static valueConverter:DayOfWeekTranslatorConverter.Instance}}"
+                             Foreground="{StaticResource lightText}"
+                             HorizontalAlignment="Center">
+                  </TextBlock>
+                  <TextBlock Grid.Column="0"
+                             Grid.Row="1"
+                             Text="{Binding SpecialDay.Name}"
+                             Foreground="{StaticResource lightText}"
+                             FontWeight="Bold"
+                             Visibility="{Binding SpecialDay, Converter={StaticResource null2CollapsedConverter}}"
+                             HorizontalAlignment="Center">
+                  </TextBlock>
+                  <TextBlock Grid.Column="0"
+                             Grid.Row="2"
+                             Text="{Binding Day}"
+                             FontWeight="Bold"
+                             HorizontalAlignment="Center">
+                  </TextBlock>
+                  <TextBlock Grid.Column="0"
+                             Grid.Row="3"
+                             Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}"
+                             FontWeight="Bold"
+                             Padding="3 0 3 0"
+                             Foreground="{Binding HoursDuration, Converter={x:Static valueConverter:DurationFGColorConverter.Instance}}"
+                             Background="{Binding HoursDuration, Converter={x:Static valueConverter:DurationBGColorConverter.Instance}}"
+                             HorizontalAlignment="Center">
+                  </TextBlock>
+
+                  <TextBox x:Name="userEntry"
+                           Loaded="TextBox_Loaded"
+                           GotKeyboardFocus="WorkDayTextBox_OnGotKeyboardFocus"
+                           PreviewKeyDown="WorkDayTextBox_OnKeyDown"
+                           Grid.Column="1"
+                           Grid.Row="0"
+                           Grid.RowSpan="3"
+                           Margin="3,2,2,2"
+                           Tag="{Binding}"
+                           AcceptsReturn="True"
+                           Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                  </TextBox>
+
+                  <!-- day items -->
+                  <ItemsControl Grid.Column="1"
+                                Grid.Row="3"
+                                Grid.RowSpan="2"
+                                Margin="3,0,2,2"
+                                ItemsSource="{Binding Items}"
+                                IsTabStop="False"
+                                Grid.IsSharedSizeScope="True">
                     <ItemsControl.ItemTemplate>
-                        <!-- this is a day -->
-                        <DataTemplate>
-                            <Border x:Name="dayBorder"
-                                    BorderThickness="1"
-                                    Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
-                                    Margin="1"
-                                    Padding="1"
-                                    SnapsToDevicePixels="True">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"
-                                                          SharedSizeGroup="Labels">
-                                        </ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="Auto"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
-                                    </Grid.RowDefinitions>
+                      <DataTemplate>
+                        <Grid>
+                          <attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+                            <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseLeftButtonUp"
+                                                                     Action="{Binding ElementName=mv, Path=ViewModel.SelectUserEntry, Mode=OneWay}">
+                              <attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                                <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
+                                  <!-- WorkItem -->
+                                  <Binding Mode="OneWay" />
+                                  <!-- TextBox -->
+                                  <Binding ElementName="userEntry"
+                                           Mode="OneWay" />
+                                </MultiBinding>
+                              </attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                            </attachedCommandBehavior:BehaviorBinding>
+                          </attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
 
-                                    <TextBlock Grid.Column="0"
-                                               Grid.Row="0"
-                                               Margin="0 4 0 0"
-                                               Text="{Binding DayOfWeek, Converter={x:Static valueConverter:DayOfWeekTranslatorConverter.Instance}}"
-                                               Foreground="{StaticResource lightText}"
-                                               HorizontalAlignment="Center">
-                                    </TextBlock>
-                                    <TextBlock Grid.Column="0"
-                                               Grid.Row="1"
-                                               Text="{Binding SpecialDay.Name}"
-                                               Foreground="{StaticResource lightText}"
-                                               FontWeight="Bold"
-                                               Visibility="{Binding SpecialDay, Converter={StaticResource null2CollapsedConverter}}"
-                                               HorizontalAlignment="Center">
-                                    </TextBlock>
-                                    <TextBlock Grid.Column="0"
-                                               Grid.Row="2"
-                                               Text="{Binding Day}"
-                                               FontWeight="Bold"
-                                               HorizontalAlignment="Center">
-                                    </TextBlock>
-                                    <TextBlock Grid.Column="0"
-                                               Grid.Row="3"
-                                               Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}"
-                                               FontWeight="Bold"
-                                               Padding="3 0 3 0"
-                                               Foreground="{Binding HoursDuration, Converter={x:Static valueConverter:DurationFGColorConverter.Instance}}"
-                                               Background="{Binding HoursDuration, Converter={x:Static valueConverter:DurationBGColorConverter.Instance}}"
-                                               HorizontalAlignment="Center">
-                                    </TextBlock>
-
-                                    <TextBox x:Name="userEntry"
-                                             Loaded="TextBox_Loaded"
-                                             GotKeyboardFocus="WorkDayTextBox_OnGotKeyboardFocus"
-                                             PreviewKeyDown="WorkDayTextBox_OnKeyDown"
-                                             Grid.Column="1"
-                                             Grid.Row="0"
-                                             Grid.RowSpan="3"
-                                             Margin="3,2,2,2"
-                                             Tag="{Binding}"
-                                             AcceptsReturn="True"
-                                             Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
-                                    </TextBox>
-
-                                    <!-- day items -->
-                                    <ItemsControl Grid.Column="1"
-                                                  Grid.Row="3"
-                                                  Grid.RowSpan="2"
-                                                  Margin="3,0,2,2"
-                                                  ItemsSource="{Binding Items}"
-                                                  IsTabStop="False"
-                                                  Grid.IsSharedSizeScope="True">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid>
-                                                    <attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
-                                                        <attachedCommandBehavior:BehaviorBinding
-                                                            Event="PreviewMouseLeftButtonUp"
-                                                            Action="{Binding ElementName=mv, Path=ViewModel.SelectUserEntry, Mode=OneWay}">
-                                                            <attachedCommandBehavior:BehaviorBinding.CommandParameter>
-                                                                <MultiBinding
-                                                                    Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
-                                                                    <!-- WorkItem -->
-                                                                    <Binding Mode="OneWay" />
-                                                                    <!-- TextBox -->
-                                                                    <Binding ElementName="userEntry"
-                                                                             Mode="OneWay" />
-                                                                </MultiBinding>
-                                                            </attachedCommandBehavior:BehaviorBinding.CommandParameter>
-                                                        </attachedCommandBehavior:BehaviorBinding>
-                                                    </attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
-
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto"
-                                                                          SharedSizeGroup="1" />
-                                                        <ColumnDefinition Width="Auto"
-                                                                          SharedSizeGroup="2" />
-                                                        <ColumnDefinition Width="Auto"
-                                                                          SharedSizeGroup="3" />
-                                                        <ColumnDefinition Width="Auto"
-                                                                          SharedSizeGroup="4" />
-                                                        <ColumnDefinition Width="Auto"
-                                                                          SharedSizeGroup="5" />
-                                                        <ColumnDefinition Width="Auto"
-                                                                          SharedSizeGroup="6" />
-                                                        <ColumnDefinition Width="Auto"
-                                                                          SharedSizeGroup="7" />
-                                                        <ColumnDefinition Width="Auto"
-                                                                          SharedSizeGroup="8" />
-                                                        <ColumnDefinition Width="Auto"
-                                                                          SharedSizeGroup="9" />
-                                                        <ColumnDefinition Width="Auto"
-                                                                          SharedSizeGroup="10" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column="0"
-                                                               TextAlignment="Right"
-                                                               Text="{Binding Start}"
-                                                               FontWeight="Bold" />
-                                                    <TextBlock Grid.Column="1"
-                                                               Text=" => "
-                                                               Foreground="{StaticResource lightText}" />
-                                                    <TextBlock Grid.Column="2"
-                                                               TextAlignment="Right"
-                                                               Text="{Binding End}"
-                                                               FontWeight="Bold" />
-                                                    <TextBlock Grid.Column="3"
-                                                               TextAlignment="Right"
-                                                               Foreground="DarkSlateGray"
-                                                               Text="{Binding HoursDuration, StringFormat='{} ({0:f} h)'}" />
-                                                    <TextBlock Grid.Column="4"
-                                                               Text=" : "
-                                                               Foreground="{StaticResource lightText}" />
-                                                    <TextBlock Grid.Column="5"
-                                                               Text="{Binding Project}"
-                                                               FontWeight="Bold" />
-                                                    <TextBlock Grid.Column="6"
-                                                               Text="-"
-                                                               Foreground="{StaticResource lightText}" />
-                                                    <TextBlock Grid.Column="7"
-                                                               Text="{Binding Position}"
-                                                               FontWeight="Bold" />
-                                                    <TextBlock Grid.Column="8"
-                                                               Text="=>"
-                                                               Foreground="{StaticResource lightText}" />
-                                                    <TextBlock Grid.Column="9"
-                                                               Text="{Binding Description}"
-                                                               Foreground="{StaticResource lightText}" />
-                                                </Grid>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="1" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="2" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="3" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="4" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="5" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="6" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="7" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="8" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="9" />
+                            <ColumnDefinition Width="Auto"
+                                              SharedSizeGroup="10" />
+                          </Grid.ColumnDefinitions>
+                          <TextBlock Grid.Column="0"
+                                     TextAlignment="Right"
+                                     Text="{Binding Start}"
+                                     FontWeight="Bold" />
+                          <TextBlock Grid.Column="1"
+                                     Text=" => "
+                                     Foreground="{StaticResource lightText}" />
+                          <TextBlock Grid.Column="2"
+                                     TextAlignment="Right"
+                                     Text="{Binding End}"
+                                     FontWeight="Bold" />
+                          <TextBlock Grid.Column="3"
+                                     TextAlignment="Right"
+                                     Foreground="DarkSlateGray"
+                                     Text="{Binding HoursDuration, StringFormat='{} ({0:f} h)'}" />
+                          <TextBlock Grid.Column="4"
+                                     Text=" : "
+                                     Foreground="{StaticResource lightText}" />
+                          <TextBlock Grid.Column="5"
+                                     Text="{Binding Project}"
+                                     FontWeight="Bold" />
+                          <TextBlock Grid.Column="6"
+                                     Text="-"
+                                     Foreground="{StaticResource lightText}" />
+                          <TextBlock Grid.Column="7"
+                                     Text="{Binding Position}"
+                                     FontWeight="Bold" />
+                          <TextBlock Grid.Column="8"
+                                     Text="=>"
+                                     Foreground="{StaticResource lightText}" />
+                          <TextBlock Grid.Column="9"
+                                     Text="{Binding Description}"
+                                     Foreground="{StaticResource lightText}" />
+                        </Grid>
+                      </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-
-            <!-- shortcuts -->
-            <StackPanel x:Name="shortCutHeader"
-                        Grid.Column="1"
-                        Grid.Row="0"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Bottom"
-                        Orientation="Horizontal"
-                        Visibility="Collapsed">
-                <TextBlock FontSize="20"
-                           Foreground="#CC119EDA"
-                           FontWeight="Bold">
-                    Shortcuts
-                </TextBlock>
-                <Button Width="13"
-                        Height="20"
-                        Margin="10 0 0 0"
-                        Style="{StaticResource ImageButtonStyle}"
-                        Click="AddShortcut_OnClick"
-                        ToolTip="Neuen Shortcut erstellen">
-                    <Rectangle Width="10"
-                               Height="20">
-                        <Rectangle.Resources>
-                            <SolidColorBrush x:Key="BlackBrush"
-                                             Color="#CC119EDA" />
-                        </Rectangle.Resources>
-                        <Rectangle.Fill>
-                            <VisualBrush Stretch="Fill"
-                                         Visual="{StaticResource appbar_location_add}" />
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Button>
-            </StackPanel>
-            <ScrollViewer x:Name="shortCutList"
-                          Grid.Row="1"
-                          Grid.Column="1" 
-                          VerticalScrollBarVisibility="Auto"
-                          Visibility="Collapsed">
-                <ItemsControl Margin="0 1 0 0"
-                              ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}"
-                              HorizontalContentAlignment="Stretch"
-                              dd:DragDrop.IsDragSource="True"
-                              dd:DragDrop.IsDropTarget="True"
-                              dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}"
-                              Grid.IsSharedSizeScope="True">
-                    <ItemsControl.ItemTemplate>
-                        <!-- shortcut -->
-                        <DataTemplate>
-                            <!-- use transparent background for correct highlighting -->
-                            <Grid Background="Transparent">
-
-                                <Border BorderThickness="1"
-                                        BorderBrush="#FFF3EDED"
-                                        Background="#FFF3EDED"
-                                        Margin="1"
-                                        Padding="1 1 1 4"
-                                        SnapsToDevicePixels="True">
-                                    <Grid>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"
-                                                                  SharedSizeGroup="0">
-                                                </ColumnDefinition>
-                                                <ColumnDefinition Width="*"></ColumnDefinition>
-                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                            </Grid.ColumnDefinitions>
-
-                                            <TextBlock Grid.Column="0"
-                                                       VerticalAlignment="Bottom"
-                                                       Text="{Binding Key}"
-                                                       FontWeight="Bold"
-                                                       FontSize="14" />
-                                            <TextBlock Grid.Column="1"
-                                                       VerticalAlignment="Bottom"
-                                                       Text="{Binding Value.Expansion}"
-                                                       Foreground="DarkSlateGray"
-                                                       FontSize="10"
-                                                       TextTrimming="CharacterEllipsis"
-                                                       Margin="10 0 0 0" />
-                                            <TextBlock Grid.Column="2"
-                                                       VerticalAlignment="Bottom"
-                                                       HorizontalAlignment="Right"
-                                                       Text="{Binding Value.UsedInMonth, StringFormat='{} {0:##}'}"
-                                                       Foreground="Gray"
-                                                       FontWeight="Bold"
-                                                       FontSize="14"
-                                                       Margin="10 0 3 0" />
-
-                                            <!--wholeday expansion info-->
-                                            <Rectangle Grid.Column="3"
-                                                       VerticalAlignment="Top"
-                                                       HorizontalAlignment="Right"
-                                                       Width="8"
-                                                       Height="15"
-                                                       Margin="0 -2 0 0"
-                                                       Visibility="{Binding Value.WholeDayExpansion, Converter={StaticResource false2HiddenConverter}}"
-                                                       Fill="{StaticResource ribbonIcon}"
-                                                       ToolTip="Ersetzt ganzen Tag" />
-                                        </Grid>
-
-                                        <!--actions-->
-                                        <Border Background="Silver"
-                                                Margin="10 0"
-                                                Opacity="0">
-                                            <Border.Style>
-                                                <Style>
-                                                    <Style.Triggers>
-                                                        <EventTrigger RoutedEvent="Control.MouseEnter">
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Duration="0:0:0.3"
-                                                                                     To="0.8"
-                                                                                     Storyboard.TargetProperty="Opacity" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </EventTrigger>
-                                                        <EventTrigger RoutedEvent="Control.MouseLeave">
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Duration="0:0:0.3"
-                                                                                     To="0"
-                                                                                     Storyboard.TargetProperty="Opacity" />
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </EventTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Border.Style>
-                                            <StackPanel Orientation="Horizontal"
-                                                        HorizontalAlignment="Center"
-                                                        VerticalAlignment="Center">
-
-                                                <Button Background="Transparent"
-                                                        Tag="{Binding Value}"
-                                                        Style="{StaticResource ImageButtonStyle}"
-                                                        Margin="10 0"
-                                                        Click="RemoveShortcut_OnClick"
-                                                        ToolTip="Shortcut löschen">
-                                                    <Rectangle Width="10"
-                                                               Height="12"
-                                                               Fill="{StaticResource deleteIcon}">
-                                                    </Rectangle>
-                                                </Button>
-
-                                                <Button Background="Transparent"
-                                                        Tag="{Binding Value}"
-                                                        Style="{StaticResource ImageButtonStyle}"
-                                                        Margin="10 0"
-                                                        Click="EditShortcut_OnClick"
-                                                        ToolTip="Shortcut editieren">
-                                                    <Rectangle Width="10"
-                                                               Height="12"
-                                                               Fill="{StaticResource editIcon}">
-                                                    </Rectangle>
-                                                </Button>
-
-                                            </StackPanel>
-                                        </Border>
-                                    </Grid>
-                                </Border>
-
-                                <!-- usage history graph -->
-                                <ItemsControl ItemsSource="{Binding Value.UsageHistory}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <UniformGrid Rows="1"
-                                                         Columns="31" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Rectangle
-                                                Height="{Binding Hours, Converter={x:Static valueConverter:ScaleDoubleConverter.Instance}, ConverterParameter=2}"
-                                                Fill="{Binding IsToday, Converter={x:Static valueConverter:TodayColorConverter.Instance}}"
-                                                VerticalAlignment="Bottom"
-                                                SnapsToDevicePixels="True"
-                                                IsHitTestVisible="False"
-                                                Margin="1">
-                                            </Rectangle>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-
-          <!-- project hitlist -->
-            <TextBlock Grid.Column="2"
-                       Grid.Row="0"
-                       HorizontalAlignment="Right"
-                       VerticalAlignment="Bottom"
-                       FontSize="20"
-                       Foreground="#CC119EDA"
-                       FontWeight="Bold"
-                       Margin="0 0 10 0"
-                       Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
-                Projekt-Hitliste
-            </TextBlock>
-            <ScrollViewer Grid.Column="2"
-                          Grid.Row="1"
-                          VerticalScrollBarVisibility="Auto"
-                          Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
-                <ItemsControl Margin="0 1 0 0"
-                              ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist}"
-                              HorizontalContentAlignment="Stretch">
-                    <ItemsControl.ItemTemplate>
-                        <!-- shortcut -->
-                        <DataTemplate>
-                            <Border BorderThickness="1"
-                                    BorderBrush="#FFF3EDED"
-                                    Background="#FFF3EDED"
-                                    Margin="1"
-                                    Padding="1"
-                                    SnapsToDevicePixels="True"
-                                    PreviewMouseLeftButtonUp="Project_OnPreviewMouseLeftButtonUp"
-                                    Tag="{Binding}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"
-                                                          SharedSizeGroup="0">
-                                        </ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0"
-                                               Text="{Binding Key}"
-                                               VerticalAlignment="Bottom"
-                                               FontWeight="Bold"
-                                               FontSize="14" />
-                                    <TextBlock Grid.Column="1"
-                                               Text="{Binding LastUsedDescription}"
-                                               VerticalAlignment="Bottom"
-                                               Foreground="Gray"
-                                               FontSize="10"
-                                               Margin="10 0 0 0" />
-                                    <TextBlock Grid.Column="2"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding HoursUsed}"
-                                               Foreground="DarkSlateGray"
-                                               FontWeight="Bold"
-                                               FontSize="14"
-                                               Margin="10 0 0 0" />
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-
-        <!-- project hitlist -->
-         <TextBlock Grid.Column="3"
-                       Grid.Row="0"
-                       HorizontalAlignment="Right"
-                       VerticalAlignment="Bottom"
-                       FontSize="20"
-                       Foreground="#CC119EDA"
-                       FontWeight="Bold"
-                       Margin="0 0 10 0"
-                       Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
-                Positions-Hitliste
-            </TextBlock>
-            <ScrollViewer Grid.Column="3"
-                          Grid.Row="1"
-                          VerticalScrollBarVisibility="Auto"
-                          Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
-                <ItemsControl Margin="0 1 0 0"
-                              ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist}"
-                              HorizontalContentAlignment="Stretch">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderThickness="1"
-                                    BorderBrush="#FFF3EDED"
-                                    Background="#FFF3EDED"
-                                    Margin="1"
-                                    Padding="1"
-                                    SnapsToDevicePixels="True"
-                                    PreviewMouseLeftButtonUp="Position_OnPreviewMouseLeftButtonUp"
-                                    Tag="{Binding}">
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"
-                                                          SharedSizeGroup="0">
-                                        </ColumnDefinition>
-                                        <ColumnDefinition Width="*"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                        <ColumnDefinition Width="Auto"></ColumnDefinition>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0"
-                                               Text="{Binding Key}"
-                                               VerticalAlignment="Bottom"
-                                               FontWeight="Bold"
-                                               FontSize="14" />
-                                    <TextBlock Grid.Column="1"
-                                               Text="{Binding LastUsedDescription}"
-                                               VerticalAlignment="Bottom"
-                                               Foreground="Gray"
-                                               FontSize="10"
-                                               Margin="10 0 0 0" />
-                                    <TextBlock Grid.Column="2"
-                                               VerticalAlignment="Center"
-                                               Text="{Binding HoursUsed}"
-                                               Foreground="DarkSlateGray"
-                                               FontWeight="Bold"
-                                               FontSize="14"
-                                               Margin="10 0 0 0" />
-                                </Grid>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </Grid>
-
-        <!-- get user password -->
-        <Grid
-            Visibility="{Binding ElementName=mv, Path=ViewModel.ShowPasswordDialog, Converter={StaticResource false2CollapsedConverter}}">
-            <Border Background="SkyBlue"
-                    Opacity="0.7" />
-            <TextBlock FontSize="80"
-                       FontWeight="Bold"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Foreground="#2CB4EB"
-                       Margin="0 0 300 200">
-                passwort bitte
-            </TextBlock>
-            <Border Background="White"
-                    Width="400"
-                    Height="150">
-                <Grid VerticalAlignment="Center" Margin="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition Height="Auto"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0"
-                           Grid.Row="0">
-                        Passwort
-                    </Label>
-                    <PasswordBox Grid.Column="1"
-                                 Grid.Row="0"
-                                 Margin="2"
-                                 x:Name="passwordBox">
-                    </PasswordBox>
-
-                    <Button Grid.Column="0"
-                            Grid.Row="3"
-                            Margin="0,0,2,0"
-                            Click="PasswordCancel_OnClick">
-                        Abbrechen
-                    </Button>
-                    <Button Grid.Column="1"
-                            Grid.Row="3"
-                            Margin="2,0,0,0"
-                            Click="PasswordOK_OnClick"
-                            IsDefault="True">
-                        OK
-                    </Button>
+                  </ItemsControl>
                 </Grid>
-            </Border>
-        </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
 
+      <!-- shortcuts -->
+      <StackPanel x:Name="shortCutHeader"
+                  Grid.Column="1"
+                  Grid.Row="0"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="Bottom"
+                  Orientation="Horizontal"
+                  Visibility="Collapsed">
+        <TextBlock FontSize="20"
+                   Foreground="#CC119EDA"
+                   FontWeight="Bold">
+                    Shortcuts
+        </TextBlock>
+        <Button Width="13"
+                Height="20"
+                Margin="10 0 0 0"
+                Style="{StaticResource ImageButtonStyle}"
+                Click="AddShortcut_OnClick"
+                ToolTip="Neuen Shortcut erstellen">
+          <Rectangle Width="10"
+                     Height="20">
+            <Rectangle.Resources>
+              <SolidColorBrush x:Key="BlackBrush"
+                               Color="#CC119EDA" />
+            </Rectangle.Resources>
+            <Rectangle.Fill>
+              <VisualBrush Stretch="Fill"
+                           Visual="{StaticResource appbar_location_add}" />
+            </Rectangle.Fill>
+          </Rectangle>
+        </Button>
+      </StackPanel>
+      <ScrollViewer x:Name="shortCutList"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    VerticalScrollBarVisibility="Auto"
+                    Visibility="Collapsed">
+        <ItemsControl Margin="0 1 0 0"
+                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}"
+                      HorizontalContentAlignment="Stretch"
+                      dd:DragDrop.IsDragSource="True"
+                      dd:DragDrop.IsDropTarget="True"
+                      dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}"
+                      Grid.IsSharedSizeScope="True">
+          <ItemsControl.ItemTemplate>
+            <!-- shortcut -->
+            <DataTemplate>
+              <!-- use transparent background for correct highlighting -->
+              <Grid Background="Transparent">
+
+                <Border BorderThickness="1"
+                        BorderBrush="#FFF3EDED"
+                        Background="#FFF3EDED"
+                        Margin="1"
+                        Padding="1 1 1 4"
+                        SnapsToDevicePixels="True">
+                  <Grid>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"
+                                          SharedSizeGroup="0">
+                        </ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                      </Grid.ColumnDefinitions>
+
+                      <TextBlock Grid.Column="0"
+                                 VerticalAlignment="Bottom"
+                                 Text="{Binding Key}"
+                                 FontWeight="Bold"
+                                 FontSize="14" />
+                      <TextBlock Grid.Column="1"
+                                 VerticalAlignment="Bottom"
+                                 Text="{Binding Value.Expansion}"
+                                 Foreground="DarkSlateGray"
+                                 FontSize="10"
+                                 TextTrimming="CharacterEllipsis"
+                                 Margin="10 0 0 0" />
+                      <TextBlock Grid.Column="2"
+                                 VerticalAlignment="Bottom"
+                                 HorizontalAlignment="Right"
+                                 Text="{Binding Value.UsedInMonth, StringFormat='{} {0:##}'}"
+                                 Foreground="Gray"
+                                 FontWeight="Bold"
+                                 FontSize="14"
+                                 Margin="10 0 3 0" />
+
+                      <!--wholeday expansion info-->
+                      <Rectangle Grid.Column="3"
+                                 VerticalAlignment="Top"
+                                 HorizontalAlignment="Right"
+                                 Width="8"
+                                 Height="15"
+                                 Margin="0 -2 0 0"
+                                 Visibility="{Binding Value.WholeDayExpansion, Converter={StaticResource false2HiddenConverter}}"
+                                 Fill="{StaticResource ribbonIcon}"
+                                 ToolTip="Ersetzt ganzen Tag" />
+                    </Grid>
+
+                    <!--actions-->
+                    <Border Background="Silver"
+                            Margin="10 0"
+                            Opacity="0">
+                      <Border.Style>
+                        <Style>
+                          <Style.Triggers>
+                            <EventTrigger RoutedEvent="Control.MouseEnter">
+                              <BeginStoryboard>
+                                <Storyboard>
+                                  <DoubleAnimation Duration="0:0:0.3"
+                                                   To="0.8"
+                                                   Storyboard.TargetProperty="Opacity" />
+                                </Storyboard>
+                              </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="Control.MouseLeave">
+                              <BeginStoryboard>
+                                <Storyboard>
+                                  <DoubleAnimation Duration="0:0:0.3"
+                                                   To="0"
+                                                   Storyboard.TargetProperty="Opacity" />
+                                </Storyboard>
+                              </BeginStoryboard>
+                            </EventTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </Border.Style>
+                      <StackPanel Orientation="Horizontal"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center">
+
+                        <Button Background="Transparent"
+                                Tag="{Binding Value}"
+                                Style="{StaticResource ImageButtonStyle}"
+                                Margin="10 0"
+                                Click="RemoveShortcut_OnClick"
+                                ToolTip="Shortcut löschen">
+                          <Rectangle Width="10"
+                                     Height="12"
+                                     Fill="{StaticResource deleteIcon}">
+                          </Rectangle>
+                        </Button>
+
+                        <Button Background="Transparent"
+                                Tag="{Binding Value}"
+                                Style="{StaticResource ImageButtonStyle}"
+                                Margin="10 0"
+                                Click="EditShortcut_OnClick"
+                                ToolTip="Shortcut editieren">
+                          <Rectangle Width="10"
+                                     Height="12"
+                                     Fill="{StaticResource editIcon}">
+                          </Rectangle>
+                        </Button>
+
+                      </StackPanel>
+                    </Border>
+                  </Grid>
+                </Border>
+
+                <!-- usage history graph -->
+                <ItemsControl ItemsSource="{Binding Value.UsageHistory}">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <UniformGrid Rows="1"
+                                   Columns="31" />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Rectangle Height="{Binding Hours, Converter={x:Static valueConverter:ScaleDoubleConverter.Instance}, ConverterParameter=2}"
+                                 Fill="{Binding IsToday, Converter={x:Static valueConverter:TodayColorConverter.Instance}}"
+                                 VerticalAlignment="Bottom"
+                                 SnapsToDevicePixels="True"
+                                 IsHitTestVisible="False"
+                                 Margin="1">
+                      </Rectangle>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </Grid>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+
+      <!-- project hitlist -->
+      <TextBlock Grid.Column="2"
+                 Grid.Row="0"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Bottom"
+                 FontSize="20"
+                 Foreground="#CC119EDA"
+                 FontWeight="Bold"
+                 Margin="0 0 10 0"
+                 Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
+                Projekt-Hitliste
+      </TextBlock>
+      <ScrollViewer Grid.Column="2"
+                    Grid.Row="1"
+                    VerticalScrollBarVisibility="Auto"
+                    Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
+        <ItemsControl Margin="0 1 0 0"
+                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist}"
+                      HorizontalContentAlignment="Stretch">
+          <ItemsControl.ItemTemplate>
+            <!-- shortcut -->
+            <DataTemplate>
+              <Border BorderThickness="1"
+                      BorderBrush="#FFF3EDED"
+                      Background="#FFF3EDED"
+                      Margin="1"
+                      Padding="1"
+                      SnapsToDevicePixels="True"
+                      PreviewMouseLeftButtonUp="Project_OnPreviewMouseLeftButtonUp"
+                      Tag="{Binding}">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"
+                                      SharedSizeGroup="0">
+                    </ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0"
+                             Text="{Binding Key}"
+                             VerticalAlignment="Bottom"
+                             FontWeight="Bold"
+                             FontSize="14" />
+                  <TextBlock Grid.Column="1"
+                             Text="{Binding LastUsedDescription}"
+                             VerticalAlignment="Bottom"
+                             Foreground="Gray"
+                             FontSize="10"
+                             Margin="10 0 0 0" />
+                  <TextBlock Grid.Column="2"
+                             VerticalAlignment="Center"
+                             Text="{Binding HoursUsed}"
+                             Foreground="DarkSlateGray"
+                             FontWeight="Bold"
+                             FontSize="14"
+                             Margin="10 0 0 0" />
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
+
+      <!-- project hitlist -->
+      <TextBlock Grid.Column="3"
+                 Grid.Row="0"
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Bottom"
+                 FontSize="20"
+                 Foreground="#CC119EDA"
+                 FontWeight="Bold"
+                 Margin="0 0 10 0"
+                 Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
+                Positions-Hitliste
+      </TextBlock>
+      <ScrollViewer Grid.Column="3"
+                    Grid.Row="1"
+                    VerticalScrollBarVisibility="Auto"
+                    Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
+        <ItemsControl Margin="0 1 0 0"
+                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist}"
+                      HorizontalContentAlignment="Stretch">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate>
+              <Border BorderThickness="1"
+                      BorderBrush="#FFF3EDED"
+                      Background="#FFF3EDED"
+                      Margin="1"
+                      Padding="1"
+                      SnapsToDevicePixels="True"
+                      PreviewMouseLeftButtonUp="Position_OnPreviewMouseLeftButtonUp"
+                      Tag="{Binding}">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"
+                                      SharedSizeGroup="0">
+                    </ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0"
+                             Text="{Binding Key}"
+                             VerticalAlignment="Bottom"
+                             FontWeight="Bold"
+                             FontSize="14" />
+                  <TextBlock Grid.Column="1"
+                             Text="{Binding LastUsedDescription}"
+                             VerticalAlignment="Bottom"
+                             Foreground="Gray"
+                             FontSize="10"
+                             Margin="10 0 0 0" />
+                  <TextBlock Grid.Column="2"
+                             VerticalAlignment="Center"
+                             Text="{Binding HoursUsed}"
+                             Foreground="DarkSlateGray"
+                             FontWeight="Bold"
+                             FontSize="14"
+                             Margin="10 0 0 0" />
+                </Grid>
+              </Border>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </ScrollViewer>
     </Grid>
+
+    <!-- get user password -->
+    <Grid Visibility="{Binding ElementName=mv, Path=ViewModel.ShowPasswordDialog, Converter={StaticResource false2CollapsedConverter}}">
+      <Border Background="SkyBlue"
+              Opacity="0.7" />
+      <TextBlock FontSize="80"
+                 FontWeight="Bold"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 Foreground="#2CB4EB"
+                 Margin="0 0 300 200">
+                passwort bitte
+      </TextBlock>
+      <Border Background="White"
+              Width="400"
+              Height="150">
+        <Grid VerticalAlignment="Center"
+              Margin="2">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+          </Grid.RowDefinitions>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+          </Grid.ColumnDefinitions>
+          <Label Grid.Column="0"
+                 Grid.Row="0">
+            Passwort
+          </Label>
+          <PasswordBox Grid.Column="1"
+                       Grid.Row="0"
+                       Margin="2"
+                       x:Name="passwordBox">
+          </PasswordBox>
+
+          <Button Grid.Column="0"
+                  Grid.Row="3"
+                  Margin="0,0,2,0"
+                  Click="PasswordCancel_OnClick">
+            Abbrechen
+          </Button>
+          <Button Grid.Column="1"
+                  Grid.Row="3"
+                  Margin="2,0,0,0"
+                  Click="PasswordOK_OnClick"
+                  IsDefault="True">
+            OK
+          </Button>
+        </Grid>
+      </Border>
+    </Grid>
+
+  </Grid>
 </Controls:MetroWindow>

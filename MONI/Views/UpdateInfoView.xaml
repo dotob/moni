@@ -11,9 +11,9 @@
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
-      <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Button.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-      </ResourceDictionary>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Button.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
   </UserControl.Resources>
   <Grid Width="400"
         Margin="10">
@@ -41,7 +41,7 @@
                FontWeight="Bold"
                Text="{Binding UpdateInfo.Version, UpdateSourceTrigger=PropertyChanged}">
     </TextBlock>
-    
+
     <Label Grid.Column="0"
            Grid.Row="1">
       Hier herunterladen:
