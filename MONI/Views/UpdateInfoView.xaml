@@ -8,6 +8,7 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance ViewModels:UpdateInfoViewModel}">
+  
   <UserControl.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
@@ -15,8 +16,8 @@
       </ResourceDictionary.MergedDictionaries>
     </ResourceDictionary>
   </UserControl.Resources>
-  <Grid Width="400"
-        Margin="10">
+  
+  <Grid Margin="10">
 
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"></RowDefinition>
