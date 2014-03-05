@@ -14,6 +14,7 @@ namespace MONI.ViewModels
     private bool showPnSearch;
     private string searchText;
     private ICommand cancelCommand;
+    private Dictionary<string, string> pnHash;
 
     public PNSearchViewModel(string projectNumberFiles) {
       this.Results = new QuickFillObservableCollection<ProjectNumber>();
@@ -37,6 +38,7 @@ namespace MONI.ViewModels
             break;
           }
         }
+        this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
       }
     }
 
@@ -65,6 +67,16 @@ namespace MONI.ViewModels
         var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase));
         this.Results.Fill(res);
       }
+    }
+
+    public string GetDescriptionForProjectNumber(string positionNumber)
+    {
+      string ret;
+      if (this.pnHash.TryGetValue(positionNumber, out ret))
+      {
+        return ret;
+      }
+      return null;
     }
 
     public QuickFillObservableCollection<ProjectNumber> Results { get; private set; }

@@ -969,6 +969,7 @@
                 </ItemsControl>
             </ScrollViewer>
 
+          <!-- project hitlist -->
             <TextBlock Grid.Column="2"
                        Grid.Row="0"
                        HorizontalAlignment="Right"
@@ -1020,7 +1021,7 @@
                                                Margin="10 0 0 0" />
                                     <TextBlock Grid.Column="2"
                                                VerticalAlignment="Center"
-                                               Text="{Binding Count}"
+                                               Text="{Binding HoursUsed}"
                                                Foreground="DarkSlateGray"
                                                FontWeight="Bold"
                                                FontSize="14"
@@ -1032,7 +1033,8 @@
                 </ItemsControl>
             </ScrollViewer>
 
-            <TextBlock Grid.Column="3"
+        <!-- project hitlist -->
+         <TextBlock Grid.Column="3"
                        Grid.Row="0"
                        HorizontalAlignment="Right"
                        VerticalAlignment="Bottom"
@@ -1051,7 +1053,6 @@
                               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist}"
                               HorizontalContentAlignment="Stretch">
                     <ItemsControl.ItemTemplate>
-                        <!-- shortcut -->
                         <DataTemplate>
                             <Border BorderThickness="1"
                                     BorderBrush="#FFF3EDED"
@@ -1083,7 +1084,7 @@
                                                Margin="10 0 0 0" />
                                     <TextBlock Grid.Column="2"
                                                VerticalAlignment="Center"
-                                               Text="{Binding Count}"
+                                               Text="{Binding HoursUsed}"
                                                Foreground="DarkSlateGray"
                                                FontWeight="Bold"
                                                FontSize="14"

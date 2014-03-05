@@ -15,6 +15,7 @@ namespace MONI.ViewModels {
     private string searchText;
     private ICommand cancelCommand;
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+    private Dictionary<string, string> pnHash;
 
 
     public PositionSearchViewModel(string projectNumberFiles) {
@@ -45,6 +46,7 @@ namespace MONI.ViewModels {
             break;
           }
         }
+        this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
       }
     }
 
@@ -85,9 +87,12 @@ namespace MONI.ViewModels {
       get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(() => this.ShowPNSearch = false, () => true)); }
     }
 
-    public string GetDescriptionForPositionNumber(string key) {
-      //TODO
-      return key;
+    public string GetDescriptionForPositionNumber(string positionNumber) {
+      string ret;
+      if (this.pnHash.TryGetValue(positionNumber, out ret)) {
+        return ret;
+      }
+      return null;
     }
   }
 

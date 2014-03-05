@@ -12,11 +12,13 @@ namespace MONI.Data
   public class WorkYear : INotifyPropertyChanged
   {
     private readonly int hitListLookBackInWeeks;
+    private readonly PNSearchViewModel pnSearch;
     private readonly PositionSearchViewModel positionSearch;
     public int Year { get; set; }
 
-    public WorkYear(int year, IEnumerable<ShortCut> shortCuts, int hitListLookBackInWeeks, float hoursPerDay, PositionSearchViewModel positionSearch) {
+    public WorkYear(int year, IEnumerable<ShortCut> shortCuts, int hitListLookBackInWeeks, float hoursPerDay, PNSearchViewModel pnSearch, PositionSearchViewModel positionSearch) {
       this.hitListLookBackInWeeks = hitListLookBackInWeeks;
+      this.pnSearch = pnSearch;
       this.positionSearch = positionSearch;
       this.Year = year;
       this.Months = new ObservableCollection<WorkMonth>();
@@ -51,15 +53,14 @@ namespace MONI.Data
         var hitlistInfos = daysFromLookback
           .SelectMany(d => d.Items)
           .GroupBy(p => p.Project)
-          .OrderByDescending(g => g.Count())
           .Select(g =>
                   new HitlistInfo(
                     g.Key,
                     g.Count(),
                     g.Sum(wi => wi.HoursDuration),
-                    g.OrderByDescending(p => p.WorkDay.DateTime).Select(p => p.Description).FirstOrDefault())
+                    g.OrderByDescending(p => p.WorkDay.DateTime).Select(p => this.pnSearch.GetDescriptionForProjectNumber(p.Project)).FirstOrDefault())
           );
-        return new ObservableCollection<HitlistInfo>(hitlistInfos);
+        return new ObservableCollection<HitlistInfo>(hitlistInfos.OrderByDescending(g => g.HoursUsed));
       }
     }
 
@@ -71,7 +72,6 @@ namespace MONI.Data
           var hitlistInfos = daysFromLookback
             .SelectMany(d => d.Items)
             .GroupBy(p => p.Position)
-            .OrderByDescending(g => g.Count())
             .Select(g =>
                     new HitlistInfo(
                       g.Key,
@@ -79,7 +79,7 @@ namespace MONI.Data
                       g.Sum(wi => wi.HoursDuration),
                       positionSearch.GetDescriptionForPositionNumber(g.Key))
             );
-          return new ObservableCollection<HitlistInfo>(hitlistInfos);
+          return new ObservableCollection<HitlistInfo>(hitlistInfos.OrderByDescending(g => g.HoursUsed));
         } else {
           return new ObservableCollection<HitlistInfo>();
         }

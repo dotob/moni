@@ -425,6 +425,7 @@ namespace MONI.ViewModels {
       this.WorkYear = new WorkYear(year, this.MonlistSettings.ParserSettings.ShortCuts,
                                    this.MonlistSettings.MainSettings.HitListLookBackInWeeks,
                                    this.MonlistSettings.MainSettings.HoursPerDay,
+                                   this.PNSearch,
                                    this.PositionSearch);
       this.loadingData = true;
       this.PersistentResult = this.persistenceLayer.SetDataOfYear(this.WorkYear);
