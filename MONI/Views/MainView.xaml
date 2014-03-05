@@ -146,7 +146,8 @@
 
     <Controls:FlyoutsControl>
       <!-- shortcut help -->
-      <Controls:Flyout Header=" Hilfe"
+      <Controls:Flyout Header="Hilfe"
+                       IsModal="True"
                        Width="700"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
@@ -172,6 +173,7 @@
 
       <!-- settings -->
       <Controls:Flyout Header="Settings"
+                       IsModal="True"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
@@ -357,6 +359,7 @@
 
       <!-- edit / new shortcut -->
       <Controls:Flyout Header="Shortcut"
+                       IsModal="True"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
@@ -377,6 +380,7 @@
 
       <!-- search projectnumbers -->
       <Controls:Flyout Header="Projektnummern-Suche"
+                       IsModal="True"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
@@ -398,6 +402,7 @@
 
       <!-- search positionnumbers -->
       <Controls:Flyout Header="Positionsnummern-Suche"
+                       IsModal="True"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
@@ -419,6 +424,7 @@
 
       <!-- show update info -->
       <Controls:Flyout Header="Update-Info"
+                       IsModal="True"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
