@@ -39,15 +39,15 @@ namespace MONI.ViewModels {
                 pn.Customer = columns[2];
                 this.ProjectNumbers.Add(pn);
               } catch (Exception e) {
-                logger.Warn("Could not read as positionnumber info: {0}", line);
+                logger.Warn("Could not read as projectnumber info: {0}", line);
               }
             }
             // break after first file worked
             break;
           }
         }
-        this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
       }
+      this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
     }
 
     protected List<PositionNumber> ProjectNumbers { get; set; }

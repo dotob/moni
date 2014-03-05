@@ -38,8 +38,8 @@ namespace MONI.ViewModels
             break;
           }
         }
-        this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
       }
+      this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
     }
 
     protected List<ProjectNumber> ProjectNumbers { get; set; }
