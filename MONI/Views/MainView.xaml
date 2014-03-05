@@ -824,7 +824,9 @@
                       dd:DragDrop.IsDragSource="True"
                       dd:DragDrop.IsDropTarget="True"
                       dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}"
-                      Grid.IsSharedSizeScope="True">
+                      Grid.IsSharedSizeScope="True"
+                      RenderOptions.ClearTypeHint="Enabled"
+                      TextOptions.TextFormattingMode="Display">
           <ItemsControl.ItemTemplate>
             <!-- shortcut -->
             <DataTemplate>
@@ -986,7 +988,9 @@
                     Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
         <ItemsControl Margin="0 1 0 0"
                       ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist}"
-                      HorizontalContentAlignment="Stretch">
+                      HorizontalContentAlignment="Stretch"
+                      RenderOptions.ClearTypeHint="Enabled"
+                      TextOptions.TextFormattingMode="Display">
           <ItemsControl.ItemTemplate>
             <!-- shortcut -->
             <DataTemplate>
@@ -1015,13 +1019,13 @@
                   <TextBlock Grid.Column="1"
                              Text="{Binding LastUsedDescription}"
                              VerticalAlignment="Bottom"
-                             Foreground="Gray"
+                             Foreground="DarkSlateGray"
                              FontSize="10"
                              Margin="10 0 0 0" />
                   <TextBlock Grid.Column="2"
                              VerticalAlignment="Center"
                              Text="{Binding HoursUsed}"
-                             Foreground="DarkSlateGray"
+                             Foreground="Gray"
                              FontWeight="Bold"
                              FontSize="14"
                              Margin="10 0 0 0" />
@@ -1032,7 +1036,7 @@
         </ItemsControl>
       </ScrollViewer>
 
-      <!-- project hitlist -->
+      <!-- position hitlist -->
       <TextBlock Grid.Column="3"
                  Grid.Row="0"
                  HorizontalAlignment="Right"
@@ -1050,7 +1054,9 @@
                     Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
         <ItemsControl Margin="0 1 0 0"
                       ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist}"
-                      HorizontalContentAlignment="Stretch">
+                      HorizontalContentAlignment="Stretch"
+                      RenderOptions.ClearTypeHint="Enabled"
+                      TextOptions.TextFormattingMode="Display">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
               <Border BorderThickness="1"
@@ -1078,13 +1084,13 @@
                   <TextBlock Grid.Column="1"
                              Text="{Binding LastUsedDescription}"
                              VerticalAlignment="Bottom"
-                             Foreground="Gray"
+                             Foreground="DarkSlateGray"
                              FontSize="10"
                              Margin="10 0 0 0" />
                   <TextBlock Grid.Column="2"
                              VerticalAlignment="Center"
                              Text="{Binding HoursUsed}"
-                             Foreground="DarkSlateGray"
+                             Foreground="Gray"
                              FontWeight="Bold"
                              FontSize="14"
                              Margin="10 0 0 0" />
