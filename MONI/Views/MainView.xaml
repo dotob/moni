@@ -821,7 +821,20 @@
                 <EventTrigger RoutedEvent="Control.MouseEnter">
                   <BeginStoryboard>
                     <Storyboard>
+                      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.200"
+                                                     Storyboard.TargetName="actions"
+                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                        <EasingDoubleKeyFrame KeyTime="00:00:00.400"
+                                              Value="0"
+                                              x:Name="showFrame">
+                          <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut" />
+                          </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                      </DoubleAnimationUsingKeyFrames>
+
                       <DoubleAnimation Duration="0:0:0.3"
+                                       BeginTime="00:00:00.400"
                                        To="0.8"
                                        Storyboard.TargetName="actions"
                                        Storyboard.TargetProperty="Opacity" />
@@ -831,6 +844,19 @@
                 <EventTrigger RoutedEvent="Control.MouseLeave">
                   <BeginStoryboard>
                     <Storyboard>
+                      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                     Storyboard.TargetName="actions"
+                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                        <EasingDoubleKeyFrame KeyTime="00:00:00.400"
+                                              Value="200"
+                                              x:Name="hideFrame">
+                          <EasingDoubleKeyFrame.EasingFunction>
+                            <CubicEase EasingMode="EaseOut" />
+                          </EasingDoubleKeyFrame.EasingFunction>
+                        </EasingDoubleKeyFrame>
+                      </DoubleAnimationUsingKeyFrames>
+
+                      
                       <DoubleAnimation Duration="0:0:0.3"
                                        To="0"
                                        Storyboard.TargetName="actions"
@@ -918,6 +944,10 @@
                           Margin="0 1 2 1"
                           HorizontalAlignment="Right"
                           Opacity="0">
+                    <Border.RenderTransform>
+                      <TranslateTransform X="200" />
+                    </Border.RenderTransform>
+
                     <StackPanel Orientation="Horizontal"
                                 VerticalAlignment="Center">
 
@@ -925,7 +955,7 @@
                               Style="{DynamicResource MetroCircleEditButtonStyle}"
                               Width="21"
                               Height="21"
-                              Margin="5 1 10 1"
+                              Margin="5 1 5 1"
                               Click="EditShortcut_OnClick"
                               ToolTip="Shortcut editieren">
                         <Rectangle Width="10"
