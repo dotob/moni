@@ -27,6 +27,7 @@ namespace MONI.Data
     public string DataDirectory { get; set; }
     public string MonlistExecutablePath { get; set; }
     public string MonlistEmployeeNumber { get; set; }
+    public int MonlistGBNumber { get; set; }
     public int HitListLookBackInWeeks { get; set; }
     public bool ShowProjectHitList { get; set; }
     public bool ShowPositionHitList { get; set; }

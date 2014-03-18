@@ -202,6 +202,7 @@
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
@@ -260,54 +261,72 @@
               </TextBox>
 
               <Label Grid.Column="0"
-                     Grid.Row="5">
+                   Grid.Row="5">
+                GB
+              </Label>
+              <ComboBox Grid.Column="1"
+                     Grid.Row="5"
+                     Margin="2"
+                     Text="{Binding MainSettings.MonlistGBNumber, UpdateSourceTrigger=PropertyChanged}">
+                     <ComboBoxItem>10</ComboBoxItem>
+                     <ComboBoxItem>20</ComboBoxItem>
+                     <ComboBoxItem>30</ComboBoxItem>
+                     <ComboBoxItem>40</ComboBoxItem>
+                     <ComboBoxItem>50</ComboBoxItem>
+                     <ComboBoxItem>60</ComboBoxItem>
+                     <ComboBoxItem>70</ComboBoxItem>
+                     <ComboBoxItem>80</ComboBoxItem>
+              </ComboBox>
+
+              <Label Grid.Column="0"
+                     Grid.Row="6">
                 Projekt-Hitliste anzeigen
               </Label>
               <CheckBox Grid.Column="1"
-                        Grid.Row="5"
+                        Grid.Row="6"
                         Margin="2"
                         VerticalAlignment="Center"
                         IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}">
               </CheckBox>
 
               <Label Grid.Column="0"
-                     Grid.Row="6">
+                     Grid.Row="7">
                 Positions-Hitliste anzeigen
               </Label>
               <CheckBox Grid.Column="1"
-                        Grid.Row="6"
+                        Grid.Row="7"
                         Margin="2"
                         VerticalAlignment="Center"
                         IsChecked="{Binding MainSettings.ShowPositionHitList, UpdateSourceTrigger=PropertyChanged}">
               </CheckBox>
 
               <Label Grid.Column="0"
-                     Grid.Row="7">
+                     Grid.Row="8">
                 Hitlisten-Rückblick [Wochen]
               </Label>
               <TextBox Grid.Column="1"
-                       Grid.Row="7"
+                       Grid.Row="8"
                        Margin="2"
                        Text="{Binding MainSettings.HitListLookBackInWeeks, UpdateSourceTrigger=PropertyChanged}">
               </TextBox>
 
               <Label Grid.Column="0"
-                     Grid.Row="8">
+                     Grid.Row="9">
                 Stunden pro Tag [h]
               </Label>
               <TextBox Grid.Column="1"
-                       Grid.Row="8"
+                       Grid.Row="9"
                        Margin="2"
                        Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}">
               </TextBox>
 
               <!-- auto break -->
               <Label Grid.Column="0"
-                     Grid.Row="9">
+                     Grid.Row="10">
                 Automatische Pause einfügen
               </Label>
               <CheckBox Grid.Column="1"
-                        Grid.Row="9"
+                        Grid.Row="10"
                         Margin="2"
                         VerticalAlignment="Center"
                         x:Name="autoPause"
@@ -315,31 +334,31 @@
               </CheckBox>
 
               <Label Grid.Column="0"
-                     Grid.Row="10"
+                     Grid.Row="11"
                      IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
                 Uhrzeit [hh:mm]
               </Label>
               <TextBox Grid.Column="1"
-                       Grid.Row="10"
+                       Grid.Row="11"
                        Margin="2"
                        IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
                        Text="{Binding ParserSettings.DayBreakTime, Converter={x:Static valueConverter:TimeItemConverter.Instance}}">
               </TextBox>
 
               <Label Grid.Column="0"
-                     Grid.Row="11"
+                     Grid.Row="12"
                      IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
                 Dauer [min]
               </Label>
               <TextBox Grid.Column="1"
-                       Grid.Row="11"
+                       Grid.Row="12"
                        Margin="2"
                        IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
                        Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}">
               </TextBox>
 
               <UniformGrid Grid.Column="0"
-                           Grid.Row="12"
+                           Grid.Row="13"
                            Grid.ColumnSpan="2"
                            VerticalAlignment="Bottom"
                            Columns="2">
