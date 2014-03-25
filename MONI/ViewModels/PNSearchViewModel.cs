@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MONI.Util;
+using System;
 
 namespace MONI.ViewModels
 {
@@ -16,23 +17,27 @@ namespace MONI.ViewModels
     private ICommand cancelCommand;
     private Dictionary<string, string> pnHash;
 
-    public PNSearchViewModel(string projectNumberFiles) {
+    public PNSearchViewModel(string projectNumberFiles, int gbNumber)
+    {
       this.Results = new QuickFillObservableCollection<ProjectNumber>();
       this.ProjectNumbers = new List<ProjectNumber>();
-      Task.Factory.StartNew(()=> this.ReadPNFile(projectNumberFiles));
+      Task.Factory.StartNew(() => this.ReadPNFile(projectNumberFiles, Convert.ToInt32(gbNumber/10)));
     }
 
-    private void ReadPNFile(string pnFilePaths) {
+    private void ReadPNFile(string pnFilePaths, int gbNumber) {
       if (!string.IsNullOrWhiteSpace(pnFilePaths)) {
         foreach (var pnFileUnpatched in pnFilePaths.Split(';')) {
           var pnFile = Utils.PatchFilePath(pnFileUnpatched);
           if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile)) {
             var allPnLines = File.ReadAllLines(pnFile, Encoding.Default);
             foreach (string line in allPnLines.Skip(1)) {
-              var pn = new ProjectNumber();
-              pn.Number = line.Substring(0, 5);
-              pn.Description = line.Substring(14);
-              this.ProjectNumbers.Add(pn);
+                if (Convert.ToInt32(line.Substring(0, 1)) == gbNumber)
+                {
+                    var pn = new ProjectNumber();
+                    pn.Number = line.Substring(0, 5);
+                    pn.Description = line.Substring(14);
+                    this.ProjectNumbers.Add(pn);
+                }
             }
             // break after first file worked
             break;

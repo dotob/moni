@@ -61,7 +61,7 @@ namespace MONI.ViewModels {
       WorkDayParser.Instance = new WorkDayParser(this.Settings.ParserSettings);
 
       // pnsearch
-      this.PNSearch = new PNSearchViewModel(this.Settings.MainSettings.ProjectNumberFilePath);
+      this.PNSearch = new PNSearchViewModel(this.Settings.MainSettings.ProjectNumberFilePath, this.Settings.MainSettings.MonlistGBNumber);
       
       // posnumsearch
       this.PositionSearch = new PositionSearchViewModel(this.Settings.MainSettings.PositionNumberFilePath);
