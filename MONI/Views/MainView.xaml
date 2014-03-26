@@ -224,8 +224,12 @@
         <Controls:Flyout.ContentTemplate>
           <DataTemplate DataType="{x:Type data:MoniSettings}">
             <DataTemplate.Resources>
+              <SolidColorBrush x:Key="ComboBoxMouseOverInnerBorderBrush">#4EA6EA</SolidColorBrush>
               <Style TargetType="{x:Type TextBox}"
                      BasedOn="{StaticResource MONIMetroFlyoutTextBox}">
+              </Style>
+              <Style TargetType="{x:Type ComboBox}"
+                     BasedOn="{StaticResource MONIMetroFlyoutComboBox}">
               </Style>
             </DataTemplate.Resources>
 

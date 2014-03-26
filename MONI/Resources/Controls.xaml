@@ -3,8 +3,8 @@
                     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
 
   <ResourceDictionary.MergedDictionaries>
+    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.CheckBox.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TextBlock.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TextBox.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Label.xaml" />
     <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
@@ -20,7 +20,7 @@
                      Stroke="{DynamicResource BlackBrush}"
                      StrokeDashArray="1.5 1.5"
                      StrokeThickness="1"
-                     SnapsToDevicePixels="True"/>
+                     SnapsToDevicePixels="True" />
         </ControlTemplate>
       </Setter.Value>
     </Setter>
@@ -58,8 +58,11 @@
             Value="Center" />
   </Style>
 
-  <Style TargetType="{x:Type ComboBox}"
+  <Style x:Key="MONIMetroComboBox"
+         TargetType="{x:Type ComboBox}"
          BasedOn="{StaticResource MetroComboBox}">
+    <Setter Property="FocusVisualStyle"
+            Value="{x:Null}" />
     <Setter Property="VerticalAlignment"
             Value="Center" />
     <Setter Property="ScrollViewer.CanContentScroll"
@@ -75,20 +78,31 @@
     </Setter>
   </Style>
 
+  <Style x:Key="MONIMetroFlyoutComboBox"
+         TargetType="{x:Type ComboBox}"
+         BasedOn="{StaticResource MONIMetroComboBox}">
+    <Setter Property="BorderBrush"
+            Value="#1F1F1F" />
+    <Setter Property="Background"
+            Value="#404040" />
+  </Style>
+
+  <Style TargetType="{x:Type ComboBox}"
+         BasedOn="{StaticResource MONIMetroComboBox}">
+  </Style>
+
   <Style TargetType="{x:Type Label}"
          BasedOn="{StaticResource MetroLabel}">
     <Setter Property="VerticalAlignment"
             Value="Center" />
   </Style>
 
-  <!-- note: default style for textblock is now in MetroWindow !!! -->
-  <!-- never ever make a default style for TextBlock in App.xaml !!!  -->
-  <Style TargetType="{x:Type TextBlock}"
-         x:Key="MetroTextBlock">
-    <Setter Property="Foreground"
-            Value="{DynamicResource LabelTextBrush}" />
-    <Setter Property="VerticalAlignment"
-            Value="Center" />
+  <Style TargetType="{x:Type CheckBox}"
+         BasedOn="{StaticResource MetroCheckBox}">
+    <Setter Property="FocusVisualStyle"
+            Value="{x:Null}" />
+    <Setter Property="SnapsToDevicePixels"
+            Value="True" />
   </Style>
 
 </ResourceDictionary>
