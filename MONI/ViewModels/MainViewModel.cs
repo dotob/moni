@@ -378,12 +378,13 @@ namespace MONI.ViewModels {
     }
 
     private void SelectNextWeek() {
-      DateTime firstDayOfWeek = this.workWeek.StartDate;
-      DateTime dateTime = firstDayOfWeek.AddDays(7);
+      var firstDayOfWeek = this.workWeek.StartDate;
+      var dateTime = firstDayOfWeek.AddDays(7);
       if (firstDayOfWeek.Month == dateTime.Month) {
         this.SelectDate(dateTime);
       } else {
-        DateTime nuDate = firstDayOfWeek.AddMonths(1).AddDays(-1*firstDayOfWeek.Day + 1);
+        var nextMonth = firstDayOfWeek.AddMonths(1);
+        var nuDate = nextMonth.AddDays(-1 * nextMonth.Day + 1);
         this.SelectDate(nuDate);
       }
     }
