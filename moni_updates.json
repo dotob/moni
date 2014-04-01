@@ -85,6 +85,7 @@
 		"Gefixed: Eingaben von @ schließt MONI",
 		"Verbessert: Ein neuer Shortcut wird nun ganz oben statt ganz unten eingefügt",
 		"Verbessert: Verzögerungen bei der Eingabe treten jetzt nicht mehr auf",
+    "Gefixed: Blättern von KW 14 nach KW 15 in 2014 funktionierte nicht",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.2/MONI.exe"
 },
