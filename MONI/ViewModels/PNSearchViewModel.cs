@@ -16,12 +16,23 @@ namespace MONI.ViewModels
     private string searchText;
     private ICommand cancelCommand;
     private Dictionary<string, string> pnHash;
+    private int gbNumber;
 
     public PNSearchViewModel(string projectNumberFiles, int gbNumber)
     {
       this.Results = new QuickFillObservableCollection<ProjectNumber>();
       this.ProjectNumbers = new List<ProjectNumber>();
-      Task.Factory.StartNew(() => this.ReadPNFile(projectNumberFiles, Convert.ToInt32(gbNumber/10)));
+      this.ProjectNumbersToSearch = new List<ProjectNumber>();
+      Task.Factory.StartNew(() => this.ReadPNFile(projectNumberFiles, gbNumber));
+    }
+
+    public void SetGBNumber(int gbNumber, bool doSearch = false)
+    {
+      this.gbNumber = gbNumber / 10;
+      this.ProjectNumbersToSearch = this.ProjectNumbers.Where(pn => this.gbNumber <= 0 || pn.GB == this.gbNumber).ToList();
+      if (doSearch) {
+        this.Search();
+      }
     }
 
     private void ReadPNFile(string pnFilePaths, int gbNumber) {
@@ -31,23 +42,23 @@ namespace MONI.ViewModels
           if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile)) {
             var allPnLines = File.ReadAllLines(pnFile, Encoding.Default);
             foreach (string line in allPnLines.Skip(1)) {
-                if (Convert.ToInt32(line.Substring(0, 1)) == gbNumber)
-                {
-                    var pn = new ProjectNumber();
-                    pn.Number = line.Substring(0, 5);
-                    pn.Description = line.Substring(14);
-                    this.ProjectNumbers.Add(pn);
-                }
+              var pn = new ProjectNumber();
+              pn.GB = Convert.ToInt32(line.Substring(0, 1));
+              pn.Number = line.Substring(0, 5);
+              pn.Description = line.Substring(14);
+              this.ProjectNumbers.Add(pn);
             }
             // break after first file worked
             break;
           }
         }
       }
+      this.SetGBNumber(gbNumber);
       this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
     }
 
-    protected List<ProjectNumber> ProjectNumbers { get; set; }
+    private List<ProjectNumber> ProjectNumbers { get; set; }
+    private List<ProjectNumber> ProjectNumbersToSearch { get; set; }
 
     public bool ShowPNSearch {
       get { return this.showPnSearch; }
@@ -66,11 +77,13 @@ namespace MONI.ViewModels
     }
 
     private void Search() {
-      this.Results.Clear();
       var s = this.searchText;
       if (!string.IsNullOrWhiteSpace(s)) {
-        var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase));
-        this.Results.Fill(res);
+        var res = this.ProjectNumbersToSearch
+                      .Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase));
+        this.Results.Fill(res, true);
+      } else {
+        this.Results.Clear();
       }
     }
 
@@ -93,6 +106,7 @@ namespace MONI.ViewModels
 
   public class ProjectNumber
   {
+    public int GB { get; set; }
     public string Number { get; set; }
     public string Description { get; set; }
   }
