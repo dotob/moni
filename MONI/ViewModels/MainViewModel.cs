@@ -481,6 +481,9 @@ namespace MONI.ViewModels {
     public void SaveEditingPreferences() {
       this.ProjectHitListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.PositionHitListVisibility = this.MonlistSettings.MainSettings.ShowPositionHitList ? Visibility.Visible : Visibility.Collapsed;
+      if (this.PNSearch != null) {
+        this.PNSearch.SetGBNumber(this.Settings.MainSettings.MonlistGBNumber, true);
+      }
       this.EditPreferences = null;
       this.WorkWeek.Reparse();
     }
