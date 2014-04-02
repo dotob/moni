@@ -31,5 +31,56 @@ namespace MONI.Tests
       Assert.NotNull(shortCut);
       Assert.AreEqual(newSc.Key, shortCut.Key);
     }
+
+    [Test(Description = "#40 switch week from KW 14 to KW 15 in 2014")]
+    public void ShouldSelectNextWeekOnMonthChange() {
+      var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
+
+      vm.SelectDate(new DateTime(2014, 3, 31));
+
+      Assert.AreEqual(2014, vm.WorkYear.Year);
+      Assert.AreEqual(3, vm.WorkMonth.Month);
+      Assert.AreEqual(31, vm.WorkWeek.StartDate.Day);
+
+      vm.NextWeekCommand.Execute(null);
+
+      Assert.AreEqual(2014, vm.WorkYear.Year);
+      Assert.AreEqual(4, vm.WorkMonth.Month);
+      Assert.AreEqual(1, vm.WorkWeek.StartDate.Day);
+    }
+
+    [Test(Description = "#40 switch week from KW 9 to KW 10 in 2014")]
+    public void ShouldSelectNextWeekOnMonthChange2() {
+      var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
+
+      vm.SelectDate(new DateTime(2014, 2, 28));
+
+      Assert.AreEqual(2014, vm.WorkYear.Year);
+      Assert.AreEqual(2, vm.WorkMonth.Month);
+      Assert.AreEqual(24, vm.WorkWeek.StartDate.Day);
+
+      vm.NextWeekCommand.Execute(null);
+
+      Assert.AreEqual(2014, vm.WorkYear.Year);
+      Assert.AreEqual(3, vm.WorkMonth.Month);
+      Assert.AreEqual(1, vm.WorkWeek.StartDate.Day);
+    }
+
+    [Test(Description = "#40 switch last week from 2013 to 2014")]
+    public void ShouldSelectNextWeekOnMonthChange3() {
+      var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
+
+      vm.SelectDate(new DateTime(2013, 12, 31));
+
+      Assert.AreEqual(2013, vm.WorkYear.Year);
+      Assert.AreEqual(12, vm.WorkMonth.Month);
+      Assert.AreEqual(30, vm.WorkWeek.StartDate.Day);
+
+      vm.NextWeekCommand.Execute(null);
+
+      Assert.AreEqual(2014, vm.WorkYear.Year);
+      Assert.AreEqual(1, vm.WorkMonth.Month);
+      Assert.AreEqual(1, vm.WorkWeek.StartDate.Day);
+    }
   }
 }

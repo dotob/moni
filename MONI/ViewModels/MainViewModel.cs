@@ -378,13 +378,13 @@ namespace MONI.ViewModels {
     }
 
     private void SelectNextWeek() {
-      DateTime firstDayOfWeek = this.workWeek.StartDate;
-      DateTime dateTime = firstDayOfWeek.AddDays(7);
+      var firstDayOfWeek = this.workWeek.StartDate;
+      var dateTime = firstDayOfWeek.AddDays(7);
       if (firstDayOfWeek.Month == dateTime.Month) {
         this.SelectDate(dateTime);
       } else {
-        DateTime nuDate = firstDayOfWeek.AddMonths(1);
-        nuDate = nuDate.AddDays(-1 * nuDate.Day+1);
+        var nextMonth = firstDayOfWeek.AddMonths(1);
+        var nuDate = nextMonth.AddDays(-1 * nextMonth.Day + 1);
         this.SelectDate(nuDate);
       }
     }
@@ -481,6 +481,9 @@ namespace MONI.ViewModels {
     public void SaveEditingPreferences() {
       this.ProjectHitListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
       this.PositionHitListVisibility = this.MonlistSettings.MainSettings.ShowPositionHitList ? Visibility.Visible : Visibility.Collapsed;
+      if (this.PNSearch != null) {
+        this.PNSearch.SetGBNumber(this.Settings.MainSettings.MonlistGBNumber, true);
+      }
       this.EditPreferences = null;
       this.WorkWeek.Reparse();
     }
