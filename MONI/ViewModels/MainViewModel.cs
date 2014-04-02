@@ -383,7 +383,8 @@ namespace MONI.ViewModels {
       if (firstDayOfWeek.Month == dateTime.Month) {
         this.SelectDate(dateTime);
       } else {
-        DateTime nuDate = firstDayOfWeek.AddMonths(1).AddDays(-1*firstDayOfWeek.Day + 1);
+        DateTime nuDate = firstDayOfWeek.AddMonths(1);
+        nuDate = nuDate.AddDays(-1 * nuDate.Day+1);
         this.SelectDate(nuDate);
       }
     }

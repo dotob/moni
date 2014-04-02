@@ -155,12 +155,12 @@ namespace MONI.Util
       config.AddTarget("file", fileTarget);
 
       ColoredConsoleTarget consoleTarget = null;
-      if (false) {
+      /*if (false) {
         consoleTarget = new ColoredConsoleTarget();
         config.AddTarget("console", consoleTarget);
         // Step 3. Set target properties 
         consoleTarget.Layout = "${longdate} ${level:uppercase=true} ${logger} ${message} ${exception:format=Message,Type,StackTrace:separator=//}";
-      }
+      }*/
 
       // check where we can write
       if (Utils.CanCreateFile(".")) {

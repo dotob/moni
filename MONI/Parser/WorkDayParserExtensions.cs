@@ -19,7 +19,7 @@ namespace MONI.Parser {
         var hoursToIncrementBy = stepsToIncrementBy * 15 / 60f;
         var parts = Enumerable.ToList(SplitIntoParts(text));
         int idx;
-        bool moveCursorLeft;
+        //bool moveCursorLeft;
         int cursorInPartPosition;
         var part = FindPositionPart(parts, selectionStart, out idx, out cursorInPartPosition);
         var newPart = part;

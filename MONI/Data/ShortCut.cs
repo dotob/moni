@@ -37,6 +37,11 @@ namespace MONI.Data
       return false;
     }
 
+    public override int GetHashCode()
+    {
+        return this.ID.GetHashCode();
+    }
+
     public void GetData(ShortCut sc) {
       this.Key = sc.Key;
       this.Expansion = sc.Expansion;
