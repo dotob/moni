@@ -198,11 +198,8 @@
             <DataTemplate.Resources>
               <valueConverter:MarkdownToFlowDocumentConverter x:Key="MarkdownToFlowDocumentConverter" />
             </DataTemplate.Resources>
-            <Grid>
-              <Rectangle Fill="White"
-                         Margin="10">
-              </Rectangle>
-              <FlowDocumentScrollViewer Margin="10"
+            <Grid Background="White" Margin="1,0,1,1">
+              <FlowDocumentScrollViewer Margin="10" Foreground="Black"
                                         VerticalScrollBarVisibility="Auto"
                                         HorizontalScrollBarVisibility="Disabled"
                                         Document="{Binding Path=Help, Converter={StaticResource MarkdownToFlowDocumentConverter}}" />
