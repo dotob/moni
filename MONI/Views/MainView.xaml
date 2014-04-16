@@ -20,7 +20,6 @@
                       x:Name="mv"
                       WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}"
                       SaveWindowPosition="True"
-                      ShowWindowCommandsOnTop="False"
                       BorderThickness="1"
                       BorderBrush="#808080"
                       Loaded="MainView_OnLoaded"
@@ -189,7 +188,6 @@
     <Controls:FlyoutsControl>
       <!-- shortcut help -->
       <Controls:Flyout Header="Hilfe"
-                       IsModal="True"
                        Width="700"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
@@ -215,7 +213,6 @@
 
       <!-- settings -->
       <Controls:Flyout Header="Settings"
-                       IsModal="True"
                        Width="500"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
@@ -423,7 +420,6 @@
 
       <!-- edit / new shortcut -->
       <Controls:Flyout Header="Shortcut"
-                       IsModal="True"
                        Width="500"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
@@ -445,7 +441,6 @@
 
       <!-- search projectnumbers -->
       <Controls:Flyout Header="Projektnummern-Suche"
-                       IsModal="True"
                        Width="500"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
@@ -468,7 +463,6 @@
 
       <!-- search positionnumbers -->
       <Controls:Flyout Header="Positionsnummern-Suche"
-                       IsModal="True"
                        Width="500"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
@@ -491,7 +485,6 @@
 
       <!-- show update info -->
       <Controls:Flyout Header="Update-Info"
-                       IsModal="True"
                        Width="500"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
