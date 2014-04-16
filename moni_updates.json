@@ -89,5 +89,12 @@
     "Projekt-Suche: Die Liste kann in den Settings nach GB vorgefiltert werden",
 		],
 	"DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.2/MONI.exe"
+},{
+  "Version":"0.9.9.3",
+  "Changes":[
+    "Geändert: Flyouts nicht mehr modal. (Projekt-, Positionsnummern-Suche, etc)",
+    "Gefixed: Der Hilfe Text war nicht mehr sichtbar",
+    ],
+  "DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.3/MONI.exe"
 },
 ]
