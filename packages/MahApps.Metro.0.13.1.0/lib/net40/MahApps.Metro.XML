@@ -193,6 +193,28 @@
             Gets/sets whether the metro dialog should use the default black/white appearance (theme) or try to use the current accent.
             </summary>
         </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.UseAnimations">
+            <summary>
+            Enable/disable dialog showing/hiding animations.
+            Setting this value will also set both AnimateShow and AnimateHide properties to the same value.
+            Getting "True" - at least AnimateHide or AnimateHide is "True".
+            Getting "False" - both AnimateHide and AnimateHide are "False".
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.AnimateShow">
+            <summary>
+            Enable/disable dialog showing animation.
+            "True" - play showing animation.
+            "False" - skip showing animation.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.AnimateHide">
+            <summary>
+            Enable/disable dialog hiding animation
+            "True" - play hiding animation.
+            "False" - skip hiding animation.
+            </summary>
+        </member>
         <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.DefaultText">
             <summary>
             Gets/sets the default text( just the inputdialog needed)
@@ -235,9 +257,10 @@
         <member name="M:MahApps.Metro.Controls.Dialogs.DialogManager.ShowMetroDialogAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.BaseMetroDialog)">
             <summary>
             Adds a Metro Dialog instance to the specified window and makes it visible.
+            <para>Note that this method returns as soon as the dialog is loaded and won't wait on a call of <see cref="M:MahApps.Metro.Controls.Dialogs.DialogManager.HideMetroDialogAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.BaseMetroDialog)"/>.</para>
+            <para>You can still close the resulting dialog with <see cref="M:MahApps.Metro.Controls.Dialogs.DialogManager.HideMetroDialogAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.BaseMetroDialog)"/>.</para>
             </summary>
             <param name="window">The owning window of the dialog.</param>
-            <param name="title">The title to be set in the dialog.</param>
             <param name="dialog">The dialog instance itself.</param>
             <returns>A task representing the operation.</returns>
             <exception cref="T:System.InvalidOperationException">The <paramref name="dialog"/> is already visible in the window.</exception>
@@ -383,12 +406,6 @@
             An event that is raised when IsOpen changes.
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.Flyout.ActualTheme">
-            <summary>
-            Gets the actual theme (dark/light) of this flyout.
-            Used to handle the WindowCommands overlay in the MetroWindow.
-            </summary>
-        </member>
         <member name="P:MahApps.Metro.Controls.Flyout.CloseCommand">
             <summary>
             An ICommand that executes when the flyout's close button is clicked.
@@ -463,6 +480,8 @@
         <member name="F:MahApps.Metro.Controls.FlyoutTheme.Inverse">
             <summary>
             Adapts the Flyout's theme to the theme of its host window, but inverted.
+            This theme can only be applied if the host window's theme abides the "Dark" and "Light" affix convention.
+            (see <see cref="M:MahApps.Metro.ThemeManager.GetInverseAppTheme(MahApps.Metro.AppTheme)"/> for more infos.
             </summary>
         </member>
         <member name="F:MahApps.Metro.Controls.FlyoutTheme.Dark">
@@ -935,6 +954,13 @@
             This class eats little children.
             </summary>
         </member>
+        <member name="M:MahApps.Metro.Controls.MetroWindowHelpers.SetIsHitTestVisibleInChromeProperty``1(MahApps.Metro.Controls.MetroWindow,System.String)">
+            <summary>
+            Sets the IsHitTestVisibleInChromeProperty to a MetroWindow template child
+            </summary>
+            <param name="window">The MetroWindow</param>
+            <param name="name">The name of the template child</param>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:MahApps.Metro.Controls.MetroWindowHelpers.HandleWindowCommandsForFlyouts(MahApps.Metro.Controls.MetroWindow,System.Collections.Generic.IEnumerable{MahApps.Metro.Controls.Flyout},System.Windows.Media.Brush)" -->
         <member name="T:MahApps.Metro.Controls.NumericUpDown">
             <summary>
@@ -978,7 +1004,7 @@
         </member>
         <member name="P:MahApps.Metro.Controls.NumericUpDown.InterceptArrowKeys">
             <summary>
-                Gets or sets a value indicating whether the user can use the arrow keys to change values.
+                Gets or sets a value indicating whether the user can use the arrow keys <see cref="F:System.Windows.Input.Key.Up"/> and <see cref="F:System.Windows.Input.Key.Down"/> to change values. 
             </summary>
         </member>
         <member name="P:MahApps.Metro.Controls.NumericUpDown.InterceptMouseWheel">
@@ -993,6 +1019,30 @@
                 If the value is true then the value changes when the mouse wheel is over the control. If the value is false then the value changes only if the control has the focus. If <see cref="P:MahApps.Metro.Controls.NumericUpDown.InterceptMouseWheel"/> is set to <see cref="!:bool.False"/> then this property has no effect.
             </remarks>
             </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.InterceptManualEnter">
+            <summary>
+                Gets or sets a value indicating whether the user can enter text in the control.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.HideUpDownButtons">
+            <summary>
+                Gets or sets a value indicating whether the +/- button of the control is visible.
+            </summary>
+            <remarks>
+                If the value is false then the <see cref="P:MahApps.Metro.Controls.NumericUpDown.Value"/> of the control can be changed only if one of the following cases is satisfied:
+                <list type="bullet">
+                    <item>
+                        <description><see cref="P:MahApps.Metro.Controls.NumericUpDown.InterceptArrowKeys"/> is true.</description>
+                    </item>
+                    <item>
+                        <description><see cref="P:MahApps.Metro.Controls.NumericUpDown.InterceptMouseWheel"/> is true.</description>
+                    </item>
+                    <item>
+                        <description><see cref="P:MahApps.Metro.Controls.NumericUpDown.InterceptManualEnter"/> is true.</description>
+                    </item>
+                </list>
+            </remarks>
         </member>
         <member name="P:MahApps.Metro.Controls.NumericUpDown.IsReadOnly">
             <summary>
@@ -1160,14 +1210,24 @@
             Indicates if a TextBox or RichTextBox should use SpellCheck context menu
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.TextboxHelper.FocusBorderBrush">
+        <member name="M:MahApps.Metro.Controls.TextboxHelper.SetFocusBorderBrush(System.Windows.DependencyObject,System.Windows.Media.Brush)">
             <summary>
-            Gets/sets the brush used to draw the focus border.
+            Sets the brush used to draw the focus border.
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.TextboxHelper.MouseOverBorderBrush">
+        <member name="M:MahApps.Metro.Controls.TextboxHelper.GetFocusBorderBrush(System.Windows.DependencyObject)">
             <summary>
-            Gets/sets the brush used to draw the mouse over brush.
+            Gets the brush used to draw the focus border.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.TextboxHelper.SetMouseOverBorderBrush(System.Windows.DependencyObject,System.Windows.Media.Brush)">
+            <summary>
+            Sets the brush used to draw the mouse over brush.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.TextboxHelper.GetMouseOverBorderBrush(System.Windows.DependencyObject)">
+            <summary>
+            Gets the brush used to draw the mouse over brush.
             </summary>
         </member>
         <member name="P:MahApps.Metro.Controls.TextboxHelper.HasText">
@@ -4617,11 +4677,6 @@
             Gets the name of the application theme.
             </summary>
         </member>
-        <member name="P:MahApps.Metro.AppTheme.Theme">
-            <summary>
-            Gets an enum that defines whether this application theme is light or dark.
-            </summary>
-        </member>
         <member name="T:MahApps.Metro.ThemeManager">
             <summary>
             A class that allows for the detection and alteration of a MetroWindow's theme and accent.
@@ -4635,21 +4690,13 @@
             <param name="resourceAddress"></param>
             <returns>true if the accent does not exists and can be added.</returns>
         </member>
-        <member name="M:MahApps.Metro.ThemeManager.AddAppTheme(System.String,System.Uri,MahApps.Metro.Theme)">
+        <member name="M:MahApps.Metro.ThemeManager.AddAppTheme(System.String,System.Uri)">
             <summary>
             Adds an app theme with the given name.
             </summary>
             <param name="name"></param>
             <param name="resourceAddress"></param>
-            <param name="theme"></param>
             <returns>true if the app theme does not exists and can be added.</returns>
-        </member>
-        <member name="M:MahApps.Metro.ThemeManager.GetAppTheme(System.String)">
-            <summary>
-            Gets app theme with the given name.
-            </summary>
-            <param name="appThemeName"></param>
-            <returns>AppTheme</returns>
         </member>
         <member name="M:MahApps.Metro.ThemeManager.GetAppTheme(System.Windows.ResourceDictionary)">
             <summary>
@@ -4658,21 +4705,24 @@
             <param name="resources"></param>
             <returns>AppTheme</returns>
         </member>
-        <member name="M:MahApps.Metro.ThemeManager.GetAppTheme(System.String,MahApps.Metro.Theme)">
+        <member name="M:MahApps.Metro.ThemeManager.GetAppTheme(System.String)">
             <summary>
             Gets app theme with the given name and theme type (light or dark).
             </summary>
             <param name="appThemeName"></param>
-            <param name="theme"></param>
             <returns>AppTheme</returns>
         </member>
-        <member name="M:MahApps.Metro.ThemeManager.GetAppTheme(MahApps.Metro.AppTheme,MahApps.Metro.Theme)">
+        <member name="M:MahApps.Metro.ThemeManager.GetInverseAppTheme(MahApps.Metro.AppTheme)">
             <summary>
-            Gets app theme with the given app theme and theme type (light or dark).
+            Gets the inverse <see cref="T:MahApps.Metro.AppTheme"/> of the given <see cref="T:MahApps.Metro.AppTheme"/>.
+            This method relies on the "Dark" or "Light" affix to be present.
             </summary>
-            <param name="currentAppTheme"></param>
-            <param name="theme"></param>
-            <returns>AppTheme</returns>
+            <param name="appTheme">The app theme.</param>
+            <returns>The inverse <see cref="T:MahApps.Metro.AppTheme"/> or <c>null</c> if it couldn't be found.</returns>
+            <remarks>
+            Returns BaseLight, if BaseDark is given or vice versa.
+            Custom Themes must end with "Dark" or "Light" for this to work, for example "CustomDark" and "CustomLight".
+            </remarks>
         </member>
         <member name="M:MahApps.Metro.ThemeManager.GetAccent(System.String)">
             <summary>
@@ -4687,6 +4737,14 @@
             </summary>
             <param name="resources"></param>
             <returns>The <see cref="T:MahApps.Metro.Accent"/> or <c>null</c>, if the accent wasn't found.</returns>
+        </member>
+        <member name="M:MahApps.Metro.ThemeManager.GetResourceFromAppStyle(System.Windows.Window,System.String)">
+            <summary>
+            Gets a resource from the detected AppStyle.
+            </summary>
+            <param name="window">The window to check. If this is null, the Application's sources will be checked.</param>
+            <param name="key">The key to check against.</param>
+            <returns>The resource object or null, if the resource wasn't found.</returns>
         </member>
         <member name="M:MahApps.Metro.ThemeManager.ChangeAppTheme(System.Windows.Application,System.String)">
             <summary>
