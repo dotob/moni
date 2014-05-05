@@ -1207,17 +1207,21 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
           </Grid.RowDefinitions>
           <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
           </Grid.ColumnDefinitions>
+          <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Foreground="White" Background="Red" FontWeight="Bold" TextWrapping="Wrap">
+            Hierduch wird der gesamte, aktuell angezeigte Monat in MonList ersetzt. Alle Daten in MonList werden hierdurch überschrieben!
+          </TextBlock>
           <Label Grid.Column="0"
-                 Grid.Row="0">
+                 Grid.Row="2">
             Passwort
           </Label>
           <PasswordBox Grid.Column="1"
-                       Grid.Row="0"
+                       Grid.Row="2"
                        Margin="2"
                        x:Name="passwordBox">
           </PasswordBox>

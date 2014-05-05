@@ -96,5 +96,11 @@
     "Gefixed: Der Hilfe Text war nicht mehr sichtbar",
     ],
   "DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.3/MONI.exe"
+},{
+  "Version":"0.9.9.4",
+  "Changes":[
+    "Verbessert: Es wird nun eine Warnung angezeigt wenn man die Daten in MonList importiert",
+    ],
+  "DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.4/MONI.exe"
 },
 ]
