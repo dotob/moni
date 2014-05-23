@@ -177,7 +177,7 @@ namespace MONI.Views {
         if (!string.IsNullOrWhiteSpace(oldText)) {
           newText = oldText + "(+ ),";
           activeTB2.Text = newText;
-          activeTB2.Select(newText.Length - 1, 0);
+          activeTB2.Select(newText.Length - 2, 0);
         }
         e.Handled = true;
       }
