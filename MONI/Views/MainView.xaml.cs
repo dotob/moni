@@ -77,6 +77,9 @@ namespace MONI.Views {
           case Key.F:
             this.ViewModel.PNSearch.ShowPNSearch = true;
             break;
+          case Key.OemPlus:
+            HandleCommentAppend(e);
+            break;
           case Key.D1:
             HandleHourAppend(e, 1);
             break;
@@ -161,6 +164,20 @@ namespace MONI.Views {
           newText = newText + i.ToString() + WorkDayParser.hourProjectInfoSeparator;
           activeTB2.Text = newText;
           activeTB2.Select(newText.Length, 0);
+        }
+        e.Handled = true;
+      }
+    }
+
+    private static void HandleCommentAppend(KeyEventArgs e) {
+      var activeTB2 = e.OriginalSource as TextBox;
+      if (activeTB2 != null && activeTB2.Name == "userEntry") {
+        string newText = string.Empty;
+        string oldText = activeTB2.Text;
+        if (!string.IsNullOrWhiteSpace(oldText)) {
+          newText = oldText + "(+ ),";
+          activeTB2.Text = newText;
+          activeTB2.Select(newText.Length - 1, 0);
         }
         e.Handled = true;
       }

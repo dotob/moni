@@ -100,6 +100,7 @@
   "Version":"0.9.9.4",
   "Changes":[
     "Verbessert: Es wird nun eine Warnung angezeigt wenn man die Daten in MonList importiert",
+    "Neu: Strg+ + hängt (+ ), an den aktuellen Eintrag, damit man direkt eine Kommentarerweiterung eingeben kann",
     ],
   "DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.4/MONI.exe"
 },

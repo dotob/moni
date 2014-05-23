@@ -78,6 +78,7 @@ In allen Pfadangaben kann **#{userhome}** als Platzhalter für das Benutzer-Verz
 - **strg+u**: Eingabe des vorigen Tages in aktuellen Tag kopieren
 - **strg+n**: Neuen Eintrag mit Endzeit jetzt im aktuellen Tag erstellen
 - **strg+f**: Projektnummernsuche öffnen
+- **strg++**: Hängt "(+ )", an den aktuellen Eintrag an
 - **strg+q**: MONI beenden
 - **bild hoch**: Aktuellen Eintrag um 15min erhöhen bzw. erweitern
 - **bild runter**: Aktuellen Eintrag um 15min erniedrigen bzw. verkürzen
