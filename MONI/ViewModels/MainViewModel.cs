@@ -54,8 +54,8 @@ namespace MONI.ViewModels {
       this.settingsFile = this.DetermineSettingsFile();
       this.MonlistSettings = ReadSettings(this.settingsFile);
 
-      this.ProjectHitListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
-      this.PositionHitListVisibility = this.MonlistSettings.MainSettings.ShowPositionHitList ? Visibility.Visible : Visibility.Collapsed;
+      this.UpdateVisibility();
+
       this.Settings = this.MonlistSettings;
       this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.Settings);
       WorkDayParser.Instance = new WorkDayParser(this.Settings.ParserSettings);
@@ -118,6 +118,7 @@ namespace MONI.ViewModels {
     }
 
     private bool showHelp;
+    private Visibility monthListVisibility;
 
     public bool ShowHelp
     {
@@ -240,6 +241,15 @@ namespace MONI.ViewModels {
       }
     }
 
+    public Visibility MonthListVisibility {
+      get { return this.monthListVisibility; }
+      set {
+        this.monthListVisibility = value;
+        this.OnPropertyChanged(() => this.MonthListVisibility);
+      }
+    }
+
+
     private MoniSettings MonlistSettings {
       get { return this.monlistSettings; }
       set {
@@ -259,6 +269,7 @@ namespace MONI.ViewModels {
         this.OnPropertyChanged(() => this.ShowPasswordDialog);
       }
     }
+
 
     public void DragOver(IDropInfo dropInfo) {
       dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
@@ -479,13 +490,18 @@ namespace MONI.ViewModels {
     }
 
     public void SaveEditingPreferences() {
-      this.ProjectHitListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
-      this.PositionHitListVisibility = this.MonlistSettings.MainSettings.ShowPositionHitList ? Visibility.Visible : Visibility.Collapsed;
+      UpdateVisibility();
       if (this.PNSearch != null) {
         this.PNSearch.SetGBNumber(this.Settings.MainSettings.MonlistGBNumber, true);
       }
       this.EditPreferences = null;
       this.WorkWeek.Reparse();
+    }
+
+    private void UpdateVisibility() {
+      this.ProjectHitListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
+      this.PositionHitListVisibility = this.MonlistSettings.MainSettings.ShowPositionHitList ? Visibility.Visible : Visibility.Collapsed;
+      this.MonthListVisibility = this.MonlistSettings.MainSettings.ShowMonthList ? Visibility.Visible : Visibility.Collapsed;
     }
 
     public void CancelEditingPreferences() {

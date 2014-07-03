@@ -114,13 +114,13 @@ namespace MONI.Views {
               // MOVE MONTH
             case Key.Left:
               if (this.ViewModel.PreviousMonthCommand.CanExecute(null)) {
-                //FocusManager.SetFocusedElement(this, this.btnPrev);
+                FocusManager.SetFocusedElement(this, this.btnPrevMonth);
                 this.ViewModel.PreviousMonthCommand.Execute(null);
               }
               break;
             case Key.Right:
               if (this.ViewModel.NextMonthCommand.CanExecute(null)) {
-                //FocusManager.SetFocusedElement(this, this.btnNext);
+                FocusManager.SetFocusedElement(this, this.btnNextMonth);
                 this.ViewModel.NextMonthCommand.Execute(null);
               }
               break;
@@ -359,6 +359,16 @@ namespace MONI.Views {
       this.shortCutHeader.Visibility = Visibility.Visible;
       this.shortCutList.Visibility = Visibility.Visible;
       this.deferredUiActivationTimer.Stop();
+    }
+
+    private void GoToDay(object sender, MouseButtonEventArgs e) {
+      var b = sender as Border;
+      if (b != null) {
+        var d = b.Tag as WorkDay;
+        if (d != null) {
+          this.ViewModel.SelectDate(d.DateTime);
+        }
+      }
     }
   }
 }

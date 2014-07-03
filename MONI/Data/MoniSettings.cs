@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using MahApps.Metro.Native;
 using Newtonsoft.Json;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace MONI.Data
     public WorkDayParserSettings ParserSettings { get; set; }
     public MainSettings MainSettings { get; set; }
     public static MoniSettings GetEmptySettings() {
-      var ms = new MainSettings { DataDirectory = AppDomain.CurrentDomain.BaseDirectory, MonlistExecutablePath = @"n:\Monlist2\Monlist2.exe", ProjectNumberFilePath = @"n:\Monlist2\projekte.txt", UpdateInfoURL = "http://mtools/moni_updates.json" };
+      var ms = new MainSettings { DataDirectory = AppDomain.CurrentDomain.BaseDirectory, MonlistExecutablePath = @"n:\Monlist2\Monlist2.exe", ProjectNumberFilePath = @"n:\Monlist2\projekte.txt", UpdateInfoURL = "http://mtools/moni_updates.json", ShowMonthList = true};
       return new MoniSettings { ParserSettings = new WorkDayParserSettings(), MainSettings = ms };
     }
 
@@ -22,6 +23,7 @@ namespace MONI.Data
   {
     public MainSettings() {
       HoursPerDay = 8;
+      ShowMonthList = true;
     }
 
     public string DataDirectory { get; set; }
@@ -36,6 +38,7 @@ namespace MONI.Data
     public string ProjectNumberFilePath { get; set; }
     public string PositionNumberFilePath { get; set; }
     public string UpdateInfoURL { get; set; }
+    public bool ShowMonthList { get; set; }
   }
 
   public class WorkDayParserSettings
