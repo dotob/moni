@@ -426,7 +426,22 @@ namespace MONI.ViewModels {
       this.WorkWeek =
         this.WorkMonth.Weeks.First(
           ww => ww.WeekOfYear == this.calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
+      // look for workday and focus
+      var selectedWorkDay = this.workWeek.Days.FirstOrDefault(d => d.Day == date.Day);
+      SelectWorkDay(selectedWorkDay);
     }
+
+    public void SelectWorkDay(WorkDay selectedWorkDay) {
+      if (this.SelectedWorkDay != null) {
+        this.SelectedWorkDay.FocusMe = false;
+      }
+      this.SelectedWorkDay = selectedWorkDay;
+      if (this.SelectedWorkDay != null) {
+        this.SelectedWorkDay.FocusMe = true;
+      }
+    }
+
+    public WorkDay SelectedWorkDay { get; set; }
 
     private void CreateAndLoadYear(int year) {
       if (this.WorkYear != null) {

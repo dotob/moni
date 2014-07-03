@@ -187,7 +187,7 @@ namespace MONI.Views {
       var textBox = sender as TextBox;
       if (textBox != null) {
         WorkDay workDay = textBox.Tag as WorkDay;
-        if (workDay != null && workDay.Name == "today") {
+        if (workDay != null && workDay.FocusMe) {
           textBox.Focus();
           textBox.Select(textBox.Text.Length, 0);
         }
@@ -249,6 +249,13 @@ namespace MONI.Views {
 
     private void WorkDayTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e) {
       this.ActiveInputTextBox = sender as TextBox;
+      var activeInputTextBox = this.ActiveInputTextBox;
+      if (activeInputTextBox != null) {
+        var wd = activeInputTextBox.Tag as WorkDay;
+        if (wd != null) {
+          this.ViewModel.SelectWorkDay(wd);
+        }
+      }
     }
 
     protected TextBox ActiveInputTextBox { get; set; }

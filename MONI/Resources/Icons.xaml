@@ -31,7 +31,13 @@ Special Thanks
 - Etc...
     -->
 <ResourceDictionary xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-    <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" x:Key="appbar_add">
+  <Canvas x:Key="appbar_control_fastforward_variant" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+    <Path Width="38.75" Height="26" Canvas.Left="19" Canvas.Top="25" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 19,25L 35.75,38L 19,51L 19,25 Z M 41,25L 57.75,38L 41,51L 41,25 Z "/>
+  </Canvas>
+  <Canvas x:Key="appbar_control_rewind_variant" Width="76" Height="76" Clip="F1 M 0,0L 76,0L 76,76L 0,76L 0,0">
+    <Path Width="38.75" Height="26" Canvas.Left="18.25" Canvas.Top="25" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 57,25L 40.25,38L 57,51L 57,25 Z M 35,25L 18.25,38L 35,51L 35,25 Z "/>
+  </Canvas>
+  <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" x:Key="appbar_add">
         <Path Width="24" Height="24" Canvas.Left="12" Canvas.Top="12" Stretch="Fill" Fill="{DynamicResource BlackBrush}" Data="F1 M 22,12L 26,12L 26,22L 36,22L 36,26L 26,26L 26,36L 22,36L 22,26L 12,26L 12,22L 22,22L 22,12 Z " />
     </Canvas>
     <Canvas Width="48" Height="48" Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0" x:Key="appbar_alert">

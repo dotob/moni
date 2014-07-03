@@ -16,6 +16,7 @@ namespace MONI.Data {
     private ObservableCollection<WorkItem> items;
     private WorkDayParserResult lastParseResult;
     private bool isChanged;
+    private bool _focusMe;
 
     private WorkDay() {
       this.items = new ObservableCollection<WorkItem>();
@@ -161,6 +162,21 @@ namespace MONI.Data {
     }
 
     public string Error { get; private set; }
+
+    public bool FocusMe {
+      get { return _focusMe; }
+      set {
+        if (_focusMe == value) {
+          return;
+        }
+        _focusMe = value;
+        var tmp = this.PropertyChanged;
+        if (tmp != null) {
+          tmp(this, new PropertyChangedEventArgs("FocusMe"));
+        }
+      }
+    }
+
     public bool IsChanged {
       get { return this.isChanged; }
       set { this.isChanged = value; }
