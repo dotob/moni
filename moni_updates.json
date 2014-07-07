@@ -103,6 +103,7 @@
     "Neu: Strg+ + hängt (+ ), an den aktuellen Eintrag, damit man direkt eine Kommentarerweiterung eingeben kann",
     "Neu: Monatsleiste (diese kann in den Einstellungen abgeschaltet werden)",
     "Gefixed: PageDown auf einer Stundenzahl wird nun nicht kleiner als 0",
+    "Gefixed: Semikolon in Beschreibung schneidet Beschreibung ab",
     ],
   "DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.4/MONI.exe"
 },

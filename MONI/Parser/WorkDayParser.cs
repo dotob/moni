@@ -199,7 +199,7 @@ namespace MONI.Data
             }
           }
           if (workItem != null) {
-            var projectPosDescString = wdItemString.Token(hourProjectInfoSeparator.ToString(), 2).Trim();
+            var projectPosDescString = wdItemString.Substring(wdItemString.IndexOf(hourProjectInfoSeparator)+1).Trim();
             if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
               if (this.settings != null) {
