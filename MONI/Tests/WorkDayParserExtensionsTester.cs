@@ -33,6 +33,13 @@ namespace MONI.Tests
     }
 
     [Test]
+    public void WDPCurserUp_HourStringBelowZero_DoNotDecrement() {
+      int pos = 2;
+      var newText = WorkDayParserExtensions.Decrement("9,0;12345-000,-16:00;12345-000", 1, ref pos);
+      Assert.AreEqual("9,0;12345-000,-16:00;12345-000", newText);
+    }
+
+    [Test]
     public void WDPCurserUp_HourStringHourOverflow_Increment() {
       int pos = 2;
       var newText = WorkDayParserExtensions.Increment("9,4;12345-000,-16:00;12345-000", 5, ref pos);

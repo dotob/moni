@@ -102,6 +102,7 @@
     "Verbessert: Es wird nun eine Warnung angezeigt wenn man die Daten in MonList importiert",
     "Neu: Strg+ + hängt (+ ), an den aktuellen Eintrag, damit man direkt eine Kommentarerweiterung eingeben kann",
     "Neu: Monatsleiste (diese kann in den Einstellungen abgeschaltet werden)",
+    "Gefixed: PageDown auf einer Stundenzahl wird nun nicht kleiner als 0",
     ],
   "DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.4/MONI.exe"
 },

@@ -39,11 +39,11 @@ namespace MONI.Parser {
         } else {
           double t;
           if (Double.TryParse(part, NumberStyles.Any, CultureInfo.InvariantCulture, out t)) {
-            double hIncremented;
+            double hIncremented = t;
             if (incDec == INCDEC_OPERATOR.INCREMENT) {
-              hIncremented = t + hoursToIncrementBy;
-            } else {
-              hIncremented = t - hoursToIncrementBy;
+              hIncremented += hoursToIncrementBy;
+            } else if ((hIncremented - hoursToIncrementBy) >= 0) { // do not go below zero
+              hIncremented -= hoursToIncrementBy;
             }
             newPart = hIncremented.ToString(CultureInfo.InvariantCulture);
           }
