@@ -846,8 +846,22 @@
                       <DataTemplate>
                         <Grid>
                           <attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+                            <!-- left click on item in daylist, select workitems text in textbox -->
                             <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseLeftButtonUp"
-                                                                     Action="{Binding ElementName=mv, Path=ViewModel.SelectUserEntry, Mode=OneWay}">
+                                                                     Action="{Binding ElementName=mv, Path=ViewModel.SelectWorkItemTextComplete, Mode=OneWay}">
+                              <attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                                <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
+                                  <!-- WorkItem -->
+                                  <Binding Mode="OneWay" />
+                                  <!-- TextBox -->
+                                  <Binding ElementName="userEntry"
+                                           Mode="OneWay" />
+                                </MultiBinding>
+                              </attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                            </attachedCommandBehavior:BehaviorBinding>                            
+                            <!-- right click on item in daylist, select workitems text without time in textbox -->
+                            <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseRightButtonUp"
+                                                                     Action="{Binding ElementName=mv, Path=ViewModel.SelectWorkItemTextWithOutTime, Mode=OneWay}">
                               <attachedCommandBehavior:BehaviorBinding.CommandParameter>
                                 <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
                                   <!-- WorkItem -->

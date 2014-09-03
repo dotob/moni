@@ -84,8 +84,10 @@ namespace MONI.ViewModels {
       // load help
       this.Help = this.ReadHelp();
          
-      this.SelectUserEntry += DoSelectUserEntry;
+      this.SelectWorkItemTextComplete += DoSelectWorkItemTextComplete;
+      this.SelectWorkItemTextWithOutTime += DoSelectWorkItemTextWithOutTime;
     }
+
 
     private string ReadHelp() {
       string completeHelp = Encoding.UTF8.GetString(Properties.Resources.README);
@@ -136,7 +138,8 @@ namespace MONI.ViewModels {
     public PositionSearchViewModel PositionSearch { get; set; }
     public PNSearchViewModel PNSearch { get; set; }
 
-    public Action<object> SelectUserEntry { get; private set; }
+    public Action<object> SelectWorkItemTextComplete { get; private set; }
+    public Action<object> SelectWorkItemTextWithOutTime { get; private set; }
 
     public UpdateInfoViewModel UpdateInfoViewModel { get; set; }
 
@@ -288,25 +291,54 @@ namespace MONI.ViewModels {
       }
     }
 
-    private static void DoSelectUserEntry(object o) {
-      var bindedValues = o as IEnumerable;
-      if (bindedValues == null) {
-        return;
-      }
-      var workItem = bindedValues.OfType<object>().ElementAtOrDefault(0) as WorkItem;
-      var tb = bindedValues.OfType<object>().ElementAtOrDefault(1) as TextBox;
-      if (workItem == null || tb == null) {
-        return;
-      }
-      tb.Focus();
-      string wholeString = tb.Text;
+    private static void DoSelectWorkItemTextComplete(object o) {
+      WorkItem workItem;
+      TextBox tb;
+      string wholeString;
+      if (!GetTextBoxWorkItemInfo(o, out workItem, out tb, out wholeString)){ return;}
+
       if (!string.IsNullOrWhiteSpace(wholeString)) {
         string searchString = workItem.OriginalString;
         int selStart = wholeString.IndexOf(searchString, StringComparison.InvariantCulture);
         if (selStart >= 0) {
           tb.Select(selStart, searchString.Length);
+          Clipboard.SetText(searchString);
         }
       }
+    }
+
+    private void DoSelectWorkItemTextWithOutTime(object o) {
+      WorkItem workItem;
+      TextBox tb;
+      string wholeString;
+      if (!GetTextBoxWorkItemInfo(o, out workItem, out tb, out wholeString)) { return; }
+
+      if (!string.IsNullOrWhiteSpace(wholeString)) {
+        string searchString = workItem.OriginalString.Token(";", 2);
+        int selStart = wholeString.IndexOf(searchString, StringComparison.InvariantCulture);
+        if (selStart >= 0) {
+          tb.Select(selStart, searchString.Length);
+          Clipboard.SetText(searchString);
+        }
+      }
+    }
+
+    private static bool GetTextBoxWorkItemInfo(object o, out WorkItem workItem, out TextBox tb, out string wholeString) {
+      workItem = null;
+      tb = null;
+      wholeString = null;
+      var bindedValues = o as IEnumerable;
+      if (bindedValues == null) {
+        return false;
+      }
+      workItem = bindedValues.OfType<object>().ElementAtOrDefault(0) as WorkItem;
+      tb = bindedValues.OfType<object>().ElementAtOrDefault(1) as TextBox;
+      if (workItem == null || tb == null) {
+        return false;
+      }
+      tb.Focus();
+      wholeString = tb.Text;
+      return true;
     }
 
     private string DetermineSettingsFile() {
@@ -442,6 +474,7 @@ namespace MONI.ViewModels {
     }
 
     public WorkDay SelectedWorkDay { get; set; }
+
 
     private void CreateAndLoadYear(int year) {
       if (this.WorkYear != null) {

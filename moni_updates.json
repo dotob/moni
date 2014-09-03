@@ -106,5 +106,12 @@
     "Gefixed: Semikolon in Beschreibung schneidet Beschreibung ab",
     ],
   "DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.4/MONI.exe"
+},{
+  "Version":"0.9.9.5",
+  "Changes":[
+    "Neu: Links-Klick auf einen Eintrag unterhalb der Textbox selektiert (gabs schon) und kopiert den zugehörigen Text (incl. Zeitangabe) in die Zwischenablage",
+    "Neu: Rechts-Klick auf einen Eintrag unterhalb der Textbox selektiert und kopiert den zugehörigen Text (excl. Zeitangabe) in die Zwischenablage",
+    ],
+  "DownLoadURL" : "https://github.com/dotob/moni/releases/download/0.9.9.5/MONI.exe"
 },
 ]
