@@ -118,7 +118,7 @@
   </Controls:MetroWindow.TitleTemplate>
 
   <!-- *** window commands ***************************************************************** -->
-  <Controls:MetroWindow.WindowCommands>
+  <Controls:MetroWindow.RightWindowCommands>
     <Controls:WindowCommands>
       <Button Click="ToMonlist_Button_Click"
               x:Name="OpenMonlist"
@@ -180,7 +180,7 @@
               FontSize="18"
               Command="Help" />
     </Controls:WindowCommands>
-  </Controls:MetroWindow.WindowCommands>
+  </Controls:MetroWindow.RightWindowCommands>
 
   <!-- *** flyouts ***************************************************************** -->
   <Controls:MetroWindow.Flyouts>
