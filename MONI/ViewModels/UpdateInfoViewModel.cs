@@ -46,7 +46,14 @@ namespace MONI.ViewModels
     private IEnumerable<UpdateInfo> GetUpdateInfos() {
       try {
         WebClient wc = new WebClient();
-        var uisJson = wc.DownloadString(this.updateInfoURL);
+        var url = this.updateInfoURL;
+        try {
+          url = string.Format("{0}?user={1}&machine={2}&framework={3}", this.updateInfoURL, Environment.UserName, Environment.MachineName, Environment.Version);
+        }
+        catch (Exception e) {
+          logger.Error("error while collecting enviroiniment info: {0}", e);
+        }
+        var uisJson = wc.DownloadString(url);
         UpdateInfo[] uis = JsonConvert.DeserializeObject<UpdateInfo[]>(uisJson);
         return uis;
       }
