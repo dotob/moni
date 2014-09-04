@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("moni")]
 [assembly: AssemblyDescription("the better way to enter monlist data")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("basti & co 4 inform")]
+[assembly: AssemblyCompany("basti, jan & co 4 inform")]
 [assembly: AssemblyProduct("moni")]
-[assembly: AssemblyCopyright("Copyright © basti & co 2014")]
+[assembly: AssemblyCopyright("Copyright © basti, jan & co 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,5 +51,5 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.9.9.4")]
-[assembly: AssemblyFileVersion("0.9.9.4")]
+[assembly: AssemblyVersion("0.9.9.5")]
+[assembly: AssemblyFileVersion("0.9.9.5")]

@@ -17,6 +17,7 @@ Außerdem bietet Moni weitere Features, die die Eingabe vereinfachen:
 - Projektnummernsuche
 - Positionsnummernsuche
 - Hitlisten für meistgenutze Projekt- und Positionsnummern
+- Monatsseitenleiste
 
 
 ## Das Interface ##
@@ -83,7 +84,8 @@ In allen Pfadangaben kann **#{userhome}** als Platzhalter für das Benutzer-Verz
 - **bild hoch**: Aktuellen Eintrag um 15min erhöhen bzw. erweitern
 - **bild runter**: Aktuellen Eintrag um 15min erniedrigen bzw. verkürzen
 - **strg+1**: Bereitet die aktuelle Eingabe für einen neuen Eintrag der Länge 1 Stunde vor (hängt also ",1;" an). Geht genauso auch für die anderen Zahlen von 2-9.
-- **click auf Eintrag unter Textbox**: Selektiert den dafür verantwortlichen Text
+- **click mit links auf einen Eintrag unter Textbox**: Selektiert den dafür verantwortlichen Text und kopiert ihn in die Zwischenablage
+- **click mit rechts auf einen Eintrag unter Textbox**: Selektiert den dafür verantwortlichen Text (ohne Zeit) und kopiert ihn in die Zwischenablage
 - **click auf Eintrag in Hitlisten**: Fügt die Nummer der aktuellen Textbox hinzu
 
 # Dokumentation der Eingabe #
