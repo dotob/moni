@@ -197,5 +197,12 @@ namespace MONI.Tests {
       Assert.AreEqual(0.5, new TimeItem(1,40) - new TimeItem(2,10));
     }
 
+    [Test]
+    public void DateTime_StringFormat_DoItRight() {
+      var d = new DateTime(2000, 1, 1);
+      var s = string.Format("{0:s}", d);
+      Assert.AreEqual("2000-01-01T00:00:00", s);
+    }
+
   }
 }

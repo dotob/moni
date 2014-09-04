@@ -6,11 +6,8 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -66,10 +63,6 @@ namespace MONI.ViewModels {
       // posnumsearch
       this.PositionSearch = new PositionSearchViewModel(this.Settings.MainSettings.PositionNumberFilePath);
 
-      // updateinfo
-      Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-      this.UpdateInfoViewModel = new UpdateInfoViewModel(this.Settings.MainSettings.UpdateInfoURL, currentVersion);
-
       // read persistencedata
       string dataDirectory = Utils.PatchFilePath(this.MonlistSettings.MainSettings.DataDirectory);
       this.persistenceLayer = new TextFilePersistenceLayer(dataDirectory);
@@ -80,6 +73,11 @@ namespace MONI.ViewModels {
         this.throttleSaveAndCalc = new DispatcherTimer(DispatcherPriority.DataBind, dispatcher);
         this.throttleSaveAndCalc.Tick += this.throttleSaveAndCalc_Tick;
       }
+
+      // updateinfo
+      Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
+      this.UpdateInfoViewModel = new UpdateInfoViewModel(this.Settings.MainSettings.UpdateInfoURL, currentVersion, this.persistenceLayer.EntryCount, this.persistenceLayer.FirstEntryDate);
+
 
       // load help
       this.Help = this.ReadHelp();

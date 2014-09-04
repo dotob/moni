@@ -30,6 +30,20 @@ namespace MONI.Data {
       get { return this.workDaysData; }
     }
 
+    public int EntryCount {
+      get { return this.workDaysData.Count; }
+    }
+
+    public DateTime FirstEntryDate {
+      get {
+        var workDayPersistenceData = this.workDaysData.FirstOrDefault();
+        if (workDayPersistenceData != null) {
+          return workDayPersistenceData.Date;
+        }
+        return DateTime.Today;
+      }
+    }
+
     public ReadWriteResult ReadData() {
       ReadWriteResult ret = new ReadWriteResult {Success = true};
       try {
@@ -119,6 +133,9 @@ namespace MONI.Data {
     public string OriginalString { get; set; }
     public int LineNumber { get; set; }
     public string FileName { get; set; }
+    public DateTime Date {
+      get { return new DateTime(this.Year, this.Month, this.Day);}
+    }
   }
 
   public class ReadWriteResult

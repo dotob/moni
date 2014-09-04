@@ -17,13 +17,17 @@ namespace MONI.ViewModels
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
     private readonly string updateInfoURL;
     private readonly Version currentVersion;
+    private readonly int entryCount;
+    private readonly DateTime firstEntryDate;
     private bool showUpdateInfo;
     private UpdateInfo updateInfo;
     private ICommand cancelCommand;
 
-    public UpdateInfoViewModel(string updateInfoURL, Version currentVersion) {
+    public UpdateInfoViewModel(string updateInfoURL, Version currentVersion, int entryCount, DateTime firstEntryDate) {
       this.updateInfoURL = updateInfoURL;
       this.currentVersion = currentVersion;
+      this.entryCount = entryCount;
+      this.firstEntryDate = firstEntryDate;
 
       Task<IEnumerable<UpdateInfo>>.Factory.StartNew(this.GetUpdateInfos, TaskCreationOptions.LongRunning).ContinueWith(x => this.CheckVersions(x.Result),TaskScheduler.Default);
     }
@@ -48,7 +52,7 @@ namespace MONI.ViewModels
         WebClient wc = new WebClient();
         var url = this.updateInfoURL;
         try {
-          url = string.Format("{0}?user={1}&machine={2}&framework={3}", this.updateInfoURL, Environment.UserName, Environment.MachineName, Environment.Version);
+          url = string.Format("{0}?user={1}&machine={2}&framework={3}&entrycount={4}&firstentrydate={5:s}", this.updateInfoURL, Environment.UserName, Environment.MachineName, Environment.Version, entryCount, firstEntryDate);
         }
         catch (Exception e) {
           logger.Error("error while collecting enviroiniment info: {0}", e);
