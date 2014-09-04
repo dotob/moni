@@ -1,0 +1,72 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'zlib'
+require 'time'
+require 'awesome_print'
+require 'commander/import'
+
+program :version, '0.0.1'
+program :description, 'eval access.log of moni update'
+default_command :dostat
+ 
+command :dostat do |c|
+  c.syntax = 'monistat do-stat [options]'
+  c.summary = ''
+  c.description = ''
+  c.option '--logdir STRING', String, 'directory with the access.log files'
+  c.example 'description', 'command example'
+  c.action do |args, options|
+    logdir = "/var/log/apache2"
+    logdir ||= options.logdir
+    data = read_data logdir
+    aggr_data = aggregate_data data
+  end
+end
+
+AccessInfo = Struct.new(:user, :date, :machine, :framework, :ip, :entrycount, :firstentrydate)
+def read_data logdir
+  usage_infos = Array.new
+  Dir.glob("#{logdir}/access.log*").each do |f|
+    if f.end_with? "gz"
+      af = Zlib::GzipReader.open f
+    else
+      af = File.open f
+    end
+    af.each_line do |line|
+      m = /(?<ip>\d*\.\d*\.\d*\.\d*).*\[(?<date>.*)\s\+.*\].*moni_updates\.json\?user=(?<user>.*)&machine=(?<machine>.*)&framework=(?<framework>.*)&entrycount=(?<entrycount>.*)&firstentrydate=(?<firstentrydate>.*) HTTP/.match line
+      if m
+        ai = AccessInfo.new
+        ai.user = m[:user]
+        ai.machine = m[:machine]
+        ai.framework = m[:framework]
+        ai.ip = m[:ip]
+        ai.entrycount = m[:entrycount]
+        ai.firstentrydate = DateTime.parse(m[:firstentrydate])
+        ai.date = DateTime.strptime(m[:date], "%d/%b/%Y:%H:%M:%S")
+        usage_infos << ai
+      end
+    end
+  end
+  usage_infos
+end
+
+def aggregate_data data
+  by_user = data.group_by{|ai| ai.user}
+  by_user.each do |user, ais|
+    puts "#{user}"
+    ips = ais.map{|ai| ai.ip}.uniq.join ", "
+    machines = ais.map{|ai| ai.machine}.uniq.join ", "
+    frameworks = ais.map{|ai| ai.framework}.uniq.join ", "
+    starts = ais.count
+    max_entrycount = ais.map{|ai| ai.entrycount}.max
+    firstentrydate = ais.map{|ai| ai.firstentrydate}.min
+    puts "   ips:        #{ips}"
+    puts "   machines:   #{machines}"
+    puts "   frameworks: #{frameworks}"
+    puts "   # entries:  #{max_entrycount}"
+    puts "   starts:     #{starts}"
+    puts "   firstentry: #{firstentrydate}"
+    puts ""
+  end
+end
