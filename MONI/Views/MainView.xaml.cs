@@ -26,7 +26,7 @@ namespace MONI.Views {
         this.ViewModel = new MainViewModel(this.Dispatcher);
       } catch (Exception exception) {
         MessageBox.Show(this, exception.Message, "Fehler beim Starten", MessageBoxButton.OK, MessageBoxImage.Error);
-        logger.ErrorException("error while starting", exception);
+        logger.Error("error while starting", exception);
       }
       this.InitializeComponent();
       this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);

@@ -62,7 +62,7 @@ namespace MONI.ViewModels
         return uis;
       }
       catch (Exception exception) {
-        logger.ErrorException(string.Format("while downloading updateinfo from {0} an exception occured", updateInfoURL), exception);
+        logger.Error(string.Format("while downloading updateinfo from {0} an exception occured", updateInfoURL), exception);
       }
       return Enumerable.Empty<UpdateInfo>();
     }

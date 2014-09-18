@@ -74,7 +74,7 @@ namespace MONI.Data {
       catch (Exception exception) {
         ret.Success = false;
         ret.Error = exception.Message;
-        logger.ErrorException("readdata failed", exception);
+        logger.Error("readdata failed", exception);
       }
       return ret;
     }

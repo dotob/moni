@@ -90,7 +90,7 @@ namespace MONI.Util
         try {
           vs = Environment.OSVersion.VersionString;
         } catch (Exception ex) {
-          logger.ErrorException("exception occured while retrieving Environment.OSVersion.VersionString: {0}", ex);
+          logger.Error("exception occured while retrieving Environment.OSVersion.VersionString: {0}", ex);
         }
         return vs;
       }
@@ -102,7 +102,7 @@ namespace MONI.Util
         try {
           vs = Environment.OSVersion.Platform.ToString();
         } catch (Exception ex) {
-          logger.ErrorException("exception occured while retrieving Environment.OSVersion.Platform: {0}", ex);
+          logger.Error("exception occured while retrieving Environment.OSVersion.Platform: {0}", ex);
         }
         return vs;
       }
@@ -114,7 +114,7 @@ namespace MONI.Util
         try {
           vs = Environment.OSVersion.ServicePack;
         } catch (Exception ex) {
-          logger.ErrorException("exception occured while retrieving Environment.OSVersion.ServicePack: {0}", ex);
+          logger.Error("exception occured while retrieving Environment.OSVersion.ServicePack: {0}", ex);
         }
         return vs;
       }
@@ -126,7 +126,7 @@ namespace MONI.Util
         try {
           vs = Environment.ProcessorCount.ToString();
         } catch (Exception ex) {
-          logger.ErrorException("exception occured while retrieving Environment.ProcessorCount: {0}", ex);
+          logger.Error("exception occured while retrieving Environment.ProcessorCount: {0}", ex);
         }
         return vs;
       }
@@ -138,7 +138,7 @@ namespace MONI.Util
         try {
           vs = Environment.MachineName;
         } catch (Exception ex) {
-          logger.ErrorException("exception occured while retrieving Environment.MachineName: {0}", ex);
+          logger.Error("exception occured while retrieving Environment.MachineName: {0}", ex);
         }
         return vs;
       }
@@ -150,7 +150,7 @@ namespace MONI.Util
         try {
           vs = Environment.Version.ToString();
         } catch (Exception ex) {
-          logger.ErrorException("exception occured while retrieving Environment.Version: {0}", ex);
+          logger.Error("exception occured while retrieving Environment.Version: {0}", ex);
         }
         return vs;
       }
@@ -162,7 +162,7 @@ namespace MONI.Util
         try {
           vs = Environment.UserName;
         } catch (Exception ex) {
-          logger.ErrorException("exception occured while retrieving Environment.UserName: {0}", ex);
+          logger.Error("exception occured while retrieving Environment.UserName: {0}", ex);
         }
         return vs;
       }
@@ -196,7 +196,7 @@ namespace MONI.Util
         try {
           vs = Environment.CommandLine;
         } catch (Exception ex) {
-          logger.ErrorException("exception occured while retrieving Environment.CommandLine: {0}", ex);
+          logger.Error("exception occured while retrieving Environment.CommandLine: {0}", ex);
         }
         return vs;
       }
