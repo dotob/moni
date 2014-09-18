@@ -54,7 +54,7 @@
             Value="#1F1F1F" />
     <Setter Property="Background"
             Value="#404040" />
-    <Setter Property="VerticalAlignment"
+    <Setter Property="VerticalContentAlignment"
             Value="Center" />
   </Style>
 
