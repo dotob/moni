@@ -1186,7 +1186,7 @@
                     VerticalScrollBarVisibility="Auto"
                     Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
         <ItemsControl Margin="0 1 0 0"
-                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist}"
+                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist, Mode=OneWay, IsAsync=True}"
                       HorizontalContentAlignment="Stretch"
                       RenderOptions.ClearTypeHint="Enabled"
                       TextOptions.TextFormattingMode="Display">
@@ -1251,7 +1251,7 @@
                     VerticalScrollBarVisibility="Auto"
                     Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
         <ItemsControl Margin="0 1 0 0"
-                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist}"
+                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist, Mode=OneWay, IsAsync=True}"
                       HorizontalContentAlignment="Stretch"
                       RenderOptions.ClearTypeHint="Enabled"
                       TextOptions.TextFormattingMode="Display">

@@ -4,7 +4,9 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using MONI.Data.SpecialDays;
+using MONI.Util;
 using MONI.ViewModels;
 
 namespace MONI.Data
@@ -32,58 +34,85 @@ namespace MONI.Data
         this.Months.Add(wm);
         foreach (var workWeek in wm.Weeks) {
           this.Weeks.Add(workWeek);
-          workWeek.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.workWeek_PropertyChanged);
+          workWeek.PropertyChanged += this.workWeek_PropertyChanged;
         }
       }
+      this.ProjectHitlist = new QuickFillObservableCollection<HitlistInfo>();
+      this.PositionHitlist = new QuickFillObservableCollection<HitlistInfo>();
+      this.UpdateProjectHitlistAsync();
+      this.UpdatePositionHitlistAsync();
     }
 
-    private void workWeek_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
+    private void workWeek_PropertyChanged(object sender, PropertyChangedEventArgs e) {
       this.OnPropertyChanged("HoursDuration");
-      this.OnPropertyChanged("ProjectHitList");
-      this.OnPropertyChanged("PositionHitlist");
+      this.UpdateProjectHitlistAsync();
+      this.UpdatePositionHitlistAsync();
     }
 
-    public ObservableCollection<WorkMonth> Months { get; set; }
-    public ObservableCollection<WorkWeek> Weeks { get; set; }
+    public ObservableCollection<WorkMonth> Months { get; protected set; }
+    public ObservableCollection<WorkWeek> Weeks { get; protected set; }
+    public QuickFillObservableCollection<HitlistInfo> ProjectHitlist { get; protected set; }
+    public QuickFillObservableCollection<HitlistInfo> PositionHitlist { get; protected set; }
 
-    public ObservableCollection<HitlistInfo> ProjectHitlist {
-      get {
-        var allDays = this.Months.SelectMany(m => m.Days);
-        var daysFromLookback = this.hitListLookBackInWeeks > 0 ? allDays.Where(m => m.DateTime > DateTime.Now.AddDays(this.hitListLookBackInWeeks * -7)) : allDays;
-        var hitlistInfos = daysFromLookback
-          .SelectMany(d => d.Items)
-          .GroupBy(p => p.Project)
-          .Select(g =>
-                  new HitlistInfo(
-                    g.Key,
-                    g.Count(),
-                    g.Sum(wi => wi.HoursDuration),
-                    g.OrderByDescending(p => p.WorkDay.DateTime).Select(p => this.pnSearch.GetDescriptionForProjectNumber(p.Project)).FirstOrDefault())
-          );
-        return new ObservableCollection<HitlistInfo>(hitlistInfos.OrderByDescending(g => g.HoursUsed));
-      }
+    public async void UpdateProjectHitlistAsync()
+    {
+      var newHitlist = await GetProjectHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.pnSearch);
+      this.ProjectHitlist.Fill(newHitlist, true);
     }
 
-    public ObservableCollection<HitlistInfo> PositionHitlist {
-      get {
-        if (positionSearch != null) {
-          var allDays = this.Months.SelectMany(m => m.Days);
-          var daysFromLookback = this.hitListLookBackInWeeks > 0 ? allDays.Where(m => m.DateTime > DateTime.Now.AddDays(this.hitListLookBackInWeeks*-7)) : allDays;
+    private static async Task<IEnumerable<HitlistInfo>> GetProjectHitlistAsync(IEnumerable<WorkMonth> months, int lookBackInWeeks, PNSearchViewModel pnSearchViewModel)
+    {
+      return await Task.Factory.StartNew(() =>
+        {
+          var allDays = months.SelectMany(m => m.Days);
+          var daysFromLookback = lookBackInWeeks > 0 ? allDays.Where(m => m.DateTime > DateTime.Now.AddDays(lookBackInWeeks*-7)) : allDays;
+          var hitlistInfos = daysFromLookback
+            .SelectMany(d => d.Items)
+            .GroupBy(p => p.Project)
+            .Select(g =>
+              new HitlistInfo(
+                g.Key,
+                g.Count(),
+                g.Sum(wi => wi.HoursDuration),
+                g.OrderByDescending(p => p.WorkDay.DateTime)
+                  .Select(p => pnSearchViewModel.GetDescriptionForProjectNumber(p.Project))
+                  .FirstOrDefault())
+            );
+          return hitlistInfos.OrderByDescending(g => g.HoursUsed);
+        });
+    }
+
+    public async void UpdatePositionHitlistAsync()
+    {
+      var newHitlist = await GetPositionHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.positionSearch);
+      this.PositionHitlist.Fill(newHitlist, true);
+    }
+
+    private static async Task<IEnumerable<HitlistInfo>> GetPositionHitlistAsync(IEnumerable<WorkMonth> months, int lookBackInWeeks, PositionSearchViewModel posSearchViewModel)
+    {
+      return await Task.Factory.StartNew(() =>
+      {
+        if (posSearchViewModel != null)
+        {
+          var allDays = months.SelectMany(m => m.Days);
+          var daysFromLookback = lookBackInWeeks > 0 ? allDays.Where(m => m.DateTime > DateTime.Now.AddDays(lookBackInWeeks*-7)) : allDays;
           var hitlistInfos = daysFromLookback
             .SelectMany(d => d.Items)
             .GroupBy(p => p.Position)
             .Select(g =>
-                    new HitlistInfo(
-                      g.Key,
-                      g.Count(),
-                      g.Sum(wi => wi.HoursDuration),
-                      positionSearch.GetDescriptionForPositionNumber(g.Key))
+              new HitlistInfo(
+                g.Key,
+                g.Count(),
+                g.Sum(wi => wi.HoursDuration),
+                posSearchViewModel.GetDescriptionForPositionNumber(g.Key))
             );
-          return new ObservableCollection<HitlistInfo>(hitlistInfos.OrderByDescending(g => g.HoursUsed));
-        } else {
-          return new ObservableCollection<HitlistInfo>();
+          return hitlistInfos.OrderByDescending(g => g.HoursUsed);
         }
-      }
+        else
+        {
+          return Enumerable.Empty<HitlistInfo>();
+        }
+      });
     }
 
     public override string ToString() {
