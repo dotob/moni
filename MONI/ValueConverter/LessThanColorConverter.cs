@@ -42,7 +42,7 @@ namespace MONI.ValueConverter
         }
         return b;
       } catch (Exception exception) {
-        logger.ErrorException("Could not convert value to brush!", exception);
+        logger.Error("Could not convert value to brush!", exception);
         return this.okBrush;
       }
     }
