@@ -367,15 +367,5 @@ namespace MONI.Views {
       this.shortCutList.Visibility = Visibility.Visible;
       this.deferredUiActivationTimer.Stop();
     }
-
-    private void GoToDay(object sender, MouseButtonEventArgs e) {
-      var b = sender as Border;
-      if (b != null) {
-        var d = b.Tag as WorkDay;
-        if (d != null) {
-          this.ViewModel.SelectDate(d.DateTime);
-        }
-      }
-    }
   }
 }

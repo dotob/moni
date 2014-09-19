@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:data="clr-namespace:MONI.Data"
+                    xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
+                    xmlns:attachedCommandBehavior="clr-namespace:AttachedCommandBehavior">
+
+  <!-- this is a day of a month -->
+  <DataTemplate x:Key="DayOfMonthDataTemplate"
+                DataType="{x:Type data:WorkDay}">
+    <Grid>
+      <attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+        <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseLeftButtonUp"
+                                                 CommandParameter="{Binding Mode=OneWay}"
+                                                 Action="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=ViewModel.GoToDay, Mode=OneWay}" />
+      </attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+      
+      <Border x:Name="dayBorder"
+              BorderThickness="1"
+              Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
+              Margin="1 0 0 1"
+              Padding="1"
+              SnapsToDevicePixels="True">
+        <Grid RenderOptions.ClearTypeHint="Enabled"
+              TextOptions.TextFormattingMode="Display">
+
+          <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+          </Grid.RowDefinitions>
+
+          <TextBlock Grid.Row="0"
+                     Text="{Binding Day}"
+                     FontSize="10"
+                     Foreground="{StaticResource lightText}"
+                     FontWeight="Bold"
+                     HorizontalAlignment="Center" />
+          <TextBlock Grid.Row="1"
+                     Text="{Binding HoursDuration}"
+                     Padding="3 0 3 0"
+                     FontSize="10"
+                     Foreground="{StaticResource lightText}"
+                     HorizontalAlignment="Center" />
+        </Grid>
+      </Border>
+      <UniformGrid Columns="2"
+                   IsHitTestVisible="False">
+        <Grid>
+          <Polygon Visibility="{Binding IsToday, Converter={StaticResource false2CollapsedConverter}}"
+                   Points="0,0 0,10 5,5 0,0"
+                   Stretch="Fill"
+                   Fill="#CC119EDA"
+                   Margin="1 2" />
+          <Polygon Visibility="{Binding FocusMe, Converter={StaticResource false2CollapsedConverter}}"
+                   Points="0,0 0,10 5,5 0,0"
+                   Stretch="Fill"
+                   StrokeThickness="1"
+                   Stroke="#CC1130DA"
+                   Margin="1 2" />
+        </Grid>
+      </UniformGrid>
+    </Grid>
+  </DataTemplate>
+
+</ResourceDictionary>
