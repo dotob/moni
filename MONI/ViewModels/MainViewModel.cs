@@ -84,6 +84,7 @@ namespace MONI.ViewModels {
          
       this.SelectWorkItemTextComplete += DoSelectWorkItemTextComplete;
       this.SelectWorkItemTextWithOutTime += DoSelectWorkItemTextWithOutTime;
+      this.GoToDay = DoGoToDay;
     }
 
 
@@ -138,6 +139,7 @@ namespace MONI.ViewModels {
 
     public Action<object> SelectWorkItemTextComplete { get; private set; }
     public Action<object> SelectWorkItemTextWithOutTime { get; private set; }
+    public Action<object> GoToDay { get; private set; }
 
     public UpdateInfoViewModel UpdateInfoViewModel { get; set; }
 
@@ -318,6 +320,13 @@ namespace MONI.ViewModels {
           tb.Select(selStart, searchString.Length);
           Clipboard.SetText(searchString);
         }
+      }
+    }
+
+    private void DoGoToDay(object o) {
+      var wd = o as WorkDay;
+      if (wd != null) {
+        this.SelectDate(wd.DateTime);
       }
     }
 

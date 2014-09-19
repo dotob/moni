@@ -2,7 +2,6 @@
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      xmlns:Converters="http://metro.mahapps.com/winfx/xaml/shared"
                       xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
                       xmlns:data="clr-namespace:MONI.Data"
                       xmlns:viewModels="clr-namespace:MONI.ViewModels"
@@ -33,18 +32,9 @@
   <Window.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewTemplates.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
       </ResourceDictionary.MergedDictionaries>
-
-      <Converters:ToUpperConverter x:Key="ToUpperConverter" />
-
-      <valueConverter:VisibilityConverter x:Key="null2CollapsedConverter" />
-      <valueConverter:VisibilityConverter x:Key="false2CollapsedConverter" />
-      <valueConverter:VisibilityConverter x:Key="false2HiddenConverter"
-                                          NotVisibleValue="Hidden" />
-
-      <SolidColorBrush x:Key="lightText"
-                       Color="DarkSlateGray" />
 
       <VisualBrush Stretch="Uniform"
                    x:Key="editIcon"
@@ -564,73 +554,15 @@
       </Grid>
 
       <!-- days of month -->
-      <ScrollViewer Grid.Row="1"
-                    Grid.Column="0"
-                    VerticalScrollBarVisibility="Auto"
-                    Visibility="{Binding ElementName=mv, Path=ViewModel.MonthListVisibility}">
-        <ItemsControl ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkMonth.Days}"
-                      Grid.IsSharedSizeScope="True">
-        <ItemsControl.ItemTemplate>
-          <!-- this is a day of a month -->
-          <DataTemplate>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*"/>
-                  <ColumnDefinition Width="2*" />
-                </Grid.ColumnDefinitions>
-                <Border x:Name="dayBorder"
-                             Grid.ColumnSpan="2"
-                      BorderThickness="1"
-                      Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
-                      Margin="1 0 1 1"
-                      Padding="1"
-                      SnapsToDevicePixels="True"
-                      PreviewMouseLeftButtonUp="GoToDay"
-                      Tag="{Binding}">
-                <Grid RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display">
-
-                  <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                  </Grid.RowDefinitions>
-                  
-                  <TextBlock Grid.Column="0"
-                             Grid.Row="0"
-                             Text="{Binding Day}"
-                             FontSize="10"
-                             Foreground="{StaticResource lightText}"
-                             FontWeight="Bold"
-                             HorizontalAlignment="Center" />
-                  <TextBlock Grid.Column="0"
-                             Grid.Row="1"
-                             Text="{Binding HoursDuration}"
-                             Padding="3 0 3 0"
-                             FontSize="10"
-                             Foreground="{StaticResource lightText}"
-                             HorizontalAlignment="Center" />
-                </Grid>
-            </Border>
-            <Polygon Grid.Column="0"
-                      Grid.Row="0"
-                     Visibility="{Binding IsToday, Converter={StaticResource false2CollapsedConverter}}"
-                      Points="0,0 0,10 5,5 0,0"
-                      Stretch="Fill"
-                      Fill="#CC119EDA"
-                     Margin="1 2"/>
-            <Polygon Grid.Column="0"
-                      Grid.Row="0"
-                     Visibility="{Binding FocusMe, Converter={StaticResource false2CollapsedConverter}}"
-                      Points="0,0 0,10 5,5 0,0"
-                      Stretch="Fill"
-                     StrokeThickness="1"
-                     Stroke="#CC1130DA"
-                     Margin="1 2"/>
-            </Grid>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-      </ItemsControl>
-        </ScrollViewer>
+      <ListBox Grid.Row="1"
+               Grid.Column="0"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               HorizontalContentAlignment="Stretch"
+               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+               Visibility="{Binding ElementName=mv, Path=ViewModel.MonthListVisibility}"
+               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkMonth.Days}"
+               ItemTemplate="{StaticResource DayOfMonthDataTemplate}" />
 
       <!-- infos and week change buttons-->
       <Grid Grid.Column="1"
@@ -767,184 +699,189 @@
       </Grid>
 
       <!-- week view -->
-      <ScrollViewer Grid.Row="1"
-                    Grid.Column="1"
-                    VerticalScrollBarVisibility="Auto">
-        <!-- days -->
-        <ItemsControl ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}"
-                      Grid.IsSharedSizeScope="True">
-          <ItemsControl.ItemTemplate>
-            <!-- this is a day -->
-            <DataTemplate>
-              <Border x:Name="dayBorder"
-                      BorderThickness="1"
-                      Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
-                      Margin="1"
-                      Padding="1"
-                      SnapsToDevicePixels="True">
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"
-                                      SharedSizeGroup="Labels" />
-                    <ColumnDefinition Width="*" />
-                  </Grid.ColumnDefinitions>
-                  <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                  </Grid.RowDefinitions>
+      <!-- days -->
+      <ListBox Grid.Row="1"
+               Grid.Column="1"
+               Grid.IsSharedSizeScope="True"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               HorizontalContentAlignment="Stretch"
+               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}">
+        <ListBox.ItemTemplate>
+          <!-- this is a day -->
+          <DataTemplate>
+            <Border x:Name="dayBorder"
+                    BorderThickness="1"
+                    Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
+                    Margin="1"
+                    Padding="1"
+                    SnapsToDevicePixels="True">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto"
+                                    SharedSizeGroup="Labels" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-                  <TextBlock Grid.Column="0"
-                             Grid.Row="0"
-                             Margin="0 4 0 0"
-                             Text="{Binding DayOfWeek, Converter={x:Static valueConverter:DayOfWeekTranslatorConverter.Instance}}"
-                             Foreground="{StaticResource lightText}"
-                             HorizontalAlignment="Center" />
-                  <TextBlock Grid.Column="0"
-                             Grid.Row="1"
-                             Text="{Binding SpecialDay.Name}"
-                             Foreground="{StaticResource lightText}"
-                             FontWeight="Bold"
-                             Visibility="{Binding SpecialDay, Converter={StaticResource null2CollapsedConverter}}"
-                             HorizontalAlignment="Center" />
-                  <TextBlock Grid.Column="0"
-                             Grid.Row="2"
-                             Text="{Binding Day}"
-                             FontWeight="Bold"
-                             HorizontalAlignment="Center" />
-                  <TextBlock Grid.Column="0"
-                             Grid.Row="3"
-                             Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}"
-                             FontWeight="Bold"
-                             Padding="3 0 3 0"
-                             Foreground="{Binding HoursDuration, Converter={x:Static valueConverter:DurationFGColorConverter.Instance}}"
-                             Background="{Binding HoursDuration, Converter={x:Static valueConverter:DurationBGColorConverter.Instance}}"
-                             HorizontalAlignment="Center" />
-
-                  <TextBox x:Name="userEntry"
-                           Loaded="TextBox_Loaded"
-                           GotKeyboardFocus="WorkDayTextBox_OnGotKeyboardFocus"
-                           PreviewKeyDown="WorkDayTextBox_OnKeyDown"
-                           Grid.Column="1"
+                <TextBlock Grid.Column="0"
                            Grid.Row="0"
-                           Grid.RowSpan="3"
-                           Margin="3,2,2,2"
-                           Tag="{Binding}"
-                           AcceptsReturn="True"
-                           Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                           Margin="0 4 0 0"
+                           Text="{Binding DayOfWeek, Converter={x:Static valueConverter:DayOfWeekTranslatorConverter.Instance}}"
+                           Foreground="{StaticResource lightText}"
+                           HorizontalAlignment="Center" />
+                <TextBlock Grid.Column="0"
+                           Grid.Row="1"
+                           Text="{Binding SpecialDay.Name}"
+                           Foreground="{StaticResource lightText}"
+                           FontWeight="Bold"
+                           Visibility="{Binding SpecialDay, Converter={StaticResource null2CollapsedConverter}}"
+                           HorizontalAlignment="Center" />
+                <TextBlock Grid.Column="0"
+                           Grid.Row="2"
+                           Text="{Binding Day}"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center" />
+                <TextBlock Grid.Column="0"
+                           Grid.Row="3"
+                           Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}"
+                           FontWeight="Bold"
+                           Padding="3 0 3 0"
+                           Foreground="{Binding HoursDuration, Converter={x:Static valueConverter:DurationFGColorConverter.Instance}}"
+                           Background="{Binding HoursDuration, Converter={x:Static valueConverter:DurationBGColorConverter.Instance}}"
+                           HorizontalAlignment="Center" />
 
-                  <!-- day items -->
-                  <ItemsControl Grid.Column="1"
-                                Grid.Row="3"
-                                Grid.RowSpan="2"
-                                Margin="3,0,2,2"
-                                ItemsSource="{Binding Items}"
-                                IsTabStop="False"
-                                Grid.IsSharedSizeScope="True">
-                    <ItemsControl.ItemTemplate>
-                      <DataTemplate>
-                        <Grid>
-                          <attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
-                            <!-- left click on item in daylist, select workitems text in textbox -->
-                            <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseLeftButtonUp"
-                                                                     Action="{Binding ElementName=mv, Path=ViewModel.SelectWorkItemTextComplete, Mode=OneWay}">
-                              <attachedCommandBehavior:BehaviorBinding.CommandParameter>
-                                <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
-                                  <!-- WorkItem -->
-                                  <Binding Mode="OneWay" />
-                                  <!-- TextBox -->
-                                  <Binding ElementName="userEntry"
-                                           Mode="OneWay" />
-                                </MultiBinding>
-                              </attachedCommandBehavior:BehaviorBinding.CommandParameter>
-                            </attachedCommandBehavior:BehaviorBinding>                            
-                            <!-- right click on item in daylist, select workitems text without time in textbox -->
-                            <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseRightButtonUp"
-                                                                     Action="{Binding ElementName=mv, Path=ViewModel.SelectWorkItemTextWithOutTime, Mode=OneWay}">
-                              <attachedCommandBehavior:BehaviorBinding.CommandParameter>
-                                <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
-                                  <!-- WorkItem -->
-                                  <Binding Mode="OneWay" />
-                                  <!-- TextBox -->
-                                  <Binding ElementName="userEntry"
-                                           Mode="OneWay" />
-                                </MultiBinding>
-                              </attachedCommandBehavior:BehaviorBinding.CommandParameter>
-                            </attachedCommandBehavior:BehaviorBinding>
-                          </attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+                <TextBox x:Name="userEntry"
+                         Loaded="TextBox_Loaded"
+                         GotKeyboardFocus="WorkDayTextBox_OnGotKeyboardFocus"
+                         PreviewKeyDown="WorkDayTextBox_OnKeyDown"
+                         Grid.Column="1"
+                         Grid.Row="0"
+                         Grid.RowSpan="3"
+                         Margin="3,2,2,2"
+                         Tag="{Binding}"
+                         AcceptsReturn="True"
+                         Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-                          <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"
-                                              SharedSizeGroup="1" />
-                            <ColumnDefinition Width="Auto"
-                                              SharedSizeGroup="2" />
-                            <ColumnDefinition Width="Auto"
-                                              SharedSizeGroup="3" />
-                            <ColumnDefinition Width="Auto"
-                                              SharedSizeGroup="4" />
-                            <ColumnDefinition Width="Auto"
-                                              SharedSizeGroup="5" />
-                            <ColumnDefinition Width="Auto"
-                                              SharedSizeGroup="6" />
-                            <ColumnDefinition Width="Auto"
-                                              SharedSizeGroup="7" />
-                            <ColumnDefinition Width="Auto"
-                                              SharedSizeGroup="8" />
-                            <ColumnDefinition Width="Auto"
-                                              SharedSizeGroup="9" />
-                            <ColumnDefinition Width="Auto"
-                                              SharedSizeGroup="10" />
-                          </Grid.ColumnDefinitions>
-                          <TextBlock Grid.Column="0"
-                                     TextAlignment="Right"
-                                     Text="{Binding Start}"
-                                     FontWeight="Bold" />
-                          <TextBlock Grid.Column="1"
-                                     Text=" => "
-                                     Foreground="{StaticResource lightText}" />
-                          <TextBlock Grid.Column="2"
-                                     TextAlignment="Right"
-                                     Text="{Binding End}"
-                                     FontWeight="Bold" />
-                          <TextBlock Grid.Column="3"
-                                     TextAlignment="Right"
-                                     Foreground="DarkSlateGray"
-                                     Text="{Binding HoursDuration, StringFormat='{} ({0:f} h)'}" />
-                          <TextBlock Grid.Column="4"
-                                     Text=" : "
-                                     Foreground="{StaticResource lightText}" />
-                          <TextBlock Grid.Column="5"
-                                     Text="{Binding Project}"
-                                     FontWeight="Bold" />
-                          <TextBlock Grid.Column="6"
-                                     Text="-"
-                                     Foreground="{StaticResource lightText}" />
-                          <TextBlock Grid.Column="7"
-                                     Text="{Binding Position}"
-                                     FontWeight="Bold" />
-                          <TextBlock Grid.Column="8"
-                                     Text="=>"
-                                     Foreground="{StaticResource lightText}" />
-                          <TextBlock Grid.Column="9"
-                                     Text="{Binding Description}"
-                                     Foreground="{StaticResource lightText}" />
-                        </Grid>
-                      </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                  </ItemsControl>
-                </Grid>
-              </Border>
-              <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding FocusMe}" Value="true">
-                  <Setter TargetName="userEntry" Property="FocusManager.FocusedElement" Value="{Binding ElementName=userEntry}"/>
-                </DataTrigger>
-              </DataTemplate.Triggers>
-            </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </ScrollViewer>
+                <!-- day items -->
+                <ItemsControl Grid.Column="1"
+                              Grid.Row="3"
+                              Grid.RowSpan="2"
+                              Margin="3,0,2,2"
+                              ItemsSource="{Binding Items}"
+                              IsTabStop="False"
+                              Grid.IsSharedSizeScope="True">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Grid>
+                        <attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+                          <!-- left click on item in daylist, select workitems text in textbox -->
+                          <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseLeftButtonUp"
+                                                                   Action="{Binding ElementName=mv, Path=ViewModel.SelectWorkItemTextComplete, Mode=OneWay}">
+                            <attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                              <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
+                                <!-- WorkItem -->
+                                <Binding Mode="OneWay" />
+                                <!-- TextBox -->
+                                <Binding ElementName="userEntry"
+                                         Mode="OneWay" />
+                              </MultiBinding>
+                            </attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                          </attachedCommandBehavior:BehaviorBinding>
+                          <!-- right click on item in daylist, select workitems text without time in textbox -->
+                          <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseRightButtonUp"
+                                                                   Action="{Binding ElementName=mv, Path=ViewModel.SelectWorkItemTextWithOutTime, Mode=OneWay}">
+                            <attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                              <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
+                                <!-- WorkItem -->
+                                <Binding Mode="OneWay" />
+                                <!-- TextBox -->
+                                <Binding ElementName="userEntry"
+                                         Mode="OneWay" />
+                              </MultiBinding>
+                            </attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                          </attachedCommandBehavior:BehaviorBinding>
+                        </attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="1" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="2" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="3" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="4" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="5" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="6" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="7" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="8" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="9" />
+                          <ColumnDefinition Width="Auto"
+                                            SharedSizeGroup="10" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0"
+                                   TextAlignment="Right"
+                                   Text="{Binding Start}"
+                                   FontWeight="Bold" />
+                        <TextBlock Grid.Column="1"
+                                   Text=" => "
+                                   Foreground="{StaticResource lightText}" />
+                        <TextBlock Grid.Column="2"
+                                   TextAlignment="Right"
+                                   Text="{Binding End}"
+                                   FontWeight="Bold" />
+                        <TextBlock Grid.Column="3"
+                                   TextAlignment="Right"
+                                   Foreground="DarkSlateGray"
+                                   Text="{Binding HoursDuration, StringFormat='{} ({0:f} h)'}" />
+                        <TextBlock Grid.Column="4"
+                                   Text=" : "
+                                   Foreground="{StaticResource lightText}" />
+                        <TextBlock Grid.Column="5"
+                                   Text="{Binding Project}"
+                                   FontWeight="Bold" />
+                        <TextBlock Grid.Column="6"
+                                   Text="-"
+                                   Foreground="{StaticResource lightText}" />
+                        <TextBlock Grid.Column="7"
+                                   Text="{Binding Position}"
+                                   FontWeight="Bold" />
+                        <TextBlock Grid.Column="8"
+                                   Text="=>"
+                                   Foreground="{StaticResource lightText}" />
+                        <TextBlock Grid.Column="9"
+                                   Text="{Binding Description}"
+                                   Foreground="{StaticResource lightText}" />
+                      </Grid>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
+              </Grid>
+            </Border>
+            <DataTemplate.Triggers>
+              <DataTrigger Binding="{Binding FocusMe}"
+                           Value="true">
+                <Setter TargetName="userEntry"
+                        Property="FocusManager.FocusedElement"
+                        Value="{Binding ElementName=userEntry}" />
+              </DataTrigger>
+            </DataTemplate.Triggers>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
 
       <GridSplitter Grid.Column="2"
                     Grid.Row="0"
@@ -986,21 +923,24 @@
           </Rectangle>
         </Button>
       </StackPanel>
-      <ScrollViewer x:Name="shortCutList"
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    VerticalScrollBarVisibility="Auto"
-                    Visibility="Collapsed">
-        <ItemsControl Margin="0 1 0 0"
-                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}"
-                      HorizontalContentAlignment="Stretch"
-                      dd:DragDrop.IsDragSource="True"
-                      dd:DragDrop.IsDropTarget="True"
-                      dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}"
-                      Grid.IsSharedSizeScope="True"
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display">
-          <ItemsControl.ItemTemplate>
+
+      <ListBox x:Name="shortCutList"
+               Margin="0 1 0 0"
+               Grid.Row="1"
+               Grid.Column="3"
+               Grid.IsSharedSizeScope="True"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               HorizontalContentAlignment="Stretch"
+               Visibility="Collapsed"
+               dd:DragDrop.IsDragSource="True"
+               dd:DragDrop.IsDropTarget="True"
+               dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}"
+               RenderOptions.ClearTypeHint="Enabled"
+               TextOptions.TextFormattingMode="Display"
+               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}">
+        <ListBox.ItemTemplate>
             <!-- shortcut -->
             <DataTemplate>
 
@@ -1062,6 +1002,7 @@
 
                   <!-- usage history graph -->
                   <ItemsControl Margin="-1 0 -1 -1"
+                                ItemTemplate="{StaticResource UsageHistoryDayDataTemplate}"
                                 ItemsSource="{Binding Value.UsageHistory}">
                     <ItemsControl.ItemsPanel>
                       <ItemsPanelTemplate>
@@ -1069,16 +1010,6 @@
                                      Columns="31" />
                       </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                      <DataTemplate>
-                        <Rectangle Height="{Binding Hours, Converter={x:Static valueConverter:ScaleDoubleConverter.Instance}, ConverterParameter=2}"
-                                   Fill="{Binding IsToday, Converter={x:Static valueConverter:TodayColorConverter.Instance}}"
-                                   VerticalAlignment="Bottom"
-                                   SnapsToDevicePixels="True"
-                                   IsHitTestVisible="False"
-                                   Margin="1" />
-                      </DataTemplate>
-                    </ItemsControl.ItemTemplate>
                   </ItemsControl>
 
                   <Grid Margin="2 2 2 5">
@@ -1165,9 +1096,8 @@
 
               </Grid>
             </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </ScrollViewer>
+          </ListBox.ItemTemplate>
+      </ListBox>
 
       <!-- project hitlist -->
       <TextBlock Grid.Column="4"
@@ -1181,16 +1111,18 @@
                  Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
                 Projekt-Hitliste
       </TextBlock>
-      <ScrollViewer Grid.Column="4"
-                    Grid.Row="1"
-                    VerticalScrollBarVisibility="Auto"
-                    Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
-        <ItemsControl Margin="0 1 0 0"
-                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist}"
-                      HorizontalContentAlignment="Stretch"
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display">
-          <ItemsControl.ItemTemplate>
+      <ListBox Grid.Row="1"
+               Grid.Column="4"
+               Margin="0 1 0 0"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               HorizontalContentAlignment="Stretch"
+               RenderOptions.ClearTypeHint="Enabled"
+               TextOptions.TextFormattingMode="Display"
+               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+               Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}"
+               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist, Mode=OneWay, IsAsync=True}">
+        <ListBox.ItemTemplate>
             <!-- shortcut -->
             <DataTemplate>
               <Border BorderThickness="1"
@@ -1230,9 +1162,8 @@
                 </Grid>
               </Border>
             </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </ScrollViewer>
+          </ListBox.ItemTemplate>
+      </ListBox>
 
       <!-- position hitlist -->
       <TextBlock Grid.Column="5"
@@ -1246,16 +1177,18 @@
                  Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
                 Positions-Hitliste
       </TextBlock>
-      <ScrollViewer Grid.Column="5"
-                    Grid.Row="1"
-                    VerticalScrollBarVisibility="Auto"
-                    Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
-        <ItemsControl Margin="0 1 0 0"
-                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist}"
-                      HorizontalContentAlignment="Stretch"
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display">
-          <ItemsControl.ItemTemplate>
+      <ListBox Grid.Row="1"
+               Grid.Column="5"
+               Margin="0 1 0 0"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               HorizontalContentAlignment="Stretch"
+               RenderOptions.ClearTypeHint="Enabled"
+               TextOptions.TextFormattingMode="Display"
+               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+               Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}"
+               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist, Mode=OneWay, IsAsync=True}">
+        <ListBox.ItemTemplate>
             <DataTemplate>
               <Border BorderThickness="1"
                       BorderBrush="#FFF3EDED"
@@ -1294,9 +1227,8 @@
                 </Grid>
               </Border>
             </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </ScrollViewer>
+          </ListBox.ItemTemplate>
+      </ListBox>
     </Grid>
 
     <!-- get user password -->

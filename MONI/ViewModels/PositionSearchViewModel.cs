@@ -69,15 +69,16 @@ namespace MONI.ViewModels {
     }
 
     private void Search() {
-      this.Results.Clear();
       var s = this.searchText;
       if (!string.IsNullOrWhiteSpace(s)) {
         try {
           var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Customer, s, RegexOptions.IgnoreCase));
-          this.Results.Fill(res);
-        } catch (Exception e) {
+          this.Results.AddItems(res, true);
+        } catch (Exception ex) {
           // ignore, usually there is an unfinished regex
         }
+      } else {
+        this.Results.Clear();
       }
     }
 
