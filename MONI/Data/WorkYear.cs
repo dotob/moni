@@ -57,7 +57,7 @@ namespace MONI.Data
     public async void UpdateProjectHitlistAsync()
     {
       var newHitlist = await GetProjectHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.pnSearch);
-      this.ProjectHitlist.Fill(newHitlist, true);
+      this.ProjectHitlist.AddItems(newHitlist, true);
     }
 
     private static async Task<IEnumerable<HitlistInfo>> GetProjectHitlistAsync(IEnumerable<WorkMonth> months, int lookBackInWeeks, PNSearchViewModel pnSearchViewModel)
@@ -85,7 +85,7 @@ namespace MONI.Data
     public async void UpdatePositionHitlistAsync()
     {
       var newHitlist = await GetPositionHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.positionSearch);
-      this.PositionHitlist.Fill(newHitlist, true);
+      this.PositionHitlist.AddItems(newHitlist, true);
     }
 
     private static async Task<IEnumerable<HitlistInfo>> GetPositionHitlistAsync(IEnumerable<WorkMonth> months, int lookBackInWeeks, PositionSearchViewModel posSearchViewModel)

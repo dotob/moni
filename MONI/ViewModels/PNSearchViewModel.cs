@@ -79,9 +79,12 @@ namespace MONI.ViewModels
     private void Search() {
       var s = this.searchText;
       if (!string.IsNullOrWhiteSpace(s)) {
-        var res = this.ProjectNumbersToSearch
-                      .Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase));
-        this.Results.Fill(res, true);
+        try {
+          var res = this.ProjectNumbersToSearch.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase));
+          this.Results.AddItems(res, true);
+        } catch (Exception ex) {
+          // ignore, usually there is an unfinished regex
+        }
       } else {
         this.Results.Clear();
       }
