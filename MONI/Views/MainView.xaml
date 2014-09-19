@@ -1120,16 +1120,18 @@
                  Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
                 Projekt-Hitliste
       </TextBlock>
-      <ScrollViewer Grid.Column="4"
-                    Grid.Row="1"
-                    VerticalScrollBarVisibility="Auto"
-                    Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}">
-        <ItemsControl Margin="0 1 0 0"
-                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist, Mode=OneWay, IsAsync=True}"
-                      HorizontalContentAlignment="Stretch"
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display">
-          <ItemsControl.ItemTemplate>
+      <ListBox Grid.Row="1"
+               Grid.Column="4"
+               Margin="0 1 0 0"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               HorizontalContentAlignment="Stretch"
+               RenderOptions.ClearTypeHint="Enabled"
+               TextOptions.TextFormattingMode="Display"
+               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+               Visibility="{Binding ElementName=mv, Path=ViewModel.ProjectHitListVisibility}"
+               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist, Mode=OneWay, IsAsync=True}">
+        <ListBox.ItemTemplate>
             <!-- shortcut -->
             <DataTemplate>
               <Border BorderThickness="1"
@@ -1169,9 +1171,8 @@
                 </Grid>
               </Border>
             </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </ScrollViewer>
+          </ListBox.ItemTemplate>
+      </ListBox>
 
       <!-- position hitlist -->
       <TextBlock Grid.Column="5"
