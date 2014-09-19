@@ -1186,16 +1186,18 @@
                  Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
                 Positions-Hitliste
       </TextBlock>
-      <ScrollViewer Grid.Column="5"
-                    Grid.Row="1"
-                    VerticalScrollBarVisibility="Auto"
-                    Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}">
-        <ItemsControl Margin="0 1 0 0"
-                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist, Mode=OneWay, IsAsync=True}"
-                      HorizontalContentAlignment="Stretch"
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display">
-          <ItemsControl.ItemTemplate>
+      <ListBox Grid.Row="1"
+               Grid.Column="5"
+               Margin="0 1 0 0"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               HorizontalContentAlignment="Stretch"
+               RenderOptions.ClearTypeHint="Enabled"
+               TextOptions.TextFormattingMode="Display"
+               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+               Visibility="{Binding ElementName=mv, Path=ViewModel.PositionHitListVisibility}"
+               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist, Mode=OneWay, IsAsync=True}">
+        <ListBox.ItemTemplate>
             <DataTemplate>
               <Border BorderThickness="1"
                       BorderBrush="#FFF3EDED"
@@ -1234,9 +1236,8 @@
                 </Grid>
               </Border>
             </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </ScrollViewer>
+          </ListBox.ItemTemplate>
+      </ListBox>
     </Grid>
 
     <!-- get user password -->
