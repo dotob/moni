@@ -923,21 +923,24 @@
           </Rectangle>
         </Button>
       </StackPanel>
-      <ScrollViewer x:Name="shortCutList"
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    VerticalScrollBarVisibility="Auto"
-                    Visibility="Collapsed">
-        <ItemsControl Margin="0 1 0 0"
-                      ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}"
-                      HorizontalContentAlignment="Stretch"
-                      dd:DragDrop.IsDragSource="True"
-                      dd:DragDrop.IsDropTarget="True"
-                      dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}"
-                      Grid.IsSharedSizeScope="True"
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display">
-          <ItemsControl.ItemTemplate>
+
+      <ListBox x:Name="shortCutList"
+               Margin="0 1 0 0"
+               Grid.Row="1"
+               Grid.Column="3"
+               Grid.IsSharedSizeScope="True"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               HorizontalContentAlignment="Stretch"
+               Visibility="Collapsed"
+               dd:DragDrop.IsDragSource="True"
+               dd:DragDrop.IsDropTarget="True"
+               dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}"
+               RenderOptions.ClearTypeHint="Enabled"
+               TextOptions.TextFormattingMode="Display"
+               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}">
+        <ListBox.ItemTemplate>
             <!-- shortcut -->
             <DataTemplate>
 
@@ -1102,9 +1105,8 @@
 
               </Grid>
             </DataTemplate>
-          </ItemsControl.ItemTemplate>
-        </ItemsControl>
-      </ScrollViewer>
+          </ListBox.ItemTemplate>
+      </ListBox>
 
       <!-- project hitlist -->
       <TextBlock Grid.Column="4"
