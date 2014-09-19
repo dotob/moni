@@ -12,34 +12,34 @@
              x:Name="pnSearchView">
 
   <UserControl.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
-      </ResourceDictionary.MergedDictionaries>
+    <VisualBrush x:Key="AddVisualBrush"
+                 x:Shared="True"
+                 Stretch="Fill"
+                 Visual="{DynamicResource appbar_location_add}" />
 
-      <DataTemplate x:Key="ProjectDataTemplate"
-                    DataType="{x:Type ViewModels:ProjectNumber}">
-        <Border Background="DimGray"
-                CornerRadius="2"
-                Margin="0 0 0 2"
-                Padding="2">
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="4*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-              <RowDefinition Height="Auto" />
-              <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+    <DataTemplate x:Key="ProjectDataTemplate"
+                  DataType="{x:Type ViewModels:ProjectNumber}">
+      <Border Background="DimGray"
+              CornerRadius="2"
+              Margin="0 0 0 2"
+              Padding="2">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="4*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
 
-            <TextBlock Grid.Column="0"
-                       Grid.Row="0"
-                       FontSize="18"
-                       FontWeight="Bold"
-                       VerticalAlignment="Bottom"
-                       Foreground="Gainsboro">
+          <TextBlock Grid.Column="0"
+                     Grid.Row="0"
+                     FontSize="18"
+                     FontWeight="Bold"
+                     VerticalAlignment="Bottom"
+                     Foreground="Gainsboro">
                             <ContentControl>
                                 <ContentControl.Content>
                                     <MultiBinding Converter="{x:Static valueConverter:HighLightSearchTextConverter.Instance}">
@@ -49,13 +49,13 @@
                                     </MultiBinding>
                                 </ContentControl.Content>
                             </ContentControl>
-            </TextBlock>
-            <TextBlock Grid.Column="1"
-                       Grid.Row="0"
-                       FontSize="18"
-                       VerticalAlignment="Bottom"
-                       TextTrimming="CharacterEllipsis"
-                       Foreground="Gainsboro">
+          </TextBlock>
+          <TextBlock Grid.Column="1"
+                     Grid.Row="0"
+                     FontSize="18"
+                     VerticalAlignment="Bottom"
+                     TextTrimming="CharacterEllipsis"
+                     Foreground="Gainsboro">
                             <ContentControl>
                                 <ContentControl.Content>
                                     <MultiBinding Converter="{x:Static valueConverter:HighLightSearchTextConverter.Instance}">
@@ -65,13 +65,13 @@
                                     </MultiBinding>
                                 </ContentControl.Content>
                             </ContentControl>
-            </TextBlock>
-            <TextBlock Grid.Column="0"
-                       Grid.Row="1"
-                       Grid.ColumnSpan="2"
-                       FontSize="10"
-                       TextTrimming="CharacterEllipsis"
-                       Foreground="Gainsboro">
+          </TextBlock>
+          <TextBlock Grid.Column="0"
+                     Grid.Row="1"
+                     Grid.ColumnSpan="2"
+                     FontSize="10"
+                     TextTrimming="CharacterEllipsis"
+                     Foreground="Gainsboro">
                             <ContentControl>
                                 <ContentControl.Content>
                                     <MultiBinding Converter="{x:Static valueConverter:HighLightSearchTextConverter.Instance}">
@@ -81,35 +81,30 @@
                                     </MultiBinding>
                                 </ContentControl.Content>
                             </ContentControl>
-            </TextBlock>
+          </TextBlock>
 
-            <Button Grid.Column="2"
-                    Grid.Row="0"
-                    Grid.RowSpan="2"
-                    Width="13"
-                    Height="20"
-                    Margin="10 0 0 0"
-                    Style="{StaticResource ImageButtonStyle}"
-                    Click="AddAsShortcut_OnClick"
-                    Tag="{Binding}"
-                    ToolTip="Neuen Shortcut erstellen">
-              <Rectangle Width="10"
-                         Height="20">
-                <Rectangle.Resources>
-                  <SolidColorBrush x:Key="BlackBrush"
-                                   Color="#CC119EDA" />
-                </Rectangle.Resources>
-                <Rectangle.Fill>
-                  <VisualBrush Stretch="Fill"
-                               Visual="{StaticResource appbar_location_add}" />
-                </Rectangle.Fill>
-              </Rectangle>
-            </Button>
-          </Grid>
-        </Border>
-      </DataTemplate>
-
-    </ResourceDictionary>
+          <Button Grid.Column="2"
+                  Grid.Row="0"
+                  Grid.RowSpan="2"
+                  Width="13"
+                  Height="20"
+                  Margin="10 0 0 0"
+                  Style="{StaticResource ImageButtonStyle}"
+                  Click="AddAsShortcut_OnClick"
+                  Tag="{Binding}"
+                  ToolTip="Neuen Shortcut erstellen">
+            <Rectangle Width="10"
+                       Height="20"
+                       Fill="{StaticResource AddVisualBrush}">
+              <Rectangle.Resources>
+                <SolidColorBrush x:Key="BlackBrush"
+                                 Color="#CC119EDA" />
+              </Rectangle.Resources>
+            </Rectangle>
+          </Button>
+        </Grid>
+      </Border>
+    </DataTemplate>
   </UserControl.Resources>
 
   <Grid Margin="10">
