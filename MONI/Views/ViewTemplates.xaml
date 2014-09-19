@@ -13,7 +13,7 @@
                                                  CommandParameter="{Binding Mode=OneWay}"
                                                  Action="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=ViewModel.GoToDay, Mode=OneWay}" />
       </attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
-      
+
       <Border x:Name="dayBorder"
               BorderThickness="1"
               Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
@@ -59,6 +59,17 @@
         </Grid>
       </UniformGrid>
     </Grid>
+  </DataTemplate>
+
+  <!-- used at usage history graph -->
+  <DataTemplate x:Key="UsageHistoryDayDataTemplate"
+                DataType="{x:Type data:UsageInfo}">
+    <Rectangle Height="{Binding Hours, Converter={x:Static valueConverter:ScaleDoubleConverter.Instance}, ConverterParameter=2}"
+               Fill="{Binding IsToday, Converter={x:Static valueConverter:TodayColorConverter.Instance}}"
+               VerticalAlignment="Bottom"
+               SnapsToDevicePixels="True"
+               IsHitTestVisible="False"
+               Margin="1" />
   </DataTemplate>
 
 </ResourceDictionary>

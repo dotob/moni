@@ -1002,6 +1002,7 @@
 
                   <!-- usage history graph -->
                   <ItemsControl Margin="-1 0 -1 -1"
+                                ItemTemplate="{StaticResource UsageHistoryDayDataTemplate}"
                                 ItemsSource="{Binding Value.UsageHistory}">
                     <ItemsControl.ItemsPanel>
                       <ItemsPanelTemplate>
@@ -1009,16 +1010,6 @@
                                      Columns="31" />
                       </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                      <DataTemplate>
-                        <Rectangle Height="{Binding Hours, Converter={x:Static valueConverter:ScaleDoubleConverter.Instance}, ConverterParameter=2}"
-                                   Fill="{Binding IsToday, Converter={x:Static valueConverter:TodayColorConverter.Instance}}"
-                                   VerticalAlignment="Bottom"
-                                   SnapsToDevicePixels="True"
-                                   IsHitTestVisible="False"
-                                   Margin="1" />
-                      </DataTemplate>
-                    </ItemsControl.ItemTemplate>
                   </ItemsControl>
 
                   <Grid Margin="2 2 2 5">
