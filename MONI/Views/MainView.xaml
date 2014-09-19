@@ -564,25 +564,22 @@
       </Grid>
 
       <!-- days of month -->
-      <ScrollViewer Grid.Row="1"
-                    Grid.Column="0"
-                    VerticalScrollBarVisibility="Auto"
-                    Visibility="{Binding ElementName=mv, Path=ViewModel.MonthListVisibility}">
-        <ItemsControl ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkMonth.Days}"
-                      Grid.IsSharedSizeScope="True">
-        <ItemsControl.ItemTemplate>
+      <ListBox Grid.Row="1"
+               Grid.Column="0"
+               ScrollViewer.VerticalScrollBarVisibility="Auto"
+               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               HorizontalContentAlignment="Stretch"
+               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+               Visibility="{Binding ElementName=mv, Path=ViewModel.MonthListVisibility}"
+               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkMonth.Days}">
+        <ListBox.ItemTemplate>
           <!-- this is a day of a month -->
           <DataTemplate>
             <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*"/>
-                  <ColumnDefinition Width="2*" />
-                </Grid.ColumnDefinitions>
-                <Border x:Name="dayBorder"
-                             Grid.ColumnSpan="2"
+              <Border x:Name="dayBorder"
                       BorderThickness="1"
                       Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
-                      Margin="1 0 1 1"
+                      Margin="1 0 0 1"
                       Padding="1"
                       SnapsToDevicePixels="True"
                       PreviewMouseLeftButtonUp="GoToDay"
@@ -594,43 +591,41 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                   </Grid.RowDefinitions>
-                  
-                  <TextBlock Grid.Column="0"
-                             Grid.Row="0"
-                             Text="{Binding Day}"
-                             FontSize="10"
-                             Foreground="{StaticResource lightText}"
-                             FontWeight="Bold"
-                             HorizontalAlignment="Center" />
-                  <TextBlock Grid.Column="0"
-                             Grid.Row="1"
-                             Text="{Binding HoursDuration}"
-                             Padding="3 0 3 0"
-                             FontSize="10"
-                             Foreground="{StaticResource lightText}"
-                             HorizontalAlignment="Center" />
+
+                  <TextBlock Grid.Row="0"
+                              Text="{Binding Day}"
+                              FontSize="10"
+                              Foreground="{StaticResource lightText}"
+                              FontWeight="Bold"
+                              HorizontalAlignment="Center" />
+                  <TextBlock Grid.Row="1"
+                              Text="{Binding HoursDuration}"
+                              Padding="3 0 3 0"
+                              FontSize="10"
+                              Foreground="{StaticResource lightText}"
+                              HorizontalAlignment="Center" />
                 </Grid>
-            </Border>
-            <Polygon Grid.Column="0"
-                      Grid.Row="0"
-                     Visibility="{Binding IsToday, Converter={StaticResource false2CollapsedConverter}}"
-                      Points="0,0 0,10 5,5 0,0"
-                      Stretch="Fill"
-                      Fill="#CC119EDA"
-                     Margin="1 2"/>
-            <Polygon Grid.Column="0"
-                      Grid.Row="0"
-                     Visibility="{Binding FocusMe, Converter={StaticResource false2CollapsedConverter}}"
-                      Points="0,0 0,10 5,5 0,0"
-                      Stretch="Fill"
-                     StrokeThickness="1"
-                     Stroke="#CC1130DA"
-                     Margin="1 2"/>
+              </Border>
+              <UniformGrid Columns="2"
+                           IsHitTestVisible="False">
+                <Grid>
+                  <Polygon Visibility="{Binding IsToday, Converter={StaticResource false2CollapsedConverter}}"
+                           Points="0,0 0,10 5,5 0,0"
+                           Stretch="Fill"
+                           Fill="#CC119EDA"
+                           Margin="1 2" />
+                  <Polygon Visibility="{Binding FocusMe, Converter={StaticResource false2CollapsedConverter}}"
+                           Points="0,0 0,10 5,5 0,0"
+                           Stretch="Fill"
+                           StrokeThickness="1"
+                           Stroke="#CC1130DA"
+                           Margin="1 2" />
+                </Grid>
+              </UniformGrid>
             </Grid>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-      </ItemsControl>
-        </ScrollViewer>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
 
       <!-- infos and week change buttons-->
       <Grid Grid.Column="1"
