@@ -1,20 +1,18 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.Collections.ObjectModel;
 using MONI.Util;
 using Newtonsoft.Json;
 
 namespace MONI.Data
 {
-  public class ShortCutStatistic : ShortCut, INotifyPropertyChanged
+  public class ShortCutStatistic : ShortCut
   {
     public ShortCutStatistic(ShortCut sc)
       : base(sc.Key, sc.Expansion) {
       this.ID = sc.ID;
       this.WholeDayExpansion = sc.WholeDayExpansion;
       this.ValidFrom = sc.ValidFrom;
-    }
+      this.Group = sc.Group;
+      }
 
     private double usedInMonth;
     [JsonIgnore]
@@ -25,10 +23,7 @@ namespace MONI.Data
           return;
         }
         this.usedInMonth = value;
-        var tmp = this.PropertyChanged;
-        if (tmp != null) {
-          tmp(this, new PropertyChangedEventArgs("UsedInMonth"));
-        }
+        this.OnPropertyChanged(() => this.UsedInMonth);
       }
     }
 
@@ -42,18 +37,9 @@ namespace MONI.Data
           return;
         }
         this.usageHistory = value;
-        var tmp = this.PropertyChanged;
-        if (tmp != null) {
-          tmp(this, new PropertyChangedEventArgs("UsageHistory"));
-        }
+        this.OnPropertyChanged(() => this.UsageHistory);
       }
     }
-
-    #region Implementation of INotifyPropertyChanged
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
   }
 
   public class UsageInfo : ViewModelBase

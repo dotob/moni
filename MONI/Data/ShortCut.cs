@@ -1,9 +1,10 @@
 ﻿using System;
+using MONI.Util;
 using Newtonsoft.Json;
 
 namespace MONI.Data
 {
-  public class ShortCut
+  public class ShortCut : ViewModelBase
   {
     public ShortCut() {
       this.ID = Guid.NewGuid().ToString();
@@ -15,7 +16,7 @@ namespace MONI.Data
       : this() {
       this.Key = key;
       this.Expansion = expansion;
-    }
+      }
 
     public ShortCut(string key, string expansion, DateTime validFrom)
       : this(key, expansion) {
@@ -28,6 +29,19 @@ namespace MONI.Data
     public string Expansion { get; set; }
     public bool WholeDayExpansion { get; set; }
     public DateTime ValidFrom { get; set; }
+
+    private ShortCutGroup group;
+
+    public ShortCutGroup Group {
+      get { return this.group; }
+      set {
+        if (Equals(this.group, value)) {
+          return;
+        }
+        this.group = value;
+        this.OnPropertyChanged(() => this.Group);
+      }
+    }
 
     public override bool Equals(object obj) {
       if (obj is ShortCut) {
@@ -42,6 +56,7 @@ namespace MONI.Data
       this.Expansion = sc.Expansion;
       this.WholeDayExpansion = sc.WholeDayExpansion;
       this.ValidFrom = sc.ValidFrom;
+      this.Group = sc.Group;
     }
 
     public override string ToString() {

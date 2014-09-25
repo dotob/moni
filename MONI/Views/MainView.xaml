@@ -32,6 +32,7 @@
   <Window.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewStyles.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewTemplates.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
       </ResourceDictionary.MergedDictionaries>
@@ -488,6 +489,17 @@
   <!-- *** layout root ***************************************************************** -->
   <Grid RenderOptions.ClearTypeHint="Enabled"
         TextOptions.TextFormattingMode="Display">
+    
+    <Grid.Resources>
+      <CollectionViewSource x:Key="ShortCutCVS"
+                            Source="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}">
+        <CollectionViewSource.GroupDescriptions>
+          <PropertyGroupDescription PropertyName="Value.Group" />
+        </CollectionViewSource.GroupDescriptions>
+      </CollectionViewSource>
+    </Grid.Resources>
+    
+    
     <Grid Margin="0 0 2 0">
       <Grid.ColumnDefinitions>
         <!-- month view -->
@@ -939,7 +951,43 @@
                RenderOptions.ClearTypeHint="Enabled"
                TextOptions.TextFormattingMode="Display"
                ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
-               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}">
+               ItemsSource="{Binding Source={StaticResource ShortCutCVS}}">
+        
+        <ListBox.GroupStyle>
+          <GroupStyle>
+            <GroupStyle.Panel>
+              <ItemsPanelTemplate>
+                <VirtualizingStackPanel />
+              </ItemsPanelTemplate>
+            </GroupStyle.Panel>
+            <GroupStyle.ContainerStyle>
+              <Style TargetType="{x:Type GroupItem}">
+                <Setter Property="Margin"
+                        Value="0" />
+                <Setter Property="Template">
+                  <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                      <Expander Style="{StaticResource ShortCutMetroExpander}"
+                                IsExpanded="True">
+                        <Expander.Header>
+                          <TextBlock Text="{Binding Name}"
+                                     VerticalAlignment="Center"
+                                     Foreground="{DynamicResource WhiteBrush}"
+                                     FontSize="{DynamicResource controls:ControlsHelper.HeaderFontSize}"
+                                     FontWeight="{DynamicResource controls:ControlsHelper.HeaderFontWeight}" />
+                        </Expander.Header>
+                        <Expander.Content>
+                          <ItemsPresenter />
+                        </Expander.Content>
+                      </Expander>
+                    </ControlTemplate>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+            </GroupStyle.ContainerStyle>
+          </GroupStyle>
+        </ListBox.GroupStyle>
+        
         <ListBox.ItemTemplate>
             <!-- shortcut -->
             <DataTemplate>

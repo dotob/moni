@@ -15,6 +15,7 @@
       <RowDefinition Height="Auto"></RowDefinition>
       <RowDefinition Height="Auto"></RowDefinition>
       <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="Auto"></RowDefinition>
       <RowDefinition Height="*"></RowDefinition>
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
@@ -33,24 +34,38 @@
              Text="{Binding ShortCutKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></TextBox>
 
     <Label Grid.Column="0"
-           Grid.Row="1">Ersetzung</Label>
+           Grid.Row="1">Shortcut Gruppe</Label>
+    <ComboBox Grid.Column="1"
+              Grid.Row="1"
+              Margin="2"
+              Focusable="True"
+              IsEditable="True"
+              x:Name="shortcutGroupComboBox"
+              ItemsSource="{Binding MoniSettings.ParserSettings.ShortCutGroups, Mode=OneWay}"
+              SelectedItem="{Binding ShortCutGroup, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+              DisplayMemberPath="Key"
+              SelectedValuePath="Key"
+              SelectedValue="{Binding ShortCutGroupKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></ComboBox>
+
+    <Label Grid.Column="0"
+           Grid.Row="2">Ersetzung</Label>
     <TextBox Grid.Column="1"
-             Grid.Row="1"
+             Grid.Row="2"
              Margin="2"
              Focusable="True"
              x:Name="expansionTextBox"
              Text="{Binding Model.Expansion, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
     <Label Grid.Column="0"
-           Grid.Row="2">Ganzen Tag ersetzen</Label>
+           Grid.Row="3">Ganzen Tag ersetzen</Label>
     <CheckBox Grid.Column="1"
-              Grid.Row="2"
+              Grid.Row="3"
               Margin="2"
               VerticalAlignment="Center"
               IsChecked="{Binding Model.WholeDayExpansion, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
 
     <UniformGrid Grid.Column="0"
-                 Grid.Row="3"
+                 Grid.Row="4"
                  Grid.ColumnSpan="2"
                  VerticalAlignment="Bottom"
                  Columns="2">
