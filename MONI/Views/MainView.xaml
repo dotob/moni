@@ -8,6 +8,7 @@
                       xmlns:views="clr-namespace:MONI.Views"
                       xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
                       xmlns:attachedCommandBehavior="clr-namespace:AttachedCommandBehavior"
+                      xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
                       RenderOptions.ClearTypeHint="Enabled"
                       TextOptions.TextFormattingMode="Display"
                       Title="MONI"
@@ -492,10 +493,13 @@
     
     <Grid.Resources>
       <CollectionViewSource x:Key="ShortCutCVS"
-                            Source="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}">
+                            Source="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic, Mode=OneWay}">
         <CollectionViewSource.GroupDescriptions>
           <PropertyGroupDescription PropertyName="Value.Group" />
         </CollectionViewSource.GroupDescriptions>
+        <CollectionViewSource.SortDescriptions>
+          <componentModel:SortDescription PropertyName="Value" />
+        </CollectionViewSource.SortDescriptions>
       </CollectionViewSource>
     </Grid.Resources>
     
