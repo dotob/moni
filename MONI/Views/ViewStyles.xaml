@@ -175,4 +175,29 @@
     </Setter>
   </Style>
 
+  <!-- shortcut GroupItem style  -->
+
+  <Style x:Key="ShortCutGroupGroupItemStyle"
+         TargetType="{x:Type GroupItem}">
+    <Setter Property="Margin"
+            Value="0" />
+    <Setter Property="Template">
+      <Setter.Value>
+        <ControlTemplate TargetType="{x:Type GroupItem}">
+          <Expander Style="{StaticResource ShortCutMetroExpander}"
+                    IsExpanded="True">
+            <Expander.Header>
+              <TextBlock Text="{Binding Name}"
+                         VerticalAlignment="Center"
+                         Foreground="{DynamicResource WhiteBrush}" />
+            </Expander.Header>
+            <Expander.Content>
+              <ItemsPresenter />
+            </Expander.Content>
+          </Expander>
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
 </ResourceDictionary>
