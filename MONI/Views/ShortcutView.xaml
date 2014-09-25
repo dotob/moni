@@ -45,7 +45,7 @@
               SelectedItem="{Binding ShortCutGroup, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
               DisplayMemberPath="Key"
               SelectedValuePath="Key"
-              SelectedValue="{Binding ShortCutGroupKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></ComboBox>
+              Text="{Binding ShortCutGroupKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></ComboBox>
 
     <Label Grid.Column="0"
            Grid.Row="2">Ersetzung</Label>
