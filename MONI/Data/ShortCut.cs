@@ -25,6 +25,8 @@ namespace MONI.Data
 
     [JsonIgnore]
     public string ID { get; set; }
+    [JsonIgnore]
+    public int Index { get; set; }
     public string Key { get; set; }
     public string Expansion { get; set; }
     public bool WholeDayExpansion { get; set; }
@@ -66,8 +68,9 @@ namespace MONI.Data
 
     public int CompareTo(ShortCut other)
     {
+      var indexCompare = this.Index - other.Index;
       if (Equals(this.Group, other.Group)) {
-        return 0;
+        return indexCompare;
       }
       if (this.Group == null) {
         return 1;
@@ -75,7 +78,11 @@ namespace MONI.Data
       if (other.Group == null) {
         return -1;
       }
-      return this.Group.CompareTo(other.Group);
+      var groupCompare = this.Group.CompareTo(other.Group);
+      if (groupCompare != 0) {
+        return indexCompare;
+      }
+      return groupCompare;
     }
 
     public override string ToString() {

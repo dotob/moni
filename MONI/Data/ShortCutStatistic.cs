@@ -9,10 +9,11 @@ namespace MONI.Data
     public ShortCutStatistic(ShortCut sc)
       : base(sc.Key, sc.Expansion) {
       this.ID = sc.ID;
+      this.Index = sc.Index;
       this.WholeDayExpansion = sc.WholeDayExpansion;
       this.ValidFrom = sc.ValidFrom;
       this.Group = sc.Group;
-      }
+    }
 
     private double usedInMonth;
     [JsonIgnore]

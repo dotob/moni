@@ -392,19 +392,29 @@ namespace MONI.ViewModels {
     }
 
     private static MoniSettings ReadSettingsInternal(string settingsFile) {
+      MoniSettings settings = null;
+      
       if (File.Exists(settingsFile)) {
         string jsonString = File.ReadAllText(settingsFile);
-        return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+        settings = JsonConvert.DeserializeObject<MoniSettings>(jsonString);
       }
+
       // no settingsfile found, try to read sample settings
       string settingsJsonSkeleton = "settings.json.skeleton";
       if (File.Exists(settingsJsonSkeleton)) {
         string jsonString = File.ReadAllText(settingsJsonSkeleton);
-        return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+        settings = JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+      }
+
+      if (settings != null) {
+        var idx = 0;
+        foreach (var sc in settings.ParserSettings.ShortCuts) {
+          sc.Index = idx++;
+        }
       }
 
       // no samplesettings, use default
-      return MoniSettings.GetEmptySettings();
+      return settings ?? MoniSettings.GetEmptySettings();
     }
 
     private static void WriteSettings(MoniSettings settings, string settingsFile) {
