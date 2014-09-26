@@ -64,9 +64,9 @@ namespace MONI.Tests {
       wd.OriginalString = "8,8;ctb";
 
       wm.CalcShortCutStatistic();
-      var scs = wm.ShortCutStatistic.FirstOrDefault(kvp => kvp.Key == "ctb");
+      var scs = wm.ShortCutStatistic.FirstOrDefault(s => s.Key == "ctb");
       Assert.NotNull(scs);
-      Assert.AreEqual(8, scs.Value.UsedInMonth);
+      Assert.AreEqual(8, scs.UsedInMonth);
     }
 
   }
