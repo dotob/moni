@@ -1,11 +1,15 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using MONI.Util;
 using Newtonsoft.Json;
+using NLog;
 
 namespace MONI.Data
 {
   public class ShortCutStatistic : ShortCut
   {
+    private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
     public ShortCutStatistic(ShortCut sc)
       : base(sc.Key, sc.Expansion) {
       this.ID = sc.ID;
@@ -39,6 +43,34 @@ namespace MONI.Data
         }
         this.usageHistory = value;
         this.OnPropertyChanged(() => this.UsageHistory);
+      }
+    }
+
+    public void Calculate(ObservableCollection<WorkDay> days) {
+      // complete hours over all days
+      this.UsedInMonth = days.SelectMany(d => d.Items).Where(i => i.ShortCut != null && Equals(this, i.ShortCut)).Sum(i => i.HoursDuration);
+
+      // generate complete usage information over all days
+      var usageInfos =
+        (from workDay in days
+         let hours = workDay.Items.Where(i => i.ShortCut != null && Equals(this, i.ShortCut)).Sum(i => i.HoursDuration)
+         select new UsageInfo { Day = workDay.Day, Hours = hours, IsToday = workDay.IsToday }).ToList();
+
+      if (this.UsageHistory == null)
+      {
+        logger.Debug("CalcShortCutStatistic => {0} Initial calculated shortcut statistics ({1}, {2})", usageInfos.Count(), this.Key, usageInfos.Sum(ui => ui.Hours));
+        this.UsageHistory = new QuickFillObservableCollection<UsageInfo>(usageInfos);
+      } else {
+        foreach (var ui in this.UsageHistory)
+        {
+          var calculatedUI = usageInfos.ElementAtOrDefault(ui.Day - 1);
+          if (calculatedUI != null) {
+            ui.Hours = calculatedUI.Hours;
+            ui.IsToday = calculatedUI.IsToday;
+          } else {
+            logger.Error("CalcShortCutStatistic => No usage info found for day {0}, shortcut {1}!", ui.Day, this.Key);
+          }
+        }
       }
     }
   }

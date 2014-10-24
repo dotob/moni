@@ -32,9 +32,9 @@ namespace MONI.Data
     public bool WholeDayExpansion { get; set; }
     public DateTime ValidFrom { get; set; }
 
-    private ShortCutGroup group;
+    private string group;
 
-    public ShortCutGroup Group {
+    public string Group {
       get { return this.group; }
       set {
         if (Equals(this.group, value)) {

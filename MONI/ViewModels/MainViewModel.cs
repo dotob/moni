@@ -507,7 +507,7 @@ namespace MONI.ViewModels {
         this.Save();
       }
       var sw = Stopwatch.StartNew();
-      this.WorkYear = new WorkYear(year, this.MonlistSettings.ParserSettings.ShortCuts,
+      this.WorkYear = new WorkYear(year, this.MonlistSettings.ParserSettings,
                                    this.MonlistSettings.MainSettings.HitListLookBackInWeeks,
                                    this.MonlistSettings.MainSettings.HoursPerDay,
                                    this.PNSearch,

@@ -26,8 +26,8 @@ namespace MONI.ViewModels
       this.Model = shortCut ?? new ShortCut();
       this.IsNew = shortCut == null;
       this.ShortCutKey = this.Model.Key;
-      this.ShortCutGroup = this.Model.Group;
-      this.ShortCutGroupKey = this.Model.Group != null ? this.Model.Group.Key : string.Empty;
+      this.ShortCutGroup = settings.ParserSettings.ShortCutGroups.FirstOrDefault(sg => Equals(sg.Key, this.Model.Group));
+      this.ShortCutGroupKey = this.Model.Group;
     }
 
     public MoniSettings MoniSettings { get; private set; }
@@ -99,7 +99,7 @@ namespace MONI.ViewModels
         this.MoniSettings.ParserSettings.ShortCutGroups.Add(newSCGroup);
         this.ShortCutGroup = newSCGroup;
       }
-      this.Model.Group = this.ShortCutGroup;
+      this.Model.Group = this.ShortCutGroupKey;
 
       var shortCut = this.MoniSettings.ParserSettings.ShortCuts.FirstOrDefault(sc => Equals(sc, this.Model));
       if (shortCut != null) {

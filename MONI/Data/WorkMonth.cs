@@ -16,16 +16,19 @@ namespace MONI.Data
     private readonly int month;
     private readonly float hoursPerDay;
     private readonly int year;
+    private readonly WorkDayParserSettings parserSettings;
 
-    public WorkMonth(int year, int month, GermanSpecialDays specialDays, IEnumerable<ShortCut> shortCuts, float hoursPerDay) {
+    public WorkMonth(int year, int month, GermanSpecialDays specialDays, WorkDayParserSettings parserSettings, float hoursPerDay) {
+      this.parserSettings = parserSettings;
       this.year = year;
       this.month = month;
       this.hoursPerDay = hoursPerDay;
       this.Weeks = new ObservableCollection<WorkWeek>();
       this.Days = new ObservableCollection<WorkDay>();
       this.ShortCutStatistic = new ObservableCollection<ShortCutStatistic>();
+      this.GroupedShortCutStatistic = new ObservableCollection<ShortCutGroup>();
       // TODO which date should i take?
-      this.ReloadShortcutStatistic(shortCuts);
+      this.ReloadShortcutStatistic(parserSettings.ShortCuts);
 
       var cal = new GregorianCalendar();
       WorkWeek lastWeek = null;
@@ -45,6 +48,19 @@ namespace MONI.Data
     }
 
     public void ReloadShortcutStatistic(IEnumerable<ShortCut> shortCuts) {
+      this.GroupedShortCutStatistic.Clear();
+      
+      var groupedShortCuts = parserSettings.ShortCuts.GroupBy(s => s.Group);
+      
+      foreach (var grouping in groupedShortCuts) {
+        var group = new ShortCutGroup() { Key = grouping.Key };
+        group.AddShortCuts(grouping.Select(s => {
+                                             s.Group = grouping.Key;
+                                             return new ShortCutStatistic(s);
+                                           }).ToList());
+        this.GroupedShortCutStatistic.Add(group);
+      }
+
       this.ShortCutStatistic.Clear();
       foreach (var shortCut in shortCuts.Select(s => new ShortCutStatistic(s))) {
         this.ShortCutStatistic.Add(shortCut);
@@ -54,6 +70,7 @@ namespace MONI.Data
     }
 
     private double previewHours;
+    private ObservableCollection<ShortCutGroup> groupedShortCutStatistic;
     private ObservableCollection<ShortCutStatistic> shortCutStatistic;
     private double necessaryHours;
 
@@ -128,6 +145,20 @@ namespace MONI.Data
       }
     }
 
+    public ObservableCollection<ShortCutGroup> GroupedShortCutStatistic {
+      get { return this.groupedShortCutStatistic; }
+      set {
+        if (this.groupedShortCutStatistic == value) {
+          return;
+        }
+        this.groupedShortCutStatistic = value;
+        var tmp = this.PropertyChanged;
+        if (tmp != null) {
+          tmp(this, new PropertyChangedEventArgs("GroupedShortCutStatistic"));
+        }
+      }
+    }
+
     public double NecessaryHours {
       get { return necessaryHours; }
       set {
@@ -161,32 +192,15 @@ namespace MONI.Data
       }
     }
 
-    public void CalcShortCutStatistic()
-    {
-      foreach (var scStat in this.ShortCutStatistic) {
-        // complete hours over all days
-        scStat.UsedInMonth = this.Days.SelectMany(d => d.Items).Where(i => i.ShortCut != null && Equals(scStat, i.ShortCut)).Sum(i => i.HoursDuration);
-        
-        // generate complete usage information over all days
-        var usageInfos =
-          (from workDay in this.Days
-           let hours = workDay.Items.Where(i => i.ShortCut != null && Equals(scStat, i.ShortCut)).Sum(i => i.HoursDuration)
-           select new UsageInfo { Day = workDay.Day, Hours = hours, IsToday = workDay.IsToday }).ToList();
-
-        if (scStat.UsageHistory == null) {
-          logger.Debug("CalcShortCutStatistic => {0} Initial calculated shortcut statistics ({1}, {2})", usageInfos.Count(), scStat.Key, usageInfos.Sum(ui => ui.Hours));
-          scStat.UsageHistory = new QuickFillObservableCollection<UsageInfo>(usageInfos);
-        } else {
-          foreach (var ui in scStat.UsageHistory) {
-            var calculatedUI = usageInfos.ElementAtOrDefault(ui.Day - 1);
-            if (calculatedUI != null) {
-              ui.Hours = calculatedUI.Hours;
-              ui.IsToday = calculatedUI.IsToday;
-            } else {
-              logger.Error("CalcShortCutStatistic => No usage info found for day {0}, shortcut {1}!", ui.Day, scStat.Key);
-            }
-          }
+    public void CalcShortCutStatistic() {
+      foreach (var shortCutGroup in GroupedShortCutStatistic) {
+        foreach (var scStat in shortCutGroup.ShortCuts.OfType<ShortCutStatistic>()) {
+          scStat.Calculate(this.Days);
         }
+      }
+
+      foreach (var scStat in this.ShortCutStatistic) {
+        scStat.Calculate(this.Days);
       }
     }
 
