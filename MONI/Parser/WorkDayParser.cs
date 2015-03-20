@@ -163,7 +163,7 @@ namespace MONI.Data
         if (wdItemString.StartsWith(endTimeStartChar.ToString())) {
           TimeItem ti;
 					var parsePart = wdItemString.Substring(1, wdItemString.Length - 2);
-					var parsePartNoComment = parsePart.Token("(", 1, parsePart);
+					var parsePartNoComment = parsePart.TokenReturnInputIfFail("(", 1);
 					if (TimeItem.TryParse(parsePartNoComment, out ti)) {
             workItem = new WorkItemTemp(wdItemString);
             workItem.DesiredEndtime = ti;
@@ -173,7 +173,7 @@ namespace MONI.Data
         } else {
           double pauseDuration;
 	        var parsePart = wdItemString.Substring(0, wdItemString.Length - 1);
-					var parsePartNoComment = parsePart.Token("(", 1, parsePart);
+					var parsePartNoComment = parsePart.TokenReturnInputIfFail("(", 1);
 					if (double.TryParse(parsePartNoComment, NumberStyles.Float, CultureInfo.InvariantCulture, out pauseDuration)) {
             workItem = new WorkItemTemp(wdItemString);
             workItem.HourCount = pauseDuration;
@@ -207,7 +207,9 @@ namespace MONI.Data
             if (!string.IsNullOrEmpty(projectPosDescString)) {
               // expand abbreviations
               if (this.settings != null) {
-                var abbrevString = projectPosDescString.TokenReturnInputIfFail("(", 1).Trim();
+                var abbrevStringNoComment = projectPosDescString.TokenReturnInputIfFail("(", 1).Trim();
+								var abbrevString = abbrevStringNoComment.TokenReturnInputIfFail("-", 1).Trim();
+								var posReplaceString = abbrevStringNoComment.Token("-", 2).Trim();
                 ShortCut shortCut = this.settings.GetValidShortCuts(dateTime).Where(s => !s.WholeDayExpansion).FirstOrDefault(s => s.Key == abbrevString);
                 if (shortCut != null) {
                   workItem.ShortCut = shortCut;
@@ -217,12 +219,14 @@ namespace MONI.Data
                   var descExpanded = DescriptionParser.ParseDescription(expanded);
                   if (!string.IsNullOrWhiteSpace(desc.Description) && desc.UsedAppendDelimiter) {
                     // append description in expanded
-                    expanded = string.Format("{0}({1}{2})", descExpanded.BeforeDescription, descExpanded.Description, desc.Description);
+                    expanded = string.Format("{0}({1}{2})", this.replacePosIfNecessary(descExpanded.BeforeDescription, posReplaceString), descExpanded.Description, desc.Description);
                   } else if (!string.IsNullOrWhiteSpace(desc.Description)) {
-                    // replace to description in expanded
-                    expanded = string.Format("{0}({1})", descExpanded.BeforeDescription, desc.Description);
+	                  // replace to description in expanded
+	                  expanded = string.Format("{0}({1})", this.replacePosIfNecessary(descExpanded.BeforeDescription, posReplaceString), desc.Description);
+                  } else {
+	                  expanded = this.replacePosIfNecessary(expanded, posReplaceString);
                   }
-                  projectPosDescString = expanded;
+									projectPosDescString = expanded;
                 } else if (wholeDayShortcut != null) {
                   workItem.ShortCut = wholeDayShortcut;
                 }
@@ -252,7 +256,14 @@ namespace MONI.Data
       return success;
     }
 
-    private bool GetDayStartTime(string input, out TimeItem dayStartTime, out string remainingString, out string error) {
+	  private string replacePosIfNecessary(string beforeDescription, string posReplacement) {
+			if (!string.IsNullOrWhiteSpace(posReplacement)) {
+				return string.Format("{0}-{1}", beforeDescription.TokenReturnInputIfFail("-", 1), posReplacement);
+			}
+		  return beforeDescription;
+	  }
+
+	  private bool GetDayStartTime(string input, out TimeItem dayStartTime, out string remainingString, out string error) {
       bool success = false;
       var dayStartToken = input.Token(dayStartSeparator.ToString(), 1, input); // do not trim here, need original length later
       if (!string.IsNullOrEmpty(dayStartToken.Trim())) {

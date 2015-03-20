@@ -185,6 +185,25 @@ Ausgabe:
 - 8:30-12:45 12345-000
 - 12:45-16:30 54321-000  spezifikation
 
+## Abkürzungen, Ersetzung der Positionsnummer##
+
+Konfiguration:
+
+- **ctb => 12345-000**
+- **ktl => 54321-000(spezifikation)**
+
+Eingabe: 
+
+**8:30,4.25;ctb,3.75;ktl-123**
+
+Ausgabe: 
+
+- 8:30-12:45 12345-000
+- 12:45-16:30 54321-123  spezifikation
+
+Erläuterung:
+
+Die in der Abkürzung gespeicherte Positionsnummer kann von Fall zu Fall überschrieben werden. Gezählt wird der Eintrag aber weiterhin zur ursprünglichen Abkürzung.
 
 ## Abkürzungen und Beschreibungen ##
 
