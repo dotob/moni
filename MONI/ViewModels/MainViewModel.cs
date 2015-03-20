@@ -67,6 +67,7 @@ namespace MONI.ViewModels {
       string dataDirectory = Utils.PatchFilePath(this.MonlistSettings.MainSettings.DataDirectory);
       this.persistenceLayer = new TextFilePersistenceLayer(dataDirectory);
       this.csvExporter = new CSVExporter(dataDirectory);
+      this.jsonExporter = new JSONExporter(dataDirectory);
       //this.persistentResult = this.persistenceLayer.ReadData();
       this.SelectToday(); // sets data from persistencelayer
       if (dispatcher != null) {
@@ -120,6 +121,7 @@ namespace MONI.ViewModels {
 
     private bool showHelp;
     private Visibility monthListVisibility;
+    private JSONExporter jsonExporter;
 
     public bool ShowHelp
     {
@@ -504,6 +506,7 @@ namespace MONI.ViewModels {
       // save data
       this.persistenceLayer.SaveData(this.workYear);
       this.csvExporter.Export(this.WorkYear);
+      this.jsonExporter.Export(this.WorkYear);
       // save settings
       WriteSettings(this.MonlistSettings, this.settingsFile);
     }

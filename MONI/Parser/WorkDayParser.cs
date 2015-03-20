@@ -162,7 +162,9 @@ namespace MONI.Data
       if (wdItemString.EndsWith(pauseChar.ToString())) {
         if (wdItemString.StartsWith(endTimeStartChar.ToString())) {
           TimeItem ti;
-          if (TimeItem.TryParse(wdItemString.Substring(1, wdItemString.Length - 2), out ti)) {
+					var parsePart = wdItemString.Substring(1, wdItemString.Length - 2);
+					var parsePartNoComment = parsePart.Token("(", 1, parsePart);
+					if (TimeItem.TryParse(parsePartNoComment, out ti)) {
             workItem = new WorkItemTemp(wdItemString);
             workItem.DesiredEndtime = ti;
             workItem.IsPause = true;
@@ -170,7 +172,9 @@ namespace MONI.Data
           }
         } else {
           double pauseDuration;
-          if (double.TryParse(wdItemString.Substring(0, wdItemString.Length - 1), NumberStyles.Float, CultureInfo.InvariantCulture, out pauseDuration)) {
+	        var parsePart = wdItemString.Substring(0, wdItemString.Length - 1);
+					var parsePartNoComment = parsePart.Token("(", 1, parsePart);
+					if (double.TryParse(parsePartNoComment, NumberStyles.Float, CultureInfo.InvariantCulture, out pauseDuration)) {
             workItem = new WorkItemTemp(wdItemString);
             workItem.HourCount = pauseDuration;
             workItem.IsPause = true;

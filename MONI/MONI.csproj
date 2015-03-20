@@ -88,6 +88,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Data\JSONExporter.cs" />
     <Compile Include="Data\CSVExporter.cs" />
     <Compile Include="Data\CustomWindowPlacementSettings.cs" />
     <Compile Include="Data\MoniSettings.cs" />

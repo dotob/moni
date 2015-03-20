@@ -235,6 +235,7 @@ Ausgabe:
 Erläuterung: 
 
 Endet ein Eintrag mit **!** dann wird die Stundenzahl als Pause eingefügt
+Vor dem **!** kann geklammert ein Kommentar stehen: **8:00,4;12345-000,1(werkstatt)!,4;12345-000**
 
 ## Manuelle Pause mit Endzeit ##
 
@@ -250,6 +251,7 @@ Ausgabe:
 Erläuterung: 
 
 Endet ein Eintrag mit **!** dann wird eine Pause bis zur Endzeit eingefügt
+Vor dem **!** kann geklammert ein Kommentar stehen: **8:00,4;12345-000,-14(werkstatt)!,3;12345-000**
 
 ## Automatische Pause ##
 
