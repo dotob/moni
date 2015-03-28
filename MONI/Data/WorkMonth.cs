@@ -25,8 +25,7 @@ namespace MONI.Data
       this.hoursPerDay = hoursPerDay;
       this.Weeks = new ObservableCollection<WorkWeek>();
       this.Days = new ObservableCollection<WorkDay>();
-      this.ShortCutStatistic = new ObservableCollection<ShortCutStatistic>();
-      this.GroupedShortCutStatistic = new ObservableCollection<ShortCutGroup>();
+      this.ShortCutStatistic = new QuickFillObservableCollection<ShortCutStatistic>();
       // TODO which date should i take?
       this.ReloadShortcutStatistic(parserSettings.ShortCuts);
 
@@ -48,30 +47,15 @@ namespace MONI.Data
     }
 
     public void ReloadShortcutStatistic(IEnumerable<ShortCut> shortCuts) {
-      this.GroupedShortCutStatistic.Clear();
-      
-      var groupedShortCuts = parserSettings.ShortCuts.GroupBy(s => s.Group);
-      
-      foreach (var grouping in groupedShortCuts) {
-        var group = new ShortCutGroup() { Key = grouping.Key };
-        group.AddShortCuts(grouping.Select(s => {
-                                             s.Group = grouping.Key;
-                                             return new ShortCutStatistic(s);
-                                           }).ToList());
-        this.GroupedShortCutStatistic.Add(group);
-      }
-
-      this.ShortCutStatistic.Clear();
-      foreach (var shortCut in shortCuts.Select(s => new ShortCutStatistic(s))) {
-        this.ShortCutStatistic.Add(shortCut);
-      }
+      var orderedShortCutStatistics = shortCuts.OrderBy(s => s, new ShortCutStatisticComparer<ShortCut>())
+                                      .Select(s => new ShortCutStatistic(s));
+      this.ShortCutStatistic.AddItems(orderedShortCutStatistics, true);
 
       this.CalcShortCutStatistic();
     }
 
     private double previewHours;
-    private ObservableCollection<ShortCutGroup> groupedShortCutStatistic;
-    private ObservableCollection<ShortCutStatistic> shortCutStatistic;
+    private QuickFillObservableCollection<ShortCutStatistic> shortCutStatistic;
     private double necessaryHours;
 
     public double PreviewHours {
@@ -131,7 +115,7 @@ namespace MONI.Data
     public ObservableCollection<WorkWeek> Weeks { get; set; }
     public ObservableCollection<WorkDay> Days { get; set; }
 
-    public ObservableCollection<ShortCutStatistic> ShortCutStatistic {
+    public QuickFillObservableCollection<ShortCutStatistic> ShortCutStatistic {
       get { return this.shortCutStatistic; }
       set {
         if (this.shortCutStatistic == value) {
@@ -141,20 +125,6 @@ namespace MONI.Data
         var tmp = this.PropertyChanged;
         if (tmp != null) {
           tmp(this, new PropertyChangedEventArgs("ShortCutStatistic"));
-        }
-      }
-    }
-
-    public ObservableCollection<ShortCutGroup> GroupedShortCutStatistic {
-      get { return this.groupedShortCutStatistic; }
-      set {
-        if (this.groupedShortCutStatistic == value) {
-          return;
-        }
-        this.groupedShortCutStatistic = value;
-        var tmp = this.PropertyChanged;
-        if (tmp != null) {
-          tmp(this, new PropertyChangedEventArgs("GroupedShortCutStatistic"));
         }
       }
     }
@@ -193,12 +163,6 @@ namespace MONI.Data
     }
 
     public void CalcShortCutStatistic() {
-      foreach (var shortCutGroup in GroupedShortCutStatistic) {
-        foreach (var scStat in shortCutGroup.ShortCuts.OfType<ShortCutStatistic>()) {
-          scStat.Calculate(this.Days);
-        }
-      }
-
       foreach (var scStat in this.ShortCutStatistic) {
         scStat.Calculate(this.Days);
       }

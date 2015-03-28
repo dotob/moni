@@ -120,6 +120,7 @@
     <Compile Include="Util\AttachedCommandBehavior\EventHandlerGenerator.cs" />
     <Compile Include="Util\AttachedCommandBehavior\ExecutionStrategy.cs" />
     <Compile Include="Util\AttachedCommandBehavior\SimpleCommand.cs" />
+    <Compile Include="Util\CustomPropertyGroupDescription.cs" />
     <Compile Include="Util\Markdown\HtmlToXamlConverter.cs" />
     <Compile Include="Util\Markdown\Markdown.cs" />
     <Compile Include="Util\VisualTreeExtensions.cs" />

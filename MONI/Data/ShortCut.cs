@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MONI.Data
 {
-  public class ShortCut : ViewModelBase, IComparable, IComparable<ShortCut>
+  public class ShortCut : ViewModelBase//, IComparable, IComparable<ShortCut>
   {
     public ShortCut() {
       this.ID = Guid.NewGuid().ToString();
@@ -32,7 +32,7 @@ namespace MONI.Data
     public bool WholeDayExpansion { get; set; }
     public DateTime ValidFrom { get; set; }
 
-    private string group;
+    private string group = string.Empty;
 
     public string Group {
       get { return this.group; }
@@ -53,36 +53,17 @@ namespace MONI.Data
       return false;
     }
 
+    public override int GetHashCode()
+    {
+      return this.ID.GetHashCode();
+    }
+
     public void GetData(ShortCut sc) {
       this.Key = sc.Key;
       this.Expansion = sc.Expansion;
       this.WholeDayExpansion = sc.WholeDayExpansion;
       this.ValidFrom = sc.ValidFrom;
       this.Group = sc.Group;
-    }
-
-    public int CompareTo(object obj)
-    {
-      return this.CompareTo(obj as ShortCut);
-    }
-
-    public int CompareTo(ShortCut other)
-    {
-      var indexCompare = this.Index - other.Index;
-      if (Equals(this.Group, other.Group)) {
-        return indexCompare;
-      }
-      if (this.Group == null) {
-        return 1;
-      }
-      if (other.Group == null) {
-        return -1;
-      }
-      var groupCompare = this.Group.CompareTo(other.Group);
-      if (groupCompare != 0) {
-        return indexCompare;
-      }
-      return groupCompare;
     }
 
     public override string ToString() {

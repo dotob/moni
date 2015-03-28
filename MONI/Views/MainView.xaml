@@ -9,6 +9,7 @@
                       xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
                       xmlns:attachedCommandBehavior="clr-namespace:AttachedCommandBehavior"
                       xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                      xmlns:util="clr-namespace:MONI.Util"
                       RenderOptions.ClearTypeHint="Enabled"
                       TextOptions.TextFormattingMode="Display"
                       Title="MONI"
@@ -493,17 +494,12 @@
     
     <Grid.Resources>
       <CollectionViewSource x:Key="ShortCutCVS"
-                            Source="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic, Mode=OneWay}">
+                            Source="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}">
         <CollectionViewSource.GroupDescriptions>
-          <PropertyGroupDescription PropertyName="Group" />
+          <util:CustomPropertyGroupDescription PropertyName="Group" />
         </CollectionViewSource.GroupDescriptions>
-<!--        <CollectionViewSource.SortDescriptions>-->
-<!--          <componentModel:SortDescription PropertyName="Group" />-->
-<!--          <componentModel:SortDescription PropertyName="." />-->
-<!--        </CollectionViewSource.SortDescriptions>-->
       </CollectionViewSource>
     </Grid.Resources>
-    
     
     <Grid Margin="0 0 2 0">
       <Grid.ColumnDefinitions>
@@ -514,7 +510,6 @@
         <!-- vertical splitter -->
         <ColumnDefinition Width="Auto" />
         <!-- shortcuts -->
-        <ColumnDefinition MinWidth="250" Width="250" />
         <ColumnDefinition MinWidth="250" Width="250" />
         <!-- projekt hitlist -->
         <ColumnDefinition Width="Auto" />
@@ -942,191 +937,10 @@
         </Button>
       </StackPanel>
 
-      <TreeView x:Name="ShortCutStatisticTreeView"
-                Margin="0 1 0 0"
-                Grid.Row="1"
-                Grid.Column="3"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                HorizontalContentAlignment="Stretch"
-                RenderOptions.ClearTypeHint="Enabled"
-                TextOptions.TextFormattingMode="Display"
-                ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.GroupedShortCutStatistic, Mode=OneWay}">
-        <TreeView.ItemTemplate>
-          <HierarchicalDataTemplate DataType="data:ShortCutGroup"
-                                    ItemsSource="{Binding ShortCuts}"
-                                    ItemContainerStyle="{StaticResource NonVisibleSelectedTreeViewItemStyle}">
-            <TextBlock Text="{Binding Key}" />
-
-            <HierarchicalDataTemplate.ItemTemplate>
-              <!-- shortcut -->
-              <DataTemplate DataType="{x:Type data:ShortCutStatistic}">
-
-                <DataTemplate.Triggers>
-                  <EventTrigger RoutedEvent="Control.MouseEnter">
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.200"
-                                                       Storyboard.TargetName="actions"
-                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
-                          <EasingDoubleKeyFrame KeyTime="00:00:00.400"
-                                                Value="0"
-                                                x:Name="showFrame">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                              <CubicEase EasingMode="EaseOut" />
-                            </EasingDoubleKeyFrame.EasingFunction>
-                          </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-                        <DoubleAnimation Duration="0:0:0.3"
-                                         BeginTime="00:00:00.400"
-                                         To="0.8"
-                                         Storyboard.TargetName="actions"
-                                         Storyboard.TargetProperty="Opacity" />
-                      </Storyboard>
-                    </BeginStoryboard>
-                  </EventTrigger>
-                  <EventTrigger RoutedEvent="Control.MouseLeave">
-                    <BeginStoryboard>
-                      <Storyboard>
-                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
-                                                       Storyboard.TargetName="actions"
-                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
-                          <EasingDoubleKeyFrame KeyTime="00:00:00.400"
-                                                Value="200"
-                                                x:Name="hideFrame">
-                            <EasingDoubleKeyFrame.EasingFunction>
-                              <CubicEase EasingMode="EaseOut" />
-                            </EasingDoubleKeyFrame.EasingFunction>
-                          </EasingDoubleKeyFrame>
-                        </DoubleAnimationUsingKeyFrames>
-
-
-                        <DoubleAnimation Duration="0:0:0.3"
-                                         To="0"
-                                         Storyboard.TargetName="actions"
-                                         Storyboard.TargetProperty="Opacity" />
-                      </Storyboard>
-                    </BeginStoryboard>
-                  </EventTrigger>
-                </DataTemplate.Triggers>
-
-                <!-- use transparent background for correct highlighting -->
-                <Grid Background="Transparent">
-
-                  <Grid x:Name="root"
-                        Margin="1 1 1 1"
-                        Background="#FFF3EDED">
-
-                    <!-- usage history graph -->
-                    <ItemsControl Margin="-1 0 -1 -1"
-                                  ItemTemplate="{StaticResource UsageHistoryDayDataTemplate}"
-                                  ItemsSource="{Binding UsageHistory}">
-                      <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                          <UniformGrid Rows="1"
-                                       Columns="31" />
-                        </ItemsPanelTemplate>
-                      </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-
-                    <Grid Margin="2 2 2 5">
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"
-                                          SharedSizeGroup="0" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="Auto" />
-                      </Grid.ColumnDefinitions>
-
-                      <TextBlock Grid.Column="0"
-                                 VerticalAlignment="Bottom"
-                                 Text="{Binding Key}"
-                                 FontWeight="Bold"
-                                 FontSize="14" />
-                      <TextBlock Grid.Column="1"
-                                 VerticalAlignment="Bottom"
-                                 Text="{Binding Expansion}"
-                                 Foreground="DarkSlateGray"
-                                 FontSize="10"
-                                 TextTrimming="CharacterEllipsis"
-                                 Margin="10 0 0 0" />
-                      <TextBlock Grid.Column="2"
-                                 VerticalAlignment="Bottom"
-                                 HorizontalAlignment="Right"
-                                 Text="{Binding UsedInMonth, StringFormat='{} {0:##}'}"
-                                 Foreground="Gray"
-                                 FontWeight="Bold"
-                                 FontSize="14"
-                                 Margin="10 0 3 0" />
-
-                      <!--wholeday expansion info-->
-                      <Rectangle Grid.Column="3"
-                                 VerticalAlignment="Top"
-                                 HorizontalAlignment="Right"
-                                 Width="8"
-                                 Height="15"
-                                 Margin="0 -2 0 0"
-                                 Visibility="{Binding WholeDayExpansion, Converter={StaticResource false2HiddenConverter}}"
-                                 Fill="{StaticResource ribbonIcon}"
-                                 ToolTip="Ersetzt ganzen Tag" />
-                    </Grid>
-
-                    <!--actions-->
-                    <Border x:Name="actions"
-                            Background="Silver"
-                            Margin="0 1 2 1"
-                            HorizontalAlignment="Right"
-                            Opacity="0">
-                      <Border.RenderTransform>
-                        <TranslateTransform X="200" />
-                      </Border.RenderTransform>
-
-                      <StackPanel Orientation="Horizontal"
-                                  VerticalAlignment="Center">
-
-                        <Button Tag="{Binding }"
-                                Style="{DynamicResource MetroCircleEditButtonStyle}"
-                                Width="21"
-                                Height="21"
-                                Margin="5 1 5 1"
-                                Click="EditShortcut_OnClick"
-                                ToolTip="Shortcut editieren">
-                          <Rectangle Width="10"
-                                     Height="10"
-                                     Fill="{StaticResource editIcon}" />
-                        </Button>
-                        <Button Tag="{Binding }"
-                                Style="{DynamicResource MetroCircleEditButtonStyle}"
-                                Width="21"
-                                Height="21"
-                                Margin="5 1 5 1"
-                                Click="RemoveShortcut_OnClick"
-                                ToolTip="Shortcut löschen">
-                          <Rectangle Width="10"
-                                     Height="10"
-                                     Fill="{StaticResource deleteIcon}" />
-                        </Button>
-
-                      </StackPanel>
-                    </Border>
-                  </Grid>
-
-                </Grid>
-              </DataTemplate>
-
-<!--              <DataTemplate>-->
-<!--                <TextBlock Text="{Binding Key}" />-->
-<!--              </DataTemplate>-->
-            </HierarchicalDataTemplate.ItemTemplate>
-          </HierarchicalDataTemplate>
-        </TreeView.ItemTemplate>
-      </TreeView>
-
       <ListBox x:Name="shortCutList"
                Margin="0 1 0 0"
                Grid.Row="1"
-               Grid.Column="4"
+               Grid.Column="3"
                Grid.IsSharedSizeScope="True"
                ScrollViewer.VerticalScrollBarVisibility="Auto"
                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -1310,7 +1124,7 @@
       </ListBox>
 
       <!-- project hitlist -->
-      <TextBlock Grid.Column="5"
+      <TextBlock Grid.Column="4"
                  Grid.Row="0"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Bottom"
@@ -1322,7 +1136,7 @@
                 Projekt-Hitliste
       </TextBlock>
       <ListBox Grid.Row="1"
-               Grid.Column="5"
+               Grid.Column="4"
                Margin="0 1 0 0"
                ScrollViewer.VerticalScrollBarVisibility="Auto"
                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -1376,7 +1190,7 @@
       </ListBox>
 
       <!-- position hitlist -->
-      <TextBlock Grid.Column="6"
+      <TextBlock Grid.Column="5"
                  Grid.Row="0"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Bottom"
@@ -1388,7 +1202,7 @@
                 Positions-Hitliste
       </TextBlock>
       <ListBox Grid.Row="1"
-               Grid.Column="6"
+               Grid.Column="5"
                Margin="0 1 0 0"
                ScrollViewer.VerticalScrollBarVisibility="Auto"
                ScrollViewer.HorizontalScrollBarVisibility="Disabled"

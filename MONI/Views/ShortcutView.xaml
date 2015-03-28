@@ -4,12 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:MONI.ViewModels"
+             xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance ViewModels:ShortcutViewModel}">
 
   <Grid Margin="10">
+    
+    <Grid.Resources>
+      <CollectionViewSource x:Key="ShortCutGroupCVS"
+                            Source="{Binding MoniSettings.ParserSettings.ShortCutGroups}">
+        <CollectionViewSource.SortDescriptions>
+          <componentModel:SortDescription PropertyName="Key" />
+        </CollectionViewSource.SortDescriptions>
+      </CollectionViewSource>
+    </Grid.Resources>
 
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"></RowDefinition>
@@ -41,7 +51,7 @@
               Focusable="True"
               IsEditable="True"
               x:Name="shortcutGroupComboBox"
-              ItemsSource="{Binding MoniSettings.ParserSettings.ShortCutGroups, Mode=OneWay}"
+              ItemsSource="{Binding Source={StaticResource ShortCutGroupCVS}}"
               SelectedItem="{Binding ShortCutGroup, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
               DisplayMemberPath="Key"
               SelectedValuePath="Key"

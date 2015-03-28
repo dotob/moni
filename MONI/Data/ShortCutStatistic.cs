@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using MONI.Util;
 using Newtonsoft.Json;
@@ -6,17 +9,47 @@ using NLog;
 
 namespace MONI.Data
 {
+  public class ShortCutStatisticComparer<T> : IComparer, IComparer<T> where T: ShortCut
+  {
+    public int Compare(object x, object y)
+    {
+      return Compare(x as T, y as T);
+    }
+
+    public int Compare(T x, T y)
+    {
+      if (string.IsNullOrEmpty(x.Group) && !string.IsNullOrEmpty(y.Group))
+      {
+        return 1;
+      }
+      if (string.IsNullOrEmpty(y.Group) && !string.IsNullOrEmpty(x.Group))
+      {
+        return -1;
+      }
+      var groupCompare = String.Compare(x.Group, y.Group, StringComparison.Ordinal);
+      return groupCompare;
+    }
+  }
+
   public class ShortCutStatistic : ShortCut
   {
     private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+    private ShortCut sourceShortCut;
 
     public ShortCutStatistic(ShortCut sc)
       : base(sc.Key, sc.Expansion) {
+      this.sourceShortCut = sc;
       this.ID = sc.ID;
       this.Index = sc.Index;
       this.WholeDayExpansion = sc.WholeDayExpansion;
       this.ValidFrom = sc.ValidFrom;
       this.Group = sc.Group;
+    }
+
+    public void SetNewGroup(string newGroup, int newIndex)
+    {
+      this.Group = newGroup;
+      this.sourceShortCut.Group = newGroup;
     }
 
     private double usedInMonth;

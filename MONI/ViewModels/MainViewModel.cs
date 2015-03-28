@@ -281,19 +281,18 @@ namespace MONI.ViewModels {
 
     public void Drop(IDropInfo dropInfo) {
       try {
-        var sourceIndex = dropInfo.DragInfo.SourceIndex;
-        var targetIndex = dropInfo.InsertIndex;
-        
         var target = (ShortCutStatistic)dropInfo.TargetItem;
         var source = (ShortCutStatistic)dropInfo.DragInfo.Data;
-        
-        //source.Group = target.Group;
-        //DragDrop.DefaultDropHandler.Drop(dropInfo);
-        
-        //this.MonlistSettings.ParserSettings.ShortCuts.Clear();
-        //this.MonlistSettings.ParserSettings.ShortCuts.AddRange(
-          //dropInfo.TargetCollection.OfType<ShortCutStatistic>().Select(kvp => kvp.Value));
-        //this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
+        if (target != null && source != null)
+        {
+          var targetIndex = dropInfo.InsertIndex;
+          source.SetNewGroup(target.Group, targetIndex);
+          DragDrop.DefaultDropHandler.Drop(dropInfo);
+
+          this.MonlistSettings.ParserSettings.ShortCuts.Clear();
+          this.MonlistSettings.ParserSettings.ShortCuts.AddRange(dropInfo.TargetCollection.OfType<ShortCutStatistic>());
+          //this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
+        }
       } catch (Exception exception) {
         Console.WriteLine(exception);
       }
