@@ -9,12 +9,8 @@ using System.Windows;
 // associated with an assembly.
 [assembly: AssemblyTitle("moni")]
 [assembly: AssemblyDescription("the better way to enter monlist data")]
-[assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("basti, jan & co 4 inform")]
-[assembly: AssemblyProduct("moni")]
-[assembly: AssemblyCopyright("Copyright © basti, jan & co 2014")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyCopyright("Copyright © basti, jan & co 2014-2015")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -51,5 +47,6 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.9.9.5")]
-[assembly: AssemblyFileVersion("0.9.9.5")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyProduct("moni 1.0.0-ALPHA")]
