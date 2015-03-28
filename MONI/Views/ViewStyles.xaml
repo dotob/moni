@@ -48,17 +48,15 @@
                       BorderThickness="0"
                       Margin="1 0 1 0"
                       DockPanel.Dock="Top">
-                <DockPanel>
-                  <ToggleButton x:Name="ToggleSite"
-                                Margin="2"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Background="Transparent"
-                                BorderBrush="Transparent"
-                                DockPanel.Dock="Left"
-                                FocusVisualStyle="{x:Null}"
-                                IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                Style="{DynamicResource ExpanderDownHeaderStyle}" />
+                <ToggleButton x:Name="ToggleSite"
+                              Margin="2"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              Background="Transparent"
+                              BorderBrush="Transparent"
+                              FocusVisualStyle="{x:Null}"
+                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              Style="{DynamicResource ExpanderDownHeaderStyle}">
                   <ContentPresenter Margin="{TemplateBinding Padding}"
                                     Content="{TemplateBinding Header}"
                                     ContentTemplate="{TemplateBinding HeaderTemplate}"
@@ -67,7 +65,7 @@
                                     TextElement.FontSize="{TemplateBinding controls:ControlsHelper.HeaderFontSize}"
                                     TextElement.FontStretch="{TemplateBinding controls:ControlsHelper.HeaderFontStretch}"
                                     TextElement.FontWeight="{TemplateBinding controls:ControlsHelper.HeaderFontWeight}" />
-                </DockPanel>
+                </ToggleButton>
               </Border>
               <Border x:Name="ExpandSite"
                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -114,24 +112,6 @@
               </Trigger.ExitActions>
             </Trigger>
             <Trigger Property="ExpandDirection"
-                     Value="Right">
-              <Setter TargetName="ExpandSite"
-                      Property="DockPanel.Dock"
-                      Value="Right" />
-              <Setter TargetName="ExpandSite"
-                      Property="BorderThickness"
-                      Value="0,1,1,1" />
-              <Setter TargetName="HeaderSite"
-                      Property="DockPanel.Dock"
-                      Value="Left" />
-              <Setter TargetName="ToggleSite"
-                      Property="Style"
-                      Value="{DynamicResource ExpanderRightHeaderStyle}" />
-              <Setter TargetName="ToggleSite"
-                      Property="DockPanel.Dock"
-                      Value="Top" />
-            </Trigger>
-            <Trigger Property="ExpandDirection"
                      Value="Up">
               <Setter TargetName="ExpandSite"
                       Property="DockPanel.Dock"
@@ -145,24 +125,6 @@
               <Setter TargetName="ToggleSite"
                       Property="Style"
                       Value="{DynamicResource ExpanderUpHeaderStyle}" />
-            </Trigger>
-            <Trigger Property="ExpandDirection"
-                     Value="Left">
-              <Setter TargetName="ExpandSite"
-                      Property="DockPanel.Dock"
-                      Value="Left" />
-              <Setter TargetName="ExpandSite"
-                      Property="BorderThickness"
-                      Value="1,1,0,1" />
-              <Setter TargetName="HeaderSite"
-                      Property="DockPanel.Dock"
-                      Value="Right" />
-              <Setter TargetName="ToggleSite"
-                      Property="Style"
-                      Value="{DynamicResource ExpanderLeftHeaderStyle}" />
-              <Setter TargetName="ToggleSite"
-                      Property="DockPanel.Dock"
-                      Value="Top" />
             </Trigger>
             <Trigger Property="IsEnabled"
                      Value="false">
