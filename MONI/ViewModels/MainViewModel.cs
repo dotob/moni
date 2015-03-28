@@ -283,11 +283,18 @@ namespace MONI.ViewModels {
 
     public void Drop(IDropInfo dropInfo) {
       try {
-        DragDrop.DefaultDropHandler.Drop(dropInfo);
-        this.MonlistSettings.ParserSettings.ShortCuts.Clear();
-        this.MonlistSettings.ParserSettings.ShortCuts.AddRange(
-          dropInfo.TargetCollection.OfType<KeyValuePair<string, ShortCutStatistic>>().Select(kvp => kvp.Value));
-        this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
+        var target = (ShortCutStatistic)dropInfo.TargetItem;
+        var source = (ShortCutStatistic)dropInfo.DragInfo.Data;
+        if (target != null && source != null)
+        {
+          var targetIndex = dropInfo.InsertIndex;
+          source.SetNewGroup(target.Group, targetIndex);
+          DragDrop.DefaultDropHandler.Drop(dropInfo);
+
+          this.MonlistSettings.ParserSettings.ShortCuts.Clear();
+          this.MonlistSettings.ParserSettings.ShortCuts.AddRange(dropInfo.TargetCollection.OfType<ShortCutStatistic>());
+          //this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
+        }
       } catch (Exception exception) {
         Console.WriteLine(exception);
       }
@@ -387,19 +394,22 @@ namespace MONI.ViewModels {
     }
 
     private static MoniSettings ReadSettingsInternal(string settingsFile) {
+      MoniSettings settings = null;
+      
       if (File.Exists(settingsFile)) {
         string jsonString = File.ReadAllText(settingsFile);
-        return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+        settings = JsonConvert.DeserializeObject<MoniSettings>(jsonString);
       }
+
       // no settingsfile found, try to read sample settings
       string settingsJsonSkeleton = "settings.json.skeleton";
       if (File.Exists(settingsJsonSkeleton)) {
         string jsonString = File.ReadAllText(settingsJsonSkeleton);
-        return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+        settings = JsonConvert.DeserializeObject<MoniSettings>(jsonString);
       }
 
       // no samplesettings, use default
-      return MoniSettings.GetEmptySettings();
+      return settings ?? MoniSettings.GetEmptySettings();
     }
 
     private static void WriteSettings(MoniSettings settings, string settingsFile) {
@@ -491,7 +501,7 @@ namespace MONI.ViewModels {
         this.Save();
       }
       var sw = Stopwatch.StartNew();
-      this.WorkYear = new WorkYear(year, this.MonlistSettings.ParserSettings.ShortCuts,
+      this.WorkYear = new WorkYear(year, this.MonlistSettings.ParserSettings,
                                    this.MonlistSettings.MainSettings.HitListLookBackInWeeks,
                                    this.MonlistSettings.MainSettings.HoursPerDay,
                                    this.PNSearch,

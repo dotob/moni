@@ -16,9 +16,10 @@ namespace MONI.Data
     private readonly int hitListLookBackInWeeks;
     private readonly PNSearchViewModel pnSearch;
     private readonly PositionSearchViewModel positionSearch;
+    
     public int Year { get; set; }
 
-    public WorkYear(int year, IEnumerable<ShortCut> shortCuts, int hitListLookBackInWeeks, float hoursPerDay, PNSearchViewModel pnSearch, PositionSearchViewModel positionSearch) {
+    public WorkYear(int year, WorkDayParserSettings parserSettings, int hitListLookBackInWeeks, float hoursPerDay, PNSearchViewModel pnSearch, PositionSearchViewModel positionSearch) {
       this.hitListLookBackInWeeks = hitListLookBackInWeeks;
       this.pnSearch = pnSearch;
       this.positionSearch = positionSearch;
@@ -30,7 +31,7 @@ namespace MONI.Data
 
       var cal = new GregorianCalendar();
       for (int month = 1; month <= cal.GetMonthsInYear(year); month++) {
-        WorkMonth wm = new WorkMonth(year, month, germanSpecialDays, shortCuts, hoursPerDay);
+        WorkMonth wm = new WorkMonth(year, month, germanSpecialDays, parserSettings, hoursPerDay);
         this.Months.Add(wm);
         foreach (var workWeek in wm.Weeks) {
           this.Weeks.Add(workWeek);

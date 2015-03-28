@@ -93,6 +93,7 @@
     <Compile Include="Data\CustomWindowPlacementSettings.cs" />
     <Compile Include="Data\MoniSettings.cs" />
     <Compile Include="Data\ShortCut.cs" />
+    <Compile Include="Data\ShortCutGroup.cs" />
     <Compile Include="Data\ShortCutStatistic.cs" />
     <Compile Include="Data\SpecialDays\GermanSpecialDay.cs" />
     <Compile Include="Data\SpecialDays\GermanSpecialDays.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Util\AttachedCommandBehavior\EventHandlerGenerator.cs" />
     <Compile Include="Util\AttachedCommandBehavior\ExecutionStrategy.cs" />
     <Compile Include="Util\AttachedCommandBehavior\SimpleCommand.cs" />
+    <Compile Include="Util\CustomPropertyGroupDescription.cs" />
     <Compile Include="Util\Markdown\HtmlToXamlConverter.cs" />
     <Compile Include="Util\Markdown\Markdown.cs" />
     <Compile Include="Util\VisualTreeExtensions.cs" />
@@ -208,6 +210,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShortcutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

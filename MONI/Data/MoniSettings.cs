@@ -44,6 +44,7 @@ namespace MONI.Data
   public class WorkDayParserSettings
   {
     public WorkDayParserSettings() {
+      this.ShortCutGroups = new List<ShortCutGroup>();
       this.ShortCuts = new List<ShortCut>();
     }
 
@@ -79,6 +80,7 @@ namespace MONI.Data
     public TimeItem DayBreakTime { get; set; }
     public int DayBreakDurationInMinutes { get; set; }
     public List<ShortCut> ShortCuts { get; set; }
+    public List<ShortCutGroup> ShortCutGroups { get; set; }
   }
 
 }

@@ -8,6 +8,8 @@
                       xmlns:views="clr-namespace:MONI.Views"
                       xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
                       xmlns:attachedCommandBehavior="clr-namespace:AttachedCommandBehavior"
+                      xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+                      xmlns:util="clr-namespace:MONI.Util"
                       RenderOptions.ClearTypeHint="Enabled"
                       TextOptions.TextFormattingMode="Display"
                       Title="MONI"
@@ -32,6 +34,7 @@
   <Window.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewStyles.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewTemplates.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
       </ResourceDictionary.MergedDictionaries>
@@ -488,6 +491,16 @@
   <!-- *** layout root ***************************************************************** -->
   <Grid RenderOptions.ClearTypeHint="Enabled"
         TextOptions.TextFormattingMode="Display">
+    
+    <Grid.Resources>
+      <CollectionViewSource x:Key="ShortCutCVS"
+                            Source="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}">
+        <CollectionViewSource.GroupDescriptions>
+          <util:CustomPropertyGroupDescription PropertyName="Group" />
+        </CollectionViewSource.GroupDescriptions>
+      </CollectionViewSource>
+    </Grid.Resources>
+    
     <Grid Margin="0 0 2 0">
       <Grid.ColumnDefinitions>
         <!-- month view -->
@@ -939,10 +952,21 @@
                RenderOptions.ClearTypeHint="Enabled"
                TextOptions.TextFormattingMode="Display"
                ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
-               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}">
+               ItemsSource="{Binding Source={StaticResource ShortCutCVS}}">
+        
+        <ListBox.GroupStyle>
+          <GroupStyle ContainerStyle="{StaticResource ShortCutGroupGroupItemStyle}">
+            <GroupStyle.Panel>
+              <ItemsPanelTemplate>
+                <VirtualizingStackPanel />
+              </ItemsPanelTemplate>
+            </GroupStyle.Panel>
+          </GroupStyle>
+        </ListBox.GroupStyle>
+        
         <ListBox.ItemTemplate>
             <!-- shortcut -->
-            <DataTemplate>
+            <DataTemplate DataType="{x:Type data:ShortCutStatistic}">
 
               <DataTemplate.Triggers>
                 <EventTrigger RoutedEvent="Control.MouseEnter">
@@ -1003,7 +1027,7 @@
                   <!-- usage history graph -->
                   <ItemsControl Margin="-1 0 -1 -1"
                                 ItemTemplate="{StaticResource UsageHistoryDayDataTemplate}"
-                                ItemsSource="{Binding Value.UsageHistory}">
+                                ItemsSource="{Binding UsageHistory}">
                     <ItemsControl.ItemsPanel>
                       <ItemsPanelTemplate>
                         <UniformGrid Rows="1"
@@ -1028,7 +1052,7 @@
                                FontSize="14" />
                     <TextBlock Grid.Column="1"
                                VerticalAlignment="Bottom"
-                               Text="{Binding Value.Expansion}"
+                               Text="{Binding Expansion}"
                                Foreground="DarkSlateGray"
                                FontSize="10"
                                TextTrimming="CharacterEllipsis"
@@ -1036,7 +1060,7 @@
                     <TextBlock Grid.Column="2"
                                VerticalAlignment="Bottom"
                                HorizontalAlignment="Right"
-                               Text="{Binding Value.UsedInMonth, StringFormat='{} {0:##}'}"
+                               Text="{Binding UsedInMonth, StringFormat='{} {0:##}'}"
                                Foreground="Gray"
                                FontWeight="Bold"
                                FontSize="14"
@@ -1049,7 +1073,7 @@
                                Width="8"
                                Height="15"
                                Margin="0 -2 0 0"
-                               Visibility="{Binding Value.WholeDayExpansion, Converter={StaticResource false2HiddenConverter}}"
+                               Visibility="{Binding WholeDayExpansion, Converter={StaticResource false2HiddenConverter}}"
                                Fill="{StaticResource ribbonIcon}"
                                ToolTip="Ersetzt ganzen Tag" />
                   </Grid>
@@ -1067,7 +1091,7 @@
                     <StackPanel Orientation="Horizontal"
                                 VerticalAlignment="Center">
 
-                      <Button Tag="{Binding Value}"
+                      <Button Tag="{Binding }"
                               Style="{DynamicResource MetroCircleEditButtonStyle}"
                               Width="21"
                               Height="21"
@@ -1078,7 +1102,7 @@
                                    Height="10"
                                    Fill="{StaticResource editIcon}" />
                       </Button>
-                      <Button Tag="{Binding Value}"
+                      <Button Tag="{Binding }"
                               Style="{DynamicResource MetroCircleEditButtonStyle}"
                               Width="21"
                               Height="21"
