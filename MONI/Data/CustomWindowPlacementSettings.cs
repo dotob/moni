@@ -7,17 +7,26 @@ namespace MONI.Data
   {
     private readonly MoniSettings moniSettings;
 
-    public CustomWindowPlacementSettings(MoniSettings settings) {
+    public CustomWindowPlacementSettings(MoniSettings settings)
+    {
       this.moniSettings = settings;
     }
 
     public WINDOWPLACEMENT? Placement { get; set; }
 
-    public void Reload() {
+    public bool UpgradeSettings { get; set; }
+
+    public void Reload()
+    {
       this.Placement = this.moniSettings.MainSettings.Placement;
     }
 
-    public void Save() {
+    public void Upgrade()
+    {
+    }
+
+    public void Save()
+    {
       this.moniSettings.MainSettings.Placement = this.Placement;
     }
   }

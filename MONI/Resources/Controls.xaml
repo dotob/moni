@@ -35,9 +35,9 @@
   <!--TextBox Style-->
   <Style TargetType="{x:Type TextBox}"
          BasedOn="{StaticResource MetroTextBox}">
-    <Setter Property="controls:TextboxHelper.FocusBorderBrush"
+    <Setter Property="controls:ControlsHelper.FocusBorderBrush"
             Value="{DynamicResource TextBoxFocusBorderBrush}" />
-    <Setter Property="controls:TextboxHelper.MouseOverBorderBrush"
+    <Setter Property="controls:ControlsHelper.MouseOverBorderBrush"
             Value="{DynamicResource TextBoxMouseOverBorderBrush}" />
     <Setter Property="VerticalAlignment"
             Value="Center" />
@@ -46,9 +46,9 @@
   <Style x:Key="MONIMetroFlyoutTextBox"
          TargetType="{x:Type TextBox}"
          BasedOn="{StaticResource MetroTextBox}">
-    <Setter Property="controls:TextboxHelper.FocusBorderBrush"
+    <Setter Property="controls:ControlsHelper.FocusBorderBrush"
             Value="#4EA6EA" />
-    <Setter Property="controls:TextboxHelper.MouseOverBorderBrush"
+    <Setter Property="controls:ControlsHelper.MouseOverBorderBrush"
             Value="{DynamicResource TextBoxMouseOverBorderBrush}" />
     <Setter Property="BorderBrush"
             Value="#1F1F1F" />
