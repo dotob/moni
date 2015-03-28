@@ -23,7 +23,7 @@
             should be set to a value other than <see cref="F:System.Windows.DragDropEffects.None"/>. 
             </remarks>
         </member>
-        <!-- Ungültiger XML-Kommentar wurde für den Member 'M:GongSolutions.Wpf.DragDrop.IDragSource.CanStartDrag(GongSolutions.Wpf.DragDrop.IDragInfo)' ignoriert -->
+        <!-- Ungültiger XML-Kommentar wurde für den Member "M:GongSolutions.Wpf.DragDrop.IDragSource.CanStartDrag(GongSolutions.Wpf.DragDrop.IDragInfo)" ignoriert -->
         <member name="M:GongSolutions.Wpf.DragDrop.IDragSource.Dropped(GongSolutions.Wpf.DragDrop.IDropInfo)">
             <summary>
             Notifies the drag handler that a drop has occurred.
@@ -36,6 +36,11 @@
         <member name="M:GongSolutions.Wpf.DragDrop.IDragSource.DragCancelled">
             <summary>
             Notifies the drag handler that a drag has been aborted.
+            </summary>
+        </member>
+        <member name="T:GongSolutions.Wpf.DragDrop.DefaultDropHandler">
+            <summary>
+            A default insertion drop handler for the most common usages
             </summary>
         </member>
         <member name="T:GongSolutions.Wpf.DragDrop.IDropTarget">
@@ -66,6 +71,29 @@
             <param name="dropInfo">
               Information about the drop.
             </param>
+        </member>
+        <member name="M:GongSolutions.Wpf.DragDrop.DefaultDropHandler.DragOver(GongSolutions.Wpf.DragDrop.IDropInfo)">
+            <summary>
+            Updates the current drag state.
+            </summary>
+            <param name="dropInfo">Information about the drag.</param>
+            <remarks>
+            To allow a drop at the current drag position, the <see cref="P:GongSolutions.Wpf.DragDrop.DropInfo.Effects"/> property on
+            <paramref name="dropInfo"/> should be set to a value other than <see cref="F:System.Windows.DragDropEffects.None"/>
+            and <see cref="P:GongSolutions.Wpf.DragDrop.DropInfo.Data"/> should be set to a non-null value.
+            </remarks>
+        </member>
+        <member name="M:GongSolutions.Wpf.DragDrop.DefaultDropHandler.Drop(GongSolutions.Wpf.DragDrop.IDropInfo)">
+            <summary>
+            Performs a drop.
+            </summary>
+            <param name="dropInfo">Information about the drop.</param>
+        </member>
+        <member name="M:GongSolutions.Wpf.DragDrop.DefaultDropHandler.CanAcceptData(GongSolutions.Wpf.DragDrop.IDropInfo)">
+            <summary>
+            Test the specified drop information for the right data.
+            </summary>
+            <param name="dropInfo">The drop information.</param>
         </member>
         <member name="F:GongSolutions.Wpf.DragDrop.DragDrop.DragMouseAnchorPointProperty">
             <summary>
@@ -164,6 +192,11 @@
             <remarks>
             If the control that initated the drag is unbound or not an ItemsControl, this will be empty.
             </remarks>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.IDragInfo.SourceGroup">
+            <summary>
+            Gets the group from a dragged item if the drag is currently from an ItemsControl with groups.
+            </summary>
         </member>
         <member name="P:GongSolutions.Wpf.DragDrop.IDragInfo.VisualSource">
             <summary>
@@ -272,6 +305,11 @@
             If the control that initated the drag is unbound or not an ItemsControl, this will be empty.
             </remarks>
         </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.DragInfo.SourceGroup">
+            <summary>
+            Gets the group from a dragged item if the drag is currently from an ItemsControl with groups.
+            </summary>
+        </member>
         <member name="P:GongSolutions.Wpf.DragDrop.DragInfo.VisualSource">
             <summary>
             Gets the control that initiated the drag.
@@ -358,6 +396,15 @@
             Gets the current insert position within <see cref="P:GongSolutions.Wpf.DragDrop.IDropInfo.TargetCollection"/>.
             </summary>
         </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.IDropInfo.UnfilteredInsertIndex">
+            <summary>
+            Gets the current insert position within the source (unfiltered) <see cref="P:GongSolutions.Wpf.DragDrop.IDropInfo.TargetCollection"/>.
+            </summary>
+            <remarks>
+            This should be only used in a Drop action.
+            This works only correct with different objects (string, int, etc won't work correct).
+            </remarks>
+        </member>
         <member name="P:GongSolutions.Wpf.DragDrop.IDropInfo.TargetCollection">
             <summary>
             Gets the collection that the target ItemsControl is bound to.
@@ -430,6 +477,11 @@
             Indicates if the drop info should be handled by itself (useful for child elements)
             </summary>
         </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.IDropInfo.IsSameDragDropContextAsSource">
+            <summary>
+            Gets a value indicating whether the target is in the same context as the source, <see cref="F:GongSolutions.Wpf.DragDrop.DragDrop.DragDropContextProperty"/>.
+            </summary>
+        </member>
         <member name="M:GongSolutions.Wpf.DragDrop.DropInfo.#ctor(System.Object,System.Windows.DragEventArgs,GongSolutions.Wpf.DragDrop.DragInfo)">
             <summary>
             Initializes a new instance of the DropInfo class.
@@ -494,6 +546,15 @@
             <summary>
             Gets the current insert position within <see cref="P:GongSolutions.Wpf.DragDrop.DropInfo.TargetCollection"/>.
             </summary>
+        </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.DropInfo.UnfilteredInsertIndex">
+            <summary>
+            Gets the current insert position within the source (unfiltered) <see cref="P:GongSolutions.Wpf.DragDrop.DropInfo.TargetCollection"/>.
+            </summary>
+            <remarks>
+            This should be only used in a Drop action.
+            This works only correct with different objects (string, int, etc won't work correct).
+            </remarks>
         </member>
         <member name="P:GongSolutions.Wpf.DragDrop.DropInfo.TargetCollection">
             <summary>
@@ -562,6 +623,11 @@
             Gets a flag enumeration indicating the current state of the SHIFT, CTRL, and ALT keys, as well as the state of the mouse buttons.
             </summary>
         </member>
+        <member name="P:GongSolutions.Wpf.DragDrop.DropInfo.IsSameDragDropContextAsSource">
+            <summary>
+            Gets a value indicating whether the target is in the same context as the source, <see cref="F:GongSolutions.Wpf.DragDrop.DragDrop.DragDropContextProperty"/>.
+            </summary>
+        </member>
         <member name="T:GongSolutions.Wpf.DragDrop.Icons.IconFactory">
             <summary>
             Static class to provide access to standard application images
@@ -576,6 +642,20 @@
             <param name="size">The size of the icon</param>
             <returns>The image to be displayed</returns>
         </member>
+        <member name="M:GongSolutions.Wpf.DragDrop.Utilities.DragDropExtensions.IsDragSourceIgnored(System.Windows.UIElement)">
+            <summary>
+            Determines whether the given element is ignored on drag start (<see cref="!:DragDrop.DragSourceIgnore"/>).
+            </summary>
+            <param name="element">The given element.</param>
+            <returns>Element is ignored or not.</returns>
+        </member>
+        <member name="M:GongSolutions.Wpf.DragDrop.Utilities.DragDropExtensions.IsDropTarget(System.Windows.UIElement)">
+            <summary>
+            Determines whether the given element is ignored on drop action (<see cref="!:DragDrop.IsDropTarget"/>).
+            </summary>
+            <param name="element">The given element.</param>
+            <returns>Element is ignored or not.</returns>
+        </member>
         <member name="M:GongSolutions.Wpf.DragDrop.Utilities.HitTestUtilities.IsNotPartOfSender(System.Object,System.Windows.Input.MouseButtonEventArgs)">
             <summary>
             thx to @osicka from issue #84
@@ -584,6 +664,21 @@
             Because the popup is not attached to the visual tree of the sender.
             This function test this by looping back from the original source to the sender and if it didn't end up at the sender stopped the drag.
             </summary>
+        </member>
+        <member name="M:GongSolutions.Wpf.DragDrop.Utilities.TypeUtilities.TryGetList(System.Collections.IEnumerable)">
+            <summary>
+            Gets the enumerable as list.
+            If enumerable is an ICollectionView then it returns the SourceCollection as list.
+            </summary>
+            <param name="enumerable">The enumerable.</param>
+            <returns>Returns a list.</returns>
+        </member>
+        <member name="M:GongSolutions.Wpf.DragDrop.Utilities.VisualTreeExtensions.TryGetNextAncestorDropTargetElement(System.Windows.UIElement)">
+            <summary>
+            Gets the next ancestor element which is a drop target.
+            </summary>
+            <param name="element">The start element.</param>
+            <returns>The first element which is a drop target.</returns>
         </member>
         <member name="M:GongSolutions.Wpf.DragDrop.Utilities.VisualTreeExtensions.GetVisualAncestor(System.Windows.DependencyObject,System.Type,System.Windows.Controls.ItemsControl)">
             <summary>
