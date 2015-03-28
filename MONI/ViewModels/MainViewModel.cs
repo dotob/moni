@@ -406,13 +406,6 @@ namespace MONI.ViewModels {
         settings = JsonConvert.DeserializeObject<MoniSettings>(jsonString);
       }
 
-      if (settings != null) {
-        var idx = 0;
-        foreach (var sc in settings.ParserSettings.ShortCuts) {
-          sc.Index = idx++;
-        }
-      }
-
       // no samplesettings, use default
       return settings ?? MoniSettings.GetEmptySettings();
     }

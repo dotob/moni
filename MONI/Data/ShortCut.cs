@@ -25,8 +25,6 @@ namespace MONI.Data
 
     [JsonIgnore]
     public string ID { get; set; }
-    [JsonIgnore]
-    public int Index { get; set; }
     public string Key { get; set; }
     public string Expansion { get; set; }
     public bool WholeDayExpansion { get; set; }

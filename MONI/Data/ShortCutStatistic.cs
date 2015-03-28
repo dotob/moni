@@ -40,7 +40,6 @@ namespace MONI.Data
       : base(sc.Key, sc.Expansion) {
       this.sourceShortCut = sc;
       this.ID = sc.ID;
-      this.Index = sc.Index;
       this.WholeDayExpansion = sc.WholeDayExpansion;
       this.ValidFrom = sc.ValidFrom;
       this.Group = sc.Group;
