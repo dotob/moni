@@ -283,12 +283,12 @@ namespace MONI.ViewModels {
 
     public void Drop(IDropInfo dropInfo) {
       try {
-        var target = (ShortCutStatistic)dropInfo.TargetItem;
         var source = (ShortCutStatistic)dropInfo.DragInfo.Data;
-        if (target != null && source != null)
+        if (source != null)
         {
           var targetIndex = dropInfo.InsertIndex;
-          source.SetNewGroup(target.Group, targetIndex);
+          var targetGroup = dropInfo.TargetGroup != null ? dropInfo.TargetGroup.Name.ToString() : string.Empty;
+          source.SetNewGroup(targetGroup, targetIndex);
           DragDrop.DefaultDropHandler.Drop(dropInfo);
 
           this.MonlistSettings.ParserSettings.ShortCuts.Clear();
