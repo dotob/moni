@@ -558,5 +558,15 @@ namespace MONI.Tests {
       Assert.AreEqual(8, wd.HoursDuration);
       Assert.AreEqual(shortCut, wd.Items.First().ShortCut);
     }
+
+
+		[Test]
+		public void WDParser_DestroyBreakWithAbsolutTimes_ShouldGiveError() {
+			WorkDay wd = new WorkDay(1, 1, 1, null);
+			WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { DayBreakDurationInMinutes = 30, InsertDayBreak = true, DayBreakTime = new TimeItem(12) };
+			WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
+			var workItemParserResult = wdp.Parse("7:30,-11;11111-111,-11:45;11111-111,-12:15;11111-111,-15;11111-111", ref wd);
+			Assert.IsFalse(workItemParserResult.Success, workItemParserResult.Error);
+		}
   }
 }
