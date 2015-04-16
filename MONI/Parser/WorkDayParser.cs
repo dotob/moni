@@ -124,13 +124,13 @@ namespace MONI.Data
             }
             // check for split
             if (this.settings != null && this.settings.InsertDayBreak && !ignoreBreakSettings) {
-              // the break is in an item
+							if (endTimeMode && currentEndTime.IsBetween(this.settings.DayBreakTime, this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes / 60d)) {
+								success = false;
+								error = string.Format("Der Eintrag {0} hat eine absolute Endzeit und endet in der automatischen Tagespause( {1} + {2}min ). Das ist nicht auflösbar.", workItemTemp.OriginalString, this.settings.DayBreakTime, this.settings.DayBreakDurationInMinutes);
+								break;
+							}
+							// the break is in an item
               if (this.settings.DayBreakTime.IsBetween(lastTime, currentEndTime)) {
-	              if (endTimeMode) {
-		              success = false;
-									error = string.Format("Der Eintrag {0} hat eine absolute Endzeit und endet in der automatischen Tagespause( {1} + {2}min ). Das ist nicht auflösbar.", workItemTemp.OriginalString, this.settings.DayBreakTime, this.settings.DayBreakDurationInMinutes);
-									break;
-	              }
                 // insert new item
                 resultListTmp.Add(new WorkItem(lastTime, this.settings.DayBreakTime, workItemTemp.ProjectString, workItemTemp.PosString, workItemTemp.Description, workItemTemp.ShortCut, workItemTemp.OriginalString));
                 lastTime = this.settings.DayBreakTime + this.settings.DayBreakDurationInMinutes / 60d;
