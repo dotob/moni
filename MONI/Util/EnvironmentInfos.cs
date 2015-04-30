@@ -385,7 +385,7 @@ namespace MONI.Util
       sb.AppendLine("* Current User Name: " + this.UserName);
       sb.AppendLine("* Application Process Id: " + this.ProcessId);
       sb.AppendLine("* Memory Usage: " + this.MemoryUsage);
-      sb.AppendLine("* Application Start Time: " + this.StartTime);
+      sb.AppendLine("* Application Von Time: " + this.StartTime);
       sb.AppendLine("* Command Line: " + this.CommandLine);
       sb.AppendLine("=======================================");
       sb.AppendLine("");

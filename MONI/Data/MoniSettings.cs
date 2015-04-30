@@ -39,6 +39,8 @@ namespace MONI.Data
     public string PositionNumberFilePath { get; set; }
     public string UpdateInfoURL { get; set; }
     public bool ShowMonthList { get; set; }
+	  public bool UseMonApi { get; set; }
+	  public string MonApiUrl { get; set; }
   }
 
   public class WorkDayParserSettings

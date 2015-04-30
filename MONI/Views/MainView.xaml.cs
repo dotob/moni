@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Reflection;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -284,19 +286,43 @@ namespace MONI.Views {
       this.ViewModel.ShowPasswordDialog = false;
     }
 
-    private void PasswordOK_OnClick(object sender, RoutedEventArgs e) {
-      this.ViewModel.ShowPasswordDialog = false;
-      var password = this.passwordBox.Password;
-      if (!string.IsNullOrWhiteSpace(password)) {
-        var currentMonthMonlistImportFile = this.ViewModel.CurrentMonthMonlistImportFile;
-        string user = this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber;
-        string pw = password;
-        var args = string.Format("--user=\"{0}\" --pw=\"{1}\" --monat=\"{2}\" --jahr=\"{3}\" --file=\"{4}\"", user, pw, this.ViewModel.WorkMonth.Month, this.ViewModel.WorkMonth.Year, currentMonthMonlistImportFile);
-        Process.Start(this.ViewModel.Settings.MainSettings.MonlistExecutablePath, args);
-      }
-    }
+	  private void PasswordOK_OnClick(object sender, RoutedEventArgs e) {
+			this.ViewModel.ShowPasswordDialog = false;
+			var password = this.passwordBox.Password;
+		  if (!string.IsNullOrWhiteSpace(password)) {
+			  // decide if you want to use monapi
+				if (!this.ViewModel.Settings.MainSettings.UseMonApi) {
+				  var currentMonthMonlistImportFile = this.ViewModel.CurrentMonthMonlistImportFile;
+				  string user = this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber;
+				  string pw = password;
+				  var args = string.Format("--user=\"{0}\" --pw=\"{1}\" --monat=\"{2}\" --jahr=\"{3}\" --file=\"{4}\"", user, pw, this.ViewModel.WorkMonth.Month, this.ViewModel.WorkMonth.Year, currentMonthMonlistImportFile);
+				  Process.Start(this.ViewModel.Settings.MainSettings.MonlistExecutablePath, args);
+			  }
+			  else {
+				  var usernumberAsInt = 0;
+				  if (int.TryParse(this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber, out usernumberAsInt)) {
+					  var me = new MonapiJSONExporter(usernumberAsInt);
+					  var jsonData = me.Export(this.ViewModel.WorkMonth);
+					  var cli = new WebClient();
+					  cli.Headers[HttpRequestHeader.ContentType] = "application/json";
+					  string _auth = string.Format("{0}:{1}", this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber, password);
+					  string _enc = Convert.ToBase64String(Encoding.ASCII.GetBytes(_auth));
+					  string _cred = string.Format("{0} {1}", "Basic", _enc);
+					  cli.Headers[HttpRequestHeader.Authorization] = _cred;
+					  this.ViewModel.Settings.MainSettings.MonApiUrl = "http://mbp-jdiehl:3001/import";
+					  try {
+						  string response = cli.UploadString(this.ViewModel.Settings.MainSettings.MonApiUrl, jsonData);
+							logger.Info("Response from sending data to MonApi: {0}", response);
+					  }
+					  catch (Exception exception) {
+						  logger.Error("Error while sending data to MonApi: {0}", exception);
+					  }
+				  }
+			  }
+		  }
+	  }
 
-    private void ShowPNSearch_Button_Click(object sender, RoutedEventArgs e) {
+	  private void ShowPNSearch_Button_Click(object sender, RoutedEventArgs e) {
       this.ViewModel.PNSearch.ShowPNSearch = true;
     }
 

@@ -3516,7 +3516,7 @@ namespace MONI.Util.Markdown
         /// Parent element for the list
         /// </param>
         /// <param name="htmlLIElement">
-        /// Start Html li element without parent list
+        /// Von Html li element without parent list
         /// </param>
         /// <param name="inheritedProperties">
         /// Properties inherited from parent context
@@ -4874,7 +4874,7 @@ namespace MONI.Util.Markdown
         /// </returns>
         private static Hashtable GetElementProperties(XmlElement htmlElement, Hashtable inheritedProperties, out Hashtable localProperties,
             CssStylesheet stylesheet, List<XmlElement> sourceContext) {
-            // Start with context formatting properties
+            // Von with context formatting properties
             Hashtable currentProperties = new Hashtable();
             IDictionaryEnumerator propertyEnumerator = inheritedProperties.GetEnumerator();
             while (propertyEnumerator.MoveNext()) {
