@@ -235,6 +235,8 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
               </Grid.RowDefinitions>
               <Grid.ColumnDefinitions>
@@ -385,9 +387,29 @@
                        Margin="2"
                        IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
                        Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}" />
+              
+              <Label Grid.Column="0"
+                     Grid.Row="14"
+                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
+                MonAPI-URL
+              </Label>
+              <TextBox Grid.Column="1"
+                       Grid.Row="14"
+                       Margin="2"
+                       Text="{Binding MainSettings.MonApiUrl, UpdateSourceTrigger=PropertyChanged}" />
 
+              <Label Grid.Column="0"
+                     Grid.Row="15">
+                MonAPI benutzen
+              </Label>
+              <CheckBox Grid.Column="1"
+                        Grid.Row="15"
+                        Margin="2"
+                        VerticalAlignment="Center"
+                        IsChecked="{Binding MainSettings.UseMonApi, UpdateSourceTrigger=PropertyChanged}" />
+              
               <UniformGrid Grid.Column="0"
-                           Grid.Row="14"
+                           Grid.Row="16"
                            Grid.ColumnSpan="2"
                            VerticalAlignment="Bottom"
                            Columns="2">
@@ -902,7 +924,8 @@
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     Width="5"
-                    Background="Transparent" />
+                    Background="Transparent" 
+                    Focusable="False"/>
 
       <!-- shortcuts -->
       <StackPanel x:Name="shortCutHeader"

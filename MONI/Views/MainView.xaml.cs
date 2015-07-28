@@ -46,7 +46,7 @@ namespace MONI.Views {
 
     private void CheckForMonlist() {
       var mlp = Utils.PatchFilePath(this.ViewModel.Settings.MainSettings.MonlistExecutablePath);
-      this.OpenMonlist.IsEnabled = !(string.IsNullOrWhiteSpace(mlp) || !File.Exists(mlp));
+			this.OpenMonlist.IsEnabled = !(string.IsNullOrWhiteSpace(mlp) || !File.Exists(mlp)) || (this.ViewModel.Settings.MainSettings.UseMonApi && !string.IsNullOrWhiteSpace(this.ViewModel.Settings.MainSettings.MonApiUrl));
     }
 
     public MainViewModel ViewModel { get; set; }
@@ -299,17 +299,16 @@ namespace MONI.Views {
 				  Process.Start(this.ViewModel.Settings.MainSettings.MonlistExecutablePath, args);
 			  }
 			  else {
-				  var usernumberAsInt = 0;
+				  int usernumberAsInt;
 				  if (int.TryParse(this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber, out usernumberAsInt)) {
 					  var me = new MonapiJSONExporter(usernumberAsInt);
 					  var jsonData = me.Export(this.ViewModel.WorkMonth);
 					  var cli = new WebClient();
 					  cli.Headers[HttpRequestHeader.ContentType] = "application/json";
-					  string _auth = string.Format("{0}:{1}", this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber, password);
+						string _auth = string.Format("{0}:{1}", usernumberAsInt, password);
 					  string _enc = Convert.ToBase64String(Encoding.ASCII.GetBytes(_auth));
 					  string _cred = string.Format("{0} {1}", "Basic", _enc);
 					  cli.Headers[HttpRequestHeader.Authorization] = _cred;
-					  this.ViewModel.Settings.MainSettings.MonApiUrl = "http://mbp-jdiehl:3001/import";
 					  try {
 						  string response = cli.UploadString(this.ViewModel.Settings.MainSettings.MonApiUrl, jsonData);
 							logger.Info("Response from sending data to MonApi: {0}", response);
