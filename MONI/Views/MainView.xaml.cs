@@ -310,7 +310,7 @@ namespace MONI.Views {
 					  string _cred = string.Format("{0} {1}", "Basic", _enc);
 					  cli.Headers[HttpRequestHeader.Authorization] = _cred;
 					  try {
-						  string response = cli.UploadString(this.ViewModel.Settings.MainSettings.MonApiUrl, jsonData);
+						  string response = cli.UploadString(this.ViewModel.Settings.MainSettings.MonApiUrl+"/import", jsonData);
 							logger.Info("Response from sending data to MonApi: {0}", response);
 					  }
 					  catch (Exception exception) {
