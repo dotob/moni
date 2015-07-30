@@ -359,9 +359,9 @@ namespace MONI.ViewModels {
     private string DetermineSettingsFile() {
       logger.Debug("determine settingsfile location");
       // check if there is a settings file in userdir
-      string fileName = "settings.json";
-      string moniAppData = Utils.MoniAppDataPath();
-      string moniAppDataSettingsFile = Path.Combine(moniAppData, fileName);
+      var fileName = "settings.json";
+      var moniAppData = Utils.MoniAppDataPath();
+      var moniAppDataSettingsFile = Path.Combine(moniAppData, fileName);
       if (File.Exists(moniAppDataSettingsFile)) {
         logger.Debug("found settingsfile in appdata: {0}", moniAppDataSettingsFile);
         return moniAppDataSettingsFile;
@@ -389,26 +389,28 @@ namespace MONI.ViewModels {
     private static void PatchSettings(MoniSettings settings) {
       if (string.IsNullOrWhiteSpace(settings.MainSettings.UpdateInfoURL)) {
         settings.MainSettings.UpdateInfoURL = MoniSettings.GetEmptySettings().MainSettings.UpdateInfoURL;
+      }      
+			if (string.IsNullOrWhiteSpace(settings.MainSettings.MonApiUrl)) {
+				settings.MainSettings.MonApiUrl = MoniSettings.GetEmptySettings().MainSettings.MonApiUrl;
       }
     }
 
     private static MoniSettings ReadSettingsInternal(string settingsFile) {
-      MoniSettings settings = null;
-      
       if (File.Exists(settingsFile)) {
-        string jsonString = File.ReadAllText(settingsFile);
-        settings = JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+        var jsonString = File.ReadAllText(settingsFile);
+				logger.Debug("read settings from {0}: {1}", settingsFile, jsonString);
+				return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
       }
 
       // no settingsfile found, try to read sample settings
       string settingsJsonSkeleton = "settings.json.skeleton";
       if (File.Exists(settingsJsonSkeleton)) {
         string jsonString = File.ReadAllText(settingsJsonSkeleton);
-        settings = JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+        return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
       }
 
       // no samplesettings, use default
-      return settings ?? MoniSettings.GetEmptySettings();
+      return MoniSettings.GetEmptySettings();
     }
 
     private static void WriteSettings(MoniSettings settings, string settingsFile) {

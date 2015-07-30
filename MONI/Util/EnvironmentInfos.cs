@@ -328,7 +328,7 @@ namespace MONI.Util
           this.highestFrameworkVersion = String.Format(".NET Framework {0}", returnString);
         }
       } catch (Exception ex) {
-        logger.Warn("while retrieving .net framework version this exception occured:", ex);
+        logger.Warn("while retrieving .net framework version this exception occured: {0}", ex);
       }
 
       return this.highestFrameworkVersion;

@@ -134,5 +134,13 @@
 			"Neu: Ersetzung der Positionsnummer (Die in der Abkürzung gespeicherte Positionsnummer kann von Fall zu Fall überschrieben werden)"
 		],
 		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.0/MONI.exe"
+	},
+	{
+		"Version": "1.0.0.1",
+		"Changes": [
+			"Fix: settings datei einlesen hatte einen fehler",
+			"Fix: exception loggin ohne exception"
+		],
+		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.1/MONI.exe"
 	}
 ]
