@@ -105,7 +105,7 @@ namespace MONI.Util
             }
           }
         } catch (Exception e) {
-          logger.Fatal("Unable to Handle UnhandledException:", e);
+          logger.Fatal(e, "Unable to Handle UnhandledException");
         } finally {
           if (exitProgram) {
             logger.Warn("Application exits due to UnhandledException");
