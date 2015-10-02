@@ -31,10 +31,34 @@
             Gets/sets the name of the Accent.
             </summary>
         </member>
+        <member name="T:MahApps.Metro.AppTheme">
+            <summary>
+            Represents the background theme of the application.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.AppTheme.Resources">
+            <summary>
+            The ResourceDictionary that represents this application theme.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.AppTheme.Name">
+            <summary>
+            Gets the name of the application theme.
+            </summary>
+        </member>
         <member name="T:MahApps.Metro.Behaviours.BorderlessWindowBehavior">
             <summary>
             With this class we can make custom window styles.
             </summary>
+        </member>
+        <member name="M:MahApps.Metro.Behaviours.BorderlessWindowBehavior._ModifyStyle(Standard.WS,Standard.WS)">
+            <summary>Add and remove a native WindowStyle from the HWND.</summary>
+            <param name="removeStyle">The styles to be removed.  These can be bitwise combined.</param>
+            <param name="addStyle">The styles to be added.  These can be bitwise combined.</param>
+            <returns>Whether the styles of the HWND were modified as a result of this call.</returns>
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
         </member>
         <member name="M:MahApps.Metro.Behaviours.GlowWindowBehavior.Update">
             <summary>
@@ -56,6 +80,214 @@
             Shows all glow windows
             </summary>
         </member>
+        <member name="F:MahApps.Metro.Behaviours.PasswordBoxBindingBehavior.PasswordProperty">
+            <summary>
+            Gets or sets the bindable Password property on the PasswordBox control. This is a dependency property.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Behaviours.PasswordBoxBindingBehavior.OnPasswordPropertyChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <summary>
+            Handles changes to the 'Password' attached property.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Behaviours.PasswordBoxBindingBehavior.PasswordBox_PasswordChanged(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            Handle the 'PasswordChanged'-event on the PasswordBox
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Behaviours.TabControlSelectFirstVisibleTabBehavior">
+            <summary>
+            <para>
+                Sets the first TabItem with Visibility="<see cref="F:System.Windows.Visibility.Visible"/>" as
+                the SelectedItem of the TabControl.
+            </para>
+            <para>
+                If there is no visible TabItem, null is set as the SelectedItem
+            </para>
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.IDialogCoordinator">
+            <summary>
+            Use the dialog coordinator to help you interfact with dialogs from a view model.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.IDialogCoordinator.ShowInputAsync(System.Object,System.String,System.String,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
+            <summary>
+            Shows the input dialog.
+            </summary>
+            <param name="context">Typically this should be the view model, which you register in XAML using <see cref="M:MahApps.Metro.Controls.Dialogs.DialogParticipation.SetRegister(System.Windows.DependencyObject,System.Object)"/>.</param>
+            <param name="title">The title of the MessageDialog.</param>
+            <param name="message">The message contained within the MessageDialog.</param>
+            <param name="settings">Optional settings that override the global metro dialog settings.</param>
+            <returns>The text that was entered or null (Nothing in Visual Basic) if the user cancelled the operation.</returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.IDialogCoordinator.ShowLoginAsync(System.Object,System.String,System.String,MahApps.Metro.Controls.Dialogs.LoginDialogSettings)">
+            <summary>
+            Creates a LoginDialog inside of the current window.
+            </summary>
+            <param name="context">Typically this should be the view model, which you register in XAML using <see cref="M:MahApps.Metro.Controls.Dialogs.DialogParticipation.SetRegister(System.Windows.DependencyObject,System.Object)"/>.</param>
+            <param name="title">The title of the LoginDialog.</param>
+            <param name="message">The message contained within the LoginDialog.</param>
+            <param name="style"></param>
+            <param name="settings">Optional settings that override the global metro dialog settings.</param>
+            <returns>The text that was entered or null (Nothing in Visual Basic) if the user cancelled the operation.</returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.IDialogCoordinator.ShowMessageAsync(System.Object,System.String,System.String,MahApps.Metro.Controls.Dialogs.MessageDialogStyle,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
+            <summary>
+            Creates a MessageDialog inside of the current window.
+            </summary>
+            <param name="context">Typically this should be the view model, which you register in XAML using <see cref="M:MahApps.Metro.Controls.Dialogs.DialogParticipation.SetRegister(System.Windows.DependencyObject,System.Object)"/>.</param>
+            <param name="title">The title of the MessageDialog.</param>
+            <param name="message">The message contained within the MessageDialog.</param>
+            <param name="style">The type of buttons to use.</param>
+            <param name="settings">Optional settings that override the global metro dialog settings.</param>
+            <returns>A task promising the result of which button was pressed.</returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.IDialogCoordinator.ShowProgressAsync(System.Object,System.String,System.String,System.Boolean,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
+            <summary>
+            Creates a ProgressDialog inside of the current window.
+            </summary>
+            <param name="context">Typically this should be the view model, which you register in XAML using <see cref="M:MahApps.Metro.Controls.Dialogs.DialogParticipation.SetRegister(System.Windows.DependencyObject,System.Object)"/>.</param>
+            <param name="title">The title of the ProgressDialog.</param>
+            <param name="message">The message within the ProgressDialog.</param>
+            <param name="isCancelable">Determines if the cancel button is visible.</param>
+            <param name="settings">Optional Settings that override the global metro dialog settings.</param>
+            <returns>A task promising the instance of ProgressDialogController for this operation.</returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.IDialogCoordinator.ShowMetroDialogAsync(System.Object,MahApps.Metro.Controls.Dialogs.BaseMetroDialog,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
+            <summary>
+            Adds a Metro Dialog instance to the specified window and makes it visible asynchronously.        
+            <para>You have to close the resulting dialog yourself with <see cref="M:MahApps.Metro.Controls.Dialogs.IDialogCoordinator.HideMetroDialogAsync(System.Object,MahApps.Metro.Controls.Dialogs.BaseMetroDialog,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)"/>.</para>
+            </summary>
+            <param name="context">Typically this should be the view model, which you register in XAML using <see cref="M:MahApps.Metro.Controls.Dialogs.DialogParticipation.SetRegister(System.Windows.DependencyObject,System.Object)"/>.</param>
+            <param name="dialog">The dialog instance itself.</param>
+            <param name="settings">An optional pre-defined settings instance.</param>
+            <returns>A task representing the operation.</returns>
+            <exception cref="T:System.InvalidOperationException">The <paramref name="dialog"/> is already visible in the window.</exception>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.IDialogCoordinator.HideMetroDialogAsync(System.Object,MahApps.Metro.Controls.Dialogs.BaseMetroDialog,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
+            <summary>
+            Hides a visible Metro Dialog instance.
+            </summary>
+            <param name="context">Typically this should be the view model, which you register in XAML using <see cref="M:MahApps.Metro.Controls.Dialogs.DialogParticipation.SetRegister(System.Windows.DependencyObject,System.Object)"/>.</param>
+            <param name="dialog">The dialog instance to hide.</param>
+            <param name="settings">An optional pre-defined settings instance.</param>
+            <returns>A task representing the operation.</returns>
+            <exception cref="T:System.InvalidOperationException">
+            The <paramref name="dialog"/> is not visible in the window.
+            This happens if <see cref="M:MahApps.Metro.Controls.Dialogs.IDialogCoordinator.ShowMetroDialogAsync(System.Object,MahApps.Metro.Controls.Dialogs.BaseMetroDialog,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)"/> hasn't been called before.
+            </exception>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.IDialogCoordinator.GetCurrentDialogAsync``1(System.Object)">
+            <summary>
+            Gets the current shown dialog.
+            </summary>
+            <param name="context">Typically this should be the view model, which you register in XAML using <see cref="M:MahApps.Metro.Controls.Dialogs.DialogParticipation.SetRegister(System.Windows.DependencyObject,System.Object)"/>.</param>
+        </member>
+        <member name="F:MahApps.Metro.Controls.Dialogs.DialogCoordinator.Instance">
+            <summary>
+            Gets the default instance if the dialog coordinator, which can be injected into a view model.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ButtonHelper.GetPreserveTextCase(System.Windows.UIElement)">
+            <summary>
+            Overrides the text case behavior for certain buttons.
+            When set to <c>true</c>, the text case will be preserved and won't be changed to upper or lower case.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.ButtonHelper.CornerRadiusProperty">
+            <summary>
+            DependencyProperty for <see cref="T:System.Windows.CornerRadius"/> property.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ButtonHelper.GetCornerRadius(System.Windows.UIElement)">
+            <summary> 
+            The CornerRadius property allows users to control the roundness of the button corners independently by 
+            setting a radius value for each corner. Radius values that are too large are scaled so that they
+            smoothly blend from corner to corner. (Can be used e.g. at MetroButton style)
+            Description taken from original Microsoft description :-D
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.ComboBoxHelper">
+            <summary>
+            A helper class that provides various attached properties for the ComboBox control.
+            <see cref="T:System.Windows.Controls.ComboBox"/>
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ComboBoxHelper.GetMaxLength(System.Windows.UIElement)">
+            <summary>
+            Gets the Maximum number of characters the TextBox can accept.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ComboBoxHelper.SetMaxLength(System.Windows.UIElement,System.Int32)">
+            <summary>
+            Sets the Maximum number of characters the TextBox can accept.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ComboBoxHelper.GetCharacterCasing(System.Windows.UIElement)">
+            <summary>
+            Gets the Character casing of the TextBox.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ComboBoxHelper.SetCharacterCasing(System.Windows.UIElement,System.Windows.Controls.CharacterCasing)">
+            <summary>
+            Sets the Character casing of the TextBox.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.ControlsHelper">
+            <summary>
+            A helper class that provides various controls.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ControlsHelper.GetDisabledVisualElementVisibility(System.Windows.UIElement)">
+            <summary>
+            Gets the value to handle the visibility of the DisabledVisualElement in the template.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ControlsHelper.SetDisabledVisualElementVisibility(System.Windows.UIElement,System.Windows.Visibility)">
+            <summary>
+            Sets the value to handle the visibility of the DisabledVisualElement in the template.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ControlsHelper.GetPreserveTextCase(System.Windows.UIElement)">
+            <summary>
+            Gets the value to override the text case behavior for the header content.
+            When set to <c>true</c>, the text case will be preserved and won't be changed to upper or lower case.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ControlsHelper.SetPreserveTextCase(System.Windows.UIElement,System.Boolean)">
+            <summary>
+            Sets the value to override the text case behavior for the header content.
+            When set to <c>true</c>, the text case will be preserved and won't be changed to upper or lower case.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.ControlsHelper.ButtonWidthProperty">
+            <summary>
+            This property can be used to set the button width (PART_ClearText) of TextBox, PasswordBox, ComboBox
+            For multiline TextBox, PasswordBox is this the fallback for the clear text button! so it must set manually!
+            For normal TextBox, PasswordBox the width is the height. 
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ControlsHelper.SetFocusBorderBrush(System.Windows.DependencyObject,System.Windows.Media.Brush)">
+            <summary>
+            Sets the brush used to draw the focus border.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ControlsHelper.GetFocusBorderBrush(System.Windows.DependencyObject)">
+            <summary>
+            Gets the brush used to draw the focus border.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ControlsHelper.SetMouseOverBorderBrush(System.Windows.DependencyObject,System.Windows.Media.Brush)">
+            <summary>
+            Sets the brush used to draw the mouse over brush.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ControlsHelper.GetMouseOverBorderBrush(System.Windows.DependencyObject)">
+            <summary>
+            Gets the brush used to draw the mouse over brush.
+            </summary>
+        </member>
         <member name="T:MahApps.Metro.Controls.CustomValidationPopup">
             <summary>
             This custom popup is used by the validation error template.
@@ -65,11 +297,16 @@
                 - it's only topmost if the host-window is activated
             </summary>
         </member>
+        <member name="P:MahApps.Metro.Controls.CustomValidationPopup.CloseOnMouseLeftButtonDown">
+            <summary>
+            Gets/sets if the popup can be closed by left mouse button down.
+            </summary>
+        </member>
         <member name="T:MahApps.Metro.Controls.Dialogs.BaseMetroDialog">
              <summary>
              The base class for dialogs.
             
-             You probably don't want to use this class, if you want to add arbitrary content to your dialog, 
+             You probably don't want to use this class, if you want to add arbitrary content to your dialog,
              use the <see cref="T:MahApps.Metro.Controls.Dialogs.CustomDialog"/> class.
              </summary>
         </member>
@@ -83,6 +320,11 @@
         <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.#ctor">
             <summary>
             Initializes a new MahApps.Metro.Controls.BaseMetroDialog.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.OnLoaded">
+            <summary>
+            This is called in the loaded event.
             </summary>
         </member>
         <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.WaitForLoadAsync">
@@ -99,6 +341,12 @@
         <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.OnRequestClose">
             <summary>
             A last chance virtual method for stopping an external dialog from closing.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.BaseMetroDialog.WaitUntilUnloadedAsync">
+            <summary>
+            Waits until this dialog gets unloaded.
             </summary>
             <returns></returns>
         </member>
@@ -171,9 +419,29 @@
             Gets/sets the maximum height. (Default is unlimited height, <a href="http://msdn.microsoft.com/de-de/library/system.double.nan">Double.NaN</a>)
             </summary>
         </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.CancellationToken">
+            <summary>
+            Gets/sets the token to cancel the dialog.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.CustomResourceDictionary">
+            <summary>
+            Gets/sets a custom resource dictionary which can contains custom styles, brushes or something else.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.MetroDialogSettings.SuppressDefaultResources">
+            <summary>
+            If set, stops standard resource dictionaries being applied to the dialog.
+            </summary>
+        </member>
         <member name="T:MahApps.Metro.Controls.Dialogs.MetroDialogColorScheme">
             <summary>
             An enum representing the different choices for a color scheme in a Metro Dialog.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.CustomDialog">
+            <summary>
+            An implementation of BaseMetroDialog allowing arbitrary content.
             </summary>
         </member>
         <member name="M:MahApps.Metro.Controls.Dialogs.DialogManager.ShowLoginAsync(MahApps.Metro.Controls.MetroWindow,System.String,System.String,MahApps.Metro.Controls.Dialogs.LoginDialogSettings)">
@@ -220,9 +488,9 @@
         </member>
         <member name="M:MahApps.Metro.Controls.Dialogs.DialogManager.ShowMetroDialogAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.BaseMetroDialog,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)">
             <summary>
-            Adds a Metro Dialog instance to the specified window and makes it visible.
-            <para>Note that this method returns as soon as the dialog is loaded and won't wait on a call of <see cref="M:MahApps.Metro.Controls.Dialogs.DialogManager.HideMetroDialogAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.BaseMetroDialog,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)"/>.</para>
-            <para>You can still close the resulting dialog with <see cref="M:MahApps.Metro.Controls.Dialogs.DialogManager.HideMetroDialogAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.BaseMetroDialog,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)"/>.</para>
+            Adds a Metro Dialog instance to the specified window and makes it visible asynchronously.
+            If you want to wait until the user has closed the dialog, use <see cref="!:ShowMetroDialogAsyncAwaitable"/>
+            <para>You have to close the resulting dialog yourself with <see cref="M:MahApps.Metro.Controls.Dialogs.DialogManager.HideMetroDialogAsync(MahApps.Metro.Controls.MetroWindow,MahApps.Metro.Controls.Dialogs.BaseMetroDialog,MahApps.Metro.Controls.Dialogs.MetroDialogSettings)"/>.</para>
             </summary>
             <param name="window">The owning window of the dialog.</param>
             <param name="dialog">The dialog instance itself.</param>
@@ -267,6 +535,39 @@
         <member name="M:MahApps.Metro.Controls.Dialogs.LoginDialog.InitializeComponent">
             <summary>
             InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialog">
+            <summary>
+            An internal control that represents a message dialog. Please use MetroWindow.ShowMessage instead!
+            </summary>
+            <summary>
+            MessageDialog
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.Dialogs.MessageDialog.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialogResult">
+            <summary>
+            An enum representing the result of a Message Dialog.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialogStyle">
+            <summary>
+            An enum representing the different button states for a Message Dialog.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.Dialogs.MessageDialogStyle.Affirmative">
+            <summary>
+            Just "OK"
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.Dialogs.MessageDialogStyle.AffirmativeAndNegative">
+            <summary>
+            "OK" and "Cancel"
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.Dialogs.ProgressDialog">
@@ -327,14 +628,89 @@
             Gets if the wrapped ProgressDialog is open.
             </summary>
         </member>
+        <member name="E:MahApps.Metro.Controls.Dialogs.ProgressDialogController.Closed">
+            <summary>
+            This event is raised when the associated <see cref="T:MahApps.Metro.Controls.Dialogs.ProgressDialog"/> was closed.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.ProgressDialogController.Minimum">
+            <summary>
+             Gets/Sets the minimum restriction of the progress Value property
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.Dialogs.ProgressDialogController.Maximum">
+            <summary>
+             Gets/Sets the maximum restriction of the progress Value property
+            </summary>
+        </member>
         <member name="P:MahApps.Metro.Controls.Dialogs.ProgressDialogController.IsCanceled">
             <summary>
             Gets if the Cancel button has been pressed.
             </summary>
         </member>
-        <member name="T:MahApps.Metro.Controls.Dialogs.CustomDialog">
+        <member name="P:MahApps.Metro.Controls.DropDownButton.Content">
             <summary>
-            An implementation of BaseMetroDialog allowing arbitrary content.
+            Gets or sets the Content of this control..
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.CommandParameter">
+            <summary>
+            Reflects the parameter to pass to the CommandProperty upon execution. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.CommandTarget">
+            <summary>
+            Gets or sets the target element on which to fire the command.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.Command">
+            <summary>
+            Get or sets the Command property. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.IsExpanded">
+            <summary> 
+            Indicates whether the Menu is visible. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.ExtraTag">
+            <summary>
+            Gets or sets an extra tag.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.Orientation">
+            <summary>
+            Gets or sets the dimension of children stacking.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.Icon">
+            <summary>
+             Gets or sets the Content used to generate the icon part.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.IconTemplate">
+            <summary> 
+            Gets or sets the ContentTemplate used to display the content of the icon part. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.ButtonStyle">
+            <summary>
+            Gets/sets the button style.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.MenuStyle">
+            <summary>
+            Gets/sets the menu style.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.ArrowBrush">
+            <summary>
+            Gets/sets the brush of the button arrow icon.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.DropDownButton.ArrowVisibility">
+            <summary>
+            Gets/sets the visibility of the button arrow icon.
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.FlipView">
@@ -518,96 +894,6 @@
             InitializeComponent
             </summary>
         </member>
-        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialog">
-            <summary>
-            An internal control that represents a message dialog. Please use MetroWindow.ShowMessage instead!
-            </summary>
-            <summary>
-            MessageDialog
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.Dialogs.MessageDialog.InitializeComponent">
-            <summary>
-            InitializeComponent
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialogResult">
-            <summary>
-            An enum representing the result of a Message Dialog.
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Controls.Dialogs.MessageDialogStyle">
-            <summary>
-            An enum representing the different button states for a Message Dialog.
-            </summary>
-        </member>
-        <member name="F:MahApps.Metro.Controls.Dialogs.MessageDialogStyle.Affirmative">
-            <summary>
-            Just "OK"
-            </summary>
-        </member>
-        <member name="F:MahApps.Metro.Controls.Dialogs.MessageDialogStyle.AffirmativeAndNegative">
-            <summary>
-            "OK" and "Cancel"
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.ButtonHelper.GetPreserveTextCase(System.Windows.UIElement)">
-            <summary>
-            Overrides the text case behavior for certain buttons.
-            When set to <c>true</c>, the text case will be preserved and won't be changed to upper or lower case.
-            </summary>
-        </member>
-        <member name="F:MahApps.Metro.Controls.ButtonHelper.CornerRadiusProperty">
-            <summary>
-            DependencyProperty for <see cref="T:System.Windows.CornerRadius"/> property.
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.ButtonHelper.GetCornerRadius(System.Windows.UIElement)">
-            <summary> 
-            The CornerRadius property allows users to control the roundness of the button corners independently by 
-            setting a radius value for each corner. Radius values that are too large are scaled so that they
-            smoothly blend from corner to corner. (Can be used e.g. at MetroButton style)
-            Description taken from original Microsoft description :-D
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Controls.ComboBoxHelper">
-            <summary>
-            A helper class that provides various attached properties for the ComboBox control.
-            <see cref="T:System.Windows.Controls.ComboBox"/>
-            </summary>
-        </member>
-        <member name="T:MahApps.Metro.Controls.ControlsHelper">
-            <summary>
-            A helper class that provides various controls.
-            </summary>
-        </member>
-        <member name="F:MahApps.Metro.Controls.ControlsHelper.ButtonWidthProperty">
-            <summary>
-            This property can be used to set the button width (PART_ClearText) of TextBox, PasswordBox, ComboBox
-            For multiline TextBox, PasswordBox is this the fallback for the clear text button! so it must set manually!
-            For normal TextBox, PasswordBox the width is the height. 
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.ControlsHelper.SetFocusBorderBrush(System.Windows.DependencyObject,System.Windows.Media.Brush)">
-            <summary>
-            Sets the brush used to draw the focus border.
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.ControlsHelper.GetFocusBorderBrush(System.Windows.DependencyObject)">
-            <summary>
-            Gets the brush used to draw the focus border.
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.ControlsHelper.SetMouseOverBorderBrush(System.Windows.DependencyObject,System.Windows.Media.Brush)">
-            <summary>
-            Sets the brush used to draw the mouse over brush.
-            </summary>
-        </member>
-        <member name="M:MahApps.Metro.Controls.ControlsHelper.GetMouseOverBorderBrush(System.Windows.DependencyObject)">
-            <summary>
-            Gets the brush used to draw the mouse over brush.
-            </summary>
-        </member>
         <member name="M:MahApps.Metro.Controls.DataGridCellHelper.GetSaveDataGrid(System.Windows.UIElement)">
             <summary>
             Save the DataGrid.
@@ -618,64 +904,60 @@
             Get the DataGrid.
             </summary>
         </member>
-        <member name="F:MahApps.Metro.Controls.ScrollBarHelper.VerticalScrollBarOnLeftSideProperty">
+        <member name="M:MahApps.Metro.Controls.DataGridRowHelper.GetSelectionUnit(System.Windows.UIElement)">
             <summary>
-            This property can be used to set vertical scrollbar left side from the tabpanel (look at MetroAnimatedSingleRowTabControl)
+            Gets the value to define the DataGridRow selection behavior.
             </summary>
         </member>
-        <member name="F:MahApps.Metro.Controls.TabControlHelper.IsUnderlinedProperty">
+        <member name="M:MahApps.Metro.Controls.DataGridRowHelper.SetSelectionUnit(System.Windows.UIElement,System.Windows.Controls.DataGridSelectionUnit)">
             <summary>
-            Defines whether the underline below the <see cref="T:System.Windows.Controls.TabControl"/> is shown or not.
+            Sets the value to define the DataGridRow selection behavior.
             </summary>
         </member>
-        <member name="F:MahApps.Metro.Controls.TabControlHelper.TransitionProperty">
+        <member name="T:MahApps.Metro.Controls.ExpanderHelper">
             <summary>
-            This property can be used to set the Transition for animated TabControls
+            A helper class that provides various attached properties for the Expander control.
+            <see cref="T:System.Windows.Controls.Expander"/>
             </summary>
         </member>
-        <member name="T:MahApps.Metro.Controls.TextBoxHelper">
+        <member name="M:MahApps.Metro.Controls.ExpanderHelper.GetHeaderUpStyle(System.Windows.UIElement)">
             <summary>
-            A helper class that provides various attached properties for the TextBox control.
-            </summary>
-            <remarks>
-            Password watermarking code from: http://prabu-guru.blogspot.com/2010/06/how-to-add-watermark-text-to-textbox.html
-            </remarks>
-        </member>
-        <member name="F:MahApps.Metro.Controls.TextBoxHelper.IsClearTextButtonBehaviorEnabledProperty">
-            <summary>
-            The clear text button behavior property. It sets a click event to the button if the value is true.
+            Gets the toggle button style used for the ExpandDirection Up.
             </summary>
         </member>
-        <member name="M:MahApps.Metro.Controls.TextBoxHelper.GetIsSpellCheckContextMenuEnabled(System.Windows.UIElement)">
+        <member name="M:MahApps.Metro.Controls.ExpanderHelper.SetHeaderUpStyle(System.Windows.UIElement,System.Windows.Style)">
             <summary>
-            Indicates if a TextBox or RichTextBox should use SpellCheck context menu
+            Sets the toggle button style used for the ExpandDirection Up.
             </summary>
         </member>
-        <member name="M:MahApps.Metro.Controls.TextBoxHelper.GetHasText(System.Windows.DependencyObject)">
+        <member name="M:MahApps.Metro.Controls.ExpanderHelper.GetHeaderDownStyle(System.Windows.UIElement)">
             <summary>
-            Gets if the attached TextBox has text.
+            Gets the toggle button style used for the ExpandDirection Down.
             </summary>
         </member>
-        <member name="M:MahApps.Metro.Controls.TextBoxHelper.GetIsClearTextButtonBehaviorEnabled(System.Windows.Controls.Button)">
+        <member name="M:MahApps.Metro.Controls.ExpanderHelper.SetHeaderDownStyle(System.Windows.UIElement,System.Windows.Style)">
             <summary>
-            Gets the clear text button behavior.
+            Sets the toggle button style used for the ExpandDirection Down.
             </summary>
         </member>
-        <member name="M:MahApps.Metro.Controls.TextBoxHelper.SetIsClearTextButtonBehaviorEnabled(System.Windows.Controls.Button,System.Boolean)">
+        <member name="M:MahApps.Metro.Controls.ExpanderHelper.GetHeaderLeftStyle(System.Windows.UIElement)">
             <summary>
-            Sets the clear text button behavior.
+            Gets the toggle button style used for the ExpandDirection Left.
             </summary>
         </member>
-        <member name="F:MahApps.Metro.Controls.ToggleButtonHelper.ContentDirectionProperty">
+        <member name="M:MahApps.Metro.Controls.ExpanderHelper.SetHeaderLeftStyle(System.Windows.UIElement,System.Windows.Style)">
             <summary>
-            This property can be used to handle the style for CheckBox and RadioButton
-            LeftToRight means content left and button right and RightToLeft vise versa
+            Sets the toggle button style used for the ExpandDirection Left.
             </summary>
         </member>
-        <member name="M:MahApps.Metro.Controls.ToggleButtonHelper.GetContentDirection(System.Windows.UIElement)">
+        <member name="M:MahApps.Metro.Controls.ExpanderHelper.GetHeaderRightStyle(System.Windows.UIElement)">
             <summary>
-            This property can be used to handle the style for CheckBox and RadioButton
-            LeftToRight means content left and button right and RightToLeft vise versa
+            Gets the toggle button style used for the ExpandDirection Right.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ExpanderHelper.SetHeaderRightStyle(System.Windows.UIElement,System.Windows.Style)">
+            <summary>
+            Sets the toggle button style used for the ExpandDirection Right.
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.MetroAnimatedSingleRowTabControl">
@@ -758,6 +1040,19 @@
             <summary>
             Initializes a new instance of the MahApps.Metro.Controls.MetroWindow class.
             </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroWindow.GetPart``1(System.String)">
+            <summary>
+            Gets the template child with the given name.
+            </summary>
+            <typeparam name="T">The interface type inheirted from DependencyObject.</typeparam>
+            <param name="name">The name of the template child.</param>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroWindow.GetPart(System.String)">
+            <summary>
+            Gets the template child with the given name.
+            </summary>
+            <param name="name">The name of the template child.</param>
         </member>
         <member name="P:MahApps.Metro.Controls.MetroWindow.OverrideDefaultWindowCommandsBrush">
             <summary>
@@ -1129,8 +1424,16 @@
             <summary>
             Sets the IsHitTestVisibleInChromeProperty to a MetroWindow template child
             </summary>
-            <param name="window">The MetroWindow</param>
-            <param name="name">The name of the template child</param>
+            <param name="window">The MetroWindow.</param>
+            <param name="name">The name of the template child.</param>
+        </member>
+        <member name="M:MahApps.Metro.Controls.MetroWindowHelpers.SetWindowChromeResizeGripDirection(MahApps.Metro.Controls.MetroWindow,System.String,Microsoft.Windows.Shell.ResizeGripDirection)">
+            <summary>
+            Sets the WindowChrome ResizeGripDirection to a MetroWindow template child.
+            </summary>
+            <param name="window">The MetroWindow.</param>
+            <param name="name">The name of the template child.</param>
+            <param name="direction">The direction.</param>
         </member>
         <member name="M:MahApps.Metro.Controls.MetroWindowHelpers.HandleWindowCommandsForFlyouts(MahApps.Metro.Controls.MetroWindow,System.Collections.Generic.IEnumerable{MahApps.Metro.Controls.Flyout},System.Windows.Media.Brush)">
             <summary>
@@ -1143,6 +1446,11 @@
         <member name="T:MahApps.Metro.Controls.NumericUpDown">
             <summary>
                 Represents a Windows spin box (also known as an up-down control) that displays numeric values.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.NumericUpDown.OnGotFocus(System.Object,System.Windows.RoutedEventArgs)">
+            <summary> 
+                Called when this element or any below gets focus.
             </summary>
         </member>
         <member name="M:MahApps.Metro.Controls.NumericUpDown.OnApplyTemplate">
@@ -1201,6 +1509,11 @@
         <member name="P:MahApps.Metro.Controls.NumericUpDown.InterceptManualEnter">
             <summary>
                 Gets or sets a value indicating whether the user can enter text in the control.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.NumericUpDown.Culture">
+            <summary>
+                Gets or sets a value indicating the culture to be used in string formatting operations.
             </summary>
         </member>
         <member name="P:MahApps.Metro.Controls.NumericUpDown.HideUpDownButtons">
@@ -1278,14 +1591,101 @@
             </summary>
             <seealso cref="F:MahApps.Metro.Controls.PropertyChangeNotifier.ValueProperty"/>
         </member>
-        <member name="T:MahApps.Metro.Controls.SplitButton">
+        <member name="F:MahApps.Metro.Controls.ScrollBarHelper.VerticalScrollBarOnLeftSideProperty">
             <summary>
-                &lt;MyNamespace:CustomControl1/&gt;
+            This property can be used to set vertical scrollbar left side from the tabpanel (look at MetroAnimatedSingleRowTabControl)
             </summary>
         </member>
-        <member name="P:MahApps.Metro.Controls.WindowCommands.ShowSeparators">
+        <member name="P:MahApps.Metro.Controls.SplitButton.CommandParameter">
             <summary>
-            Gets or sets the value indicating whether to show the separators.
+            Reflects the parameter to pass to the CommandProperty upon execution. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.CommandTarget">
+            <summary>
+            Gets or sets the target element on which to fire the command.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.Command">
+            <summary>
+            Get or sets the Command property. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.SelectedIndex">
+            <summary> 
+             The index of the first item in the current selection or -1 if the selection is empty. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.SelectedItem">
+            <summary>
+             The first item in the current selection, or null if the selection is empty. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.IsExpanded">
+            <summary> 
+            Indicates whether the Popup is visible. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.ExtraTag">
+            <summary>
+            Gets or sets an extra tag.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.Orientation">
+            <summary>
+            Gets or sets the dimension of children stacking.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.Icon">
+            <summary>
+             Gets or sets the Content used to generate the icon part.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.IconTemplate">
+            <summary> 
+            Gets or sets the ContentTemplate used to display the content of the icon part. 
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.ButtonStyle">
+            <summary>
+            Gets/sets the button style.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.ButtonArrowStyle">
+            <summary>
+            Gets/sets the button arrow style.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.ListBoxStyle">
+            <summary>
+            Gets/sets the popup listbox style.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.SplitButton.ArrowBrush">
+            <summary>
+            Gets/sets the brush of the button arrow icon.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.TabControlHelper.IsUnderlinedProperty">
+            <summary>
+            Defines whether the underline below the <see cref="T:System.Windows.Controls.TabControl"/> is shown or not.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.TabControlHelper.TransitionProperty">
+            <summary>
+            This property can be used to set the Transition for animated TabControls
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Controls.ToggleButtonHelper.ContentDirectionProperty">
+            <summary>
+            This property can be used to handle the style for CheckBox and RadioButton
+            LeftToRight means content left and button right and RightToLeft vise versa
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.ToggleButtonHelper.GetContentDirection(System.Windows.UIElement)">
+            <summary>
+            This property can be used to handle the style for CheckBox and RadioButton
+            LeftToRight means content left and button right and RightToLeft vise versa
             </summary>
         </member>
         <member name="F:MahApps.Metro.Controls.WindowCommandsOverlayBehavior.Never">
@@ -1430,6 +1830,49 @@
             Get/sets the minimum range that can be selected.
             </summary>
         </member>
+        <member name="T:MahApps.Metro.Controls.TextBoxHelper">
+            <summary>
+            A helper class that provides various attached properties for the TextBox control.
+            </summary>
+            <remarks>
+            Password watermarking code from: http://prabu-guru.blogspot.com/2010/06/how-to-add-watermark-text-to-textbox.html
+            </remarks>
+        </member>
+        <member name="F:MahApps.Metro.Controls.TextBoxHelper.IsClearTextButtonBehaviorEnabledProperty">
+            <summary>
+            The clear text button behavior property. It sets a click event to the button if the value is true.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.TextBoxHelper.GetIsSpellCheckContextMenuEnabled(System.Windows.UIElement)">
+            <summary>
+            Indicates if a TextBox or RichTextBox should use SpellCheck context menu
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.TextBoxHelper.GetHasText(System.Windows.DependencyObject)">
+            <summary>
+            Gets if the attached TextBox has text.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.TextBoxHelper.GetButtonsAlignment(System.Windows.DependencyObject)">
+            <summary>
+            Gets the buttons placement variant.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.TextBoxHelper.SetButtonsAlignment(System.Windows.DependencyObject,MahApps.Metro.Controls.ButtonsAlignment)">
+            <summary>
+            Sets the buttons placement variant.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.TextBoxHelper.GetIsClearTextButtonBehaviorEnabled(System.Windows.Controls.Button)">
+            <summary>
+            Gets the clear text button behavior.
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Controls.TextBoxHelper.SetIsClearTextButtonBehaviorEnabled(System.Windows.Controls.Button,System.Boolean)">
+            <summary>
+            Sets the clear text button behavior.
+            </summary>
+        </member>
         <member name="T:MahApps.Metro.Controls.ToggleSwitchButton">
             <summary>
             A Button that allows the user to toggle between two states.
@@ -1438,6 +1881,31 @@
         <member name="P:MahApps.Metro.Controls.ToggleSwitchButton.SwitchForeground">
             <summary>
             Gets/sets the brush used for the control's foreground.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitchButton.OnSwitchBrush">
+            <summary>
+            Gets/sets the brush used for the on-switch's foreground.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitchButton.OffSwitchBrush">
+            <summary>
+            Gets/sets the brush used for the off-switch's foreground.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitchButton.ThumbIndicatorBrush">
+            <summary>
+            Gets/sets the brush used for the thumb indicator.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitchButton.ThumbIndicatorDisabledBrush">
+            <summary>
+            Gets/sets the brush used for the thumb indicator.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitchButton.ThumbIndicatorWidth">
+            <summary>
+            Gets/sets the width of the thumb indicator.
             </summary>
         </member>
         <member name="T:MahApps.Metro.Controls.TransitionType">
@@ -1582,6 +2050,62 @@
             <param name="reference">The main element which is used to perform
             hit testing.</param>
             <param name="point">The position to be evaluated on the origin.</param>
+        </member>
+        <member name="P:MahApps.Metro.Controls.WindowCommands.ShowSeparators">
+            <summary>
+            Gets or sets the value indicating whether to show the separators.
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Converters.StringToVisibilityConverter">
+            <summary>
+                Converts a String into a Visibility enumeration (and back)
+                The FalseEquivalent can be declared with the "FalseEquivalent" property
+            </summary>
+        </member>
+        <member name="M:MahApps.Metro.Converters.StringToVisibilityConverter.#ctor">
+            <summary>
+                Initialize the properties with standard values
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Converters.StringToVisibilityConverter.FalseEquivalent">
+            <summary>
+                FalseEquivalent (default : Visibility.Collapsed => see Constructor)
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Converters.StringToVisibilityConverter.OppositeStringValue">
+            <summary>
+                Define whether the opposite boolean value is crucial (default : false)
+            </summary>
+        </member>
+        <member name="T:MahApps.Metro.Converters.ThicknessBindingConverter">
+            <summary>
+            Converts a Thickness to a new Thickness. It's possible to ignore a side With the IgnoreThicknessSide property.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Converters.IgnoreThicknessSideType.None">
+            <summary>
+            Use all sides.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Converters.IgnoreThicknessSideType.Left">
+            <summary>
+            Ignore the left side.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Converters.IgnoreThicknessSideType.Top">
+            <summary>
+            Ignore the top side.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Converters.IgnoreThicknessSideType.Right">
+            <summary>
+            Ignore the right side.
+            </summary>
+        </member>
+        <member name="F:MahApps.Metro.Converters.IgnoreThicknessSideType.Bottom">
+            <summary>
+            Ignore the bottom side.
+            </summary>
         </member>
         <member name="F:Standard.IID.ApplicationAssociationRegistration">
             <summary>IID_IApplicationAssociationRegistration</summary>
@@ -3354,31 +3878,210 @@
         </member>
         <member name="F:Microsoft.Windows.Shell.WindowChromeWorker._hwnd">
             <summary>Underlying HWND for the _window.</summary>
+            <SecurityNote>
+              Critical : Critical member
+            </SecurityNote>
+        </member>
+        <member name="F:Microsoft.Windows.Shell.WindowChromeWorker._hwndSource">
+            <summary>Underlying HWND for the _window.</summary>
+            <SecurityNote>
+              Critical : Critical member provides access to HWND's window messages which are critical
+            </SecurityNote>
         </member>
         <member name="F:Microsoft.Windows.Shell.WindowChromeWorker._chromeInfo">
             <summary>Object that describes the current modifications being made to the chrome.</summary>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker.#ctor">
+            <SecurityNote>
+              Critical : Store critical methods in critical callback table
+              Safe     : Demands full trust permissions
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker.SetWindowChrome(Microsoft.Windows.Shell.WindowChrome)">
+            <SecurityNote>
+              Critical : Calls critical methods
+              Safe     : Demands full trust permissions
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._OnChromePropertyChangedThatRequiresRepaint(System.Object,System.EventArgs)">
+            <SecurityNote>
+              Critical : Calls critical methods
+              Safe     : Demands full trust permissions
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._OnChromeWorkerChanged(System.Windows.DependencyObject,System.Windows.DependencyPropertyChangedEventArgs)">
+            <SecurityNote>
+              Critical : Calls critical methods
+              Safe     : Demands full trust permissions
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._SetWindow(System.Windows.Window)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._WindowSourceInitialized(System.Object,System.EventArgs)">
+            <SecurityNote>
+              Critical : Store critical methods in critical callback table
+              Safe     : Demands full trust permissions
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker.UnsubscribeWindowEvents">
+            <SecurityNote>
+              Critical : References critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._UnsetWindow(System.Object,System.EventArgs)">
+            <SecurityNote>
+              Critical : Store critical methods in critical callback table
+              Safe     : Demands full trust permissions
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._OnWindowPropertyChangedThatRequiresTemplateFixup(System.Object,System.EventArgs)">
+            <SecurityNote>
+              Critical : Accesses critical _hwnd field
+              Safe     : Demands full trust permissions
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._ApplyNewCustomChrome">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._FixupTemplateIssues">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._FixupRestoreBounds(System.Object,System.EventArgs)">
+            <SecurityNote>
+              Critical : Store critical methods in critical callback table
+              Safe     : Demands full trust permissions
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._GetAdjustedWindowRect(Standard.RECT)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._WndProc(System.IntPtr,System.Int32,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Accesses critical _hwnd
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleNCUAHDrawCaption(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleRestoreWindow(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleNCActivate(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
         </member>
         <member name="M:Microsoft.Windows.Shell.WindowChromeWorker.AdjustWorkingAreaForAutoHide(System.IntPtr,Standard.RECT)">
             <summary>
             This method handles the window size if the taskbar is set to auto-hide.
             </summary>
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleNCCalcSize(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical Marshal.PtrToStructure
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleNCHitTest(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleNCRButtonUp(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical method
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleSize(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical method
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleWindowPosChanging(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical Marshal.PtrToStructure
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleWindowPosChanged(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical Marshal.PtrToStructure
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleGetMinMaxInfo(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleDwmCompositionChanged(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleSettingChange(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleEnterSizeMove(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleEnterSizeMoveForAnimation(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleMoveForRealSize(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._HandleExitSizeMoveForAnimation(Standard.WM,System.IntPtr,System.IntPtr,System.Boolean@)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
         </member>
         <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._ModifyStyle(Standard.WS,Standard.WS)">
             <summary>Add and remove a native WindowStyle from the HWND.</summary>
             <param name="removeStyle">The styles to be removed.  These can be bitwise combined.</param>
             <param name="addStyle">The styles to be added.  These can be bitwise combined.</param>
             <returns>Whether the styles of the HWND were modified as a result of this call.</returns>
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
         </member>
         <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._GetHwndState">
             <summary>
             Get the WindowState as the native HWND knows it to be.  This isn't necessarily the same as what Window thinks.
             </summary>
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
         </member>
         <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._GetWindowRect">
             <summary>
             Get the bounding rectangle for the window in physical coordinates.
             </summary>
             <returns>The bounding rectangle for the window.</returns>
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
         </member>
         <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._UpdateSystemMenu(System.Nullable{System.Windows.WindowState})">
             <summary>
@@ -3390,13 +4093,76 @@
             <remarks>
             We want to update the menu while we have some control over whether the caption will be repainted.
             </remarks>
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._UpdateFrameState(System.Boolean)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._ClearRoundingRegion">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._GetClientRectRelativeToWindowRect(System.IntPtr)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._SetRoundingRegion(System.Nullable{Standard.WINDOWPOS})">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._CreateRoundRectRgn(System.Windows.Rect,System.Double)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._CreateAndCombineRoundRectRgn(System.IntPtr,System.Windows.Rect,System.Double)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._ExtendGlassFrame">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
         </member>
         <member name="F:Microsoft.Windows.Shell.WindowChromeWorker._HitTestBorders">
             <summary>
             Matrix of the HT values to return when responding to NC window messages.
             </summary>
         </member>
-        <member name="P:Microsoft.Windows.Shell.WindowChromeWorker._IsPresentationFrameworkVersionLessThan4">
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._RestoreStandardChromeState(System.Boolean)">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._UnhookCustomChrome">
+            <SecurityNote>
+              Critical : Unsubscribes event handler from critical _hwndSource
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._RestoreFrameworkIssueFixups">
+            <SecurityNote>
+              Critical : Unsubscribes critical event handler
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._RestoreGlassFrame">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="M:Microsoft.Windows.Shell.WindowChromeWorker._RestoreHrgn">
+            <SecurityNote>
+              Critical : Calls critical methods
+            </SecurityNote>
+        </member>
+        <member name="P:Microsoft.Windows.Shell.WindowChromeWorker.IsPresentationFrameworkVersionLessThan4">
             <summary>
             Is this using WPF4?
             </summary>
@@ -3404,6 +4170,11 @@
             There are a few specific bugs in Window in 3.5SP1 and below that require workarounds
             when handling WM_NCCALCSIZE on the HWND.
             </remarks>
+        </member>
+        <member name="P:Microsoft.Windows.Shell.WindowChromeWorker._IsWindowDocked">
+            <SecurityNote>
+              Critical : Calls critical method
+            </SecurityNote>
         </member>
         <member name="P:Microsoft.Windows.Shell.WindowChromeWorker._MinimizeAnimation">
             A borderless window lost his animation, with this we bring it back.
@@ -4929,14 +5700,74 @@
             Gets/sets the brush used for the switch's foreground.
             </summary>
         </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.OnSwitchBrush">
+            <summary>
+            Gets/sets the brush used for the on-switch's foreground.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.OffSwitchBrush">
+            <summary>
+            Gets/sets the brush used for the off-switch's foreground.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.ThumbIndicatorBrush">
+            <summary>
+            Gets/sets the brush used for the thumb indicator.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.ThumbIndicatorDisabledBrush">
+            <summary>
+            Gets/sets the brush used for the thumb indicator.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.ThumbIndicatorWidth">
+            <summary>
+            Gets/sets the width of the thumb indicator.
+            </summary>
+        </member>
         <member name="P:MahApps.Metro.Controls.ToggleSwitch.ContentDirection">
             <summary>
             Gets/sets the control's content flow direction.
             </summary>
         </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.ToggleSwitchButtonStyle">
+            <summary>
+            Gets/sets the control's toggle switch button style.
+            </summary>
+        </member>
         <member name="P:MahApps.Metro.Controls.ToggleSwitch.IsChecked">
             <summary>
             Gets/sets whether the control is Checked (On) or not (Off).
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.CheckChangedCommand">
+            <summary>
+            Gets/sets the command which will be executed if the IsChecked property was changed.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.CheckedCommand">
+            <summary>
+            Gets/sets the command which will be executed if the checked event of the control is fired.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.UnCheckedCommand">
+            <summary>
+            Gets/sets the command which will be executed if the checked event of the control is fired.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.CheckChangedCommandParameter">
+            <summary>
+            Gets/sets the command parameter which will be passed by the CheckChangedCommand.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.CheckedCommandParameter">
+            <summary>
+            Gets/sets the command parameter which will be passed by the CheckedCommand.
+            </summary>
+        </member>
+        <member name="P:MahApps.Metro.Controls.ToggleSwitch.UnCheckedCommandParameter">
+            <summary>
+            Gets/sets the command parameter which will be passed by the UnCheckedCommand.
             </summary>
         </member>
         <member name="E:MahApps.Metro.Controls.ToggleSwitch.IsCheckedChanged">
@@ -5037,21 +5868,6 @@
         </member>
         <member name="M:MahApps.Metro.Native.UnsafeNativeMethods.EnableMenuItem(System.IntPtr,System.UInt32,System.UInt32)">
             <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/ms647636(v=vs.85).aspx</devdoc>
-        </member>
-        <member name="T:MahApps.Metro.AppTheme">
-            <summary>
-            Represents the background theme of the application.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.AppTheme.Resources">
-            <summary>
-            The ResourceDictionary that represents this application theme.
-            </summary>
-        </member>
-        <member name="P:MahApps.Metro.AppTheme.Name">
-            <summary>
-            Gets the name of the application theme.
-            </summary>
         </member>
         <member name="T:MahApps.Metro.ThemeManager">
             <summary>
@@ -5170,6 +5986,18 @@
             <param name="newAccent">The accent to apply to the ResourceDictionary.</param>
             <param name="newTheme">The theme to apply to the ResourceDictionary.</param>
         </member>
+        <member name="M:MahApps.Metro.ThemeManager.CopyResource(System.Windows.ResourceDictionary,System.Windows.ResourceDictionary)">
+            <summary>
+            Copies all resource keys from one resource to another.
+            </summary>
+            <param name="fromRD">The source resource dictionary.</param>
+            <param name="toRD">The destination resource dictionary.</param>
+            <exception cref="T:System.ArgumentNullException">
+            fromRD
+            or
+            toRD
+            </exception>
+        </member>
         <member name="M:MahApps.Metro.ThemeManager.DetectAppStyle">
             <summary>
             Scans the window resources and returns it's accent and theme.
@@ -5213,36 +6041,6 @@
             <summary>
             This event fires if accent color and theme was changed
             this should be using the weak event pattern, but for now it's enough
-            </summary>
-        </member>
-        <member name="T:XamlGeneratedNamespace.GeneratedInternalTypeHelper">
-            <summary>
-            GeneratedInternalTypeHelper
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
-            <summary>
-            CreateInstance
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            GetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
-            <summary>
-            SetPropertyValue
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
-            <summary>
-            CreateDelegate
-            </summary>
-        </member>
-        <member name="M:XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
-            <summary>
-            AddEventHandler
             </summary>
         </member>
     </members>
