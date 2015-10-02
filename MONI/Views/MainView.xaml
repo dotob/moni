@@ -740,6 +740,9 @@
                Grid.IsSharedSizeScope="True"
                ScrollViewer.VerticalScrollBarVisibility="Auto"
                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+               KeyboardNavigation.ControlTabNavigation="Cycle"
+               KeyboardNavigation.TabNavigation="Cycle"
+               KeyboardNavigation.DirectionalNavigation="Cycle"
                HorizontalContentAlignment="Stretch"
                ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
                ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}">
@@ -924,8 +927,8 @@
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     Width="5"
-                    Background="Transparent" 
-                    Focusable="False"/>
+                    Background="Transparent"
+                    Focusable="False" />
 
       <!-- shortcuts -->
       <StackPanel x:Name="shortCutHeader"

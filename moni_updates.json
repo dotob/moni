@@ -142,5 +142,12 @@
 			"Fix: exception loggin ohne exception"
 		],
 		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.1/MONI.exe"
-	}
+	},
+	{
+		"Version": "1.0.0.2",
+		"Changes": [
+			"Fix: Tab-Navigation zwischen den Tagen",
+		],
+		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.2/MONI.exe"
+	},
 ]
