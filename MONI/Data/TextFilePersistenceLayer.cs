@@ -54,19 +54,21 @@ namespace MONI.Data {
             var readAllLines = File.ReadAllLines(dataFile);
             int i = 0;
             foreach (var wdLine in readAllLines) {
-              string wdDateData = wdLine.Token("|", 1);
-              var wdDateParts = wdDateData.Split(',').Select(s => Convert.ToInt32(s));
-              WorkDayPersistenceData wdpd = new WorkDayPersistenceData();
-              wdpd.Year = wdDateParts.ElementAt(0);
-              wdpd.Month = wdDateParts.ElementAt(1);
-              wdpd.Day = wdDateParts.ElementAt(2);
-              wdpd.LineNumber = i;
-              wdpd.FileName = dataFile;
+              if (!string.IsNullOrWhiteSpace(wdLine.Replace("\0", ""))) {
+                string wdDateData = wdLine.Token("|", 1);
+                var wdDateParts = wdDateData.Split(',').Select(s => Convert.ToInt32(s));
+                WorkDayPersistenceData wdpd = new WorkDayPersistenceData();
+                wdpd.Year = wdDateParts.ElementAt(0);
+                wdpd.Month = wdDateParts.ElementAt(1);
+                wdpd.Day = wdDateParts.ElementAt(2);
+                wdpd.LineNumber = i;
+                wdpd.FileName = dataFile;
 
-              string wdStringData = wdLine.Token("|", 2);
-              wdpd.OriginalString = wdStringData.Replace("<br />", Environment.NewLine);
-              this.workDaysData.Add(wdpd);
-              i++;
+                string wdStringData = wdLine.Token("|", 2);
+                wdpd.OriginalString = wdStringData.Replace("<br />", Environment.NewLine);
+                this.workDaysData.Add(wdpd);
+                i++;
+              }
             }
           }
         }

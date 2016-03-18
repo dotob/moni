@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MONI.Util;
 using System;
+using NLog;
 
 namespace MONI.ViewModels
 {
   public class PNSearchViewModel : ViewModelBase
   {
+		private static readonly Logger logger = LogManager.GetCurrentClassLogger();
+
     private bool showPnSearch;
     private string searchText;
     private ICommand cancelCommand;
@@ -54,7 +57,12 @@ namespace MONI.ViewModels
         }
       }
       this.SetGBNumber(gbNumber);
-      this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
+	    try {
+		    this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
+	    }
+	    catch (Exception e) {
+		    logger.Warn("Exception while converting projekte to dictionary", e);
+	    }
     }
 
     private List<ProjectNumber> ProjectNumbers { get; set; }

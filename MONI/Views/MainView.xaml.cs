@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -13,6 +15,7 @@ using MONI.Parser;
 using MONI.Util;
 using MONI.ViewModels;
 using MahApps.Metro.Controls;
+using Newtonsoft.Json;
 using NLog;
 
 namespace MONI.Views {
@@ -311,7 +314,16 @@ namespace MONI.Views {
 					  cli.Headers[HttpRequestHeader.Authorization] = _cred;
 					  try {
 						  string response = cli.UploadString(this.ViewModel.Settings.MainSettings.MonApiUrl+"/import", jsonData);
-							logger.Info("Response from sending data to MonApi: {0}", response);
+					    var maResponses = JsonConvert.DeserializeObject<List<MonApiResponse>>(response);
+					    var firstResult = maResponses.FirstOrDefault();
+					    if (firstResult != null) {
+					      var message = string.Format("Für Nummer {0} wurden im Monat {1}.{2} Daten importiert. Ergebnis: {3}", firstResult.Nummer, firstResult.Monat, firstResult.Jahr, firstResult.Result);
+					      MessageBox.Show(message, "Ergebnis MonApi");
+					    }
+					    else {
+					      MessageBox.Show(response, "Ergebnis MonApi");
+					    }
+					    logger.Info("Response from sending data to MonApi: {0}", response);
 					  }
 					  catch (Exception exception) {
 						  logger.Error("Error while sending data to MonApi: {0}", exception);
@@ -392,5 +404,13 @@ namespace MONI.Views {
       this.shortCutList.Visibility = Visibility.Visible;
       this.deferredUiActivationTimer.Stop();
     }
+  }
+
+  public class MonApiResponse {
+    public string Nummer { get; set; }
+    public string Monat { get; set; }
+    public string Jahr { get; set; }
+    [JsonProperty("result")]
+    public string Result { get; set; }
   }
 }
