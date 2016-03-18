@@ -390,9 +390,6 @@ namespace MONI.ViewModels {
       if (string.IsNullOrWhiteSpace(settings.MainSettings.UpdateInfoURL)) {
         settings.MainSettings.UpdateInfoURL = MoniSettings.GetEmptySettings().MainSettings.UpdateInfoURL;
       }      
-			if (string.IsNullOrWhiteSpace(settings.MainSettings.MonApiUrl)) {
-				settings.MainSettings.MonApiUrl = MoniSettings.GetEmptySettings().MainSettings.MonApiUrl;
-      }
     }
 
     private static MoniSettings ReadSettingsInternal(string settingsFile) {

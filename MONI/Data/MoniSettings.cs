@@ -16,8 +16,7 @@ namespace MONI.Data
 				MonlistExecutablePath = @"n:\Monlist2\Monlist2.exe", 
 				ProjectNumberFilePath = @"n:\Monlist2\projekte.txt", 
 				UpdateInfoURL = "http://mtools/moni_updates.json", 
-				ShowMonthList = true,
-				MonApiUrl = "https://usability.inform-ac.com/monapi"
+				ShowMonthList = true
       };
       return new MoniSettings { ParserSettings = new WorkDayParserSettings(), MainSettings = ms };
     }
@@ -46,7 +45,6 @@ namespace MONI.Data
     public string UpdateInfoURL { get; set; }
     public bool ShowMonthList { get; set; }
 	  public bool UseMonApi { get; set; }
-	  public string MonApiUrl { get; set; }
   }
 
   public class WorkDayParserSettings

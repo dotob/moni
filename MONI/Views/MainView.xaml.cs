@@ -49,7 +49,7 @@ namespace MONI.Views {
 
     private void CheckForMonlist() {
       var mlp = Utils.PatchFilePath(this.ViewModel.Settings.MainSettings.MonlistExecutablePath);
-			this.OpenMonlist.IsEnabled = !(string.IsNullOrWhiteSpace(mlp) || !File.Exists(mlp)) || (this.ViewModel.Settings.MainSettings.UseMonApi && !string.IsNullOrWhiteSpace(this.ViewModel.Settings.MainSettings.MonApiUrl));
+			this.OpenMonlist.IsEnabled = !(string.IsNullOrWhiteSpace(mlp) || !File.Exists(mlp));
     }
 
     public MainViewModel ViewModel { get; set; }
@@ -313,7 +313,7 @@ namespace MONI.Views {
 					  string _cred = string.Format("{0} {1}", "Basic", _enc);
 					  cli.Headers[HttpRequestHeader.Authorization] = _cred;
 					  try {
-						  string response = cli.UploadString(this.ViewModel.Settings.MainSettings.MonApiUrl+"/import", jsonData);
+						  string response = cli.UploadString("https://monapi.inform-ac.com/monapi/import", jsonData);
 					    var maResponses = JsonConvert.DeserializeObject<List<MonApiResponse>>(response);
 					    var firstResult = maResponses.FirstOrDefault();
 					    if (firstResult != null) {
