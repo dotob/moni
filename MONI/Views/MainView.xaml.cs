@@ -31,7 +31,7 @@ namespace MONI.Views {
         this.ViewModel = new MainViewModel(this.Dispatcher);
       } catch (Exception exception) {
         MessageBox.Show(this, exception.Message, "Fehler beim Starten", MessageBoxButton.OK, MessageBoxImage.Error);
-        logger.Error("error while starting", exception);
+        logger.Error(exception, "error while starting");
       }
       this.InitializeComponent();
       this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
@@ -326,7 +326,7 @@ namespace MONI.Views {
 					    logger.Info("Response from sending data to MonApi: {0}", response);
 					  }
 					  catch (Exception exception) {
-						  logger.Error("Error while sending data to MonApi: {0}", exception);
+						  logger.Error(exception, "Error while sending data to MonApi");
 					  }
 				  }
 			  }

@@ -39,7 +39,7 @@ namespace MONI.ViewModels {
                 pn.Customer = columns[2];
                 this.ProjectNumbers.Add(pn);
               } catch (Exception e) {
-                logger.Warn("Could not read as projectnumber info: {0}", line);
+                logger.Warn(e, "Could not read as projectnumber info: {0}", line);
               }
             }
             // break after first file worked

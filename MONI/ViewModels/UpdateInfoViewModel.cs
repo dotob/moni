@@ -55,14 +55,14 @@ namespace MONI.ViewModels
           url = string.Format("{0}?user={1}&machine={2}&framework={3}&entrycount={4}&firstentrydate={5:s}", this.updateInfoURL, Environment.UserName, Environment.MachineName, Environment.Version, entryCount, firstEntryDate);
         }
         catch (Exception e) {
-          logger.Error("error while collecting enviroiniment info: {0}", e);
+          logger.Error(e, "error while collecting enviroiniment info");
         }
         var uisJson = wc.DownloadString(url);
         UpdateInfo[] uis = JsonConvert.DeserializeObject<UpdateInfo[]>(uisJson);
         return uis;
       }
       catch (Exception exception) {
-        logger.Error(string.Format("while downloading updateinfo from {0} an exception occured", updateInfoURL), exception);
+        logger.Error(exception, "while downloading updateinfo from {0} an exception occured", updateInfoURL);
       }
       return Enumerable.Empty<UpdateInfo>();
     }
