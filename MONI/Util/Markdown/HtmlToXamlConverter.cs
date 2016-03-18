@@ -9,8 +9,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Xml;
 
-namespace MONI.Util.Markdown
-{
+namespace MONI.Util.Markdown {
     // This code was taken from MSDN as an example of converting HTML to XAML.
     //
     // I've combined all the classes together and made some spelling corrections.
@@ -163,8 +162,8 @@ namespace MONI.Util.Markdown
                                 //  Parse css border style
                                 break;
 
-                                // NOTE: css names for elementary border styles have side indications in the middle (top/bottom/left/right)
-                                // In our internal notation we intentionally put them at the end - to unify processing in ParseCssRectangleProperty method
+                            // NOTE: css names for elementary border styles have side indications in the middle (top/bottom/left/right)
+                            // In our internal notation we intentionally put them at the end - to unify processing in ParseCssRectangleProperty method
                             case "border-top-style":
                             case "border-right-style":
                             case "border-left-style":
@@ -278,7 +277,8 @@ namespace MONI.Util.Markdown
 
                 if (mustBeNonNegative && styleValue[startIndex] == '-') {
                     return "0";
-                } else {
+                }
+                else {
                     return number + unit;
                 }
             }
@@ -348,7 +348,8 @@ namespace MONI.Util.Markdown
                     if (nextIndex > startIndex + 1) {
                         color = styleValue.Substring(startIndex, nextIndex - startIndex);
                     }
-                } else if (styleValue.Substring(nextIndex, 3).ToLower() == "rbg") {
+                }
+                else if (styleValue.Substring(nextIndex, 3).ToLower() == "rbg") {
                     //  Implement real rgb() color parsing
                     while (nextIndex < styleValue.Length && styleValue[nextIndex] != ')') {
                         nextIndex++;
@@ -357,7 +358,8 @@ namespace MONI.Util.Markdown
                         nextIndex++; // to skip ')'
                     }
                     color = "gray"; // return bogus color
-                } else if (Char.IsLetter(character)) {
+                }
+                else if (Char.IsLetter(character)) {
                     color = ParseWordEnumeration(_colors, styleValue, ref nextIndex);
                     if (color == null) {
                         color = ParseWordEnumeration(_systemColors, styleValue, ref nextIndex);
@@ -404,13 +406,13 @@ namespace MONI.Util.Markdown
         //    Default: medium
         // font: [ <font-style> || <font-variant> || <font-weight ]? <font-size> [ / <line-height> ]? <font-family>
 
-        private static readonly string[] _fontGenericFamilies = { "serif", "sans-serif", "monospace", "cursive", "fantasy" };
-        private static readonly string[] _fontStyles = { "normal", "italic", "oblique" };
-        private static readonly string[] _fontVariants = { "normal", "small-caps" };
-        private static readonly string[] _fontWeights = { "normal", "bold", "bolder", "lighter", "100", "200", "300", "400", "500", "600", "700", "800", "900" };
-        private static readonly string[] _fontAbsoluteSizes = { "xx-small", "x-small", "small", "medium", "large", "x-large", "xx-large" };
-        private static readonly string[] _fontRelativeSizes = { "larger", "smaller" };
-        private static readonly string[] _fontSizeUnits = { "px", "mm", "cm", "in", "pt", "pc", "em", "ex", "%" };
+        private static readonly string[] _fontGenericFamilies = {"serif", "sans-serif", "monospace", "cursive", "fantasy"};
+        private static readonly string[] _fontStyles = {"normal", "italic", "oblique"};
+        private static readonly string[] _fontVariants = {"normal", "small-caps"};
+        private static readonly string[] _fontWeights = {"normal", "bold", "bolder", "lighter", "100", "200", "300", "400", "500", "600", "700", "800", "900"};
+        private static readonly string[] _fontAbsoluteSizes = {"xx-small", "x-small", "small", "medium", "large", "x-large", "xx-large"};
+        private static readonly string[] _fontRelativeSizes = {"larger", "smaller"};
+        private static readonly string[] _fontSizeUnits = {"px", "mm", "cm", "in", "pt", "pc", "em", "ex", "%"};
 
         // Parses CSS string fontStyle representing a value for css font attribute
         private static void ParseCssFont(string styleValue, Hashtable localProperties) {
@@ -494,12 +496,14 @@ namespace MONI.Util.Markdown
                         if (fontFamily[0] == '"' || fontFamily[0] == '\'') {
                             // Unquote the font family name
                             fontFamily = fontFamily.Substring(1, fontFamily.Length - 2);
-                        } else {
+                        }
+                        else {
                             // Convert generic css family name
                         }
                         fontFamilyList = fontFamily;
                     }
-                } else {
+                }
+                else {
                     break;
                 }
             }
@@ -518,9 +522,9 @@ namespace MONI.Util.Markdown
         // list-style: [ <list-style-type> || <list-style-position> || <list-style-image> ]
 
         private static readonly string[] _listStyleTypes = new string[]
-        { "disc", "circle", "square", "decimal", "lower-roman", "upper-roman", "lower-alpha", "upper-alpha", "none" };
+        {"disc", "circle", "square", "decimal", "lower-roman", "upper-roman", "lower-alpha", "upper-alpha", "none"};
 
-        private static readonly string[] _listStylePositions = new string[] { "inside", "outside" };
+        private static readonly string[] _listStylePositions = new string[] {"inside", "outside"};
 
         private static void ParseCssListStyle(string styleValue, Hashtable localProperties) {
             int nextIndex = 0;
@@ -529,15 +533,18 @@ namespace MONI.Util.Markdown
                 string listStyleType = ParseCssListStyleType(styleValue, ref nextIndex);
                 if (listStyleType != null) {
                     localProperties["list-style-type"] = listStyleType;
-                } else {
+                }
+                else {
                     string listStylePosition = ParseCssListStylePosition(styleValue, ref nextIndex);
                     if (listStylePosition != null) {
                         localProperties["list-style-position"] = listStylePosition;
-                    } else {
+                    }
+                    else {
                         string listStyleImage = ParseCssListStyleImage(styleValue, ref nextIndex);
                         if (listStyleImage != null) {
                             localProperties["list-style-image"] = listStyleImage;
-                        } else {
+                        }
+                        else {
                             // TODO: Process unrecognized list style value
                             break;
                         }
@@ -565,7 +572,7 @@ namespace MONI.Util.Markdown
         //
         // .................................................................
 
-        private static readonly string[] _textDecorations = { "none", "underline", "overline", "line-through", "blink" };
+        private static readonly string[] _textDecorations = {"none", "underline", "overline", "line-through", "blink"};
 
         private static void ParseCssTextDecoration(string styleValue, ref int nextIndex, Hashtable localProperties) {
             // Set default text-decorations:none;
@@ -589,7 +596,7 @@ namespace MONI.Util.Markdown
         //
         // .................................................................
 
-        private static readonly string[] _textTransforms = { "none", "capitalize", "uppercase", "lowercase" };
+        private static readonly string[] _textTransforms = {"none", "capitalize", "uppercase", "lowercase"};
 
         private static void ParseCssTextTransform(string styleValue, ref int nextIndex, Hashtable localProperties) {
             ParseWordEnumeration(_textTransforms, styleValue, ref nextIndex, localProperties, "text-transform");
@@ -601,7 +608,7 @@ namespace MONI.Util.Markdown
         //
         // .................................................................
 
-        private static readonly string[] _textAligns = { "left", "right", "center", "justify" };
+        private static readonly string[] _textAligns = {"left", "right", "center", "justify"};
 
         private static void ParseCssTextAlign(string styleValue, ref int nextIndex, Hashtable localProperties) {
             ParseWordEnumeration(_textAligns, styleValue, ref nextIndex, localProperties, "text-align");
@@ -613,7 +620,7 @@ namespace MONI.Util.Markdown
         //
         // .................................................................
 
-        private static readonly string[] _verticalAligns = { "baseline", "sub", "super", "top", "text-top", "middle", "bottom", "text-bottom" };
+        private static readonly string[] _verticalAligns = {"baseline", "sub", "super", "top", "text-top", "middle", "bottom", "text-bottom"};
 
         private static void ParseCssVerticalAlign(string styleValue, ref int nextIndex, Hashtable localProperties) {
             //  Parse percentage value for vertical-align style
@@ -626,7 +633,7 @@ namespace MONI.Util.Markdown
         //
         // .................................................................
 
-        private static readonly string[] _floats = { "left", "right", "none" };
+        private static readonly string[] _floats = {"left", "right", "none"};
 
         private static void ParseCssFloat(string styleValue, ref int nextIndex, Hashtable localProperties) {
             ParseWordEnumeration(_floats, styleValue, ref nextIndex, localProperties, "float");
@@ -638,7 +645,7 @@ namespace MONI.Util.Markdown
         //
         // .................................................................
 
-        private static readonly string[] _clears = { "none", "left", "right", "both" };
+        private static readonly string[] _clears = {"none", "left", "right", "both"};
 
         private static void ParseCssClear(string styleValue, ref int nextIndex, Hashtable localProperties) {
             ParseWordEnumeration(_clears, styleValue, ref nextIndex, localProperties, "clear");
@@ -723,7 +730,7 @@ namespace MONI.Util.Markdown
         //
         // .................................................................
 
-        private static readonly string[] _borderStyles = { "none", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset" };
+        private static readonly string[] _borderStyles = {"none", "dotted", "dashed", "solid", "double", "groove", "ridge", "inset", "outset"};
 
         private static string ParseCssBorderStyle(string styleValue, ref int nextIndex) {
             return ParseWordEnumeration(_borderStyles, styleValue, ref nextIndex);
@@ -735,7 +742,7 @@ namespace MONI.Util.Markdown
         //
         // .................................................................
 
-        private static string[] _blocks = { "block", "inline", "list-item", "none" };
+        private static string[] _blocks = {"block", "inline", "list-item", "none"};
 
         // .................................................................
         //
@@ -907,12 +914,14 @@ namespace MONI.Util.Markdown
                     selectorTag = selectorLevel.Substring(0, indexOfDot);
                 }
                 selectorClass = selectorLevel.Substring(indexOfDot + 1);
-            } else if (indexOfPound >= 0) {
+            }
+            else if (indexOfPound >= 0) {
                 if (indexOfPound > 0) {
                     selectorTag = selectorLevel.Substring(0, indexOfPound);
                 }
                 selectorId = selectorLevel.Substring(indexOfPound + 1);
-            } else {
+            }
+            else {
                 selectorTag = selectorLevel;
             }
 
@@ -1015,42 +1024,50 @@ namespace MONI.Util.Markdown
                     // advance
                     GetNextCharacter();
                     _ignoreNextWhitespace = false; // Whitespaces after closing tags are significant
-                } else {
+                }
+                else {
                     _nextTokenType = HtmlTokenType.OpeningTagStart;
                     _nextToken.Append("<");
                     _ignoreNextWhitespace = true; // Whitespaces after opening tags are insignificant
                 }
-            } else if (IsAtDirectiveStart) {
+            }
+            else if (IsAtDirectiveStart) {
                 // either a comment or CDATA
                 GetNextCharacter();
                 if (_lookAheadCharacter == '[') {
                     // cdata
                     ReadDynamicContent();
-                } else if (_lookAheadCharacter == '-') {
+                }
+                else if (_lookAheadCharacter == '-') {
                     ReadComment();
-                } else {
+                }
+                else {
                     // neither a comment nor cdata, should be something like DOCTYPE
                     // skip till the next tag ender
                     ReadUnknownDirective();
                 }
-            } else {
+            }
+            else {
                 // read text content, unless you encounter a tag
                 _nextTokenType = HtmlTokenType.Text;
                 while (!IsAtTagStart && !IsAtEndOfStream && !IsAtDirectiveStart) {
                     if (NextCharacter == '<' && !IsNextCharacterEntity && _lookAheadCharacter == '?') {
                         // ignore processing directive
                         SkipProcessingDirective();
-                    } else {
+                    }
+                    else {
                         if (NextCharacter <= ' ') {
                             //  Respect xml:preserve or its equivalents for whitespace processing
                             if (_ignoreNextWhitespace) {
                                 // Ignore repeated whitespaces
-                            } else {
+                            }
+                            else {
                                 // Treat any control character sequence as one whitespace
                                 _nextToken.Append(' ');
                             }
                             _ignoreNextWhitespace = true; // and keep ignoring the following whitespaces
-                        } else {
+                        }
+                        else {
                             _nextToken.Append(NextCharacter);
                             _ignoreNextWhitespace = false;
                         }
@@ -1079,14 +1096,16 @@ namespace MONI.Util.Markdown
                 _nextToken.Append('>');
                 GetNextCharacter();
                 // Note: _ignoreNextWhitespace must be set appropriately on tag start processing
-            } else if (NextCharacter == '/' && _lookAheadCharacter == '>') {
+            }
+            else if (NextCharacter == '/' && _lookAheadCharacter == '>') {
                 // could be start of closing of empty tag
                 _nextTokenType = HtmlTokenType.EmptyTagEnd;
                 _nextToken.Append("/>");
                 GetNextCharacter();
                 GetNextCharacter();
                 _ignoreNextWhitespace = false; // Whitespace after no-scope tags are sifnificant
-            } else if (IsGoodForNameStart(NextCharacter)) {
+            }
+            else if (IsGoodForNameStart(NextCharacter)) {
                 _nextTokenType = HtmlTokenType.Name;
 
                 // starts a name
@@ -1099,7 +1118,8 @@ namespace MONI.Util.Markdown
                     _nextToken.Append(NextCharacter);
                     GetNextCharacter();
                 }
-            } else {
+            }
+            else {
                 // Unexpected type of token for a tag. Reprot one character as Atom, expecting that HtmlParser will ignore it.
                 _nextTokenType = HtmlTokenType.Atom;
                 _nextToken.Append(NextCharacter);
@@ -1162,7 +1182,8 @@ namespace MONI.Util.Markdown
                 // however, we could stop when we encounter end of file or an angle bracket of any kind
                 // and assume there was a quote there
                 // so the attribute value may be meaningless but it is never treated as text
-            } else {
+            }
+            else {
                 while (!IsAtEndOfStream && !Char.IsWhiteSpace(NextCharacter) && NextCharacter != '>') {
                     _nextToken.Append(NextCharacter);
                     GetNextCharacter();
@@ -1180,11 +1201,13 @@ namespace MONI.Util.Markdown
 
         #region Internal Properties
 
-        internal HtmlTokenType NextTokenType {
+        internal HtmlTokenType NextTokenType
+        {
             get { return _nextTokenType; }
         }
 
-        internal string NextToken {
+        internal string NextToken
+        {
             get { return _nextToken.ToString(); }
         }
 
@@ -1230,7 +1253,7 @@ namespace MONI.Util.Markdown
 
                     // largest numeric entity is 7 characters
                     for (int i = 0; i < 7 && Char.IsDigit(_lookAheadCharacter); i++) {
-                        entityCode = 10*entityCode + (_lookAheadCharacterCode - (int) '0');
+                        entityCode = 10 * entityCode + (_lookAheadCharacterCode - (int) '0');
                         ReadLookAheadCharacter();
                     }
                     if (_lookAheadCharacter == ';') {
@@ -1243,7 +1266,8 @@ namespace MONI.Util.Markdown
 
                         // as far as we are concerned, this is an entity
                         _isNextCharacterEntity = true;
-                    } else {
+                    }
+                    else {
                         // not an entity, set next character to the current lookahread character
                         // we would have eaten up some digits
                         _nextCharacter = _lookAheadCharacter;
@@ -1251,7 +1275,8 @@ namespace MONI.Util.Markdown
                         ReadLookAheadCharacter();
                         _isNextCharacterEntity = false;
                     }
-                } else if (Char.IsLetter(_lookAheadCharacter)) {
+                }
+                else if (Char.IsLetter(_lookAheadCharacter)) {
                     // entity is written as a string
                     string entity = "";
 
@@ -1268,7 +1293,8 @@ namespace MONI.Util.Markdown
                             _nextCharacter = HtmlSchema.EntityCharacterValue(entity);
                             _nextCharacterCode = (int) _nextCharacter;
                             _isNextCharacterEntity = true;
-                        } else {
+                        }
+                        else {
                             // just skip the whole thing - invalid entity
                             // move on to the next character
                             _nextCharacter = _lookAheadCharacter;
@@ -1278,7 +1304,8 @@ namespace MONI.Util.Markdown
                             // not an entity
                             _isNextCharacterEntity = false;
                         }
-                    } else {
+                    }
+                    else {
                         // skip whatever we read after the ampersand
                         // set next character and move on
                         _nextCharacter = _lookAheadCharacter;
@@ -1316,7 +1343,8 @@ namespace MONI.Util.Markdown
                         if (_nextCharacter == '>') {
                             GetNextCharacter();
                         }
-                    } else {
+                    }
+                    else {
                         // Skip processing instruction, comments
                         while (!IsAtEndOfStream && _nextCharacter != '>') {
                             GetNextCharacter();
@@ -1475,10 +1503,12 @@ namespace MONI.Util.Markdown
                     // Standard comment end. Eat it and exit the loop
                     GetNextCharacter(); // get '>'
                     break;
-                } else if (_previousCharacter == '!' && _nextCharacter == '>') {
+                }
+                else if (_previousCharacter == '!' && _nextCharacter == '>') {
                     // Nonstandard but possible comment end - '!>'. Exit the loop
                     break;
-                } else {
+                }
+                else {
                     // Not an end. Save character and continue continue reading
                     _nextToken.Append(_previousCharacter);
                     continue;
@@ -1557,31 +1587,38 @@ namespace MONI.Util.Markdown
 
         #region Private Properties
 
-        private char NextCharacter {
+        private char NextCharacter
+        {
             get { return _nextCharacter; }
         }
 
-        private bool IsAtEndOfStream {
+        private bool IsAtEndOfStream
+        {
             get { return _nextCharacterCode == -1; }
         }
 
-        private bool IsAtTagStart {
-            get {
+        private bool IsAtTagStart
+        {
+            get
+            {
                 return _nextCharacter == '<' && (_lookAheadCharacter == '/' || IsGoodForNameStart(_lookAheadCharacter)) &&
                        !_isNextCharacterEntity;
             }
         }
 
-        private bool IsAtTagEnd {
+        private bool IsAtTagEnd
+        {
             // check if at end of empty tag or regular tag
             get { return (_nextCharacter == '>' || (_nextCharacter == '/' && _lookAheadCharacter == '>')) && !_isNextCharacterEntity; }
         }
 
-        private bool IsAtDirectiveStart {
+        private bool IsAtDirectiveStart
+        {
             get { return (_nextCharacter == '<' && _lookAheadCharacter == '!' && !IsNextCharacterEntity); }
         }
 
-        private bool IsNextCharacterEntity {
+        private bool IsNextCharacterEntity
+        {
             // check if next character is an entity
             get { return _isNextCharacterEntity; }
         }
@@ -1768,7 +1805,8 @@ namespace MONI.Util.Markdown
             // we do not convert entity strings to lowercase because these names are case-sensitive
             if (_htmlCharacterEntities.Contains(entityName)) {
                 return true;
-            } else {
+            }
+            else {
                 return false;
             }
         }
@@ -1783,7 +1821,8 @@ namespace MONI.Util.Markdown
         internal static char EntityCharacterValue(string entityName) {
             if (_htmlCharacterEntities.Contains(entityName)) {
                 return (char) _htmlCharacterEntities[entityName];
-            } else {
+            }
+            else {
                 return (char) 0;
             }
         }
@@ -2475,18 +2514,20 @@ namespace MONI.Util.Markdown
 
             // each of 6 numbers is represented by "{0:D10}" in the format string
             // must actually occupy 10 digit positions ("0123456789")
-            int startHTML = HtmlHeader.Length + 6*("0123456789".Length - "{0:D10}".Length);
+            int startHTML = HtmlHeader.Length + 6 * ("0123456789".Length - "{0:D10}".Length);
             int endHTML = startHTML + htmlString.Length;
             int startFragment = htmlString.IndexOf(HtmlStartFragmentComment, 0);
             if (startFragment >= 0) {
                 startFragment = startHTML + startFragment + HtmlStartFragmentComment.Length;
-            } else {
+            }
+            else {
                 startFragment = startHTML;
             }
             int endFragment = htmlString.IndexOf(HtmlEndFragmentComment, 0);
             if (endFragment >= 0) {
                 endFragment = startHTML + endFragment;
-            } else {
+            }
+            else {
                 endFragment = endHTML;
             }
 
@@ -2543,28 +2584,33 @@ namespace MONI.Util.Markdown
                         if (_htmlLexicalAnalyzer.NextTokenType == HtmlTokenType.EmptyTagEnd || HtmlSchema.IsEmptyElement(htmlElementName)) {
                             // It is an element without content (because of explicit slash or based on implicit knowledge aboout html)
                             AddEmptyElement(htmlElement);
-                        } else if (HtmlSchema.IsInlineElement(htmlElementName)) {
+                        }
+                        else if (HtmlSchema.IsInlineElement(htmlElementName)) {
                             // Elements known as formatting are pushed to some special
                             // pending stack, which allows them to be transferred
                             // over block tags - by doing this we convert
                             // overlapping tags into normal heirarchical element structure.
                             OpenInlineElement(htmlElement);
-                        } else if (HtmlSchema.IsBlockElement(htmlElementName) || HtmlSchema.IsKnownOpenableElement(htmlElementName)) {
+                        }
+                        else if (HtmlSchema.IsBlockElement(htmlElementName) || HtmlSchema.IsKnownOpenableElement(htmlElementName)) {
                             // This includes no-scope elements
                             OpenStructuringElement(htmlElement);
-                        } else {
+                        }
+                        else {
                             // Do nothing. Skip the whole opening tag.
                             // Ignoring all unknown elements on their start tags.
                             // Thus we will ignore them on closinng tag as well.
                             // Anyway we don't know what to do withthem on conversion to Xaml.
                         }
-                    } else {
+                    }
+                    else {
                         // Note that the token following opening angle bracket must be a name - lexical analyzer must guarantee that.
                         // Otherwise - we skip the angle bracket and continue parsing the content as if it is just text.
                         //  Add the following asserion here, right? or output "<" as a text run instead?:
                         // InvariantAssert(false, "Angle bracket without a following name is not expected");
                     }
-                } else if (_htmlLexicalAnalyzer.NextTokenType == HtmlTokenType.ClosingTagStart) {
+                }
+                else if (_htmlLexicalAnalyzer.NextTokenType == HtmlTokenType.ClosingTagStart) {
                     _htmlLexicalAnalyzer.GetNextTagToken();
                     if (_htmlLexicalAnalyzer.NextTokenType == HtmlTokenType.Name) {
                         string htmlElementName = _htmlLexicalAnalyzer.NextToken.ToLower();
@@ -2576,9 +2622,11 @@ namespace MONI.Util.Markdown
 
                         CloseElement(htmlElementName);
                     }
-                } else if (_htmlLexicalAnalyzer.NextTokenType == HtmlTokenType.Text) {
+                }
+                else if (_htmlLexicalAnalyzer.NextTokenType == HtmlTokenType.Text) {
                     AddTextContent(_htmlLexicalAnalyzer.NextToken);
-                } else if (_htmlLexicalAnalyzer.NextTokenType == HtmlTokenType.Comment) {
+                }
+                else if (_htmlLexicalAnalyzer.NextTokenType == HtmlTokenType.Comment) {
                     AddComment(_htmlLexicalAnalyzer.NextToken);
                 }
 
@@ -2677,7 +2725,8 @@ namespace MONI.Util.Markdown
                 XmlElement htmlParent = _openedElements.Peek();
                 htmlParent.AppendChild(htmlInlineElement);
                 return;
-            } else if (IsElementOpened(htmlElementName)) {
+            }
+            else if (IsElementOpened(htmlElementName)) {
                 while (_openedElements.Count > 1) // we never pop the last element - the artificial root
                 {
                     // Close all unbalanced elements.
@@ -2780,7 +2829,8 @@ namespace MONI.Util.Markdown
     }
 
     public class HtmlToXamlSettings {
-        public static HtmlToXamlSettings Default {
+        public static HtmlToXamlSettings Default
+        {
             get { return new HtmlToXamlSettings(); }
         }
 
@@ -2800,11 +2850,10 @@ namespace MONI.Util.Markdown
     public static class HtmlToXamlConverter {
         private static HtmlToXamlSettings _settings;
 
-        public static HtmlToXamlSettings Settings {
+        public static HtmlToXamlSettings Settings
+        {
             set { _settings = value; }
-            get {
-                return _settings ?? (_settings = HtmlToXamlSettings.Default);
-            }
+            get { return _settings ?? (_settings = HtmlToXamlSettings.Default); }
         }
 
         // ---------------------------------------------------------------------
@@ -2941,9 +2990,11 @@ namespace MONI.Util.Markdown
             CssStylesheet stylesheet, List<XmlElement> sourceContext) {
             if (htmlNode is XmlComment) {
                 DefineInlineFragmentParent((XmlComment) htmlNode, /*xamlParentElement:*/null);
-            } else if (htmlNode is XmlText) {
+            }
+            else if (htmlNode is XmlText) {
                 htmlNode = AddImplicitParagraph(xamlParentElement, htmlNode, inheritedProperties, stylesheet, sourceContext);
-            } else if (htmlNode is XmlElement) {
+            }
+            else if (htmlNode is XmlElement) {
                 // Identify element name
                 XmlElement htmlElement = (XmlElement) htmlNode;
 
@@ -2966,7 +3017,7 @@ namespace MONI.Util.Markdown
 
                 // Switch to an appropriate kind of processing depending on html element name
                 switch (htmlElementName) {
-                        // Sections:
+                    // Sections:
                     case "html":
                     case "body":
                     case "div":
@@ -2979,7 +3030,7 @@ namespace MONI.Util.Markdown
                         AddSection(xamlParentElement, htmlElement, inheritedProperties, stylesheet, sourceContext);
                         break;
 
-                        // Paragraphs:
+                    // Paragraphs:
                     case "p":
                     case "h1":
                     case "h2":
@@ -3113,7 +3164,8 @@ namespace MONI.Util.Markdown
             if (!htmlElementContainsBlocks) {
                 // The Div does not contain any block elements, so we can treat it as a Paragraph
                 AddParagraph(xamlParentElement, htmlElement, inheritedProperties, stylesheet, sourceContext);
-            } else {
+            }
+            else {
                 // The Div has some nested blocks, so we treat it as a Section
 
                 // Create currentProperties as a compilation of local and inheritedProperties, set localProperties
@@ -3213,16 +3265,19 @@ namespace MONI.Util.Markdown
             while (htmlNode != null) {
                 if (htmlNode is XmlComment) {
                     DefineInlineFragmentParent((XmlComment) htmlNode, /*xamlParentElement:*/null);
-                } else if (htmlNode is XmlText) {
+                }
+                else if (htmlNode is XmlText) {
                     if (htmlNode.Value.Trim().Length > 0) {
                         AddTextRun(xamlParagraph, htmlNode.Value);
                     }
-                } else if (htmlNode is XmlElement) {
+                }
+                else if (htmlNode is XmlElement) {
                     string htmlChildName = ((XmlElement) htmlNode).LocalName.ToLower();
                     if (HtmlSchema.IsBlockElement(htmlChildName)) {
                         // The sequence of non-blocked inlines ended. Stop implicit loop here.
                         break;
-                    } else {
+                    }
+                    else {
                         AddInline(xamlParagraph, (XmlElement) htmlNode, inheritedProperties, stylesheet, sourceContext);
                     }
                 }
@@ -3253,9 +3308,11 @@ namespace MONI.Util.Markdown
             CssStylesheet stylesheet, List<XmlElement> sourceContext) {
             if (htmlNode is XmlComment) {
                 DefineInlineFragmentParent((XmlComment) htmlNode, xamlParentElement);
-            } else if (htmlNode is XmlText) {
+            }
+            else if (htmlNode is XmlText) {
                 AddTextRun(xamlParentElement, htmlNode.Value);
-            } else if (htmlNode is XmlElement) {
+            }
+            else if (htmlNode is XmlElement) {
                 XmlElement htmlElement = (XmlElement) htmlNode;
 
                 // Check whether this is an html element
@@ -3359,7 +3416,8 @@ namespace MONI.Util.Markdown
             if (href == null) {
                 // When href attribute is missing - ignore the hyperlink
                 AddSpanOrRun(xamlParentElement, htmlElement, inheritedProperties, stylesheet, sourceContext);
-            } else {
+            }
+            else {
                 // Create currentProperties as a compilation of local and inheritedProperties, set localProperties
                 Hashtable localProperties;
                 Hashtable currentProperties = GetElementProperties(htmlElement, inheritedProperties, out localProperties, stylesheet,
@@ -3370,7 +3428,7 @@ namespace MONI.Util.Markdown
                     null, /*localName:*/Xaml_Hyperlink, _xamlNamespace);
                 ApplyLocalProperties(xamlElement, localProperties, /*isBlock:*/false);
 
-                string[] hrefParts = href.Split(new char[] { '#' });
+                string[] hrefParts = href.Split(new char[] {'#'});
                 if (hrefParts.Length > 0 && hrefParts[0].Trim().Length > 0) {
                     xamlElement.SetAttribute(Xaml_Hyperlink_NavigateUri, hrefParts[0].Trim());
                 }
@@ -3397,7 +3455,8 @@ namespace MONI.Util.Markdown
         private static void DefineInlineFragmentParent(XmlComment htmlComment, XmlElement xamlParentElement) {
             if (htmlComment.Value == "StartFragment") {
                 InlineFragmentParentElement = xamlParentElement;
-            } else if (htmlComment.Value == "EndFragment") {
+            }
+            else if (htmlComment.Value == "EndFragment") {
                 if (InlineFragmentParentElement == null && xamlParentElement != null) {
                     // Normally this cannot happen if comments produced by correct copying code
                     // in Word or IE, but when it is produced manually then fragment boundary
@@ -3416,7 +3475,8 @@ namespace MONI.Util.Markdown
             if (InlineFragmentParentElement != null) {
                 if (InlineFragmentParentElement.LocalName == Xaml_Span) {
                     xamlFlowDocumentElement = InlineFragmentParentElement;
-                } else {
+                }
+                else {
                     xamlFlowDocumentElement = xamlFlowDocumentElement.OwnerDocument.CreateElement( /*prefix:*/
                         null, /*localName:*/Xaml_Span, _xamlNamespace);
                     while (InlineFragmentParentElement.FirstChild != null) {
@@ -3477,7 +3537,8 @@ namespace MONI.Util.Markdown
             if (htmlListElementName == "ol") {
                 // Ordered list
                 xamlListElement.SetAttribute(Xaml_List_MarkerStyle, Xaml_List_MarkerStyle_Decimal);
-            } else {
+            }
+            else {
                 // Unordered list - all elements other than OL treated as unordered lists
                 xamlListElement.SetAttribute(Xaml_List_MarkerStyle, Xaml_List_MarkerStyle_Disc);
             }
@@ -3493,7 +3554,8 @@ namespace MONI.Util.Markdown
                     AddListItem(xamlListElement, (XmlElement) htmlChildNode, currentProperties, stylesheet, sourceContext);
                     Debug.Assert(sourceContext.Count > 0 && sourceContext[sourceContext.Count - 1] == htmlChildNode);
                     sourceContext.RemoveAt(sourceContext.Count - 1);
-                } else {
+                }
+                else {
                     // Not an li element. Add it to previous ListBoxItem
                     //  We need to append the content to the end
                     // of a previous list item.
@@ -3536,7 +3598,8 @@ namespace MONI.Util.Markdown
             if (xamlListItemElementPreviousSibling != null && xamlListItemElementPreviousSibling.LocalName == Xaml_List) {
                 // Previously added Xaml element was a list. We will add the new li to it
                 xamlListElement = (XmlElement) xamlListItemElementPreviousSibling;
-            } else {
+            }
+            else {
                 // No list element near. Create our own.
                 xamlListElement = xamlParentElement.OwnerDocument.CreateElement(null, Xaml_List, _xamlNamespace);
                 xamlParentElement.AppendChild(xamlListElement);
@@ -3647,7 +3710,8 @@ namespace MONI.Util.Markdown
 
                 Debug.Assert(sourceContext.Count > 0 && sourceContext[sourceContext.Count - 1] == singleCell);
                 sourceContext.RemoveAt(sourceContext.Count - 1);
-            } else {
+            }
+            else {
                 // Create xamlTableElement
                 XmlElement xamlTableElement = xamlParentElement.OwnerDocument.CreateElement(null, Xaml_Table, _xamlNamespace);
 
@@ -3690,7 +3754,8 @@ namespace MONI.Util.Markdown
                         sourceContext.RemoveAt(sourceContext.Count - 1);
 
                         htmlChildNode = htmlChildNode.NextSibling;
-                    } else if (htmlChildName == "tr") {
+                    }
+                    else if (htmlChildName == "tr") {
                         // Tbody is not present, but tr element is present. Tr is wrapped in tbody
                         XmlElement xamlTableBodyElement = xamlTableElement.OwnerDocument.CreateElement(null, Xaml_TableRowGroup,
                             _xamlNamespace);
@@ -3703,7 +3768,8 @@ namespace MONI.Util.Markdown
                         if (xamlTableBodyElement.HasChildNodes) {
                             xamlTableElement.AppendChild(xamlTableBodyElement);
                         }
-                    } else {
+                    }
+                    else {
                         // Element is not tbody or tr. Ignore it.
                         // TODO: add processing for thead, tfoot elements and recovery for td elements
                         htmlChildNode = htmlChildNode.NextSibling;
@@ -3741,7 +3807,8 @@ namespace MONI.Util.Markdown
                             }
                         }
                     }
-                } else if (tableChild.LocalName.ToLower() == "tr") {
+                }
+                else if (tableChild.LocalName.ToLower() == "tr") {
                     if (singleCell != null) {
                         return null;
                     }
@@ -3792,16 +3859,19 @@ namespace MONI.Util.Markdown
                         ((double) columnStartsAllRows[columnIndex + 1] - (double) columnStartsAllRows[columnIndex]).ToString());
                     xamlTableElement.AppendChild(xamlColumnElement);
                 }
-            } else {
+            }
+            else {
                 // We do not have consistent information from table cells;
                 // Translate blindly colgroups from html.
                 for (XmlNode htmlChildNode = htmlTableElement.FirstChild; htmlChildNode != null; htmlChildNode = htmlChildNode.NextSibling) {
                     if (htmlChildNode.LocalName.ToLower() == "colgroup") {
                         // TODO: add column width information to this function as a parameter and process it
                         AddTableColumnGroup(xamlTableElement, (XmlElement) htmlChildNode, currentProperties, stylesheet, sourceContext);
-                    } else if (htmlChildNode.LocalName.ToLower() == "col") {
+                    }
+                    else if (htmlChildNode.LocalName.ToLower() == "col") {
                         AddTableColumn(xamlTableElement, (XmlElement) htmlChildNode, currentProperties, stylesheet, sourceContext);
-                    } else if (htmlChildNode is XmlElement) {
+                    }
+                    else if (htmlChildNode is XmlElement) {
                         // Some element which belongs to table body. Stop column loop.
                         break;
                     }
@@ -3921,7 +3991,8 @@ namespace MONI.Util.Markdown
 
                     // Advance
                     htmlChildNode = htmlChildNode.NextSibling;
-                } else if (htmlChildNode.LocalName.ToLower() == "td") {
+                }
+                else if (htmlChildNode.LocalName.ToLower() == "td") {
                     // Tr element is not present. We create one and add td elements to it
                     XmlElement xamlTableRowElement = xamlTableBodyElement.OwnerDocument.CreateElement(null, Xaml_TableRow, _xamlNamespace);
 
@@ -3933,7 +4004,8 @@ namespace MONI.Util.Markdown
                     if (xamlTableRowElement.HasChildNodes) {
                         xamlTableBodyElement.AppendChild(xamlTableRowElement);
                     }
-                } else {
+                }
+                else {
                     // Not a tr or td  element. Ignore it.
                     // TODO: consider better recovery here
                     htmlChildNode = htmlChildNode.NextSibling;
@@ -4025,7 +4097,8 @@ namespace MONI.Util.Markdown
                     sourceContext.RemoveAt(sourceContext.Count - 1);
 
                     htmlChildNode = htmlChildNode.NextSibling;
-                } else {
+                }
+                else {
                     // Not td element. Ignore it.
                     // TODO: Consider better recovery
                     htmlChildNode = htmlChildNode.NextSibling;
@@ -4099,7 +4172,8 @@ namespace MONI.Util.Markdown
                         if (tbodyWidth > tableWidth) {
                             // Table width must be increased to supported newly added wide row
                             tableWidth = tbodyWidth;
-                        } else if (tbodyWidth == 0) {
+                        }
+                        else if (tbodyWidth == 0) {
                             // Tbody analysis may return 0, probably due to unprocessable format.
                             // We should also fail.
                             columnWidthsAvailable = false; // interrupt the analisys
@@ -4110,7 +4184,8 @@ namespace MONI.Util.Markdown
                         double trWidth = AnalyzeTRStructure((XmlElement) htmlChildNode, columnStarts, activeRowSpans, tableWidth, stylesheet);
                         if (trWidth > tableWidth) {
                             tableWidth = trWidth;
-                        } else if (trWidth == 0) {
+                        }
+                        else if (trWidth == 0) {
                             columnWidthsAvailable = false; // interrupt the analisys
                         }
                         break;
@@ -4131,7 +4206,8 @@ namespace MONI.Util.Markdown
                 // Add an item for whole table width
                 columnStarts.Add(tableWidth);
                 VerifyColumnStartsAscendingOrder(columnStarts);
-            } else {
+            }
+            else {
                 columnStarts = null;
             }
 
@@ -4272,7 +4348,8 @@ namespace MONI.Util.Markdown
                                 // Row spans may appear only during the column analysis
                                 activeRowSpans.Insert(columnIndex, 0);
                             }
-                        } else {
+                        }
+                        else {
                             // Column start is greater than all previous starts. Row span must still be 0 because
                             // we are either adding after another column of the same row, in which case it should not inherit
                             // the previous column's span. Otherwise we are adding after the last column of some previous
@@ -4319,12 +4396,14 @@ namespace MONI.Util.Markdown
                                     // so we don't have to check it for active row spans, it starts in the middle
                                     // of another column which has been checked already by the GetNextColumnIndex function
                                 }
-                            } else {
+                            }
+                            else {
                                 // Full column width cannot be processed without a pre existing row span.
                                 // We cannot analyze widths
                                 columnWidthsAvailable = false;
                             }
-                        } else {
+                        }
+                        else {
                             // Incorrect column width, stop processing
                             columnWidthsAvailable = false;
                         }
@@ -4340,7 +4419,8 @@ namespace MONI.Util.Markdown
             // the columnStart value after each td element is processed
             if (columnWidthsAvailable) {
                 trWidth = columnStart;
-            } else {
+            }
+            else {
                 trWidth = 0;
             }
 
@@ -4364,7 +4444,8 @@ namespace MONI.Util.Markdown
                     // Ignore invalid value of rowspan; treat it as 1
                     rowSpan = 1;
                 }
-            } else {
+            }
+            else {
                 // No row span, default is 1
                 rowSpan = 1;
             }
@@ -4406,7 +4487,8 @@ namespace MONI.Util.Markdown
                     // The current column should span this area, but something else is already spanning it
                     // Not analyzable
                     spannedColumnIndex = -1;
-                } else {
+                }
+                else {
                     spannedColumnIndex++;
                 }
             }
@@ -4465,7 +4547,8 @@ namespace MONI.Util.Markdown
 
             if (columnWidth == -1) {
                 nextColumnStart = -1;
-            } else {
+            }
+            else {
                 nextColumnStart = columnStart + columnWidth;
             }
 
@@ -4689,8 +4772,8 @@ namespace MONI.Util.Markdown
                         paddingLeft = (string) propertyEnumerator.Value;
                         break;
 
-                        // NOTE: css names for elementary border styles have side indications in the middle (top/bottom/left/right)
-                        // In our internal notation we intentionally put them at the end - to unify processing in ParseCssRectangleProperty method
+                    // NOTE: css names for elementary border styles have side indications in the middle (top/bottom/left/right)
+                    // In our internal notation we intentionally put them at the end - to unify processing in ParseCssRectangleProperty method
                     case "border-color-top":
                         borderColor = (string) propertyEnumerator.Value;
                         break;
@@ -4831,10 +4914,12 @@ namespace MONI.Util.Markdown
             if (left == right && top == bottom) {
                 if (left == top) {
                     thickness = left;
-                } else {
+                }
+                else {
                     thickness = left + "," + top;
                 }
-            } else {
+            }
+            else {
                 thickness = left + "," + top + "," + right + "," + bottom;
             }
 
@@ -4849,7 +4934,8 @@ namespace MONI.Util.Markdown
                 if (convertedValue != null) {
                     xamlElement.SetAttribute(property.Name, stringValue);
                 }
-            } catch (Exception) {
+            }
+            catch (Exception) {
             }
         }
 
@@ -4889,7 +4975,7 @@ namespace MONI.Util.Markdown
 
             localProperties = new Hashtable();
             switch (elementName) {
-                    // Character formatting
+                // Character formatting
                 case "i":
                 case "italic":
                 case "em":
@@ -4912,10 +4998,11 @@ namespace MONI.Util.Markdown
                     }
                     attributeValue = GetAttribute(htmlElement, "size");
                     if (attributeValue != null) {
-                        double fontSize = double.Parse(attributeValue)*(12.0/3.0);
+                        double fontSize = double.Parse(attributeValue) * (12.0 / 3.0);
                         if (fontSize < 1.0) {
                             fontSize = 1.0;
-                        } else if (fontSize > 1000.0) {
+                        }
+                        else if (fontSize > 1000.0) {
                             fontSize = 1000.0;
                         }
                         localProperties["font-size"] = fontSize.ToString();
@@ -4935,14 +5022,14 @@ namespace MONI.Util.Markdown
                 case "sup":
                     break;
 
-                    // Hyperlinks
+                // Hyperlinks
                 case "a": // href, hreflang, urn, methods, rel, rev, title
                     //  Set default hyperlink properties
                     break;
                 case "acronym":
                     break;
 
-                    // Paragraph formatting:
+                // Paragraph formatting:
                 case "p":
                     //  Set default paragraph properties
                     break;
@@ -4976,7 +5063,7 @@ namespace MONI.Util.Markdown
                 case "h6":
                     localProperties["font-size"] = Settings.Header6FontSize;
                     break;
-                    // List properties
+                // List properties
                 case "ul":
                     localProperties["list-style-type"] = "disc";
                     break;
@@ -5058,16 +5145,19 @@ namespace MONI.Util.Markdown
                 if (lengthAsString.EndsWith("pt")) {
                     lengthAsString = lengthAsString.Substring(0, lengthAsString.Length - 2);
                     if (Double.TryParse(lengthAsString, out length)) {
-                        length = (length*96.0)/72.0; // convert from points to pixels
-                    } else {
+                        length = (length * 96.0) / 72.0; // convert from points to pixels
+                    }
+                    else {
                         length = Double.NaN;
                     }
-                } else if (lengthAsString.EndsWith("px")) {
+                }
+                else if (lengthAsString.EndsWith("px")) {
                     lengthAsString = lengthAsString.Substring(0, lengthAsString.Length - 2);
                     if (!Double.TryParse(lengthAsString, out length)) {
                         length = Double.NaN;
                     }
-                } else {
+                }
+                else {
                     if (!Double.TryParse(lengthAsString, out length)) // Assuming pixels
                     {
                         length = Double.NaN;
@@ -5325,8 +5415,8 @@ namespace MONI.Util.Markdown
                 string css = null;
 
                 switch (xamlReader.Name) {
-                        // Character fomatting properties
-                        // ------------------------------
+                    // Character fomatting properties
+                    // ------------------------------
                     case "Background":
                         css = "background-color:" + ParseXamlColor(xamlReader.Value) + ";";
                         break;
@@ -5363,8 +5453,8 @@ namespace MONI.Util.Markdown
                     case "Fraction":
                         break;
 
-                        // Paragraph formatting properties
-                        // -------------------------------
+                    // Paragraph formatting properties
+                    // -------------------------------
                     case "Padding":
                         css = "padding:" + ParseXamlThickness(xamlReader.Value) + ";";
                         break;
@@ -5398,8 +5488,8 @@ namespace MONI.Util.Markdown
                     case "FlowDirection":
                         break;
 
-                        // Table attributes
-                        // ----------------
+                    // Table attributes
+                    // ----------------
                     case "Width":
                         css = "width:" + xamlReader.Value + ";";
                         break;
@@ -5440,7 +5530,8 @@ namespace MONI.Util.Markdown
                 double value;
                 if (double.TryParse(values[i], out value)) {
                     values[i] = Math.Ceiling(value).ToString();
-                } else {
+                }
+                else {
                     values[i] = "1";
                 }
             }
@@ -5490,13 +5581,15 @@ namespace MONI.Util.Markdown
                     inlineStyle.Remove(0, inlineStyle.Length);
                 }
                 elementContentStarted = true;
-            } else {
+            }
+            else {
                 while (ReadNextToken(xamlReader) && xamlReader.NodeType != XmlNodeType.EndElement) {
                     switch (xamlReader.NodeType) {
                         case XmlNodeType.Element:
                             if (xamlReader.Name.Contains(".")) {
                                 AddComplexProperty(xamlReader, inlineStyle);
-                            } else {
+                            }
+                            else {
                                 if (htmlWriter != null && !elementContentStarted && inlineStyle.Length > 0) {
                                     // Output STYLE attribute and clear inlineStyle buffer.
                                     htmlWriter.WriteAttributeString("STYLE", inlineStyle.ToString());
@@ -5576,7 +5669,8 @@ namespace MONI.Util.Markdown
             if (htmlWriter == null) {
                 // Skipping mode; recurse into the xaml element without any output
                 WriteElementContent(xamlReader, /*htmlWriter:*/null, null);
-            } else {
+            }
+            else {
                 string htmlElementName = null;
 
                 switch (xamlReader.Name) {
@@ -5622,7 +5716,8 @@ namespace MONI.Util.Markdown
                         if (marker == null || marker == "None" || marker == "Disc" || marker == "Circle" || marker == "Square" ||
                             marker == "Box") {
                             htmlElementName = "UL";
-                        } else {
+                        }
+                        else {
                             htmlElementName = "OL";
                         }
                         break;
@@ -5642,7 +5737,8 @@ namespace MONI.Util.Markdown
                     WriteElementContent(xamlReader, htmlWriter, inlineStyle);
 
                     htmlWriter.WriteEndElement();
-                } else {
+                }
+                else {
                     // Skip this unrecognized xaml element
                     WriteElementContent(xamlReader, /*htmlWriter:*/null, null);
                 }

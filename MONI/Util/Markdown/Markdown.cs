@@ -89,35 +89,37 @@ using System.Configuration;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace MONI.Util.Markdown
-{
-
-    public class MarkdownOptions
-    {
+namespace MONI.Util.Markdown {
+    public class MarkdownOptions {
         /// <summary>
         /// when true, (most) bare plain URLs are auto-hyperlinked  
         /// WARNING: this is a significant deviation from the markdown spec
         /// </summary>
         public bool AutoHyperlink { get; set; }
+
         /// <summary>
         /// when true, RETURN becomes a literal newline  
         /// WARNING: this is a significant deviation from the markdown spec
         /// </summary>
         public bool AutoNewlines { get; set; }
+
         /// <summary>
         /// use ">" for HTML output, or " />" for XHTML output
         /// </summary>
         public string EmptyElementSuffix { get; set; }
+
         /// <summary>
         /// when true, problematic URL characters like [, ], (, and so forth will be encoded 
         /// WARNING: this is a significant deviation from the markdown spec
         /// </summary>
         public bool EncodeProblemUrlCharacters { get; set; }
+
         /// <summary>
         /// when false, email addresses will never be auto-linked  
         /// WARNING: this is a significant deviation from the markdown spec
         /// </summary>
         public bool LinkEmails { get; set; }
+
         /// <summary>
         /// when true, bold and italic require non-word characters on either side  
         /// WARNING: this is a significant deviation from the markdown spec
@@ -131,8 +133,7 @@ namespace MONI.Util.Markdown
     /// Markdown allows you to write using an easy-to-read, easy-to-write plain text format, 
     /// then convert it to structurally valid XHTML (or HTML).
     /// </summary>
-    public class Markdown
-    {
+    public class Markdown {
         private const string _version = "1.13";
 
         #region Constructors and Options
@@ -140,8 +141,7 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Create a new Markdown instance using default options
         /// </summary>
-        public Markdown() : this(false)
-        {
+        public Markdown() : this(false) {
         }
 
         /// <summary>
@@ -156,15 +156,12 @@ namespace MONI.Util.Markdown
         ///     Markdown.EncodeProblemUrlCharacters (true/false) 
         ///     
         /// </summary>
-        public Markdown(bool loadOptionsFromConfigFile)
-        {
-            if (!loadOptionsFromConfigFile) return;
+        public Markdown(bool loadOptionsFromConfigFile) {
+            if (!loadOptionsFromConfigFile) { return; }
 
             var settings = ConfigurationManager.AppSettings;
-            foreach (string key in settings.Keys)
-            {
-                switch (key)
-                {
+            foreach (string key in settings.Keys) {
+                switch (key) {
                     case "Markdown.AutoHyperlink":
                         this._autoHyperlink = Convert.ToBoolean(settings[key]);
                         break;
@@ -190,8 +187,7 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Create a new Markdown instance and set the options from the MarkdownOptions object.
         /// </summary>
-        public Markdown(MarkdownOptions options)
-        {
+        public Markdown(MarkdownOptions options) {
             this._autoHyperlink = options.AutoHyperlink;
             this._autoNewlines = options.AutoNewlines;
             this._emptyElementSuffix = options.EmptyElementSuffix;
@@ -209,6 +205,7 @@ namespace MONI.Util.Markdown
             get { return this._emptyElementSuffix; }
             set { this._emptyElementSuffix = value; }
         }
+
         private string _emptyElementSuffix = " />";
 
         /// <summary>
@@ -220,6 +217,7 @@ namespace MONI.Util.Markdown
             get { return this._linkEmails; }
             set { this._linkEmails = value; }
         }
+
         private bool _linkEmails = true;
 
         /// <summary>
@@ -231,6 +229,7 @@ namespace MONI.Util.Markdown
             get { return this._strictBoldItalic; }
             set { this._strictBoldItalic = value; }
         }
+
         private bool _strictBoldItalic = false;
 
         /// <summary>
@@ -242,6 +241,7 @@ namespace MONI.Util.Markdown
             get { return this._autoNewlines; }
             set { this._autoNewlines = value; }
         }
+
         private bool _autoNewlines = false;
 
         /// <summary>
@@ -253,6 +253,7 @@ namespace MONI.Util.Markdown
             get { return this._autoHyperlink; }
             set { this._autoHyperlink = value; }
         }
+
         private bool _autoHyperlink = false;
 
         /// <summary>
@@ -264,19 +265,22 @@ namespace MONI.Util.Markdown
             get { return this._encodeProblemUrlCharacters; }
             set { this._encodeProblemUrlCharacters = value; }
         }
+
         private bool _encodeProblemUrlCharacters = false;
 
         #endregion
 
-        private enum TokenType { Text, Tag }
+        private enum TokenType {
+            Text,
+            Tag
+        }
 
-        private struct Token
-        {
-            public Token(TokenType type, string value)
-            {
+        private struct Token {
+            public Token(TokenType type, string value) {
                 this.Type = type;
                 this.Value = value;
             }
+
             public TokenType Type;
             public string Value;
         }
@@ -297,7 +301,7 @@ namespace MONI.Util.Markdown
 
         private static readonly Dictionary<string, string> _escapeTable;
         private static readonly Dictionary<string, string> _invertedEscapeTable;
-        private static readonly Dictionary<string, string> _backslashEscapeTable;        
+        private static readonly Dictionary<string, string> _backslashEscapeTable;
 
         private readonly Dictionary<string, string> _urls = new Dictionary<string, string>();
         private readonly Dictionary<string, string> _titles = new Dictionary<string, string>();
@@ -308,8 +312,7 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// In the static constuctor we'll initialize what stays the same across all transforms.
         /// </summary>
-        static Markdown()
-        {
+        static Markdown() {
             // Table of hash values for escaped characters:
             _escapeTable = new Dictionary<string, string>();
             _invertedEscapeTable = new Dictionary<string, string>();
@@ -318,8 +321,7 @@ namespace MONI.Util.Markdown
 
             string backslashPattern = "";
 
-            foreach (char c in @"\`*_{}[]()>#+-.!")
-            {
+            foreach (char c in @"\`*_{}[]()>#+-.!") {
                 string key = c.ToString();
                 string hash = GetHashKey(key);
                 _escapeTable.Add(key, hash);
@@ -350,14 +352,13 @@ namespace MONI.Util.Markdown
         /// EscapeSpecialChars(), so that any *'s or _'s in the a
         /// and img tags get encoded.
         /// </remarks>
-        public string Transform(string text)
-        {
-            if (String.IsNullOrEmpty(text)) return "";
+        public string Transform(string text) {
+            if (String.IsNullOrEmpty(text)) { return ""; }
 
             this.Setup();
 
             text = this.Normalize(text);
-           
+
             text = this.HashHTMLBlocks(text);
             text = this.StripLinkDefinitions(text);
             text = this.RunBlockGamut(text);
@@ -372,8 +373,7 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Perform transformations that form block-level tags like paragraphs, headers, and list items.
         /// </summary>
-        private string RunBlockGamut(string text)
-        {
+        private string RunBlockGamut(string text) {
             text = this.DoHeaders(text);
             text = this.DoHorizontalRules(text);
             text = this.DoLists(text);
@@ -395,8 +395,7 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Perform transformations that occur *within* block-level tags like paragraphs, headers, and list items.
         /// </summary>
-        private string RunSpanGamut(string text)
-        {
+        private string RunSpanGamut(string text) {
             text = this.DoCodeSpans(text);
             text = this.EscapeSpecialCharsWithinTagAttributes(text);
             text = this.EscapeBackslashes(text);
@@ -424,20 +423,16 @@ namespace MONI.Util.Markdown
         /// splits on two or more newlines, to form "paragraphs";    
         /// each paragraph is then unhashed (if it is a hash) or wrapped in HTML p tag
         /// </summary>
-        private string FormParagraphs(string text)
-        {
+        private string FormParagraphs(string text) {
             // split on two or more newlines
             string[] grafs = _newlinesMultiple.Split(_newlinesLeadingTrailing.Replace(text, ""));
-            
-            for (int i = 0; i < grafs.Length; i++)
-            {
-                if (grafs[i].StartsWith("\x1A"))
-                {
+
+            for (int i = 0; i < grafs.Length; i++) {
+                if (grafs[i].StartsWith("\x1A")) {
                     // unhashify HTML blocks
                     grafs[i] = this._htmlBlocks[grafs[i]];
                 }
-                else
-                {
+                else {
                     // do span level processing inside the block, then wrap result in <p> tags
                     grafs[i] = _leadingWhitespace.Replace(this.RunSpanGamut(grafs[i]), "<p>") + "</p>";
                 }
@@ -447,8 +442,7 @@ namespace MONI.Util.Markdown
         }
 
 
-        private void Setup()
-        {
+        private void Setup() {
             // Clear the global hashes. If we don't clear these, you get conflicts
             // from other articles when generating a page which contains more than
             // one article (e.g. an index page that shows the N most recent
@@ -459,8 +453,7 @@ namespace MONI.Util.Markdown
             this._listLevel = 0;
         }
 
-        private void Cleanup()
-        {
+        private void Cleanup() {
             this.Setup();
         }
 
@@ -470,11 +463,10 @@ namespace MONI.Util.Markdown
         /// Reusable pattern to match balanced [brackets]. See Friedl's 
         /// "Mastering Regular Expressions", 2nd Ed., pp. 328-331.
         /// </summary>
-        private static string GetNestedBracketsPattern()
-        {
+        private static string GetNestedBracketsPattern() {
             // in other words [this] and [this[also]] and [this[also[too]]]
             // up to _nestDepth
-            if (_nestedBracketsPattern == null)
+            if (_nestedBracketsPattern == null) {
                 _nestedBracketsPattern =
                     RepeatString(@"
                     (?>              # Atomic matching
@@ -482,9 +474,10 @@ namespace MONI.Util.Markdown
                      |
                        \[
                            ", _nestDepth) + RepeatString(
-                    @" \]
+                        @" \]
                     )*"
-                    , _nestDepth);
+                        , _nestDepth);
+            }
             return _nestedBracketsPattern;
         }
 
@@ -494,11 +487,10 @@ namespace MONI.Util.Markdown
         /// Reusable pattern to match balanced (parens). See Friedl's 
         /// "Mastering Regular Expressions", 2nd Ed., pp. 328-331.
         /// </summary>
-        private static string GetNestedParensPattern()
-        {
+        private static string GetNestedParensPattern() {
             // in other words (this) and (this(also)) and (this(also(too)))
             // up to _nestDepth
-            if (_nestedParensPattern == null)
+            if (_nestedParensPattern == null) {
                 _nestedParensPattern =
                     RepeatString(@"
                     (?>              # Atomic matching
@@ -506,9 +498,10 @@ namespace MONI.Util.Markdown
                      |
                        \(
                            ", _nestDepth) + RepeatString(
-                    @" \)
+                        @" \)
                     )*"
-                    , _nestDepth);
+                        , _nestDepth);
+            }
             return _nestedParensPattern;
         }
 
@@ -536,18 +529,17 @@ namespace MONI.Util.Markdown
         /// <remarks>
         /// ^[id]: url "optional title"
         /// </remarks>
-        private string StripLinkDefinitions(string text)
-        {
+        private string StripLinkDefinitions(string text) {
             return _linkDef.Replace(text, new MatchEvaluator(this.LinkEvaluator));
         }
 
-        private string LinkEvaluator(Match match)
-        {
+        private string LinkEvaluator(Match match) {
             string linkID = match.Groups[1].Value.ToLowerInvariant();
             this._urls[linkID] = this.EncodeAmpsAndAngles(match.Groups[2].Value);
 
-            if (match.Groups[3] != null && match.Groups[3].Length > 0)
+            if (match.Groups[3] != null && match.Groups[3].Length > 0) {
                 this._titles[linkID] = match.Groups[3].Value.Replace("\"", "&quot;");
+            }
 
             return "";
         }
@@ -559,9 +551,7 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// derived pretty much verbatim from PHP Markdown
         /// </summary>
-        private static string GetBlockPattern()
-        {
-
+        private static string GetBlockPattern() {
             // Hashify HTML blocks:
             // We only want to do this for block-level HTML tags, such as headers,
             // lists, and tables. That's because we still want to wrap <p>s around
@@ -603,9 +593,9 @@ namespace MONI.Util.Markdown
                   (?>
                       />
                   |
-                      >", _nestDepth) +   // end of opening tag
-                      ".*?" +             // last level nested tag content
-            RepeatString(@"
+                      >", _nestDepth) + // end of opening tag
+                             ".*?" + // last level nested tag content
+                             RepeatString(@"
                       </\2\s*>	        # closing nested tag
                   )
                   |				
@@ -702,13 +692,11 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// replaces any block-level HTML blocks with hash entries
         /// </summary>
-        private string HashHTMLBlocks(string text)
-        {
+        private string HashHTMLBlocks(string text) {
             return _blocksHtml.Replace(text, new MatchEvaluator(this.HtmlEvaluator));
         }
 
-        private string HtmlEvaluator(Match match)
-        {
+        private string HtmlEvaluator(Match match) {
             string text = match.Groups[1].Value;
             string key = GetHashKey(text);
             this._htmlBlocks[key] = text;
@@ -716,17 +704,16 @@ namespace MONI.Util.Markdown
             return string.Concat("\n\n", key, "\n\n");
         }
 
-        private static string GetHashKey(string s)
-        {
+        private static string GetHashKey(string s) {
             return "\x1A" + Math.Abs(s.GetHashCode()).ToString() + "\x1A";
         }
 
         private static Regex _htmlTokens = new Regex(@"
             (<!(?:--.*?--\s*)+>)|        # match <!-- foo -->
             (<\?.*?\?>)|                 # match <?foo?> " +
-            RepeatString(@" 
+                                                     RepeatString(@" 
             (<[A-Za-z\/!$](?:[^<>]|", _nestDepth) + RepeatString(@")*>)", _nestDepth) +
-                                       " # match <tag> and </tag>",
+                                                     " # match <tag> and </tag>",
             RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.ExplicitCapture | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
         /// <summary>
@@ -736,27 +723,27 @@ namespace MONI.Util.Markdown
         /// array is a two-element array; the first is either 'tag' or 'text'; the second is 
         /// the actual value.
         /// </summary>
-        private List<Token> TokenizeHTML(string text)
-        {
+        private List<Token> TokenizeHTML(string text) {
             int pos = 0;
             int tagStart = 0;
             var tokens = new List<Token>();
 
             // this regex is derived from the _tokenize() subroutine in Brad Choate's MTRegex plugin.
             // http://www.bradchoate.com/past/mtregex.php
-            foreach (Match m in _htmlTokens.Matches(text))
-            {
+            foreach (Match m in _htmlTokens.Matches(text)) {
                 tagStart = m.Index;
 
-                if (pos < tagStart)
+                if (pos < tagStart) {
                     tokens.Add(new Token(TokenType.Text, text.Substring(pos, tagStart - pos)));
+                }
 
                 tokens.Add(new Token(TokenType.Tag, m.Value));
                 pos = tagStart + m.Length;
             }
 
-            if (pos < text.Length)
+            if (pos < text.Length) {
                 tokens.Add(new Token(TokenType.Text, text.Substring(pos, text.Length - pos)));
+            }
 
             return tokens;
         }
@@ -793,7 +780,7 @@ namespace MONI.Util.Markdown
                         )?                  # title is optional
                     \)
                 )", GetNestedBracketsPattern(), GetNestedParensPattern()),
-                  RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+            RegexOptions.Singleline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
         private static Regex _anchorRefShortcut = new Regex(@"
             (                               # wrap whole match in $1
@@ -810,8 +797,7 @@ namespace MONI.Util.Markdown
         /// [link text][id] 
         /// [id] 
         /// </remarks>
-        private string DoAnchors(string text)
-        {
+        private string DoAnchors(string text) {
             // First, handle reference-style links: [link text] [id]
             text = _anchorRef.Replace(text, new MatchEvaluator(this.AnchorRefEvaluator));
 
@@ -825,8 +811,7 @@ namespace MONI.Util.Markdown
             return text;
         }
 
-        private string AnchorRefEvaluator(Match match)
-        {
+        private string AnchorRefEvaluator(Match match) {
             string wholeMatch = match.Groups[1].Value;
             string linkText = match.Groups[2].Value;
             string linkID = match.Groups[3].Value.ToLowerInvariant();
@@ -834,19 +819,18 @@ namespace MONI.Util.Markdown
             string result;
 
             // for shortcut links like [this][].
-            if (linkID == "")
+            if (linkID == "") {
                 linkID = linkText.ToLowerInvariant();
+            }
 
-            if (this._urls.ContainsKey(linkID))
-            {
+            if (this._urls.ContainsKey(linkID)) {
                 string url = this._urls[linkID];
 
                 url = this.EncodeProblemUrlChars(url);
-                url = this.EscapeBoldItalic(url);                
+                url = this.EscapeBoldItalic(url);
                 result = "<a href=\"" + url + "\"";
 
-                if (this._titles.ContainsKey(linkID))
-                {
+                if (this._titles.ContainsKey(linkID)) {
                     string title = this._titles[linkID];
                     title = this.EscapeBoldItalic(title);
                     result += " title=\"" + title + "\"";
@@ -854,30 +838,28 @@ namespace MONI.Util.Markdown
 
                 result += ">" + linkText + "</a>";
             }
-            else
+            else {
                 result = wholeMatch;
+            }
 
             return result;
         }
 
-        private string AnchorRefShortcutEvaluator(Match match)
-        {
+        private string AnchorRefShortcutEvaluator(Match match) {
             string wholeMatch = match.Groups[1].Value;
             string linkText = match.Groups[2].Value;
-            string linkID = Regex.Replace(linkText.ToLowerInvariant(), @"[ ]*\n[ ]*", " ");  // lower case and remove newlines / extra spaces
+            string linkID = Regex.Replace(linkText.ToLowerInvariant(), @"[ ]*\n[ ]*", " "); // lower case and remove newlines / extra spaces
 
             string result;
 
-            if (this._urls.ContainsKey(linkID))
-            {
+            if (this._urls.ContainsKey(linkID)) {
                 string url = this._urls[linkID];
 
                 url = this.EncodeProblemUrlChars(url);
-                url = this.EscapeBoldItalic(url);                
+                url = this.EscapeBoldItalic(url);
                 result = "<a href=\"" + url + "\"";
 
-                if (this._titles.ContainsKey(linkID))
-                {
+                if (this._titles.ContainsKey(linkID)) {
                     string title = this._titles[linkID];
                     title = this.EscapeBoldItalic(title);
                     result += " title=\"" + title + "\"";
@@ -885,15 +867,15 @@ namespace MONI.Util.Markdown
 
                 result += ">" + linkText + "</a>";
             }
-            else
+            else {
                 result = wholeMatch;
+            }
 
             return result;
         }
 
 
-        private string AnchorInlineEvaluator(Match match)
-        {
+        private string AnchorInlineEvaluator(Match match) {
             string linkText = match.Groups[2].Value;
             string url = match.Groups[3].Value;
             string title = match.Groups[6].Value;
@@ -901,13 +883,13 @@ namespace MONI.Util.Markdown
 
             url = this.EncodeProblemUrlChars(url);
             url = this.EscapeBoldItalic(url);
-            if (url.StartsWith("<") && url.EndsWith(">"))
+            if (url.StartsWith("<") && url.EndsWith(">")) {
                 url = url.Substring(1, url.Length - 2); // remove <>'s surrounding URL, if present            
+            }
 
             result = string.Format("<a href=\"{0}\"", url);
 
-            if (!String.IsNullOrEmpty(title))
-            {
+            if (!String.IsNullOrEmpty(title)) {
                 title = title.Replace("\"", "&quot;");
                 title = this.EscapeBoldItalic(title);
                 result += string.Format(" title=\"{0}\"", title);
@@ -950,7 +932,7 @@ namespace MONI.Util.Markdown
                     )?              # title is optional
                 \)
               )", GetNestedParensPattern()),
-                  RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
+            RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Turn Markdown image shortcuts into HTML img tags. 
@@ -959,8 +941,7 @@ namespace MONI.Util.Markdown
         /// ![alt text][id]
         /// ![alt text](url "optional title")
         /// </remarks>
-        private string DoImages(string text)
-        {
+        private string DoImages(string text) {
             // First, handle reference-style labeled images: ![alt text][id]
             text = _imagesRef.Replace(text, new MatchEvaluator(this.ImageReferenceEvaluator));
 
@@ -971,28 +952,26 @@ namespace MONI.Util.Markdown
             return text;
         }
 
-        private string ImageReferenceEvaluator(Match match)
-        {
+        private string ImageReferenceEvaluator(Match match) {
             string wholeMatch = match.Groups[1].Value;
             string altText = match.Groups[2].Value;
             string linkID = match.Groups[3].Value.ToLowerInvariant();
             string result;
 
             // for shortcut links like ![this][].
-            if (linkID == "")
+            if (linkID == "") {
                 linkID = altText.ToLowerInvariant();
+            }
 
             altText = altText.Replace("\"", "&quot;");
 
-            if (this._urls.ContainsKey(linkID))
-            {
+            if (this._urls.ContainsKey(linkID)) {
                 string url = this._urls[linkID];
                 url = this.EncodeProblemUrlChars(url);
-                url = this.EscapeBoldItalic(url);                
+                url = this.EscapeBoldItalic(url);
                 result = string.Format("<img src=\"{0}\" alt=\"{1}\"", url, altText);
 
-                if (this._titles.ContainsKey(linkID))
-                {
+                if (this._titles.ContainsKey(linkID)) {
                     string title = this._titles[linkID];
                     title = this.EscapeBoldItalic(title);
 
@@ -1001,8 +980,7 @@ namespace MONI.Util.Markdown
 
                 result += this._emptyElementSuffix;
             }
-            else
-            {
+            else {
                 // If there's no such link ID, leave intact:
                 result = wholeMatch;
             }
@@ -1010,8 +988,7 @@ namespace MONI.Util.Markdown
             return result;
         }
 
-        private string ImageInlineEvaluator(Match match)
-        {
+        private string ImageInlineEvaluator(Match match) {
             string alt = match.Groups[2].Value;
             string url = match.Groups[3].Value;
             string title = match.Groups[6].Value;
@@ -1019,16 +996,16 @@ namespace MONI.Util.Markdown
 
             alt = alt.Replace("\"", "&quot;");
             title = title.Replace("\"", "&quot;");
-            
-            if (url.StartsWith("<") && url.EndsWith(">"))
-                url = url.Substring(1, url.Length - 2);    // Remove <>'s surrounding URL, if present
+
+            if (url.StartsWith("<") && url.EndsWith(">")) {
+                url = url.Substring(1, url.Length - 2); // Remove <>'s surrounding URL, if present
+            }
             url = this.EncodeProblemUrlChars(url);
             url = this.EscapeBoldItalic(url);
 
             result = string.Format("<img src=\"{0}\" alt=\"{1}\"", url, alt);
 
-            if (!String.IsNullOrEmpty(title))
-            {
+            if (!String.IsNullOrEmpty(title)) {
                 title = this.EscapeBoldItalic(title);
                 result += string.Format(" title=\"{0}\"", title);
             }
@@ -1072,22 +1049,19 @@ namespace MONI.Util.Markdown
         /// ...  
         /// ###### Header 6  
         /// </remarks>
-        private string DoHeaders(string text)
-        {
+        private string DoHeaders(string text) {
             text = _headerSetext.Replace(text, new MatchEvaluator(this.SetextHeaderEvaluator));
             text = _headerAtx.Replace(text, new MatchEvaluator(this.AtxHeaderEvaluator));
             return text;
         }
 
-        private string SetextHeaderEvaluator(Match match)
-        {
+        private string SetextHeaderEvaluator(Match match) {
             string header = match.Groups[1].Value;
             int level = match.Groups[2].Value.StartsWith("=") ? 1 : 2;
             return string.Format("<h{1}>{0}</h{1}>\n\n", this.RunSpanGamut(header), level);
         }
 
-        private string AtxHeaderEvaluator(Match match)
-        {
+        private string AtxHeaderEvaluator(Match match) {
             string header = match.Groups[2].Value;
             int level = match.Groups[1].Value.Length;
             return string.Format("<h{1}>{0}</h{1}>\n\n", this.RunSpanGamut(header), level);
@@ -1114,8 +1088,7 @@ namespace MONI.Util.Markdown
         /// ---
         /// - - -
         /// </remarks>
-        private string DoHorizontalRules(string text)
-        {
+        private string DoHorizontalRules(string text) {
             return _horizontalRules.Replace(text, "<hr" + this._emptyElementSuffix + "\n");
         }
 
@@ -1148,20 +1121,20 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Turn Markdown lists into HTML ul and ol and li tags
         /// </summary>
-        private string DoLists(string text)
-        {
+        private string DoLists(string text) {
             // We use a different prefix before nested lists than top-level lists.
             // See extended comment in _ProcessListItems().
-            if (this._listLevel > 0)
+            if (this._listLevel > 0) {
                 text = _listNested.Replace(text, new MatchEvaluator(this.ListEvaluator));
-            else
+            }
+            else {
                 text = _listTopLevel.Replace(text, new MatchEvaluator(this.ListEvaluator));
+            }
 
             return text;
         }
 
-        private string ListEvaluator(Match match)
-        {
+        private string ListEvaluator(Match match) {
             string list = match.Groups[1].Value;
             string listType = Regex.IsMatch(match.Groups[3].Value, _markerUL) ? "ul" : "ol";
             string result;
@@ -1179,8 +1152,7 @@ namespace MONI.Util.Markdown
         /// Process the contents of a single ordered or unordered list, splitting it
         /// into individual list items.
         /// </summary>
-        private string ProcessListItems(string list, string marker)
-        {
+        private string ProcessListItems(string list, string marker) {
             // The listLevel global keeps track of when we're inside a list.
             // Each time we enter a list, we increment it; when we leave a list,
             // we decrement. If it's zero, we're not in a list anymore.
@@ -1208,7 +1180,7 @@ namespace MONI.Util.Markdown
             list = Regex.Replace(list, @"\n{2,}\z", "\n");
 
             string pattern = string.Format(
-              @"(\n)?                      # leading line = $1
+                @"(\n)?                      # leading line = $1
                 (^[ ]*)                    # leading whitespace = $2
                 ({0}) [ ]+                 # list marker = $3
                 ((?s:.+?)                  # list item text = $4
@@ -1216,21 +1188,20 @@ namespace MONI.Util.Markdown
                 (?= \n* (\z | \2 ({0}) [ ]+))", marker);
 
             list = Regex.Replace(list, pattern, new MatchEvaluator(this.ListItemEvaluator),
-                                  RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
+                RegexOptions.IgnorePatternWhitespace | RegexOptions.Multiline);
             this._listLevel--;
             return list;
         }
 
-        private string ListItemEvaluator(Match match)
-        {
+        private string ListItemEvaluator(Match match) {
             string item = match.Groups[4].Value;
             string leadingLine = match.Groups[1].Value;
 
-            if (!String.IsNullOrEmpty(leadingLine) || Regex.IsMatch(item, @"\n{2,}"))
+            if (!String.IsNullOrEmpty(leadingLine) || Regex.IsMatch(item, @"\n{2,}")) {
                 // we could correct any bad indentation here..
                 item = this.RunBlockGamut(this.Outdent(item) + "\n");
-            else
-            {
+            }
+            else {
                 // recursion for sub-lists
                 item = this.DoLists(this.Outdent(item));
                 item = item.TrimEnd('\n');
@@ -1250,19 +1221,17 @@ namespace MONI.Util.Markdown
                     )+
                     )
                     ((?=^[ ]{{0,{0}}}\S)|\Z) # Lookahead for non-space at line-start, or end of doc",
-                    _tabWidth), RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
+            _tabWidth), RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.Compiled);
 
         /// <summary>
         /// /// Turn Markdown 4-space indented code into HTML pre code blocks
         /// </summary>
-        private string DoCodeBlocks(string text)
-        {
+        private string DoCodeBlocks(string text) {
             text = _codeBlock.Replace(text, new MatchEvaluator(this.CodeBlockEvaluator));
             return text;
         }
 
-        private string CodeBlockEvaluator(Match match)
-        {
+        private string CodeBlockEvaluator(Match match) {
             string codeBlock = match.Groups[1].Value;
 
             codeBlock = this.EncodeCode(this.Outdent(codeBlock));
@@ -1282,8 +1251,7 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Turn Markdown `code spans` into HTML code tags
         /// </summary>
-        private string DoCodeSpans(string text)
-        {
+        private string DoCodeSpans(string text) {
             //    * You can use multiple backticks as the delimiters if you want to
             //        include literal backticks in the code span. So, this input:
             //
@@ -1309,8 +1277,7 @@ namespace MONI.Util.Markdown
             return _codeSpan.Replace(text, new MatchEvaluator(this.CodeSpanEvaluator));
         }
 
-        private string CodeSpanEvaluator(Match match)
-        {
+        private string CodeSpanEvaluator(Match match) {
             string span = match.Groups[2].Value;
             span = Regex.Replace(span, @"^[ ]*", ""); // leading whitespace
             span = Regex.Replace(span, @"[ ]*$", ""); // trailing whitespace
@@ -1322,28 +1289,26 @@ namespace MONI.Util.Markdown
 
         private static Regex _bold = new Regex(@"(\*\*|__) (?=\S) (.+?[*_]*) (?<=\S) \1",
             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
+
         private static Regex _strictBold = new Regex(@"([\W_]|^) (\*\*|__) (?=\S) ([^\r]*?\S[\*_]*) \2 ([\W_]|$)",
             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
         private static Regex _italic = new Regex(@"(\*|_) (?=\S) (.+?) (?<=\S) \1",
             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
+
         private static Regex _strictItalic = new Regex(@"([\W_]|^) (\*|_) (?=\S) ([^\r\*_]*?\S) \2 ([\W_]|$)",
             RegexOptions.IgnorePatternWhitespace | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Turn Markdown *italics* and **bold** into HTML strong and em tags
         /// </summary>
-        private string DoItalicsAndBold(string text)
-        {
-
+        private string DoItalicsAndBold(string text) {
             // <strong> must go first, then <em>
-            if (this._strictBoldItalic)
-            {
+            if (this._strictBoldItalic) {
                 text = _strictBold.Replace(text, "$1<strong>$3</strong>$4");
                 text = _strictItalic.Replace(text, "$1<em>$3</em>$4");
             }
-            else
-            {
+            else {
                 text = _bold.Replace(text, "<strong>$2</strong>");
                 text = _italic.Replace(text, "<em>$2</em>");
             }
@@ -1353,12 +1318,13 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Turn markdown line breaks (two space at end of line) into HTML break tags
         /// </summary>
-        private string DoHardBreaks(string text)
-        {
-            if (this._autoNewlines)
+        private string DoHardBreaks(string text) {
+            if (this._autoNewlines) {
                 text = Regex.Replace(text, @"\n", string.Format("<br{0}\n", this._emptyElementSuffix));
-            else
+            }
+            else {
                 text = Regex.Replace(text, @" {2,}\n", string.Format("<br{0}\n", this._emptyElementSuffix));
+            }
             return text;
         }
 
@@ -1375,18 +1341,16 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Turn Markdown > quoted blocks into HTML blockquote blocks
         /// </summary>
-        private string DoBlockQuotes(string text)
-        {
+        private string DoBlockQuotes(string text) {
             return _blockquote.Replace(text, new MatchEvaluator(this.BlockQuoteEvaluator));
         }
 
-        private string BlockQuoteEvaluator(Match match)
-        {
+        private string BlockQuoteEvaluator(Match match) {
             string bq = match.Groups[1].Value;
 
-            bq = Regex.Replace(bq, @"^[ ]*>[ ]?", "", RegexOptions.Multiline);       // trim one level of quoting
-            bq = Regex.Replace(bq, @"^[ ]+$", "", RegexOptions.Multiline);           // trim whitespace-only lines
-            bq = this.RunBlockGamut(bq);                                                  // recurse
+            bq = Regex.Replace(bq, @"^[ ]*>[ ]?", "", RegexOptions.Multiline); // trim one level of quoting
+            bq = Regex.Replace(bq, @"^[ ]+$", "", RegexOptions.Multiline); // trim whitespace-only lines
+            bq = this.RunBlockGamut(bq); // recurse
 
             bq = Regex.Replace(bq, @"^", "  ", RegexOptions.Multiline);
 
@@ -1396,8 +1360,7 @@ namespace MONI.Util.Markdown
             return string.Format("<blockquote>\n{0}\n</blockquote>\n\n", bq);
         }
 
-        private string BlockQuoteEvaluator2(Match match)
-        {
+        private string BlockQuoteEvaluator2(Match match) {
             return Regex.Replace(match.Groups[1].Value, @"^  ", "", RegexOptions.Multiline);
         }
 
@@ -1410,11 +1373,8 @@ namespace MONI.Util.Markdown
         /// <remarks>
         /// &lt;http://www.example.com&gt;
         /// </remarks>
-        private string DoAutoLinks(string text)
-        {
-
-            if (this._autoHyperlink)
-            {
+        private string DoAutoLinks(string text) {
+            if (this._autoHyperlink) {
                 // fixup arbitrary URLs by adding Markdown < > so they get linked as well
                 // note that at this point, all other URL in the text are already hyperlinked as <a href=""></a>
                 // *except* for the <http://www.foo.com> case
@@ -1424,8 +1384,7 @@ namespace MONI.Util.Markdown
             // Hyperlinks: <http://foo.com>
             text = Regex.Replace(text, "<((https?|ftp):[^'\">\\s]+)>", new MatchEvaluator(this.HyperlinkEvaluator));
 
-            if (this._linkEmails)
-            {
+            if (this._linkEmails) {
                 // Email addresses: <address@domain.foo>
                 string pattern =
                     @"<
@@ -1442,14 +1401,12 @@ namespace MONI.Util.Markdown
             return text;
         }
 
-        private string HyperlinkEvaluator(Match match)
-        {
+        private string HyperlinkEvaluator(Match match) {
             string link = match.Groups[1].Value;
             return string.Format("<a href=\"{0}\">{0}</a>", link);
         }
 
-        private string EmailEvaluator(Match match)
-        {
+        private string EmailEvaluator(Match match) {
             string email = this.Unescape(match.Groups[1].Value);
 
             //
@@ -1484,34 +1441,32 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Remove one level of line-leading spaces
         /// </summary>
-        private string Outdent(string block)
-        {
+        private string Outdent(string block) {
             return _outDent.Replace(block, "");
         }
 
-
         #region Encoding and Normalization
-
 
         /// <summary>
         /// encodes email address randomly  
         /// roughly 10% raw, 45% hex, 45% dec 
         /// note that @ is always encoded and : never is
         /// </summary>
-        private string EncodeEmailAddress(string addr)
-        {
+        private string EncodeEmailAddress(string addr) {
             var sb = new StringBuilder(addr.Length * 5);
             var rand = new Random();
             int r;
-            foreach (char c in addr)
-            {
+            foreach (char c in addr) {
                 r = rand.Next(1, 100);
-                if ((r > 90 || c == ':') && c != '@')
-                    sb.Append(c);                         // m
-                else if (r < 45)
-                    sb.AppendFormat("&#x{0:x};", (int)c); // &#x6D
-                else
-                    sb.AppendFormat("&#{0};", (int)c);    // &#109
+                if ((r > 90 || c == ':') && c != '@') {
+                    sb.Append(c); // m
+                }
+                else if (r < 45) {
+                    sb.AppendFormat("&#x{0:x};", (int) c); // &#x6D
+                }
+                else {
+                    sb.AppendFormat("&#{0};", (int) c); // &#109
+                }
             }
             return sb.ToString();
         }
@@ -1521,14 +1476,12 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Encode/escape certain Markdown characters inside code blocks and spans where they are literals
         /// </summary>
-        private string EncodeCode(string code)
-        {
+        private string EncodeCode(string code) {
             return _codeEncoder.Replace(code, this.EncodeCodeEvaluator);
         }
-        private string EncodeCodeEvaluator(Match match)
-        {
-            switch (match.Value)
-            {
+
+        private string EncodeCodeEvaluator(Match match) {
+            switch (match.Value) {
                 // Encode all ampersands; HTML entities are not
                 // entities within a Markdown code span.
                 case "&":
@@ -1551,38 +1504,35 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// Encode any ampersands (that aren't part of an HTML entity) and left or right angle brackets
         /// </summary>
-        private string EncodeAmpsAndAngles(string s)
-        {
+        private string EncodeAmpsAndAngles(string s) {
             s = _amps.Replace(s, "&amp;");
             s = _angles.Replace(s, "&lt;");
             return s;
         }
 
-        private static Regex _backslashEscapes; 
+        private static Regex _backslashEscapes;
 
         /// <summary>
         /// Encodes any escaped characters such as \`, \*, \[ etc
         /// </summary>
-        private string EscapeBackslashes(string s)
-        {
+        private string EscapeBackslashes(string s) {
             return _backslashEscapes.Replace(s, new MatchEvaluator(this.EscapeBackslashesEvaluator));
         }
-        private string EscapeBackslashesEvaluator(Match match)
-        {
+
+        private string EscapeBackslashesEvaluator(Match match) {
             return _backslashEscapeTable[match.Value];
         }
-       
+
         private static Regex _unescapes = new Regex("\x1A\\d+\x1A", RegexOptions.Compiled);
 
         /// <summary>
         /// swap back in all the special characters we've hidden
         /// </summary>
-        private string Unescape(string s)
-        {
+        private string Unescape(string s) {
             return _unescapes.Replace(s, new MatchEvaluator(this.UnescapeEvaluator));
         }
-        private string UnescapeEvaluator(Match match)
-        {
+
+        private string UnescapeEvaluator(Match match) {
             return _invertedEscapeTable[match.Value];
         }
 
@@ -1590,8 +1540,7 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// escapes Bold [ * ] and Italic [ _ ] characters
         /// </summary>
-        private string EscapeBoldItalic(string s)
-        {
+        private string EscapeBoldItalic(string s) {
             s = s.Replace("*", _escapeTable["*"]);
             s = s.Replace("_", _escapeTable["_"]);
             return s;
@@ -1602,25 +1551,26 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// hex-encodes some unusual "problem" chars in URLs to avoid URL detection problems 
         /// </summary>
-        private string EncodeProblemUrlChars(string url)
-        {
-            if (!this._encodeProblemUrlCharacters) return url;
+        private string EncodeProblemUrlChars(string url) {
+            if (!this._encodeProblemUrlCharacters) { return url; }
 
             var sb = new StringBuilder(url.Length);
             bool encode;
             char c;
 
-            for (int i = 0; i < url.Length; i++)
-            {
+            for (int i = 0; i < url.Length; i++) {
                 c = url[i];
                 encode = Array.IndexOf(_problemUrlChars, c) != -1;
-                if (encode && c == ':' && i < url.Length - 1)
+                if (encode && c == ':' && i < url.Length - 1) {
                     encode = !(url[i + 1] == '/') && !(url[i + 1] >= '0' && url[i + 1] <= '9');
+                }
 
-                if (encode)
-                    sb.Append("%" + String.Format("{0:x}", (byte)c));
-                else
-                    sb.Append(c);                
+                if (encode) {
+                    sb.Append("%" + String.Format("{0:x}", (byte) c));
+                }
+                else {
+                    sb.Append(c);
+                }
             }
 
             return sb.ToString();
@@ -1634,19 +1584,16 @@ namespace MONI.Util.Markdown
         /// value; this is likely overkill, but it should prevent us from colliding 
         /// with the escape values by accident.
         /// </summary>
-        private string EscapeSpecialCharsWithinTagAttributes(string text)
-        {
+        private string EscapeSpecialCharsWithinTagAttributes(string text) {
             var tokens = this.TokenizeHTML(text);
 
             // now, rebuild text from the tokens
             var sb = new StringBuilder(text.Length);
 
-            foreach (var token in tokens)
-            {
+            foreach (var token in tokens) {
                 string value = token.Value;
 
-                if (token.Type == TokenType.Tag)
-                {
+                if (token.Type == TokenType.Tag) {
                     value = value.Replace(@"\", _escapeTable[@"\"]);
                     value = Regex.Replace(value, "(?<=.)</?code>(?=.)", _escapeTable[@"`"]);
                     value = this.EscapeBoldItalic(value);
@@ -1664,44 +1611,43 @@ namespace MONI.Util.Markdown
         /// makes sure text ends with a couple of newlines; 
         /// removes any blank lines (only spaces) in the text
         /// </summary>
-        private string Normalize(string text)
-        {            
+        private string Normalize(string text) {
             var output = new StringBuilder(text.Length);
             var line = new StringBuilder();
             bool valid = false;
 
-            for (int i = 0; i < text.Length; i++)
-            {
-                switch (text[i])
-                {
+            for (int i = 0; i < text.Length; i++) {
+                switch (text[i]) {
                     case '\n':
-                        if (valid) output.Append(line);
+                        if (valid) { output.Append(line); }
                         output.Append('\n');
-                        line.Length = 0; valid = false;
+                        line.Length = 0;
+                        valid = false;
                         break;
                     case '\r':
-                        if ((i < text.Length - 1) && (text[i + 1] != '\n'))
-                        {
-                            if (valid) output.Append(line);
+                        if ((i < text.Length - 1) && (text[i + 1] != '\n')) {
+                            if (valid) { output.Append(line); }
                             output.Append('\n');
-                            line.Length = 0; valid = false;
+                            line.Length = 0;
+                            valid = false;
                         }
                         break;
                     case '\t':
                         int width = (_tabWidth - line.Length % _tabWidth);
-                        for (int k = 0; k < width; k++)
+                        for (int k = 0; k < width; k++) {
                             line.Append(' ');
+                        }
                         break;
                     case '\x1A':
                         break;
                     default:
-                        if (!valid && text[i] != ' ') valid = true;
+                        if (!valid && text[i] != ' ') { valid = true; }
                         line.Append(text[i]);
                         break;
                 }
             }
 
-            if (valid) output.Append(line);
+            if (valid) { output.Append(line); }
             output.Append('\n');
 
             // add two newlines to the end before return
@@ -1713,13 +1659,12 @@ namespace MONI.Util.Markdown
         /// <summary>
         /// this is to emulate what's evailable in PHP
         /// </summary>
-        private static string RepeatString(string text, int count)
-        {
+        private static string RepeatString(string text, int count) {
             var sb = new StringBuilder(text.Length * count);
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++) {
                 sb.Append(text);
+            }
             return sb.ToString();
         }
-
     }
 }

@@ -22,15 +22,15 @@
     </Grid.Resources>
 
     <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"></RowDefinition>
-      <RowDefinition Height="Auto"></RowDefinition>
-      <RowDefinition Height="Auto"></RowDefinition>
-      <RowDefinition Height="Auto"></RowDefinition>
-      <RowDefinition Height="*"></RowDefinition>
+      <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto"></ColumnDefinition>
-      <ColumnDefinition></ColumnDefinition>
+      <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
     <Label Grid.Column="0"
@@ -41,9 +41,9 @@
              Focusable="True"
              x:Name="shortcutTextBox"
              IsEnabled="{Binding IsNew, Mode=OneWay}"
-             Text="{Binding ShortCutKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></TextBox>
+             Text="{Binding ShortCutKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-    <Label Grid.Column="0"
+      <Label Grid.Column="0"
            Grid.Row="1">Shortcut Gruppe</Label>
     <ComboBox Grid.Column="1"
               Grid.Row="1"
@@ -55,26 +55,26 @@
               SelectedItem="{Binding ShortCutGroup, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
               DisplayMemberPath="Key"
               SelectedValuePath="Key"
-              Text="{Binding ShortCutGroupKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"></ComboBox>
+              Text="{Binding ShortCutGroupKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-    <Label Grid.Column="0"
+      <Label Grid.Column="0"
            Grid.Row="2">Ersetzung</Label>
     <TextBox Grid.Column="1"
              Grid.Row="2"
              Margin="2"
              Focusable="True"
              x:Name="expansionTextBox"
-             Text="{Binding Model.Expansion, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+             Text="{Binding Model.Expansion, UpdateSourceTrigger=PropertyChanged}" />
 
-    <Label Grid.Column="0"
+      <Label Grid.Column="0"
            Grid.Row="3">Ganzen Tag ersetzen</Label>
     <CheckBox Grid.Column="1"
               Grid.Row="3"
               Margin="2"
               VerticalAlignment="Center"
-              IsChecked="{Binding Model.WholeDayExpansion, UpdateSourceTrigger=PropertyChanged}"></CheckBox>
+              IsChecked="{Binding Model.WholeDayExpansion, UpdateSourceTrigger=PropertyChanged}" />
 
-    <UniformGrid Grid.Column="0"
+      <UniformGrid Grid.Column="0"
                  Grid.Row="4"
                  Grid.ColumnSpan="2"
                  VerticalAlignment="Bottom"

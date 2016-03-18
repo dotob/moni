@@ -88,10 +88,9 @@
   </Style>
 
   <Style TargetType="{x:Type ComboBox}"
-         BasedOn="{StaticResource MONIMetroComboBox}">
-  </Style>
+         BasedOn="{StaticResource MONIMetroComboBox}" />
 
-  <Style TargetType="{x:Type Label}"
+    <Style TargetType="{x:Type Label}"
          BasedOn="{StaticResource MetroLabel}">
     <Setter Property="VerticalAlignment"
             Value="Center" />

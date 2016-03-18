@@ -4,45 +4,44 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace MONI.ValueConverter
-{
-  public class TodayColorConverter : IValueConverter
-  {
-    private readonly Brush todayBrush;
-    private readonly Brush notTodayBrush;
+namespace MONI.ValueConverter {
+    public class TodayColorConverter : IValueConverter {
+        private readonly Brush todayBrush;
+        private readonly Brush notTodayBrush;
 
-    private static TodayColorConverter instance;
+        private static TodayColorConverter instance;
 
-    // Explicit static constructor to tell C# compiler
-    // not to mark type as beforefieldinit
-    static TodayColorConverter() {
+        // Explicit static constructor to tell C# compiler
+        // not to mark type as beforefieldinit
+        static TodayColorConverter() {
+        }
+
+        private TodayColorConverter() {
+            // set opacity here and not for the rectangle, because it's even faster
+            this.todayBrush = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#F000638E"));
+            this.todayBrush.Opacity = 0.5;
+            this.todayBrush.Freeze();
+            this.notTodayBrush = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#CC119EDA"));
+            this.notTodayBrush.Opacity = 0.5;
+            this.notTodayBrush.Freeze();
+        }
+
+        public static TodayColorConverter Instance
+        {
+            get { return instance ?? (instance = new TodayColorConverter()); }
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
+            var isToday = (bool) value;
+            var b = this.notTodayBrush;
+            if (isToday) {
+                b = this.todayBrush;
+            }
+            return b;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+            return DependencyProperty.UnsetValue;
+        }
     }
-
-    private TodayColorConverter() {
-      // set opacity here and not for the rectangle, because it's even faster
-      this.todayBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F000638E"));
-      this.todayBrush.Opacity = 0.5;
-      this.todayBrush.Freeze();
-      this.notTodayBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CC119EDA"));
-      this.notTodayBrush.Opacity = 0.5;
-      this.notTodayBrush.Freeze();
-    }
-
-    public static TodayColorConverter Instance {
-      get { return instance ?? (instance = new TodayColorConverter()); }
-    }
-
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-      var isToday = (bool)value;
-      var b = this.notTodayBrush;
-      if (isToday) {
-        b = this.todayBrush;
-      }
-      return b;
-    }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
-      return DependencyProperty.UnsetValue;
-    }
-  }
 }

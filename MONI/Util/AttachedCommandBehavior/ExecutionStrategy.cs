@@ -1,12 +1,10 @@
 ﻿using System;
 
-namespace AttachedCommandBehavior
-{
+namespace AttachedCommandBehavior {
     /// <summary>
     /// Defines the interface for a strategy of execution for the CommandBehaviorBinding
     /// </summary>
-    public interface IExecutionStrategy
-    {
+    public interface IExecutionStrategy {
         /// <summary>
         /// Gets or sets the Behavior that we execute this strategy
         /// </summary>
@@ -22,9 +20,9 @@ namespace AttachedCommandBehavior
     /// <summary>
     /// Executes a command 
     /// </summary>
-    public class CommandExecutionStrategy : IExecutionStrategy
-    {
+    public class CommandExecutionStrategy : IExecutionStrategy {
         #region IExecutionStrategy Members
+
         /// <summary>
         /// Gets or sets the Behavior that we execute this strategy
         /// </summary>
@@ -34,13 +32,14 @@ namespace AttachedCommandBehavior
         /// Executes the Command that is stored in the CommandProperty of the CommandExecution
         /// </summary>
         /// <param name="parameter">The parameter for the command</param>
-        public void Execute(object parameter)
-        {
-            if (Behavior == null)
+        public void Execute(object parameter) {
+            if (Behavior == null) {
                 throw new InvalidOperationException("Behavior property cannot be null when executing a strategy");
+            }
 
-            if (Behavior.Command.CanExecute(Behavior.CommandParameter))
+            if (Behavior.Command.CanExecute(Behavior.CommandParameter)) {
                 Behavior.Command.Execute(Behavior.CommandParameter);
+            }
         }
 
         #endregion
@@ -49,9 +48,7 @@ namespace AttachedCommandBehavior
     /// <summary>
     /// executes a delegate
     /// </summary>
-    public class ActionExecutionStrategy : IExecutionStrategy
-    {
-
+    public class ActionExecutionStrategy : IExecutionStrategy {
         #region IExecutionStrategy Members
 
         /// <summary>
@@ -63,12 +60,10 @@ namespace AttachedCommandBehavior
         /// Executes an Action delegate
         /// </summary>
         /// <param name="parameter">The parameter to pass to the Action</param>
-        public void Execute(object parameter)
-        {
+        public void Execute(object parameter) {
             Behavior.Action(parameter);
         }
 
         #endregion
     }
-
 }

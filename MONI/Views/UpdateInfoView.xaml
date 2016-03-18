@@ -20,15 +20,15 @@
   <Grid Margin="10">
 
     <Grid.RowDefinitions>
-      <RowDefinition Height="Auto"></RowDefinition>
-      <RowDefinition Height="Auto"></RowDefinition>
-      <RowDefinition Height="Auto"></RowDefinition>
-      <RowDefinition Height="*"></RowDefinition>
-      <RowDefinition Height="Auto"></RowDefinition>
+      <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto"></ColumnDefinition>
-      <ColumnDefinition></ColumnDefinition>
+      <ColumnDefinition Width="Auto" />
+        <ColumnDefinition />
     </Grid.ColumnDefinitions>
 
     <Label Grid.Column="0"
@@ -40,19 +40,18 @@
                Margin="2"
                Focusable="True"
                FontWeight="Bold"
-               Text="{Binding UpdateInfo.Version, UpdateSourceTrigger=PropertyChanged}">
-    </TextBlock>
+               Text="{Binding UpdateInfo.Version, UpdateSourceTrigger=PropertyChanged}" />
 
-    <Label Grid.Column="0"
+      <Label Grid.Column="0"
            Grid.Row="1">
       Hier herunterladen:
     </Label>
     <Button Grid.Column="1"
             Grid.Row="1"
             Content="Download"
-            Click="ButtonBase_OnClick"></Button>
+            Click="ButtonBase_OnClick" />
 
-    <Label Grid.Column="0"
+      <Label Grid.Column="0"
            Grid.Row="2">
       Änderungen:
     </Label>
