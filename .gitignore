@@ -11,7 +11,8 @@ MONI.1.2.dotCover
 *.userosscache
 *.sln.docstates
 
-# User-specific folders
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
 *.sln.ide/
 
 # Build results
@@ -26,6 +27,8 @@ bld/
 [Bb]in/
 [Oo]bj/
 
+# Visual Studo 2015 cache/options directory
+.vs/
 # Roslyn cache directories
 *.ide/
 
@@ -33,7 +36,7 @@ bld/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
-#NUNIT
+# NUNIT
 *.VisualState.xml
 TestResult.xml
 
@@ -133,7 +136,7 @@ publish/
 # Publish Web Output
 *.[Pp]ublish.xml
 *.azurePubxml
-# TODO: Comment the next line if you want to checkin your web deploy settings 
+# TODO: Comment the next line if you want to checkin your web deploy settings
 # but database connection strings (with potential passwords) will be unencrypted
 *.pubxml
 *.publishproj
@@ -141,11 +144,11 @@ publish/
 # NuGet Packages
 *.nupkg
 # The packages folder can be ignored because of Package Restore
-# **/packages/*
+**/packages/*
 # except build/, which is used as an MSBuild target.
-# !**/packages/build/
-# If using the old MSBuild-Integrated Package Restore, uncomment this:
-# #!**/packages/repositories.config
+!**/packages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/packages/repositories.config
 
 # Windows Azure Build Output
 csx/
@@ -190,3 +193,12 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+# Node.js Tools for Visual Studio
+.ntvs_analysis.dat
+
+# Visual Studio 6 build log
+*.plg
+
+# Visual Studio 6 workspace options file
+*.opt
