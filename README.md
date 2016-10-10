@@ -46,7 +46,7 @@ Außerdem bietet Moni weitere Features, die die Eingabe vereinfachen:
 
 ## Installation ##
 
-1. Aktuelle Versionen [hier](https://github.com/dotob/moni/tree/master/dist) runterladen.
+1. Aktuelle Versionen [hier](https://github.com/dotob/moni/releases) runterladen.
 2. Zip entpacken
 3. Moni.exe starten
 4. Es wird beim Start ein **data** Verzeichnis angelegt.
