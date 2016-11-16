@@ -4,12 +4,15 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
-namespace MONI.Data {
-    public class WorkWeek : INotifyPropertyChanged {
+namespace MONI.Data
+{
+    public class WorkWeek : INotifyPropertyChanged
+    {
         private readonly int weekOfYear;
         private ObservableCollection<WorkDay> days;
 
-        public WorkWeek(WorkMonth month, int weekOfYear) {
+        public WorkWeek(WorkMonth month, int weekOfYear)
+        {
             this.Month = month;
             this.weekOfYear = weekOfYear;
             this.days = new ObservableCollection<WorkDay>();
@@ -37,8 +40,10 @@ namespace MONI.Data {
             get { return Days.First().DateTime; }
         }
 
-        public void Reparse() {
-            foreach (var workDay in Days) {
+        public void Reparse()
+        {
+            foreach (var workDay in Days)
+            {
                 workDay.Reparse();
             }
         }
@@ -49,22 +54,28 @@ namespace MONI.Data {
 
         #endregion
 
-        public override string ToString() {
-            if (this.Days.Any()) {
+        public override string ToString()
+        {
+            if (this.Days.Any())
+            {
                 return string.Format("kw:{0},days:{1},firstday:{2},lastday:{3}", this.weekOfYear, this.days.Count, this.Days.First().DayOfWeek, this.Days.Last().DayOfWeek);
             }
             return string.Format("kw:{0},days:{1},empty", this.weekOfYear, this.days.Count);
         }
 
-        public void AddDay(WorkDay wd) {
+        public void AddDay(WorkDay wd)
+        {
             this.days.Add(wd);
             wd.PropertyChanged += this.WDPropertyChanged;
         }
 
-        private void WDPropertyChanged(object sender, PropertyChangedEventArgs e) {
-            if (e.PropertyName == "HoursDuration") {
+        private void WDPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "HoursDuration")
+            {
                 var tmp = this.PropertyChanged;
-                if (tmp != null) {
+                if (tmp != null)
+                {
                     tmp(this, new PropertyChangedEventArgs("HoursDuration"));
                 }
             }

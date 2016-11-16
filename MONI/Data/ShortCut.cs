@@ -2,23 +2,27 @@
 using MONI.Util;
 using Newtonsoft.Json;
 
-namespace MONI.Data {
+namespace MONI.Data
+{
     public class ShortCut : ViewModelBase //, IComparable, IComparable<ShortCut>
     {
-        public ShortCut() {
+        public ShortCut()
+        {
             this.ID = Guid.NewGuid().ToString();
             this.ValidFrom = DateTime.MinValue;
             this.Expansion = string.Empty;
         }
 
         public ShortCut(string key, string expansion)
-            : this() {
+            : this()
+        {
             this.Key = key;
             this.Expansion = expansion;
         }
 
         public ShortCut(string key, string expansion, DateTime validFrom)
-            : this(key, expansion) {
+            : this(key, expansion)
+        {
             this.ValidFrom = validFrom;
         }
 
@@ -37,7 +41,8 @@ namespace MONI.Data {
             get { return this.group; }
             set
             {
-                if (Equals(this.group, value)) {
+                if (Equals(this.group, value))
+                {
                     return;
                 }
                 this.group = value;
@@ -45,19 +50,23 @@ namespace MONI.Data {
             }
         }
 
-        public override bool Equals(object obj) {
-            if (obj is ShortCut) {
-                var other = (ShortCut) obj;
+        public override bool Equals(object obj)
+        {
+            if (obj is ShortCut)
+            {
+                var other = (ShortCut)obj;
                 return this.ID == other.ID;
             }
             return false;
         }
 
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return this.ID.GetHashCode();
         }
 
-        public void GetData(ShortCut sc) {
+        public void GetData(ShortCut sc)
+        {
             this.Key = sc.Key;
             this.Expansion = sc.Expansion;
             this.WholeDayExpansion = sc.WholeDayExpansion;
@@ -65,7 +74,8 @@ namespace MONI.Data {
             this.Group = sc.Group;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return string.Format("{0}, {1}, {2}, {3}", this.Key, this.Expansion, this.ValidFrom, this.WholeDayExpansion);
         }
     }

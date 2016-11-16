@@ -8,15 +8,18 @@ using MONI.Data.SpecialDays;
 using MONI.Util;
 using NLog;
 
-namespace MONI.Data {
-    public class WorkMonth : INotifyPropertyChanged {
+namespace MONI.Data
+{
+    public class WorkMonth : INotifyPropertyChanged
+    {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly int month;
         private readonly float hoursPerDay;
         private readonly int year;
         private readonly WorkDayParserSettings parserSettings;
 
-        public WorkMonth(int year, int month, GermanSpecialDays specialDays, WorkDayParserSettings parserSettings, float hoursPerDay) {
+        public WorkMonth(int year, int month, GermanSpecialDays specialDays, WorkDayParserSettings parserSettings, float hoursPerDay)
+        {
             this.parserSettings = parserSettings;
             this.year = year;
             this.month = month;
@@ -29,13 +32,15 @@ namespace MONI.Data {
 
             var cal = new GregorianCalendar();
             WorkWeek lastWeek = null;
-            for (int day = 1; day <= cal.GetDaysInMonth(year, month); day++) {
+            for (int day = 1; day <= cal.GetDaysInMonth(year, month); day++)
+            {
                 var dt = new DateTime(year, month, day);
 
                 WorkDay wd = new WorkDay(year, month, day, specialDays);
                 this.Days.Add(wd);
                 var weekOfYear = cal.GetWeekOfYear(dt, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
-                if (lastWeek == null || lastWeek.WeekOfYear != weekOfYear) {
+                if (lastWeek == null || lastWeek.WeekOfYear != weekOfYear)
+                {
                     lastWeek = new WorkWeek(this, weekOfYear);
                     lastWeek.PropertyChanged += new PropertyChangedEventHandler(this.WeekPropertyChanged);
                     this.Weeks.Add(lastWeek);
@@ -44,7 +49,8 @@ namespace MONI.Data {
             }
         }
 
-        public void ReloadShortcutStatistic(IEnumerable<ShortCut> shortCuts) {
+        public void ReloadShortcutStatistic(IEnumerable<ShortCut> shortCuts)
+        {
             var orderedShortCutStatistics = shortCuts.OrderBy(s => s, new ShortCutStatisticComparer<ShortCut>())
                 .Select(s => new ShortCutStatistic(s));
             this.ShortCutStatistic.AddItems(orderedShortCutStatistics, true);
@@ -61,12 +67,14 @@ namespace MONI.Data {
             get { return this.previewHours; }
             set
             {
-                if (this.previewHours == value) {
+                if (this.previewHours == value)
+                {
                     return;
                 }
                 this.previewHours = value;
                 var tmp = this.PropertyChanged;
-                if (tmp != null) {
+                if (tmp != null)
+                {
                     tmp(this, new PropertyChangedEventArgs("PreviewHours"));
                 }
             }
@@ -86,7 +94,8 @@ namespace MONI.Data {
         {
             get
             {
-                switch (this.month) {
+                switch (this.month)
+                {
                     case 1:
                         return "Januar";
                     case 2:
@@ -124,12 +133,14 @@ namespace MONI.Data {
             get { return this.shortCutStatistic; }
             set
             {
-                if (this.shortCutStatistic == value) {
+                if (this.shortCutStatistic == value)
+                {
                     return;
                 }
                 this.shortCutStatistic = value;
                 var tmp = this.PropertyChanged;
-                if (tmp != null) {
+                if (tmp != null)
+                {
                     tmp(this, new PropertyChangedEventArgs("ShortCutStatistic"));
                 }
             }
@@ -140,12 +151,14 @@ namespace MONI.Data {
             get { return necessaryHours; }
             set
             {
-                if (this.necessaryHours == value) {
+                if (this.necessaryHours == value)
+                {
                     return;
                 }
                 this.necessaryHours = value;
                 var tmp = this.PropertyChanged;
-                if (tmp != null) {
+                if (tmp != null)
+                {
                     tmp(this, new PropertyChangedEventArgs("NecessaryHours"));
                 }
             }
@@ -162,28 +175,35 @@ namespace MONI.Data {
 
         #endregion
 
-        private void WeekPropertyChanged(object sender, PropertyChangedEventArgs e) {
-            if (e.PropertyName == "HoursDuration") {
+        private void WeekPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "HoursDuration")
+            {
                 var tmp = this.PropertyChanged;
-                if (tmp != null) {
+                if (tmp != null)
+                {
                     tmp(this, new PropertyChangedEventArgs("HoursDuration"));
                 }
                 this.CalcPreviewHours();
             }
         }
 
-        public void CalcShortCutStatistic() {
-            foreach (var scStat in this.ShortCutStatistic) {
+        public void CalcShortCutStatistic()
+        {
+            foreach (var scStat in this.ShortCutStatistic)
+            {
                 scStat.Calculate(this.Days);
             }
         }
 
-        public void CalcPreviewHours() {
+        public void CalcPreviewHours()
+        {
             this.NecessaryHours = this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working) * hoursPerDay;
             this.PreviewHours = this.HoursDuration + this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working && d.HoursDuration == 0) * hoursPerDay;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return string.Format("year:{0},month:{1},weeks:{2},days:{3}", this.Year, this.month, this.Weeks.Count, this.Days.Count);
         }
     }

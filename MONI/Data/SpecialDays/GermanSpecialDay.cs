@@ -1,8 +1,11 @@
 ﻿using System;
 
-namespace MONI.Data.SpecialDays {
-    public class GermanSpecialDay : ISpecialDay, IComparable<ISpecialDay> {
-        public GermanSpecialDay(string name, DateTime date) {
+namespace MONI.Data.SpecialDays
+{
+    public class GermanSpecialDay : ISpecialDay, IComparable<ISpecialDay>
+    {
+        public GermanSpecialDay(string name, DateTime date)
+        {
             this.Name = name;
             this.Date = date;
         }
@@ -21,7 +24,8 @@ namespace MONI.Data.SpecialDays {
         /// Vergleicht ein GermanSpecialDay-Objekt mit dem aktuellen
         /// </summary>
         /// <param name="otherSpecialDay">Das andere GermanSpecialDay-Objekt</param>
-        public int CompareTo(ISpecialDay otherSpecialDay) {
+        public int CompareTo(ISpecialDay otherSpecialDay)
+        {
             return this.Date.CompareTo(otherSpecialDay.Date);
         }
     }

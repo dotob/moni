@@ -19,8 +19,10 @@ using Newtonsoft.Json;
 using Calendar = System.Globalization.Calendar;
 using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
 
-namespace MONI.ViewModels {
-    public class MainViewModel : ViewModelBase, IDropTarget {
+namespace MONI.ViewModels
+{
+    public class MainViewModel : ViewModelBase, IDropTarget
+    {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Calendar calendar = new GregorianCalendar();
 
@@ -45,7 +47,8 @@ namespace MONI.ViewModels {
         private WorkWeek workWeek;
         private WorkYear workYear;
 
-        public MainViewModel(Dispatcher dispatcher) {
+        public MainViewModel(Dispatcher dispatcher)
+        {
             // handle settings
             this.settingsFile = this.DetermineSettingsFile();
             this.MonlistSettings = ReadSettings(this.settingsFile);
@@ -69,7 +72,8 @@ namespace MONI.ViewModels {
             this.jsonExporter = new JSONExporter(dataDirectory);
             //this.persistentResult = this.persistenceLayer.ReadData();
             this.SelectToday(); // sets data from persistencelayer
-            if (dispatcher != null) {
+            if (dispatcher != null)
+            {
                 this.throttleSaveAndCalc = new DispatcherTimer(DispatcherPriority.DataBind, dispatcher);
                 this.throttleSaveAndCalc.Tick += this.throttleSaveAndCalc_Tick;
             }
@@ -88,16 +92,20 @@ namespace MONI.ViewModels {
         }
 
 
-        private string ReadHelp() {
+        private string ReadHelp()
+        {
             string completeHelp = Encoding.UTF8.GetString(Properties.Resources.README);
-            var asLines = completeHelp.Split(new string[] {Environment.NewLine}, StringSplitOptions.None);
+            var asLines = completeHelp.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
             var sb = new StringBuilder();
             var gotit = false;
-            foreach (var asLine in asLines) {
-                if (gotit) {
+            foreach (var asLine in asLines)
+            {
+                if (gotit)
+                {
                     sb.AppendLine(asLine);
                 }
-                else {
+                else
+                {
                     gotit = asLine.Contains("shorthelp:");
                 }
             }
@@ -111,7 +119,8 @@ namespace MONI.ViewModels {
             get { return this.help; }
             set
             {
-                if (Equals(value, this.help)) {
+                if (Equals(value, this.help))
+                {
                     return;
                 }
                 this.help = value;
@@ -128,7 +137,8 @@ namespace MONI.ViewModels {
             get { return this.showHelp; }
             set
             {
-                if (Equals(value, this.showHelp)) {
+                if (Equals(value, this.showHelp))
+                {
                     return;
                 }
                 this.showHelp = value;
@@ -150,7 +160,8 @@ namespace MONI.ViewModels {
             get { return this.customWindowPlacementSettings; }
             set
             {
-                if (Equals(value, this.customWindowPlacementSettings)) {
+                if (Equals(value, this.customWindowPlacementSettings))
+                {
                     return;
                 }
                 this.customWindowPlacementSettings = value;
@@ -185,7 +196,8 @@ namespace MONI.ViewModels {
             get { return this.workWeek; }
             set
             {
-                if (this.workWeek == value) {
+                if (this.workWeek == value)
+                {
                     return;
                 }
                 bool monthChanged = value == null || this.workWeek == null || value.Month != this.workWeek.Month;
@@ -193,7 +205,8 @@ namespace MONI.ViewModels {
                 this.OnPropertyChanged(() => this.WorkWeek);
 
                 // don't know if this perfect, but it works
-                if (monthChanged && value != null) {
+                if (monthChanged && value != null)
+                {
                     value.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(value.StartDate));
                 }
             }
@@ -215,11 +228,13 @@ namespace MONI.ViewModels {
             get { return this.workYear; }
             set
             {
-                if (this.workYear != null) {
+                if (this.workYear != null)
+                {
                     this.workYear.PropertyChanged -= this.workYear_PropertyChanged;
                 }
                 this.workYear = value;
-                if (this.workYear != null) {
+                if (this.workYear != null)
+                {
                     this.workYear.PropertyChanged += this.workYear_PropertyChanged;
                 }
                 this.OnPropertyChanged(() => this.WorkYear);
@@ -302,15 +317,19 @@ namespace MONI.ViewModels {
         }
 
 
-        public void DragOver(IDropInfo dropInfo) {
+        public void DragOver(IDropInfo dropInfo)
+        {
             dropInfo.DropTargetAdorner = DropTargetAdorners.Insert;
             dropInfo.Effects = DragDropEffects.Move;
         }
 
-        public void Drop(IDropInfo dropInfo) {
-            try {
-                var source = (ShortCutStatistic) dropInfo.DragInfo.Data;
-                if (source != null) {
+        public void Drop(IDropInfo dropInfo)
+        {
+            try
+            {
+                var source = (ShortCutStatistic)dropInfo.DragInfo.Data;
+                if (source != null)
+                {
                     var targetIndex = dropInfo.InsertIndex;
                     var targetGroup = dropInfo.TargetGroup != null ? dropInfo.TargetGroup.Name.ToString() : string.Empty;
                     source.SetNewGroup(targetGroup, targetIndex);
@@ -321,61 +340,73 @@ namespace MONI.ViewModels {
                     //this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
                 }
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 Console.WriteLine(exception);
             }
         }
 
-        private static void DoSelectWorkItemTextComplete(object o) {
+        private static void DoSelectWorkItemTextComplete(object o)
+        {
             WorkItem workItem;
             TextBox tb;
             string wholeString;
             if (!GetTextBoxWorkItemInfo(o, out workItem, out tb, out wholeString)) { return; }
 
-            if (!string.IsNullOrWhiteSpace(wholeString)) {
+            if (!string.IsNullOrWhiteSpace(wholeString))
+            {
                 string searchString = workItem.OriginalString;
                 int selStart = wholeString.IndexOf(searchString, StringComparison.InvariantCulture);
-                if (selStart >= 0) {
+                if (selStart >= 0)
+                {
                     tb.Select(selStart, searchString.Length);
                     Clipboard.SetText(searchString);
                 }
             }
         }
 
-        private void DoSelectWorkItemTextWithOutTime(object o) {
+        private void DoSelectWorkItemTextWithOutTime(object o)
+        {
             WorkItem workItem;
             TextBox tb;
             string wholeString;
             if (!GetTextBoxWorkItemInfo(o, out workItem, out tb, out wholeString)) { return; }
 
-            if (!string.IsNullOrWhiteSpace(wholeString)) {
+            if (!string.IsNullOrWhiteSpace(wholeString))
+            {
                 string searchString = workItem.OriginalString.Token(";", 2);
                 int selStart = wholeString.IndexOf(searchString, StringComparison.InvariantCulture);
-                if (selStart >= 0) {
+                if (selStart >= 0)
+                {
                     tb.Select(selStart, searchString.Length);
                     Clipboard.SetText(searchString);
                 }
             }
         }
 
-        private void DoGoToDay(object o) {
+        private void DoGoToDay(object o)
+        {
             var wd = o as WorkDay;
-            if (wd != null) {
+            if (wd != null)
+            {
                 this.SelectDate(wd.DateTime);
             }
         }
 
-        private static bool GetTextBoxWorkItemInfo(object o, out WorkItem workItem, out TextBox tb, out string wholeString) {
+        private static bool GetTextBoxWorkItemInfo(object o, out WorkItem workItem, out TextBox tb, out string wholeString)
+        {
             workItem = null;
             tb = null;
             wholeString = null;
             var bindedValues = o as IEnumerable;
-            if (bindedValues == null) {
+            if (bindedValues == null)
+            {
                 return false;
             }
             workItem = bindedValues.OfType<object>().ElementAtOrDefault(0) as WorkItem;
             tb = bindedValues.OfType<object>().ElementAtOrDefault(1) as TextBox;
-            if (workItem == null || tb == null) {
+            if (workItem == null || tb == null)
+            {
                 return false;
             }
             tb.Focus();
@@ -383,18 +414,21 @@ namespace MONI.ViewModels {
             return true;
         }
 
-        private string DetermineSettingsFile() {
+        private string DetermineSettingsFile()
+        {
             logger.Debug("determine settingsfile location");
             // check if there is a settings file in userdir
             var fileName = "settings.json";
             var moniAppData = Utils.MoniAppDataPath();
             var moniAppDataSettingsFile = Path.Combine(moniAppData, fileName);
-            if (File.Exists(moniAppDataSettingsFile)) {
+            if (File.Exists(moniAppDataSettingsFile))
+            {
                 logger.Debug("found settingsfile in appdata: {0}", moniAppDataSettingsFile);
                 return moniAppDataSettingsFile;
             }
             // check if we can create settings file in exe dir
-            if (Utils.CanCreateFile(".")) {
+            if (Utils.CanCreateFile("."))
+            {
                 logger.Debug("could write in currentdir: {0} use {1} as settingsfile", Directory.GetCurrentDirectory(), fileName);
                 return fileName;
             }
@@ -402,25 +436,31 @@ namespace MONI.ViewModels {
             return moniAppDataSettingsFile;
         }
 
-        private void throttleSaveAndCalc_Tick(object sender, EventArgs e) {
+        private void throttleSaveAndCalc_Tick(object sender, EventArgs e)
+        {
             this.SaveAndCalc();
             this.throttleSaveAndCalc.Stop();
         }
 
-        private static MoniSettings ReadSettings(string settingsFile) {
+        private static MoniSettings ReadSettings(string settingsFile)
+        {
             MoniSettings settings = ReadSettingsInternal(settingsFile);
             PatchSettings(settings);
             return settings;
         }
 
-        private static void PatchSettings(MoniSettings settings) {
-            if (string.IsNullOrWhiteSpace(settings.MainSettings.UpdateInfoURL)) {
+        private static void PatchSettings(MoniSettings settings)
+        {
+            if (string.IsNullOrWhiteSpace(settings.MainSettings.UpdateInfoURL))
+            {
                 settings.MainSettings.UpdateInfoURL = MoniSettings.GetEmptySettings().MainSettings.UpdateInfoURL;
             }
         }
 
-        private static MoniSettings ReadSettingsInternal(string settingsFile) {
-            if (File.Exists(settingsFile)) {
+        private static MoniSettings ReadSettingsInternal(string settingsFile)
+        {
+            if (File.Exists(settingsFile))
+            {
                 var jsonString = File.ReadAllText(settingsFile);
                 logger.Debug("read settings from {0}: {1}", settingsFile, jsonString);
                 return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
@@ -428,7 +468,8 @@ namespace MONI.ViewModels {
 
             // no settingsfile found, try to read sample settings
             string settingsJsonSkeleton = "settings.json.skeleton";
-            if (File.Exists(settingsJsonSkeleton)) {
+            if (File.Exists(settingsJsonSkeleton))
+            {
                 string jsonString = File.ReadAllText(settingsJsonSkeleton);
                 return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
             }
@@ -437,14 +478,18 @@ namespace MONI.ViewModels {
             return MoniSettings.GetEmptySettings();
         }
 
-        private static void WriteSettings(MoniSettings settings, string settingsFile) {
+        private static void WriteSettings(MoniSettings settings, string settingsFile)
+        {
             string settingsAsJson = JsonConvert.SerializeObject(settings, Formatting.Indented);
             File.WriteAllText(settingsFile, settingsAsJson);
         }
 
-        private void workYear_PropertyChanged(object sender, PropertyChangedEventArgs e) {
-            if (e.PropertyName == "HoursDuration") {
-                if (!this.loadingData) {
+        private void workYear_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "HoursDuration")
+            {
+                if (!this.loadingData)
+                {
                     // try next save in 500ms
                     this.throttleSaveAndCalc.Stop();
                     this.throttleSaveAndCalc.Interval = TimeSpan.FromMilliseconds(500);
@@ -453,24 +498,29 @@ namespace MONI.ViewModels {
             }
         }
 
-        private void SaveAndCalc() {
+        private void SaveAndCalc()
+        {
             this.Save();
             this.WorkMonth.CalcShortCutStatistic();
         }
 
-        private void SelectPreviousWeek() {
+        private void SelectPreviousWeek()
+        {
             DateTime firstDayOfWeek = this.workWeek.StartDate;
             DateTime dateTime = firstDayOfWeek.AddDays(-1);
             this.SelectDate(dateTime);
         }
 
-        private void SelectNextWeek() {
+        private void SelectNextWeek()
+        {
             var firstDayOfWeek = this.workWeek.StartDate;
             var dateTime = firstDayOfWeek.AddDays(7);
-            if (firstDayOfWeek.Month == dateTime.Month) {
+            if (firstDayOfWeek.Month == dateTime.Month)
+            {
                 this.SelectDate(dateTime);
             }
-            else {
+            else
+            {
                 var nextMonth = firstDayOfWeek.AddMonths(1);
                 var nuDate = nextMonth.AddDays(-1 * nextMonth.Day + 1);
                 this.SelectDate(nuDate);
@@ -478,25 +528,31 @@ namespace MONI.ViewModels {
         }
 
 
-        private void SelectPreviousMonth() {
+        private void SelectPreviousMonth()
+        {
             DateTime firstDayOfWeek = this.workWeek.StartDate;
             this.SelectDate(firstDayOfWeek.AddMonths(-1));
         }
 
-        private void SelectNextMonth() {
+        private void SelectNextMonth()
+        {
             DateTime firstDayOfWeek = this.workWeek.StartDate;
             this.SelectDate(firstDayOfWeek.AddMonths(1));
         }
 
-        public void SelectToday() {
+        public void SelectToday()
+        {
             this.SelectDate(DateTime.Now);
         }
 
-        public void SelectDate(DateTime date) {
-            if (this.workYear == null || date.Year != this.workYear.Year) {
+        public void SelectDate(DateTime date)
+        {
+            if (this.workYear == null || date.Year != this.workYear.Year)
+            {
                 this.CreateAndLoadYear(date.Year);
             }
-            if (this.workMonth == null || date.Month != this.workMonth.Month) {
+            if (this.workMonth == null || date.Month != this.workMonth.Month)
+            {
                 this.WorkMonth = this.WorkYear.Months.ElementAt(date.Month - 1);
                 this.WorkMonth.CalcPreviewHours();
             }
@@ -508,12 +564,15 @@ namespace MONI.ViewModels {
             SelectWorkDay(selectedWorkDay);
         }
 
-        public void SelectWorkDay(WorkDay selectedWorkDay) {
-            if (this.SelectedWorkDay != null) {
+        public void SelectWorkDay(WorkDay selectedWorkDay)
+        {
+            if (this.SelectedWorkDay != null)
+            {
                 this.SelectedWorkDay.FocusMe = false;
             }
             this.SelectedWorkDay = selectedWorkDay;
-            if (this.SelectedWorkDay != null) {
+            if (this.SelectedWorkDay != null)
+            {
                 this.SelectedWorkDay.FocusMe = true;
             }
         }
@@ -521,8 +580,10 @@ namespace MONI.ViewModels {
         public WorkDay SelectedWorkDay { get; set; }
 
 
-        private void CreateAndLoadYear(int year) {
-            if (this.WorkYear != null) {
+        private void CreateAndLoadYear(int year)
+        {
+            if (this.WorkYear != null)
+            {
                 // need to save years data
                 this.Save();
             }
@@ -538,7 +599,8 @@ namespace MONI.ViewModels {
             Console.WriteLine("reading data took: {0}ms", sw.ElapsedMilliseconds);
         }
 
-        public void Save() {
+        public void Save()
+        {
             // save data
             this.persistenceLayer.SaveData(this.workYear);
             this.csvExporter.Export(this.WorkYear);
@@ -547,63 +609,76 @@ namespace MONI.ViewModels {
             WriteSettings(this.MonlistSettings, this.settingsFile);
         }
 
-        public void CopyFromPreviousDay(WorkDay currentDay) {
+        public void CopyFromPreviousDay(WorkDay currentDay)
+        {
             WorkDay lastValidBefore =
                 this.WorkMonth.Days.LastOrDefault(x => x.Day < currentDay.Day && x.Items != null && x.Items.Any());
-            if (lastValidBefore != null) {
+            if (lastValidBefore != null)
+            {
                 currentDay.OriginalString = lastValidBefore.OriginalString;
             }
         }
 
-        public void DeleteShortcut(ShortCut delsc) {
+        public void DeleteShortcut(ShortCut delsc)
+        {
             this.MonlistSettings.ParserSettings.ShortCuts.Remove(delsc);
             this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
             this.WorkWeek.Reparse();
         }
 
-        public void MoveShortcutUp(ShortCut sc) {
+        public void MoveShortcutUp(ShortCut sc)
+        {
             int idx = this.MonlistSettings.ParserSettings.ShortCuts.IndexOf(sc);
-            if (idx > 0) {
+            if (idx > 0)
+            {
                 this.MonlistSettings.ParserSettings.ShortCuts.Remove(sc);
                 this.MonlistSettings.ParserSettings.ShortCuts.Insert(idx - 1, sc);
             }
             this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
         }
 
-        public void MoveShortcutDown(ShortCut sc) {
+        public void MoveShortcutDown(ShortCut sc)
+        {
             int idx = this.MonlistSettings.ParserSettings.ShortCuts.IndexOf(sc);
-            if (idx < this.MonlistSettings.ParserSettings.ShortCuts.Count - 1) {
+            if (idx < this.MonlistSettings.ParserSettings.ShortCuts.Count - 1)
+            {
                 this.MonlistSettings.ParserSettings.ShortCuts.Remove(sc);
                 this.MonlistSettings.ParserSettings.ShortCuts.Insert(idx + 1, sc);
             }
             this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
         }
 
-        public void StartEditingPreferences() {
+        public void StartEditingPreferences()
+        {
             this.EditPreferences = this.MonlistSettings;
         }
 
-        public void SaveEditingPreferences() {
+        public void SaveEditingPreferences()
+        {
             UpdateVisibility();
-            if (this.PNSearch != null) {
+            if (this.PNSearch != null)
+            {
                 this.PNSearch.SetGBNumber(this.Settings.MainSettings.MonlistGBNumber, true);
             }
             this.EditPreferences = null;
             this.WorkWeek.Reparse();
         }
 
-        private void UpdateVisibility() {
+        private void UpdateVisibility()
+        {
             this.ProjectHitListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
             this.PositionHitListVisibility = this.MonlistSettings.MainSettings.ShowPositionHitList ? Visibility.Visible : Visibility.Collapsed;
             this.MonthListVisibility = this.MonlistSettings.MainSettings.ShowMonthList ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public void CancelEditingPreferences() {
+        public void CancelEditingPreferences()
+        {
             this.EditPreferences = null;
             this.MonlistSettings = ReadSettings(this.settingsFile);
         }
 
-        public void AddCurrentTime(WorkDay currentDay) {
+        public void AddCurrentTime(WorkDay currentDay)
+        {
             currentDay.OriginalString = WorkDayParser.Instance.AddCurrentTime(currentDay.OriginalString);
         }
     }

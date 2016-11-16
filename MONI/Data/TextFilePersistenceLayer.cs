@@ -5,21 +5,27 @@ using System.Linq;
 using MONI.Util;
 using NLog;
 
-namespace MONI.Data {
-    public class TextFilePersistenceLayer {
+namespace MONI.Data
+{
+    public class TextFilePersistenceLayer
+    {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly string dataDirectory;
         private List<WorkDayPersistenceData> workDaysData = new List<WorkDayPersistenceData>();
 
-        public TextFilePersistenceLayer(string dataDirectory) {
+        public TextFilePersistenceLayer(string dataDirectory)
+        {
             this.dataDirectory = dataDirectory;
             // check for dir
-            if (!Directory.Exists(dataDirectory)) {
-                try {
+            if (!Directory.Exists(dataDirectory))
+            {
+                try
+                {
                     logger.Debug("try to create data dir: {0}", dataDirectory);
                     Directory.CreateDirectory(dataDirectory);
                 }
-                catch (Exception e) {
+                catch (Exception e)
+                {
                     logger.Error("failed to create data dir: {0} with: {1}", dataDirectory, e);
                 }
             }
@@ -40,24 +46,31 @@ namespace MONI.Data {
             get
             {
                 var workDayPersistenceData = this.workDaysData.FirstOrDefault();
-                if (workDayPersistenceData != null) {
+                if (workDayPersistenceData != null)
+                {
                     return workDayPersistenceData.Date;
                 }
                 return DateTime.Today;
             }
         }
 
-        public ReadWriteResult ReadData() {
-            ReadWriteResult ret = new ReadWriteResult {Success = true};
-            try {
+        public ReadWriteResult ReadData()
+        {
+            ReadWriteResult ret = new ReadWriteResult { Success = true };
+            try
+            {
                 var dataFiles = Directory.GetFiles(this.dataDirectory, "*md", SearchOption.TopDirectoryOnly);
-                foreach (var dataFile in dataFiles) {
+                foreach (var dataFile in dataFiles)
+                {
                     logger.Debug("start reading data from file: {0}", dataFile);
-                    if (File.Exists(dataFile)) {
+                    if (File.Exists(dataFile))
+                    {
                         var readAllLines = File.ReadAllLines(dataFile);
                         int i = 0;
-                        foreach (var wdLine in readAllLines) {
-                            if (!string.IsNullOrWhiteSpace(wdLine.Replace("\0", ""))) {
+                        foreach (var wdLine in readAllLines)
+                        {
+                            if (!string.IsNullOrWhiteSpace(wdLine.Replace("\0", "")))
+                            {
                                 string wdDateData = wdLine.Token("|", 1);
                                 var wdDateParts = wdDateData.Split(',').Select(s => Convert.ToInt32(s));
                                 WorkDayPersistenceData wdpd = new WorkDayPersistenceData();
@@ -76,7 +89,8 @@ namespace MONI.Data {
                     }
                 }
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 ret.Success = false;
                 ret.Error = exception.Message;
                 logger.Error(exception, "readdata failed");
@@ -84,38 +98,49 @@ namespace MONI.Data {
             return ret;
         }
 
-        public ReadWriteResult SaveData(WorkYear year) {
-            foreach (var month in year.Months) {
+        public ReadWriteResult SaveData(WorkYear year)
+        {
+            foreach (var month in year.Months)
+            {
                 List<string> data = new List<string>();
                 var changedWorkDays = month.Days.Where(wd => wd.IsChanged || !string.IsNullOrWhiteSpace(wd.OriginalString)).ToList();
-                foreach (var workDay in changedWorkDays) {
+                foreach (var workDay in changedWorkDays)
+                {
                     data.Add(string.Format("{0},{1},{2}|{3}", workDay.Year, workDay.Month, workDay.Day, workDay.OriginalString.Replace(Environment.NewLine, "<br />")));
                 }
                 var dataFileName = string.Format("{0}_{1}.md", year.Year, month.Month.ToString("00"));
                 var dataFilePath = Path.Combine(this.dataDirectory, dataFileName);
-                if (data.Any()) {
+                if (data.Any())
+                {
                     File.WriteAllLines(dataFilePath, data);
                 }
             }
-            return new ReadWriteResult {Success = true};
+            return new ReadWriteResult { Success = true };
         }
 
-        public ReadWriteResult SetDataOfYear(WorkYear workYear) {
+        public ReadWriteResult SetDataOfYear(WorkYear workYear)
+        {
             var ret = ReadData();
-            if (ret.Success) {
-                foreach (WorkDayPersistenceData data in this.WorkDaysData.Where(wdpd => wdpd.Year == workYear.Year).ToList()) {
+            if (ret.Success)
+            {
+                foreach (WorkDayPersistenceData data in this.WorkDaysData.Where(wdpd => wdpd.Year == workYear.Year).ToList())
+                {
                     var workDay = workYear.GetDay(data.Month, data.Day);
                     WorkDay errorDay = workDay;
-                    try {
+                    try
+                    {
                         workDay.SetData(data.OriginalString);
                     }
-                    catch (Exception exception) {
+                    catch (Exception exception)
+                    {
                         ret.ErrorCount++;
                         // only remember first error for now
-                        if (ret.Success) {
+                        if (ret.Success)
+                        {
                             ret.Success = false;
                             string errorMessage = exception.Message;
-                            if (errorDay != null) {
+                            if (errorDay != null)
+                            {
                                 errorMessage = string.Format("Beim Einlesen von {0} in der Datei {1} trat in Zeile {2} folgender Fehler auf: {3}", errorDay, data.FileName, data.LineNumber, exception.Message);
                                 logger.Error(errorMessage);
                             }
@@ -123,7 +148,8 @@ namespace MONI.Data {
                         }
                     }
                 }
-                if (ret.ErrorCount > 1) {
+                if (ret.ErrorCount > 1)
+                {
                     ret.Error += string.Format("\n\n\nEs liegen noch {0} weitere Fehler vor.", ret.ErrorCount);
                 }
             }
@@ -131,7 +157,8 @@ namespace MONI.Data {
         }
     }
 
-    public class WorkDayPersistenceData {
+    public class WorkDayPersistenceData
+    {
         public int Year { get; set; }
         public int Month { get; set; }
         public int Day { get; set; }
@@ -145,7 +172,8 @@ namespace MONI.Data {
         }
     }
 
-    public class ReadWriteResult {
+    public class ReadWriteResult
+    {
         public string Error { get; set; }
         public bool Success { get; set; }
         public int ErrorCount { get; set; }

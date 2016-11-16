@@ -1,11 +1,14 @@
 ﻿using MahApps.Metro.Controls;
 using MahApps.Metro.Native;
 
-namespace MONI.Data {
-    public class CustomWindowPlacementSettings : IWindowPlacementSettings {
+namespace MONI.Data
+{
+    public class CustomWindowPlacementSettings : IWindowPlacementSettings
+    {
         private readonly MoniSettings moniSettings;
 
-        public CustomWindowPlacementSettings(MoniSettings settings) {
+        public CustomWindowPlacementSettings(MoniSettings settings)
+        {
             this.moniSettings = settings;
         }
 
@@ -13,14 +16,17 @@ namespace MONI.Data {
 
         public bool UpgradeSettings { get; set; }
 
-        public void Reload() {
+        public void Reload()
+        {
             this.Placement = this.moniSettings.MainSettings.Placement;
         }
 
-        public void Upgrade() {
+        public void Upgrade()
+        {
         }
 
-        public void Save() {
+        public void Save()
+        {
             this.moniSettings.MainSettings.Placement = this.Placement;
         }
     }

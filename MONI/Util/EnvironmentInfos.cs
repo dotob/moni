@@ -9,8 +9,10 @@ using System.Windows.Media;
 using Microsoft.Win32;
 using NLog;
 
-namespace MONI.Util {
-    public class EnvironmentInfos {
+namespace MONI.Util
+{
+    public class EnvironmentInfos
+    {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private string assemblyCompany;
         private string assemblyCopyright;
@@ -27,10 +29,12 @@ namespace MONI.Util {
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
-        static EnvironmentInfos() {
+        static EnvironmentInfos()
+        {
         }
 
-        private EnvironmentInfos() {
+        private EnvironmentInfos()
+        {
         }
 
         public static EnvironmentInfos Instance
@@ -99,10 +103,12 @@ namespace MONI.Util {
             get
             {
                 var vs = "n/a";
-                try {
+                try
+                {
                     vs = Environment.OSVersion.VersionString;
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     logger.Error(ex, "exception occured while retrieving Environment.OSVersion.VersionString");
                 }
                 return vs;
@@ -114,10 +120,12 @@ namespace MONI.Util {
             get
             {
                 var vs = "n/a";
-                try {
+                try
+                {
                     vs = Environment.OSVersion.Platform.ToString();
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     logger.Error(ex, "exception occured while retrieving Environment.OSVersion.Platform");
                 }
                 return vs;
@@ -129,10 +137,12 @@ namespace MONI.Util {
             get
             {
                 var vs = "n/a";
-                try {
+                try
+                {
                     vs = Environment.OSVersion.ServicePack;
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     logger.Error(ex, "exception occured while retrieving Environment.OSVersion.ServicePack");
                 }
                 return vs;
@@ -144,10 +154,12 @@ namespace MONI.Util {
             get
             {
                 var vs = "n/a";
-                try {
+                try
+                {
                     vs = Environment.ProcessorCount.ToString();
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     logger.Error(ex, "exception occured while retrieving Environment.ProcessorCount");
                 }
                 return vs;
@@ -159,10 +171,12 @@ namespace MONI.Util {
             get
             {
                 var vs = "n/a";
-                try {
+                try
+                {
                     vs = Environment.MachineName;
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     logger.Error(ex, "exception occured while retrieving Environment.MachineName");
                 }
                 return vs;
@@ -174,10 +188,12 @@ namespace MONI.Util {
             get
             {
                 var vs = "n/a";
-                try {
+                try
+                {
                     vs = Environment.Version.ToString();
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     logger.Error(ex, "exception occured while retrieving Environment.Version");
                 }
                 return vs;
@@ -189,10 +205,12 @@ namespace MONI.Util {
             get
             {
                 var vs = "n/a";
-                try {
+                try
+                {
                     vs = Environment.UserName;
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     logger.Error(ex, "exception occured while retrieving Environment.UserName");
                 }
                 return vs;
@@ -218,7 +236,8 @@ namespace MONI.Util {
         {
             get
             {
-                if (this.ipAdresses == null) {
+                if (this.ipAdresses == null)
+                {
                     var addressList = Dns.GetHostAddresses(Dns.GetHostName());
                     this.ipAdresses = string.Join(",", addressList.Where(ip => ip.AddressFamily == AddressFamily.InterNetwork).Select(ip => ip.ToString()).ToArray());
                 }
@@ -231,36 +250,43 @@ namespace MONI.Util {
             get
             {
                 var vs = "n/a";
-                try {
+                try
+                {
                     vs = Environment.CommandLine;
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     logger.Error(ex, "exception occured while retrieving Environment.CommandLine");
                 }
                 return vs;
             }
         }
 
-        private string CollectAssemblyVersion() {
+        private string CollectAssemblyVersion()
+        {
             this.assemblyVersion = this.AssemblyToUse.GetName().Version.ToString();
 
             return this.assemblyVersion;
         }
 
-        private string CollectVersion() {
+        private string CollectVersion()
+        {
             this.version = this.AssemblyToUse.GetName().Version.ToString();
             return this.version;
         }
 
-        private string CollectAssemblyTitle() {
+        private string CollectAssemblyTitle()
+        {
             // Get all Title attributes on this assembly
-            var attributes = this.AssemblyToUse.GetCustomAttributes(typeof (AssemblyTitleAttribute), false);
+            var attributes = this.AssemblyToUse.GetCustomAttributes(typeof(AssemblyTitleAttribute), false);
             // If there is at least one Title attribute
-            if (attributes.Length > 0) {
+            if (attributes.Length > 0)
+            {
                 // Select the first one
-                var titleAttribute = (AssemblyTitleAttribute) attributes[0];
+                var titleAttribute = (AssemblyTitleAttribute)attributes[0];
                 // If it is not an empty string, return it
-                if (titleAttribute.Title != string.Empty) {
+                if (titleAttribute.Title != string.Empty)
+                {
                     this.assemblyTitle = titleAttribute.Title;
                 }
             }
@@ -270,97 +296,114 @@ namespace MONI.Util {
             return this.assemblyTitle;
         }
 
-        private string CollectAssemblyDescription() {
+        private string CollectAssemblyDescription()
+        {
             // Get all Description attributes on this assembly
-            var attributes = this.AssemblyToUse.GetCustomAttributes(typeof (AssemblyDescriptionAttribute), false);
+            var attributes = this.AssemblyToUse.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
             // If there aren't any Description attributes, return an empty string
-            if (attributes.Length == 0) {
+            if (attributes.Length == 0)
+            {
                 this.assemblyDescription = string.Empty;
                 logger.Warn("unable to detect assembly description");
             }
             // If there is a Description attribute, return its value
-            this.assemblyDescription = ((AssemblyDescriptionAttribute) attributes[0]).Description;
+            this.assemblyDescription = ((AssemblyDescriptionAttribute)attributes[0]).Description;
 
             return this.assemblyDescription;
         }
 
-        private string CollectAssemblyProduct() {
+        private string CollectAssemblyProduct()
+        {
             // Get all Product attributes on this assembly
-            var attributes = this.AssemblyToUse.GetCustomAttributes(typeof (AssemblyProductAttribute), false);
+            var attributes = this.AssemblyToUse.GetCustomAttributes(typeof(AssemblyProductAttribute), false);
             // If there aren't any Product attributes, return an empty string
-            if (attributes.Length == 0) {
+            if (attributes.Length == 0)
+            {
                 this.assemblyProduct = string.Empty;
                 logger.Warn("unable to detect assembly product");
             }
             // If there is a Product attribute, return its value
-            this.assemblyProduct = ((AssemblyProductAttribute) attributes[0]).Product;
+            this.assemblyProduct = ((AssemblyProductAttribute)attributes[0]).Product;
 
             return this.assemblyProduct;
         }
 
-        private string CollectAssemblyCopyright() {
+        private string CollectAssemblyCopyright()
+        {
             // Get all Copyright attributes on this assembly
-            var attributes = this.AssemblyToUse.GetCustomAttributes(typeof (AssemblyCopyrightAttribute), false);
+            var attributes = this.AssemblyToUse.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
             // If there aren't any Copyright attributes, return an empty string
-            if (attributes.Length == 0) {
+            if (attributes.Length == 0)
+            {
                 this.assemblyCopyright = string.Empty;
                 logger.Warn("unable to detect assembly copyright");
             }
             // If there is a Copyright attribute, return its value
-            this.assemblyCopyright = ((AssemblyCopyrightAttribute) attributes[0]).Copyright;
+            this.assemblyCopyright = ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
 
             return this.assemblyCopyright;
         }
 
-        private string CollectAssemblyCompany() {
+        private string CollectAssemblyCompany()
+        {
             // Get all Company attributes on this assembly
-            var attributes = this.AssemblyToUse.GetCustomAttributes(typeof (AssemblyCompanyAttribute), false);
+            var attributes = this.AssemblyToUse.GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
             // If there aren't any Company attributes, return an empty string
-            if (attributes.Length == 0) {
+            if (attributes.Length == 0)
+            {
                 this.assemblyCompany = string.Empty;
                 logger.Warn("unable to detect assembly company");
             }
             // If there is a Company attribute, return its value
-            this.assemblyCompany = ((AssemblyCompanyAttribute) attributes[0]).Company;
+            this.assemblyCompany = ((AssemblyCompanyAttribute)attributes[0]).Company;
 
             return this.assemblyCompany;
         }
 
-        public string CollectHighestFrameWorkVersion() {
+        public string CollectHighestFrameWorkVersion()
+        {
             var returnString = String.Empty; //vx.y.z
 
             this.highestFrameworkVersion = String.Empty;
 
-            try {
+            try
+            {
                 const string subkey = "Software\\Microsoft\\NET Framework Setup\\NDP\\";
                 var rk = Registry.LocalMachine;
                 var rksub = rk.OpenSubKey(subkey, true);
-                if (rksub != null) {
-                    double[] dversion = {0.0, 0.0, 0.0};
-                    double[] dvercomp = {0.0, 0.0, 0.0};
-                    foreach (var valueName in rksub.GetSubKeyNames()) {
+                if (rksub != null)
+                {
+                    double[] dversion = { 0.0, 0.0, 0.0 };
+                    double[] dvercomp = { 0.0, 0.0, 0.0 };
+                    foreach (var valueName in rksub.GetSubKeyNames())
+                    {
                         var keySp = rksub.OpenSubKey(valueName);
                         int intSp;
-                        if (keySp != null) {
+                        if (keySp != null)
+                        {
                             var o = keySp.GetValue("SP");
                             intSp = Convert.ToInt32(o);
                         }
-                        else {
+                        else
+                        {
                             intSp = 0;
                         }
 
                         var s = valueName.Substring(1); //Format vx.y.z 
-                        char[] sep = {'.'};
+                        char[] sep = { '.' };
                         var parts = s.Split(sep, 3);
 
-                        for (var i = 0; i < parts.Length; i++) {
-                            if (!Double.TryParse(parts[i], out dvercomp[i])) {
+                        for (var i = 0; i < parts.Length; i++)
+                        {
+                            if (!Double.TryParse(parts[i], out dvercomp[i]))
+                            {
                                 logger.Warn("Could not parse {0} as double, use 0 instead, part-index={1}, complete-string:{2}", parts[i], i, s);
                                 dvercomp[i] = 0;
                             }
                         }
 
-                        if ((dvercomp[0] > dversion[0]) || (dvercomp[0] == dversion[0] && dvercomp[1] >= dversion[1])) {
+                        if ((dvercomp[0] > dversion[0]) || (dvercomp[0] == dversion[0] && dvercomp[1] >= dversion[1]))
+                        {
                             dvercomp.CopyTo(dversion, 0);
                             returnString = intSp > 0 ? String.Format("{0} SP{1}", valueName, intSp) : valueName;
                         }
@@ -368,19 +411,22 @@ namespace MONI.Util {
                     this.highestFrameworkVersion = String.Format(".NET Framework {0}", returnString);
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 logger.Warn(ex, "while retrieving .net framework version this exception occured");
             }
 
             return this.highestFrameworkVersion;
         }
 
-        public string CollectRenderCapabilityTier() {
+        public string CollectRenderCapabilityTier()
+        {
             var renderCapabilityTier = "Unknown Rendering Tier";
 
             var tier = RenderCapability.Tier / 0x10000;
 
-            switch (tier) {
+            switch (tier)
+            {
                 case 0:
                     renderCapabilityTier = "0/2 - No graphics hardware acceleration. The DirectX version level is less than version 7.0.";
                     break;
@@ -395,20 +441,24 @@ namespace MONI.Util {
             return renderCapabilityTier;
         }
 
-        public string CollectSystemBitInfo() {
+        public string CollectSystemBitInfo()
+        {
             this.systemBitInfo = "unknown bit mode";
 
-            if (IntPtr.Size == 4) {
+            if (IntPtr.Size == 4)
+            {
                 this.systemBitInfo = "32-bit";
             }
-            if (IntPtr.Size == 8) {
+            if (IntPtr.Size == 8)
+            {
                 this.systemBitInfo = "64-bit";
             }
 
             return this.systemBitInfo;
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             var sb = new StringBuilder();
 
             sb.AppendLine("=======================================");
@@ -434,7 +484,8 @@ namespace MONI.Util {
             return sb.ToString();
         }
 
-        public StringBuilder PrettyPrintInfos(DateTime timeUtc) {
+        public StringBuilder PrettyPrintInfos(DateTime timeUtc)
+        {
             var sb = new StringBuilder();
             sb.AppendFormat("==================== ::INFOS:: ========================================");
             sb.AppendLine();

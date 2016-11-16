@@ -4,8 +4,10 @@ using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace MONI.Util {
-    public class ViewModelBase : INotifyPropertyChanged {
+namespace MONI.Util
+{
+    public class ViewModelBase : INotifyPropertyChanged
+    {
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
@@ -13,31 +15,39 @@ namespace MONI.Util {
         /// </summary>
         /// <typeparam name="TPropertyType">The type of the property type.</typeparam>
         /// <param name="projection">The projection.</param>
-        public void OnPropertyChanged<TPropertyType>(Expression<Func<TPropertyType>> projection) {
+        public void OnPropertyChanged<TPropertyType>(Expression<Func<TPropertyType>> projection)
+        {
             var tmp = this.PropertyChanged;
-            if (tmp != null) {
-                if (projection != null) {
+            if (tmp != null)
+            {
+                if (projection != null)
+                {
                     CheckIfExpressionValid(projection);
                     tmp(this, new PropertyChangedEventArgs(PropertyName(projection)));
                 }
-                else {
+                else
+                {
                     tmp(this, new PropertyChangedEventArgs(String.Empty));
                 }
             }
         }
 
-        public void OnPropertyChanged(string thePropertyName) {
+        public void OnPropertyChanged(string thePropertyName)
+        {
             var tmp = this.PropertyChanged;
-            if (tmp != null) {
+            if (tmp != null)
+            {
                 tmp(this, new PropertyChangedEventArgs(thePropertyName));
             }
         }
 
         [Conditional("DEBUG")]
-        private static void CheckIfExpressionValid<TPropType>(Expression<Func<TPropType>> projection) {
-            var memberExpression = (MemberExpression) projection.Body;
+        private static void CheckIfExpressionValid<TPropType>(Expression<Func<TPropType>> projection)
+        {
+            var memberExpression = (MemberExpression)projection.Body;
 
-            if ((memberExpression.Member.MemberType & MemberTypes.Property) != MemberTypes.Property) {
+            if ((memberExpression.Member.MemberType & MemberTypes.Property) != MemberTypes.Property)
+            {
                 throw new ArgumentException("Not a Property!", "projection");
             }
         }
@@ -48,8 +58,9 @@ namespace MONI.Util {
         /// <typeparam name="TPropType">the return type of the property.</typeparam>
         /// <param name="projection">The property-projection, s.th. like x=&gt;x.PropertyName.</param>
         /// <returns>the PropertyName.</returns>
-        private static string PropertyName<TPropType>(Expression<Func<TPropType>> projection) {
-            var memberExpression = (MemberExpression) projection.Body;
+        private static string PropertyName<TPropType>(Expression<Func<TPropType>> projection)
+        {
+            var memberExpression = (MemberExpression)projection.Body;
             return memberExpression.Member.Name;
         }
     }

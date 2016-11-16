@@ -1,4 +1,6 @@
-﻿namespace MONI.Tests {
-    public class PersistentTester {
+﻿namespace MONI.Tests
+{
+    public class PersistentTester
+    {
     }
 }

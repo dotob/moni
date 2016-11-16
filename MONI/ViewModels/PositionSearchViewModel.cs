@@ -9,8 +9,10 @@ using System.Windows.Input;
 using MONI.Util;
 using NLog;
 
-namespace MONI.ViewModels {
-    public class PositionSearchViewModel : ViewModelBase {
+namespace MONI.ViewModels
+{
+    public class PositionSearchViewModel : ViewModelBase
+    {
         private bool showPnSearch;
         private string searchText;
         private ICommand cancelCommand;
@@ -18,20 +20,27 @@ namespace MONI.ViewModels {
         private Dictionary<string, string> pnHash;
 
 
-        public PositionSearchViewModel(string projectNumberFiles) {
+        public PositionSearchViewModel(string projectNumberFiles)
+        {
             this.Results = new QuickFillObservableCollection<PositionNumber>();
             this.ProjectNumbers = new List<PositionNumber>();
             Task.Factory.StartNew(() => this.ReadPNFile(projectNumberFiles));
         }
 
-        private void ReadPNFile(string pnFilePaths) {
-            if (!string.IsNullOrWhiteSpace(pnFilePaths)) {
-                foreach (var pnFileUnpatched in pnFilePaths.Split(';')) {
+        private void ReadPNFile(string pnFilePaths)
+        {
+            if (!string.IsNullOrWhiteSpace(pnFilePaths))
+            {
+                foreach (var pnFileUnpatched in pnFilePaths.Split(';'))
+                {
                     var pnFile = Utils.PatchFilePath(pnFileUnpatched);
-                    if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile)) {
+                    if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile))
+                    {
                         var allPnLines = File.ReadAllLines(pnFile, Encoding.Default);
-                        foreach (string line in allPnLines.Skip(1)) {
-                            try {
+                        foreach (string line in allPnLines.Skip(1))
+                        {
+                            try
+                            {
                                 var pn = new PositionNumber();
                                 string[] columns = line.Split(';');
                                 pn.Number = columns[0];
@@ -39,7 +48,8 @@ namespace MONI.ViewModels {
                                 pn.Customer = columns[2];
                                 this.ProjectNumbers.Add(pn);
                             }
-                            catch (Exception e) {
+                            catch (Exception e)
+                            {
                                 logger.Warn(e, "Could not read as projectnumber info: {0}", line);
                             }
                         }
@@ -73,18 +83,23 @@ namespace MONI.ViewModels {
             }
         }
 
-        private void Search() {
+        private void Search()
+        {
             var s = this.searchText;
-            if (!string.IsNullOrWhiteSpace(s)) {
-                try {
+            if (!string.IsNullOrWhiteSpace(s))
+            {
+                try
+                {
                     var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Customer, s, RegexOptions.IgnoreCase));
                     this.Results.AddItems(res, true);
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     // ignore, usually there is an unfinished regex
                 }
             }
-            else {
+            else
+            {
                 this.Results.Clear();
             }
         }
@@ -96,16 +111,19 @@ namespace MONI.ViewModels {
             get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(() => this.ShowPNSearch = false, () => true)); }
         }
 
-        public string GetDescriptionForPositionNumber(string positionNumber) {
+        public string GetDescriptionForPositionNumber(string positionNumber)
+        {
             string ret;
-            if (this.pnHash.TryGetValue(positionNumber, out ret)) {
+            if (this.pnHash.TryGetValue(positionNumber, out ret))
+            {
                 return ret;
             }
             return null;
         }
     }
 
-    public class PositionNumber {
+    public class PositionNumber
+    {
         public string Number { get; set; }
         public string Description { get; set; }
         public string Customer { get; set; }

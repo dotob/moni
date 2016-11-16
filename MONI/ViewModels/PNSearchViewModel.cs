@@ -9,8 +9,10 @@ using MONI.Util;
 using System;
 using NLog;
 
-namespace MONI.ViewModels {
-    public class PNSearchViewModel : ViewModelBase {
+namespace MONI.ViewModels
+{
+    public class PNSearchViewModel : ViewModelBase
+    {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         private bool showPnSearch;
@@ -19,28 +21,36 @@ namespace MONI.ViewModels {
         private Dictionary<string, string> pnHash;
         private int gbNumber;
 
-        public PNSearchViewModel(string projectNumberFiles, int gbNumber) {
+        public PNSearchViewModel(string projectNumberFiles, int gbNumber)
+        {
             this.Results = new QuickFillObservableCollection<ProjectNumber>();
             this.ProjectNumbers = new List<ProjectNumber>();
             this.ProjectNumbersToSearch = new List<ProjectNumber>();
             Task.Factory.StartNew(() => this.ReadPNFile(projectNumberFiles, gbNumber));
         }
 
-        public void SetGBNumber(int gbNumber, bool doSearch = false) {
+        public void SetGBNumber(int gbNumber, bool doSearch = false)
+        {
             this.gbNumber = gbNumber / 10;
             this.ProjectNumbersToSearch = this.ProjectNumbers.Where(pn => this.gbNumber <= 0 || pn.GB == this.gbNumber).ToList();
-            if (doSearch) {
+            if (doSearch)
+            {
                 this.Search();
             }
         }
 
-        private void ReadPNFile(string pnFilePaths, int gbNumber) {
-            if (!string.IsNullOrWhiteSpace(pnFilePaths)) {
-                foreach (var pnFileUnpatched in pnFilePaths.Split(';')) {
+        private void ReadPNFile(string pnFilePaths, int gbNumber)
+        {
+            if (!string.IsNullOrWhiteSpace(pnFilePaths))
+            {
+                foreach (var pnFileUnpatched in pnFilePaths.Split(';'))
+                {
                     var pnFile = Utils.PatchFilePath(pnFileUnpatched);
-                    if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile)) {
+                    if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile))
+                    {
                         var allPnLines = File.ReadAllLines(pnFile, Encoding.Default);
-                        foreach (string line in allPnLines.Skip(1)) {
+                        foreach (string line in allPnLines.Skip(1))
+                        {
                             var pn = new ProjectNumber();
                             pn.GB = Convert.ToInt32(line.Substring(0, 1));
                             pn.Number = line.Substring(0, 5);
@@ -53,10 +63,12 @@ namespace MONI.ViewModels {
                 }
             }
             this.SetGBNumber(gbNumber);
-            try {
+            try
+            {
                 this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 logger.Warn("Exception while converting projekte to dictionary", e);
             }
         }
@@ -84,25 +96,32 @@ namespace MONI.ViewModels {
             }
         }
 
-        private void Search() {
+        private void Search()
+        {
             var s = this.searchText;
-            if (!string.IsNullOrWhiteSpace(s)) {
-                try {
+            if (!string.IsNullOrWhiteSpace(s))
+            {
+                try
+                {
                     var res = this.ProjectNumbersToSearch.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase));
                     this.Results.AddItems(res, true);
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     // ignore, usually there is an unfinished regex
                 }
             }
-            else {
+            else
+            {
                 this.Results.Clear();
             }
         }
 
-        public string GetDescriptionForProjectNumber(string positionNumber) {
+        public string GetDescriptionForProjectNumber(string positionNumber)
+        {
             string ret;
-            if (this.pnHash.TryGetValue(positionNumber, out ret)) {
+            if (this.pnHash.TryGetValue(positionNumber, out ret))
+            {
                 return ret;
             }
             return null;
@@ -116,7 +135,8 @@ namespace MONI.ViewModels {
         }
     }
 
-    public class ProjectNumber {
+    public class ProjectNumber
+    {
         public int GB { get; set; }
         public string Number { get; set; }
         public string Description { get; set; }

@@ -6,8 +6,10 @@ using System.Globalization;
 using System.Linq;
 using MONI.Data.SpecialDays;
 
-namespace MONI.Data {
-    public class WorkDay : INotifyPropertyChanged, IDataErrorInfo {
+namespace MONI.Data
+{
+    public class WorkDay : INotifyPropertyChanged, IDataErrorInfo
+    {
         private readonly int day;
         private readonly int month;
         private readonly int year;
@@ -18,11 +20,13 @@ namespace MONI.Data {
         private bool isChanged;
         private bool _focusMe;
 
-        private WorkDay() {
+        private WorkDay()
+        {
             this.items = new ObservableCollection<WorkItem>();
         }
 
-        public WorkDay(int year, int month, int day, GermanSpecialDays specialDays) : this() {
+        public WorkDay(int year, int month, int day, GermanSpecialDays specialDays) : this()
+        {
             this.year = year;
             this.month = month;
             this.day = day;
@@ -35,17 +39,21 @@ namespace MONI.Data {
         }
 
 
-        private DayType calculateDayType(DateTime dt, DayOfWeek dayOfWeek, GermanSpecialDays specialDays, out GermanSpecialDay foundSpecialDay) {
+        private DayType calculateDayType(DateTime dt, DayOfWeek dayOfWeek, GermanSpecialDays specialDays, out GermanSpecialDay foundSpecialDay)
+        {
             foundSpecialDay = null;
-            if (specialDays != null) {
+            if (specialDays != null)
+            {
                 specialDays.TryGetValue(dt, out foundSpecialDay);
             }
-            if (foundSpecialDay != null) {
+            if (foundSpecialDay != null)
+            {
                 return DayType.Holiday;
             }
 
             DayType ret = DayType.Unknown;
-            switch (dayOfWeek) {
+            switch (dayOfWeek)
+            {
                 case DayOfWeek.Monday:
                 case DayOfWeek.Tuesday:
                 case DayOfWeek.Wednesday:
@@ -74,7 +82,8 @@ namespace MONI.Data {
             get
             {
                 var now = DateTime.Now;
-                if (now.Day == this.day && now.Month == this.month && now.Year == this.year) {
+                if (now.Day == this.day && now.Month == this.month && now.Year == this.year)
+                {
                     return "today";
                 }
                 return string.Format("{0}_{1}_{2}", this.year, this.month, this.day);
@@ -104,35 +113,43 @@ namespace MONI.Data {
             get { return this.originalString; }
             set
             {
-                if (this.originalString == value) {
+                if (this.originalString == value)
+                {
                     return;
                 }
                 this.originalString = value;
                 this.isChanged = true;
-                if (string.IsNullOrEmpty(this.originalString)) {
+                if (string.IsNullOrEmpty(this.originalString))
+                {
                     this.items.Clear();
                     this.ImportantStuffChanged();
                 }
-                else {
+                else
+                {
                     this.ParseData(value);
                 }
             }
         }
 
-        private void ParseData(string value) {
+        private void ParseData(string value)
+        {
             // do parsing
-            if (WorkDayParser.Instance != null) {
+            if (WorkDayParser.Instance != null)
+            {
                 WorkDay wd = this;
                 this.lastParseResult = WorkDayParser.Instance.Parse(value, ref wd);
-                if (!this.LastParseResult.Success) {
+                if (!this.LastParseResult.Success)
+                {
                     // todo what now?
                 }
                 this.ImportantStuffChanged();
             }
         }
 
-        public void Reparse() {
-            if (!string.IsNullOrWhiteSpace(this.originalString)) {
+        public void Reparse()
+        {
+            if (!string.IsNullOrWhiteSpace(this.originalString))
+            {
                 this.ParseData(this.OriginalString);
             }
         }
@@ -172,8 +189,10 @@ namespace MONI.Data {
         {
             get
             {
-                if (columnName == "OriginalString") {
-                    if (LastParseResult != null && !LastParseResult.Success) {
+                if (columnName == "OriginalString")
+                {
+                    if (LastParseResult != null && !LastParseResult.Success)
+                    {
                         return LastParseResult.Error;
                     }
                 }
@@ -188,12 +207,14 @@ namespace MONI.Data {
             get { return _focusMe; }
             set
             {
-                if (_focusMe == value) {
+                if (_focusMe == value)
+                {
                     return;
                 }
                 _focusMe = value;
                 var tmp = this.PropertyChanged;
-                if (tmp != null) {
+                if (tmp != null)
+                {
                     tmp(this, new PropertyChangedEventArgs("FocusMe"));
                 }
             }
@@ -211,34 +232,41 @@ namespace MONI.Data {
 
         #endregion
 
-        private void ImportantStuffChanged() {
+        private void ImportantStuffChanged()
+        {
             var tmp = this.PropertyChanged;
-            if (tmp != null) {
+            if (tmp != null)
+            {
                 tmp(this, new PropertyChangedEventArgs("OriginalString"));
                 tmp(this, new PropertyChangedEventArgs("HoursDuration"));
             }
         }
 
-        public override string ToString() {
+        public override string ToString()
+        {
             return string.Format("{0},items:{1},origString:{2}", this.DayOfWeek, this.Items.Count(), this.OriginalString);
         }
 
-        public void Clear() {
+        public void Clear()
+        {
             this.items.Clear();
         }
 
-        public void AddWorkItem(WorkItem workItem) {
+        public void AddWorkItem(WorkItem workItem)
+        {
             this.items.Add(workItem);
             workItem.WorkDay = this;
         }
 
-        public void SetData(string originalString) {
+        public void SetData(string originalString)
+        {
             this.OriginalString = originalString;
             this.isChanged = false;
         }
     }
 
-    public enum DayType {
+    public enum DayType
+    {
         Unknown,
         Working,
         Weekend,

@@ -6,18 +6,24 @@ using System.Windows.Media;
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
 
-namespace MONI.Util {
-    public static class VisualTreeExtensions {
-        private static DependencyObject FindVisualTreeRoot(this DependencyObject d) {
+namespace MONI.Util
+{
+    public static class VisualTreeExtensions
+    {
+        private static DependencyObject FindVisualTreeRoot(this DependencyObject d)
+        {
             var current = d;
             var result = d;
 
-            while (current != null) {
+            while (current != null)
+            {
                 result = current;
-                if (current is Visual || current is Visual3D) {
+                if (current is Visual || current is Visual3D)
+                {
                     break;
                 }
-                else {
+                else
+                {
                     // If we're in Logical Land then we must walk 
                     // up the logical tree until we find a 
                     // Visual/Visual3D to get us back to Visual Land.
@@ -28,12 +34,15 @@ namespace MONI.Util {
             return result;
         }
 
-        public static T GetVisualAncestor<T>(this DependencyObject d) where T : class {
+        public static T GetVisualAncestor<T>(this DependencyObject d) where T : class
+        {
             var item = VisualTreeHelper.GetParent(d.FindVisualTreeRoot());
 
-            while (item != null) {
+            while (item != null)
+            {
                 var itemAsT = item as T;
-                if (itemAsT != null) {
+                if (itemAsT != null)
+                {
                     return itemAsT;
                 }
                 item = VisualTreeHelper.GetParent(item);
@@ -42,12 +51,15 @@ namespace MONI.Util {
             return null;
         }
 
-        public static T GetLogicalAncestor<T>(this DependencyObject d) where T : class {
+        public static T GetLogicalAncestor<T>(this DependencyObject d) where T : class
+        {
             var item = VisualTreeHelper.GetParent(d.FindVisualTreeRoot());
 
-            while (item != null) {
+            while (item != null)
+            {
                 var itemAsT = item as T;
-                if (itemAsT != null) {
+                if (itemAsT != null)
+                {
                     return itemAsT;
                 }
                 item = LogicalTreeHelper.GetParent(item);
@@ -56,11 +68,14 @@ namespace MONI.Util {
             return null;
         }
 
-        public static DependencyObject GetVisualAncestor(this DependencyObject d, Type type) {
+        public static DependencyObject GetVisualAncestor(this DependencyObject d, Type type)
+        {
             var item = VisualTreeHelper.GetParent(d.FindVisualTreeRoot());
 
-            while (item != null && type != null) {
-                if (item.GetType() == type || item.GetType().IsSubclassOf(type)) {
+            while (item != null && type != null)
+            {
+                if (item.GetType() == type || item.GetType().IsSubclassOf(type))
+                {
                     return item;
                 }
                 item = VisualTreeHelper.GetParent(item);
@@ -72,15 +87,19 @@ namespace MONI.Util {
         /// <summary>
         /// find the visual ancestor by type and go through the visual tree until the given itemsControl will be found
         /// </summary>
-        public static DependencyObject GetVisualAncestor(this DependencyObject d, Type type, ItemsControl itemsControl) {
+        public static DependencyObject GetVisualAncestor(this DependencyObject d, Type type, ItemsControl itemsControl)
+        {
             var item = VisualTreeHelper.GetParent(d.FindVisualTreeRoot());
             DependencyObject lastFoundItemByType = null;
 
-            while (item != null && type != null) {
-                if (item == itemsControl) {
+            while (item != null && type != null)
+            {
+                if (item == itemsControl)
+                {
                     return lastFoundItemByType;
                 }
-                if (item.GetType() == type || item.GetType().IsSubclassOf(type)) {
+                if (item.GetType() == type || item.GetType().IsSubclassOf(type))
+                {
                     lastFoundItemByType = item;
                 }
                 item = VisualTreeHelper.GetParent(item);
@@ -89,21 +108,26 @@ namespace MONI.Util {
             return lastFoundItemByType;
         }
 
-        public static T GetVisualDescendent<T>(this DependencyObject d) where T : DependencyObject {
+        public static T GetVisualDescendent<T>(this DependencyObject d) where T : DependencyObject
+        {
             return d.GetVisualDescendents<T>().FirstOrDefault();
         }
 
-        public static IEnumerable<T> GetVisualDescendents<T>(this DependencyObject d) where T : DependencyObject {
+        public static IEnumerable<T> GetVisualDescendents<T>(this DependencyObject d) where T : DependencyObject
+        {
             var childCount = VisualTreeHelper.GetChildrenCount(d);
 
-            for (var n = 0; n < childCount; n++) {
+            for (var n = 0; n < childCount; n++)
+            {
                 var child = VisualTreeHelper.GetChild(d, n);
 
-                if (child is T) {
-                    yield return (T) child;
+                if (child is T)
+                {
+                    yield return (T)child;
                 }
 
-                foreach (var match in GetVisualDescendents<T>(child)) {
+                foreach (var match in GetVisualDescendents<T>(child))
+                {
                     yield return match;
                 }
             }

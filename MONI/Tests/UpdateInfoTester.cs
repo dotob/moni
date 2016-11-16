@@ -2,10 +2,13 @@
 using NUnit.Framework;
 using Newtonsoft.Json;
 
-namespace MONI.Tests {
-    public class UpdateInfoTester {
+namespace MONI.Tests
+{
+    public class UpdateInfoTester
+    {
         [Test]
-        public void Read_Infos() {
+        public void Read_Infos()
+        {
             var uiArray = JsonConvert.DeserializeObject<UpdateInfo[]>(Properties.Resources.UpdateInfoTest_json);
             CollectionAssert.IsNotEmpty(uiArray);
             var ui = uiArray[0];

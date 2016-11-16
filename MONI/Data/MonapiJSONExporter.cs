@@ -1,23 +1,29 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace MONI.Data {
-    public class MonapiJSONExporter {
+namespace MONI.Data
+{
+    public class MonapiJSONExporter
+    {
         private readonly int monlistUserNUmber;
         private readonly string dataDirectory;
 
-        public MonapiJSONExporter(int monlistUserNUmber) {
+        public MonapiJSONExporter(int monlistUserNUmber)
+        {
             this.monlistUserNUmber = monlistUserNUmber;
         }
 
-        public string Export(WorkMonth wmonth) {
+        public string Export(WorkMonth wmonth)
+        {
             var month = new MonapiMonth();
             month.Nummer = this.monlistUserNUmber;
             month.Jahr = wmonth.Year;
             month.Monat = wmonth.Month;
             var items = new List<MonapiWorkItem>();
-            foreach (var day in wmonth.Days) {
-                foreach (var item in day.Items) {
+            foreach (var day in wmonth.Days)
+            {
+                foreach (var item in day.Items)
+                {
                     items.Add(new MonapiWorkItem(item));
                 }
             }
@@ -27,15 +33,18 @@ namespace MONI.Data {
         }
     }
 
-    class MonapiMonth {
+    class MonapiMonth
+    {
         public int Nummer { get; set; }
         public int Jahr { get; set; }
         public int Monat { get; set; }
         public IEnumerable<MonapiWorkItem> Stunden { get; set; }
     }
 
-    class MonapiWorkItem {
-        public MonapiWorkItem(WorkItem item) {
+    class MonapiWorkItem
+    {
+        public MonapiWorkItem(WorkItem item)
+        {
             this.Tag = item.WorkDay.Day;
             this.Von = item.Start.ToString();
             this.Bis = item.End.ToString();

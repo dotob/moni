@@ -5,8 +5,10 @@ using System.Windows.Data;
 using System.Windows.Media;
 using MONI.Data;
 
-namespace MONI.ValueConverter {
-    public class DurationFGColorConverter : IValueConverter {
+namespace MONI.ValueConverter
+{
+    public class DurationFGColorConverter : IValueConverter
+    {
         private readonly Brush defaultBrush;
         private readonly Brush lessHoursPerDayBrush;
 
@@ -14,10 +16,12 @@ namespace MONI.ValueConverter {
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
-        static DurationFGColorConverter() {
+        static DurationFGColorConverter()
+        {
         }
 
-        private DurationFGColorConverter() {
+        private DurationFGColorConverter()
+        {
             this.defaultBrush = Brushes.DarkSlateGray;
             this.defaultBrush.Freeze();
             this.lessHoursPerDayBrush = Brushes.WhiteSmoke;
@@ -29,16 +33,19 @@ namespace MONI.ValueConverter {
             get { return instance ?? (instance = new DurationFGColorConverter()); }
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var duration = (double) value;
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var duration = (double)value;
             var b = this.defaultBrush;
-            if (duration < MoniSettings.Current.MainSettings.HoursPerDay) {
+            if (duration < MoniSettings.Current.MainSettings.HoursPerDay)
+            {
                 b = this.lessHoursPerDayBrush;
             }
             return b;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
             return DependencyProperty.UnsetValue;
         }
     }
