@@ -368,42 +368,22 @@
       <Controls:Flyout Header="Projektnummern-Suche"
                        Width="500"
                        Position="Right"
-                       KeyboardNavigation.TabNavigation="Cycle"
-                       Content="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
                        IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}">
-        <Controls:Flyout.ContentTemplate>
-          <DataTemplate DataType="{x:Type viewModels:PNSearchViewModel}">
-            <DataTemplate.Resources>
-              <Style TargetType="{x:Type TextBox}"
-                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}" />
-            </DataTemplate.Resources>
-            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-            <views:PNSearchView x:Name="pnSearchView"
-                                IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
-                                AddShortCutService="{Binding ElementName=mv}" />
-          </DataTemplate>
-        </Controls:Flyout.ContentTemplate>
+        <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+        <views:PNSearchView DataContext="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
+                            IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
+                            AddShortCutService="{Binding ElementName=mv}" />
       </Controls:Flyout>
 
       <!-- search positionnumbers -->
       <Controls:Flyout Header="Positionsnummern-Suche"
                        Width="500"
                        Position="Right"
-                       KeyboardNavigation.TabNavigation="Cycle"
-                       Content="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
                        IsOpen="{Binding ElementName=mv, Path=ViewModel.PositionSearch.ShowPNSearch}">
-        <Controls:Flyout.ContentTemplate>
-          <DataTemplate DataType="{x:Type viewModels:PositionSearchViewModel}">
-            <DataTemplate.Resources>
-              <Style TargetType="{x:Type TextBox}"
-                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}" />
-            </DataTemplate.Resources>
-            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-            <views:PositionSearchView x:Name="posSearchView"
-                                      IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
-                                      AddShortCutService="{Binding ElementName=mv}" />
-          </DataTemplate>
-        </Controls:Flyout.ContentTemplate>
+        <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
+        <views:PositionSearchView DataContext="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
+                                  IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
+                                  AddShortCutService="{Binding ElementName=mv}" />
       </Controls:Flyout>
 
       <!-- show update info -->

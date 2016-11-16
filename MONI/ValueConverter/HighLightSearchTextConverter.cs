@@ -29,7 +29,7 @@ namespace MONI.ValueConverter {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
             var result = values.ElementAtOrDefault(0) as string;
             var searchText = values.ElementAtOrDefault(1) as string;
-            var wp = new Span();
+            var wp = new TextBlock() { TextTrimming = TextTrimming.CharacterEllipsis };
             if (!string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(searchText)) {
                 bool found = false;
                 string lastchars = string.Empty;
