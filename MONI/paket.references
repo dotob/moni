@@ -4,5 +4,6 @@ Newtonsoft.Json
 NLog
 NUnit
 MahApps.Metro
-MahApps.Metro.Resources
+MahApps.Metro.IconPacks.Modern
+MahApps.Metro.IconPacks.Material
 gong-wpf-dragdrop

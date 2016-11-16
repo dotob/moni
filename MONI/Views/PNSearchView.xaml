@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:MONI.ViewModels"
              xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -12,11 +13,6 @@
              x:Name="pnSearchView">
 
   <UserControl.Resources>
-    <VisualBrush x:Key="AddVisualBrush"
-                 x:Shared="True"
-                 Stretch="Fill"
-                 Visual="{DynamicResource appbar_location_add}" />
-
     <DataTemplate x:Key="ProjectDataTemplate"
                   DataType="{x:Type ViewModels:ProjectNumber}">
       <Border Background="DimGray"
@@ -67,22 +63,15 @@
           <Button Grid.Column="1"
                   Grid.Row="0"
                   Grid.RowSpan="2"
-                  Width="13"
+                  Width="16"
                   Height="20"
                   Margin="10 0 0 0"
                   Style="{StaticResource ImageButtonStyle}"
+                  Content="{iconPacks:PackIconMaterial BookmarkPlus}"
+                  Foreground="#CC119EDA"
                   Click="AddAsShortcut_OnClick"
                   Tag="{Binding}"
-                  ToolTip="Neuen Shortcut erstellen">
-            <Rectangle Width="10"
-                       Height="20"
-                       Fill="{StaticResource AddVisualBrush}">
-              <Rectangle.Resources>
-                <SolidColorBrush x:Key="BlackBrush"
-                                 Color="#CC119EDA" />
-              </Rectangle.Resources>
-            </Rectangle>
-          </Button>
+                  ToolTip="Neuen Shortcut erstellen" />
         </Grid>
       </Border>
     </DataTemplate>

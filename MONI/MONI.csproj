@@ -164,16 +164,6 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Resources\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <Paket>True</Paket>
-    </Page>
-    <Page Include="Resources\IconsNonShared.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <Paket>True</Paket>
-    </Page>
     <Page Include="Resources\Controls.ListBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -232,21 +222,12 @@
     </None>
     <AppDesigner Include="Properties\" />
     <Content Include="FodyWeavers.xml" />
-    <Content Include="Resources\Entypo-license.txt">
-      <Paket>True</Paket>
-    </Content>
-    <Content Include="Resources\WindowsIcons-license.txt">
-      <Paket>True</Paket>
-    </Content>
     <Content Include="Resources\UpdateInfoTest.json.txt" />
     <None Include="Resources\README.md" />
     <None Include="Util\AttachedCommandBehavior\ACB.cd" />
     <None Include="Util\AttachedCommandBehavior\LICENSE.md" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Entypo.ttf">
-      <Paket>True</Paket>
-    </Resource>
     <Resource Include="Resources\moni.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -306,6 +287,46 @@
         </Reference>
         <Reference Include="System.Windows.Interactivity">
           <HintPath>..\packages\MahApps.Metro\lib\net45\System.Windows.Interactivity.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">
+      <ItemGroup>
+        <Reference Include="MahApps.Metro.IconPacks.Material">
+          <HintPath>..\packages\MahApps.Metro.IconPacks.Material\lib\net45\MahApps.Metro.IconPacks.Material.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
+      <ItemGroup>
+        <Reference Include="MahApps.Metro.IconPacks.Material">
+          <HintPath>..\packages\MahApps.Metro.IconPacks.Material\lib\net46\MahApps.Metro.IconPacks.Material.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3')">
+      <ItemGroup>
+        <Reference Include="MahApps.Metro.IconPacks.Modern">
+          <HintPath>..\packages\MahApps.Metro.IconPacks.Modern\lib\net45\MahApps.Metro.IconPacks.Modern.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.6' Or $(TargetFrameworkVersion) == 'v4.6.1' Or $(TargetFrameworkVersion) == 'v4.6.2' Or $(TargetFrameworkVersion) == 'v4.6.3')">
+      <ItemGroup>
+        <Reference Include="MahApps.Metro.IconPacks.Modern">
+          <HintPath>..\packages\MahApps.Metro.IconPacks.Modern\lib\net46\MahApps.Metro.IconPacks.Modern.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

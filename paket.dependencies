@@ -3,9 +3,10 @@ framework >= net45
 
 nuget JetBrains.Annotations
 nuget Newtonsoft.Json ~> 9.0
-nuget NLog ~> 4.1
+nuget NLog ~> 4.3
 nuget NUnit ~> 2.6
 nuget MahApps.Metro
-nuget MahApps.Metro.Resources
+nuget MahApps.Metro.IconPacks.Modern
+nuget MahApps.Metro.IconPacks.Material
 nuget gong-wpf-dragdrop
 nuget Costura.Fody
