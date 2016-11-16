@@ -1,0 +1,11 @@
+source https://nuget.org/api/v2
+framework >= net45
+
+nuget JetBrains.Annotations
+nuget Newtonsoft.Json ~> 6.0
+nuget NLog ~> 4.1
+nuget NUnit ~> 2.6
+nuget MahApps.Metro
+nuget MahApps.Metro.Resources
+nuget gong-wpf-dragdrop
+nuget Costura.Fody

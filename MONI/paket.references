@@ -1,0 +1,8 @@
+Costura.Fody content: once
+JetBrains.Annotations
+Newtonsoft.Json
+NLog
+NUnit
+MahApps.Metro
+MahApps.Metro.Resources
+gong-wpf-dragdrop
