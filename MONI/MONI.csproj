@@ -221,6 +221,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\paket.dependencies">
+      <Link>paket.dependencies</Link>
+    </None>
     <None Include="app.config" />
     <None Include="paket.references" />
     <None Include="Properties\Settings.settings">
