@@ -130,19 +130,19 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\ShortcutViewModel.cs" />
     <Compile Include="ViewModels\UpdateInfoViewModel.cs" />
-    <Compile Include="Views\PositionSearchView.xaml.cs">
-      <DependentUpon>PositionSearchView.xaml</DependentUpon>
+    <Compile Include="Views\PositionSearchFlyout.xaml.cs">
+      <DependentUpon>PositionSearchFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\UpdateInfoView.xaml.cs">
       <DependentUpon>UpdateInfoView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PNSearchView.xaml.cs">
-      <DependentUpon>PNSearchView.xaml</DependentUpon>
+    <Compile Include="Views\PNSearchFlyout.xaml.cs">
+      <DependentUpon>PNSearchFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ShortcutView.xaml.cs">
       <DependentUpon>ShortcutView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\PositionSearchView.xaml">
+    <Page Include="Views\PositionSearchFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -176,7 +176,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\PNSearchView.xaml">
+    <Page Include="Views\PNSearchFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

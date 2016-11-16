@@ -364,27 +364,21 @@
         </Controls:Flyout.ContentTemplate>
       </Controls:Flyout>
 
-      <!-- search projectnumbers -->
-      <Controls:Flyout Header="Projektnummern-Suche"
-                       Width="500"
-                       Position="Right"
-                       IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}">
-        <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-        <views:PNSearchView DataContext="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
-                            IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
-                            AddShortCutService="{Binding ElementName=mv}" />
-      </Controls:Flyout>
+      <!-- project numbers -->
+      <views:PNSearchFlyout Header="Projektnummern-Suche"
+                            Width="500"
+                            Position="Right"
+                            DataContext="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
+                            AddShortCutService="{Binding ElementName=mv}"
+                            IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}" />
 
-      <!-- search positionnumbers -->
-      <Controls:Flyout Header="Positionsnummern-Suche"
-                       Width="500"
-                       Position="Right"
-                       IsOpen="{Binding ElementName=mv, Path=ViewModel.PositionSearch.ShowPNSearch}">
-        <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-        <views:PositionSearchView DataContext="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
-                                  IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
-                                  AddShortCutService="{Binding ElementName=mv}" />
-      </Controls:Flyout>
+      <!-- position numbers -->
+      <views:PositionSearchFlyout Header="Positionsnummern-Suche"
+                                  Width="500"
+                                  Position="Right"
+                                  DataContext="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
+                                  AddShortCutService="{Binding ElementName=mv}"
+                                  IsOpen="{Binding ElementName=mv, Path=ViewModel.PositionSearch.ShowPNSearch}" />
 
       <!-- show update info -->
       <Controls:Flyout Header="Update-Info"

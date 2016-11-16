@@ -1,19 +1,19 @@
-﻿<UserControl x:Class="MONI.Views.PositionSearchView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:ViewModels="clr-namespace:MONI.ViewModels"
-             xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-             mc:Ignorable="d"
-             d:DesignHeight="300"
-             d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance ViewModels:PositionSearchViewModel}"
-             x:Name="pnSearchView">
+﻿<controls:Flyout x:Class="MONI.Views.PositionSearchFlyout"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:ViewModels="clr-namespace:MONI.ViewModels"
+                 xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
+                 xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 mc:Ignorable="d"
+                 d:DesignHeight="300"
+                 d:DesignWidth="300"
+                 d:DataContext="{d:DesignInstance ViewModels:PositionSearchViewModel}"
+                 x:Name="pnSearchView">
 
-  <UserControl.Resources>
+  <controls:Flyout.Resources>
     <Style TargetType="{x:Type TextBox}"
            BasedOn="{StaticResource MONIMetroFlyoutTextBox}" />
 
@@ -44,7 +44,7 @@
                  Foreground="Gainsboro">
             <MultiBinding Converter="{x:Static valueConverter:HighLightSearchTextConverter.Instance}">
               <Binding Path="Number" />
-              <Binding ElementName="posNumSearchTextBox"
+              <Binding ElementName="searchTextBox"
                        Path="Text" />
             </MultiBinding>
           </Label>
@@ -57,7 +57,7 @@
                  Foreground="Gainsboro">
             <MultiBinding Converter="{x:Static valueConverter:HighLightSearchTextConverter.Instance}">
               <Binding Path="Customer" />
-              <Binding ElementName="posNumSearchTextBox"
+              <Binding ElementName="searchTextBox"
                        Path="Text" />
             </MultiBinding>
           </Label>
@@ -70,7 +70,7 @@
                  Foreground="Gainsboro">
             <MultiBinding Converter="{x:Static valueConverter:HighLightSearchTextConverter.Instance}">
               <Binding Path="Description" />
-              <Binding ElementName="posNumSearchTextBox"
+              <Binding ElementName="searchTextBox"
                        Path="Text" />
             </MultiBinding>
           </Label>
@@ -90,9 +90,10 @@
         </Grid>
       </Border>
     </DataTemplate>
-  </UserControl.Resources>
+  </controls:Flyout.Resources>
 
-  <Grid Margin="10">
+  <Grid Margin="10"
+        FocusManager.FocusedElement="{Binding ElementName=searchTextBox}">
 
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -103,7 +104,7 @@
     <TextBox Grid.Row="0"
              Margin="2"
              Focusable="True"
-             x:Name="posNumSearchTextBox"
+             x:Name="searchTextBox"
              controls:TextBoxHelper.Watermark="Suche..."
              Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=250}" />
 
@@ -126,4 +127,4 @@
 
   </Grid>
 
-</UserControl>
+</controls:Flyout>
