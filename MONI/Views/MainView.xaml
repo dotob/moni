@@ -381,22 +381,11 @@
                                   IsOpen="{Binding ElementName=mv, Path=ViewModel.PositionSearch.ShowPNSearch}" />
 
       <!-- show update info -->
-      <Controls:Flyout Header="Update-Info"
-                       Width="500"
-                       Position="Right"
-                       KeyboardNavigation.TabNavigation="Cycle"
-                       Content="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
-                       IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}">
-        <Controls:Flyout.ContentTemplate>
-          <DataTemplate DataType="{x:Type viewModels:UpdateInfoViewModel}">
-            <DataTemplate.Resources>
-              <Style TargetType="{x:Type TextBox}"
-                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}" />
-            </DataTemplate.Resources>
-            <views:UpdateInfoView />
-          </DataTemplate>
-        </Controls:Flyout.ContentTemplate>
-      </Controls:Flyout>
+      <views:UpdateInfoFlyout Header="Update-Info"
+                              Width="500"
+                              Position="Right"
+                              DataContext="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
+                              IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}" />
     </Controls:FlyoutsControl>
 
   </Controls:MetroWindow.Flyouts>

@@ -133,8 +133,8 @@
     <Compile Include="Views\PositionSearchFlyout.xaml.cs">
       <DependentUpon>PositionSearchFlyout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\UpdateInfoView.xaml.cs">
-      <DependentUpon>UpdateInfoView.xaml</DependentUpon>
+    <Compile Include="Views\UpdateInfoFlyout.xaml.cs">
+      <DependentUpon>UpdateInfoFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PNSearchFlyout.xaml.cs">
       <DependentUpon>PNSearchFlyout.xaml</DependentUpon>
@@ -172,7 +172,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\UpdateInfoView.xaml">
+    <Page Include="Views\UpdateInfoFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
