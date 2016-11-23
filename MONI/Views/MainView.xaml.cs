@@ -94,7 +94,7 @@ namespace MONI.Views
                         Application.Current.Shutdown();
                         break;
                     case Key.F:
-                        this.ViewModel.PNSearch.ShowPNSearch = true;
+                        this.ViewModel.PNSearch.IsProjectSearchViewOpen = true;
                         break;
                     case Key.OemPlus:
                         HandleCommentAppend(e);
@@ -407,17 +407,17 @@ namespace MONI.Views
 
         private void ShowPNSearch_Button_Click(object sender, RoutedEventArgs e)
         {
-            this.ViewModel.PNSearch.ShowPNSearch = true;
+            this.ViewModel.PNSearch.IsProjectSearchViewOpen = true;
         }
 
         private void ShowPositionSearch_Button_Click(object sender, RoutedEventArgs e)
         {
-            this.ViewModel.PositionSearch.ShowPNSearch = true;
+            this.ViewModel.PositionSearch.IsPosSearchViewOpen = true;
         }
 
         public void AddShortCut(string key, string expansion)
         {
-            this.ViewModel.PNSearch.ShowPNSearch = false;
+            this.ViewModel.PNSearch.IsProjectSearchViewOpen = false;
             var sc = new ShortCut(key, expansion);
             this.ViewModel.EditShortCut = new ShortcutViewModel(sc, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null) { IsNew = true };
         }

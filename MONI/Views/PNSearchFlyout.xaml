@@ -27,6 +27,7 @@
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -42,8 +43,8 @@
                  Foreground="Gainsboro">
             <MultiBinding Converter="{x:Static valueConverter:HighLightSearchTextConverter.Instance}">
               <Binding Path="Number" />
-              <Binding ElementName="searchTextBox"
-                       Path="Text" />
+              <Binding ElementName="pnSearchView"
+                       Path="DataContext.SearchText" />
             </MultiBinding>
           </Label>
           <Label Grid.Column="0"
@@ -54,19 +55,32 @@
                  Foreground="Gainsboro">
             <MultiBinding Converter="{x:Static valueConverter:HighLightSearchTextConverter.Instance}">
               <Binding Path="Description" />
-              <Binding ElementName="searchTextBox"
-                       Path="Text" />
+              <Binding ElementName="pnSearchView"
+                       Path="DataContext.SearchText" />
             </MultiBinding>
           </Label>
 
-          <Button Grid.Column="1"
+          <iconPacks:PackIconMaterial Grid.Column="1"
+                                      Grid.Row="0"
+                                      Grid.RowSpan="2"
+                                      Margin="5 0 0 0"
+                                      Width="22"
+                                      Height="22"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Center"
+                                      Kind="AlertOctagon"
+                                      Foreground="#FF672F"
+                                      Visibility="{Binding IsOld, Mode=OneWay, Converter={StaticResource false2CollapsedConverter}}"
+                                      ToolTip="Projektnummer nicht mehr aktuell!" />
+
+          <Button Grid.Column="2"
                   Grid.Row="0"
                   Grid.RowSpan="2"
-                  Width="16"
-                  Height="20"
-                  Margin="10 0 0 0"
+                  Width="22"
+                  Height="22"
+                  Margin="5 0 0 0"
                   Style="{StaticResource ImageButtonStyle}"
-                  Content="{iconPacks:PackIconMaterial BookmarkPlus}"
+                  Content="{iconPacks:PackIconMaterial PlusBox, Width=22, Height=22}"
                   Foreground="#CC119EDA"
                   Click="AddAsShortcut_OnClick"
                   Tag="{Binding}"
@@ -81,21 +95,42 @@
 
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <TextBox Grid.Row="0"
-             Margin="2"
+    <TextBlock Grid.Row="0"
+               Margin="4"
+               Text="Alte Projektnummern verbergen" />
+    <controls:ToggleSwitch Grid.Row="1"
+                           Margin="4"
+                           Style="{StaticResource MahApps.Metro.Styles.ToggleSwitch.Win10}"
+                           OnLabel="Ein"
+                           OffLabel="Aus"
+                           IsChecked="{Binding Path=FilterOldProjectsOut, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                           Padding="5 0">
+      <controls:ToggleSwitch.ContentTemplate>
+        <DataTemplate>
+          <TextBlock Margin="10 0"
+                     Text="{Binding}" />
+        </DataTemplate>
+      </controls:ToggleSwitch.ContentTemplate>
+    </controls:ToggleSwitch>
+
+    <TextBox Grid.Row="2"
+             Margin="4"
              Focusable="True"
              x:Name="searchTextBox"
              controls:TextBoxHelper.Watermark="Suche..."
-             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=250}" />
+             Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=300}" />
 
     <!-- without setting MaxHeight we loose the listbox virtualization!!! -->
-    <ListBox Grid.Row="1"
+    <ListBox Grid.Row="3"
              Margin="0 2"
              FocusVisualStyle="{x:Null}"
+             Focusable="False"
              Background="Transparent"
              IsTextSearchEnabled="False"
              Style="{DynamicResource VirtualisedMetroListBox}"
@@ -105,7 +140,7 @@
              ItemContainerStyle="{DynamicResource MetroFlyoutListBoxItem}"
              ItemTemplate="{StaticResource ProjectDataTemplate}" />
 
-    <Button Grid.Row="2"
+    <Button Grid.Row="4"
             Content="Schließen"
             Command="{Binding CancelCommand, Mode=OneWay}" />
 

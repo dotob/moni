@@ -79,21 +79,13 @@ namespace MONI.ViewModels
         public bool ShowUpdateInfo
         {
             get { return this.showUpdateInfo; }
-            set
-            {
-                this.showUpdateInfo = value;
-                this.OnPropertyChanged(() => this.ShowUpdateInfo);
-            }
+            set { this.Set(ref this.showUpdateInfo, value); }
         }
 
         public UpdateInfo UpdateInfo
         {
             get { return this.updateInfo; }
-            set
-            {
-                this.updateInfo = value;
-                this.OnPropertyChanged(() => this.UpdateInfo);
-            }
+            set { this.Set(ref this.updateInfo, value); }
         }
 
         public ICommand CancelCommand

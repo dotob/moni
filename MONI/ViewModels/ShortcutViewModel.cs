@@ -36,29 +36,13 @@ namespace MONI.ViewModels
         public ShortCut Model
         {
             get { return this.model; }
-            set
-            {
-                if (Equals(value, this.model))
-                {
-                    return;
-                }
-                this.model = value;
-                this.OnPropertyChanged(() => this.Model);
-            }
+            set { this.Set(ref this.model, value); }
         }
 
         public bool IsNew
         {
             get { return this.isNew; }
-            set
-            {
-                if (Equals(value, this.isNew))
-                {
-                    return;
-                }
-                this.isNew = value;
-                this.OnPropertyChanged(() => this.IsNew);
-            }
+            set { this.Set(ref this.isNew, value); }
         }
 
         public string ShortCutKey
@@ -66,42 +50,23 @@ namespace MONI.ViewModels
             get { return this.shortCutKey; }
             set
             {
-                if (Equals(value, this.shortCutKey))
+                if (this.Set(ref this.shortCutKey, value))
                 {
-                    return;
+                    this.Model.Key = this.shortCutKey;
                 }
-                this.shortCutKey = value;
-                this.OnPropertyChanged(() => this.ShortCutKey);
-                this.Model.Key = value;
             }
         }
 
         public string ShortCutGroupKey
         {
             get { return this.shortCutGroupKey; }
-            set
-            {
-                if (Equals(value, this.shortCutGroupKey))
-                {
-                    return;
-                }
-                this.shortCutGroupKey = value;
-                this.OnPropertyChanged(() => this.ShortCutGroupKey);
-            }
+            set { this.Set(ref this.shortCutGroupKey, value); }
         }
 
         public ShortCutGroup ShortCutGroup
         {
             get { return this.shortCutGroup; }
-            set
-            {
-                if (Equals(value, this.shortCutGroup))
-                {
-                    return;
-                }
-                this.shortCutGroup = value;
-                this.OnPropertyChanged(() => this.ShortCutGroup);
-            }
+            set { this.Set(ref this.shortCutGroup, value); }
         }
 
         public ICommand SaveCommand

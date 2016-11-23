@@ -117,15 +117,7 @@ namespace MONI.ViewModels
         public string Help
         {
             get { return this.help; }
-            set
-            {
-                if (Equals(value, this.help))
-                {
-                    return;
-                }
-                this.help = value;
-                this.OnPropertyChanged(() => this.Help);
-            }
+            set { this.Set(ref this.help, value); }
         }
 
         private bool showHelp;
@@ -135,15 +127,7 @@ namespace MONI.ViewModels
         public bool ShowHelp
         {
             get { return this.showHelp; }
-            set
-            {
-                if (Equals(value, this.showHelp))
-                {
-                    return;
-                }
-                this.showHelp = value;
-                this.OnPropertyChanged(() => this.ShowHelp);
-            }
+            set { this.Set(ref this.showHelp, value); }
         }
 
         public PositionSearchViewModel PositionSearch { get; set; }
@@ -158,15 +142,7 @@ namespace MONI.ViewModels
         public CustomWindowPlacementSettings CustomWindowPlacementSettings
         {
             get { return this.customWindowPlacementSettings; }
-            set
-            {
-                if (Equals(value, this.customWindowPlacementSettings))
-                {
-                    return;
-                }
-                this.customWindowPlacementSettings = value;
-                this.OnPropertyChanged(() => this.CustomWindowPlacementSettings);
-            }
+            set { this.Set(ref this.customWindowPlacementSettings, value); }
         }
 
         public ICommand PreviousWeekCommand
@@ -196,18 +172,14 @@ namespace MONI.ViewModels
             get { return this.workWeek; }
             set
             {
-                if (this.workWeek == value)
+                var monthChanged = value == null || this.workWeek == null || value.Month != this.workWeek.Month;
+                if (this.Set(ref this.workWeek, value))
                 {
-                    return;
-                }
-                bool monthChanged = value == null || this.workWeek == null || value.Month != this.workWeek.Month;
-                this.workWeek = value;
-                this.OnPropertyChanged(() => this.WorkWeek);
-
-                // don't know if this perfect, but it works
-                if (monthChanged && value != null)
-                {
-                    value.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(value.StartDate));
+                    // don't know if this perfect, but it works
+                    if (monthChanged)
+                    {
+                        value?.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(value.StartDate));
+                    }
                 }
             }
         }
@@ -217,9 +189,10 @@ namespace MONI.ViewModels
             get { return this.workMonth; }
             set
             {
-                this.workMonth = value;
-                this.CurrentMonthMonlistImportFile = this.csvExporter.FilenameForMonth(value);
-                this.OnPropertyChanged(() => this.WorkMonth);
+                if (this.Set(ref this.workMonth, value))
+                {
+                    this.CurrentMonthMonlistImportFile = this.csvExporter.FilenameForMonth(this.workMonth);
+                }
             }
         }
 
@@ -232,63 +205,44 @@ namespace MONI.ViewModels
                 {
                     this.workYear.PropertyChanged -= this.workYear_PropertyChanged;
                 }
-                this.workYear = value;
-                if (this.workYear != null)
+                if (this.Set(ref this.workYear, value))
                 {
-                    this.workYear.PropertyChanged += this.workYear_PropertyChanged;
+                    if (this.workYear != null)
+                    {
+                        this.workYear.PropertyChanged += this.workYear_PropertyChanged;
+                    }
                 }
-                this.OnPropertyChanged(() => this.WorkYear);
             }
         }
 
         public ShortcutViewModel EditShortCut
         {
             get { return this.editShortCut; }
-            set
-            {
-                this.editShortCut = value;
-                this.OnPropertyChanged(() => this.EditShortCut);
-            }
+            set { this.Set(ref this.editShortCut, value); }
         }
 
         public MoniSettings EditPreferences
         {
             get { return this.editPreferences; }
-            set
-            {
-                this.editPreferences = value;
-                this.OnPropertyChanged(() => this.EditPreferences);
-            }
+            set { this.Set(ref this.editPreferences, value); }
         }
 
         public Visibility ProjectHitListVisibility
         {
             get { return this.projectHitListVisibility; }
-            private set
-            {
-                this.projectHitListVisibility = value;
-                this.OnPropertyChanged(() => this.ProjectHitListVisibility);
-            }
+            private set { this.Set(ref this.projectHitListVisibility, value); }
         }
 
         public Visibility PositionHitListVisibility
         {
             get { return this.positionHitListVisibility; }
-            set
-            {
-                this.positionHitListVisibility = value;
-                this.OnPropertyChanged(() => this.PositionHitListVisibility);
-            }
+            set { this.Set(ref this.positionHitListVisibility, value); }
         }
 
         public Visibility MonthListVisibility
         {
             get { return this.monthListVisibility; }
-            set
-            {
-                this.monthListVisibility = value;
-                this.OnPropertyChanged(() => this.MonthListVisibility);
-            }
+            set { this.Set(ref this.monthListVisibility, value); }
         }
 
 
@@ -309,13 +263,8 @@ namespace MONI.ViewModels
         public bool ShowPasswordDialog
         {
             get { return this.showPasswordDialog; }
-            set
-            {
-                this.showPasswordDialog = value;
-                this.OnPropertyChanged(() => this.ShowPasswordDialog);
-            }
+            set { this.Set(ref this.showPasswordDialog, value); }
         }
-
 
         public void DragOver(IDropInfo dropInfo)
         {
@@ -658,7 +607,7 @@ namespace MONI.ViewModels
             UpdateVisibility();
             if (this.PNSearch != null)
             {
-                this.PNSearch.SetGBNumber(this.Settings.MainSettings.MonlistGBNumber, true);
+                this.PNSearch.FilterByGBNumber(this.Settings.MainSettings.MonlistGBNumber);
             }
             this.EditPreferences = null;
             this.WorkWeek.Reparse();

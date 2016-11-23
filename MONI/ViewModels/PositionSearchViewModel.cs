@@ -13,25 +13,24 @@ namespace MONI.ViewModels
 {
     public class PositionSearchViewModel : ViewModelBase
     {
-        private bool showPnSearch;
+        private bool isPosSearchViewOpen;
         private string searchText;
         private ICommand cancelCommand;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private Dictionary<string, string> pnHash;
+        private List<PositionNumber> posNumbers = new List<PositionNumber>();
 
-
-        public PositionSearchViewModel(string projectNumberFiles)
+        public PositionSearchViewModel(string posNumberFiles)
         {
             this.Results = new QuickFillObservableCollection<PositionNumber>();
-            this.ProjectNumbers = new List<PositionNumber>();
-            Task.Factory.StartNew(() => this.ReadPNFile(projectNumberFiles));
+            Task.Factory.StartNew(() => this.ReadPNFile(posNumberFiles));
         }
 
-        private void ReadPNFile(string pnFilePaths)
+        private void ReadPNFile(string posNumberFiles)
         {
-            if (!string.IsNullOrWhiteSpace(pnFilePaths))
+            if (!string.IsNullOrWhiteSpace(posNumberFiles))
             {
-                foreach (var pnFileUnpatched in pnFilePaths.Split(';'))
+                foreach (var pnFileUnpatched in posNumberFiles.Split(';'))
                 {
                     var pnFile = Utils.PatchFilePath(pnFileUnpatched);
                     if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile))
@@ -46,7 +45,7 @@ namespace MONI.ViewModels
                                 pn.Number = columns[0];
                                 pn.Description = columns[1];
                                 pn.Customer = columns[2];
-                                this.ProjectNumbers.Add(pn);
+                                this.posNumbers.Add(pn);
                             }
                             catch (Exception e)
                             {
@@ -58,19 +57,13 @@ namespace MONI.ViewModels
                     }
                 }
             }
-            this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
+            this.pnHash = this.posNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
         }
 
-        protected List<PositionNumber> ProjectNumbers { get; set; }
-
-        public bool ShowPNSearch
+        public bool IsPosSearchViewOpen
         {
-            get { return this.showPnSearch; }
-            set
-            {
-                this.showPnSearch = value;
-                this.OnPropertyChanged(() => this.ShowPNSearch);
-            }
+            get { return this.isPosSearchViewOpen; }
+            set { this.Set(ref this.isPosSearchViewOpen, value); }
         }
 
         public string SearchText
@@ -78,8 +71,10 @@ namespace MONI.ViewModels
             get { return this.searchText; }
             set
             {
-                this.searchText = value;
-                this.Search();
+                if (this.Set(ref this.searchText, value))
+                {
+                    this.Search();
+                }
             }
         }
 
@@ -90,7 +85,7 @@ namespace MONI.ViewModels
             {
                 try
                 {
-                    var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Customer, s, RegexOptions.IgnoreCase));
+                    var res = this.posNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Customer, s, RegexOptions.IgnoreCase));
                     this.Results.AddItems(res, true);
                 }
                 catch (Exception ex)
@@ -100,7 +95,7 @@ namespace MONI.ViewModels
             }
             else
             {
-                this.Results.Clear();
+                this.Results.AddItems(this.posNumbers, true);
             }
         }
 
@@ -108,7 +103,7 @@ namespace MONI.ViewModels
 
         public ICommand CancelCommand
         {
-            get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(() => this.ShowPNSearch = false, () => true)); }
+            get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(() => this.IsPosSearchViewOpen = false, () => true)); }
         }
 
         public string GetDescriptionForPositionNumber(string positionNumber)

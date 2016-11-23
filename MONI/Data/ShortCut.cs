@@ -39,15 +39,7 @@ namespace MONI.Data
         public string Group
         {
             get { return this.group; }
-            set
-            {
-                if (Equals(this.group, value))
-                {
-                    return;
-                }
-                this.group = value;
-                this.OnPropertyChanged(() => this.Group);
-            }
+            set { this.Set(ref this.group, value); }
         }
 
         public override bool Equals(object obj)

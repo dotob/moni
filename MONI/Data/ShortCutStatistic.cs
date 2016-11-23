@@ -58,15 +58,7 @@ namespace MONI.Data
         public double UsedInMonth
         {
             get { return this.usedInMonth; }
-            set
-            {
-                if (this.usedInMonth == value)
-                {
-                    return;
-                }
-                this.usedInMonth = value;
-                this.OnPropertyChanged(() => this.UsedInMonth);
-            }
+            set { this.Set(ref this.usedInMonth, value); }
         }
 
         private ObservableCollection<UsageInfo> usageHistory;
@@ -75,15 +67,7 @@ namespace MONI.Data
         public ObservableCollection<UsageInfo> UsageHistory
         {
             get { return this.usageHistory; }
-            set
-            {
-                if (this.usageHistory == value)
-                {
-                    return;
-                }
-                this.usageHistory = value;
-                this.OnPropertyChanged(() => this.UsageHistory);
-            }
+            set { this.Set(ref this.usageHistory, value); }
         }
 
         public void Calculate(ObservableCollection<WorkDay> days)
@@ -130,14 +114,7 @@ namespace MONI.Data
         public double Hours
         {
             get { return this.hours; }
-            set
-            {
-                if (!Equals(value, this.Hours))
-                {
-                    this.hours = value;
-                    this.OnPropertyChanged(() => this.Hours);
-                }
-            }
+            set { this.Set(ref this.hours, value); }
         }
 
         private bool isToday;
@@ -145,14 +122,7 @@ namespace MONI.Data
         public bool IsToday
         {
             get { return this.isToday; }
-            set
-            {
-                if (!Equals(value, this.IsToday))
-                {
-                    this.isToday = value;
-                    this.OnPropertyChanged(() => this.IsToday);
-                }
-            }
+            set { this.Set(ref this.isToday, value); }
         }
     }
 }

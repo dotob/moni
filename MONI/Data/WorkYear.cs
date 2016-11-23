@@ -11,7 +11,7 @@ using MONI.ViewModels;
 
 namespace MONI.Data
 {
-    public class WorkYear : INotifyPropertyChanged
+    public class WorkYear : ViewModelBase
     {
         private readonly int hitListLookBackInWeeks;
         private readonly PNSearchViewModel pnSearch;
@@ -49,7 +49,7 @@ namespace MONI.Data
 
         private void workWeek_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            this.OnPropertyChanged("HoursDuration");
+            //this.OnPropertyChanged("HoursDuration");
             this.UpdateProjectHitlistAsync();
             this.UpdatePositionHitlistAsync();
         }
@@ -126,17 +126,6 @@ namespace MONI.Data
         public WorkDay GetDay(int month, int day)
         {
             return this.Months.ElementAt(month - 1).Days.ElementAt(day - 1);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
         }
     }
 
