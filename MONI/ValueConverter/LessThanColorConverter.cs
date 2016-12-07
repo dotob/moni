@@ -6,8 +6,10 @@ using System.Windows.Data;
 using System.Windows.Media;
 using NLog;
 
-namespace MONI.ValueConverter {
-    public class LessThanColorConverter : IMultiValueConverter {
+namespace MONI.ValueConverter
+{
+    public class LessThanColorConverter : IMultiValueConverter
+    {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly Brush okBrush;
         private readonly Brush notOkBrush;
@@ -16,13 +18,15 @@ namespace MONI.ValueConverter {
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
-        static LessThanColorConverter() {
+        static LessThanColorConverter()
+        {
         }
 
-        private LessThanColorConverter() {
-            this.okBrush = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#CC7DBEDA"));
+        private LessThanColorConverter()
+        {
+            this.okBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CC7DBEDA"));
             this.okBrush.Freeze();
-            this.notOkBrush = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#B3CD6969"));
+            this.notOkBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B3CD6969"));
             this.notOkBrush.Freeze();
         }
 
@@ -31,23 +35,28 @@ namespace MONI.ValueConverter {
             get { return instance ?? (instance = new LessThanColorConverter()); }
         }
 
-        public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture) {
-            try {
-                var need = (double) value[0];
-                var have = (double) value[1];
+        public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
+        {
+            try
+            {
+                var need = (double)value[0];
+                var have = (double)value[1];
                 var b = this.okBrush;
-                if (have < need) {
+                if (have < need)
+                {
                     b = this.notOkBrush;
                 }
                 return b;
             }
-            catch (Exception exception) {
+            catch (Exception exception)
+            {
                 logger.Error(exception, "Could not convert value to brush!");
                 return this.okBrush;
             }
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) {
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
             return targetTypes.Select(t => DependencyProperty.UnsetValue).ToArray();
         }
     }

@@ -5,11 +5,14 @@ using MONI.Data;
 using MONI.ViewModels;
 using NUnit.Framework;
 
-namespace MONI.Tests {
+namespace MONI.Tests
+{
     [TestFixture]
-    public class MainViewModelTester {
+    public class MainViewModelTester
+    {
         [Test]
-        public void CreatedShortCutShouldShownInNextMonth() {
+        public void CreatedShortCutShouldShownInNextMonth()
+        {
             var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
 
             var newSc = new ShortCut();
@@ -31,7 +34,8 @@ namespace MONI.Tests {
         }
 
         [Test(Description = "#40 switch week from KW 14 to KW 15 in 2014")]
-        public void ShouldSelectNextWeekOnMonthChange() {
+        public void ShouldSelectNextWeekOnMonthChange()
+        {
             var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
 
             vm.SelectDate(new DateTime(2014, 3, 31));
@@ -48,7 +52,8 @@ namespace MONI.Tests {
         }
 
         [Test(Description = "#40 switch week from KW 9 to KW 10 in 2014")]
-        public void ShouldSelectNextWeekOnMonthChange2() {
+        public void ShouldSelectNextWeekOnMonthChange2()
+        {
             var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
 
             vm.SelectDate(new DateTime(2014, 2, 28));
@@ -65,7 +70,8 @@ namespace MONI.Tests {
         }
 
         [Test(Description = "#40 switch last week from 2013 to 2014")]
-        public void ShouldSelectNextWeekOnMonthChange3() {
+        public void ShouldSelectNextWeekOnMonthChange3()
+        {
             var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
 
             vm.SelectDate(new DateTime(2013, 12, 31));

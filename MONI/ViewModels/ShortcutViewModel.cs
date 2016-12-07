@@ -5,8 +5,10 @@ using System.Windows.Input;
 using MONI.Data;
 using MONI.Util;
 
-namespace MONI.ViewModels {
-    public class ShortcutViewModel : ViewModelBase, IDataErrorInfo {
+namespace MONI.ViewModels
+{
+    public class ShortcutViewModel : ViewModelBase, IDataErrorInfo
+    {
         private ShortCut model;
         private readonly WorkWeek workWeek;
         private readonly Action viewcloseAction;
@@ -17,7 +19,8 @@ namespace MONI.ViewModels {
         private string shortCutGroupKey;
         private ShortCutGroup shortCutGroup;
 
-        public ShortcutViewModel(ShortCut shortCut, WorkWeek workWeek, MoniSettings settings, Action closeAction) {
+        public ShortcutViewModel(ShortCut shortCut, WorkWeek workWeek, MoniSettings settings, Action closeAction)
+        {
             this.viewcloseAction = closeAction;
             this.MoniSettings = settings;
             this.workWeek = workWeek;
@@ -33,27 +36,13 @@ namespace MONI.ViewModels {
         public ShortCut Model
         {
             get { return this.model; }
-            set
-            {
-                if (Equals(value, this.model)) {
-                    return;
-                }
-                this.model = value;
-                this.OnPropertyChanged(() => this.Model);
-            }
+            set { this.Set(ref this.model, value); }
         }
 
         public bool IsNew
         {
             get { return this.isNew; }
-            set
-            {
-                if (Equals(value, this.isNew)) {
-                    return;
-                }
-                this.isNew = value;
-                this.OnPropertyChanged(() => this.IsNew);
-            }
+            set { this.Set(ref this.isNew, value); }
         }
 
         public string ShortCutKey
@@ -61,39 +50,23 @@ namespace MONI.ViewModels {
             get { return this.shortCutKey; }
             set
             {
-                if (Equals(value, this.shortCutKey)) {
-                    return;
+                if (this.Set(ref this.shortCutKey, value))
+                {
+                    this.Model.Key = this.shortCutKey;
                 }
-                this.shortCutKey = value;
-                this.OnPropertyChanged(() => this.ShortCutKey);
-                this.Model.Key = value;
             }
         }
 
         public string ShortCutGroupKey
         {
             get { return this.shortCutGroupKey; }
-            set
-            {
-                if (Equals(value, this.shortCutGroupKey)) {
-                    return;
-                }
-                this.shortCutGroupKey = value;
-                this.OnPropertyChanged(() => this.ShortCutGroupKey);
-            }
+            set { this.Set(ref this.shortCutGroupKey, value); }
         }
 
         public ShortCutGroup ShortCutGroup
         {
             get { return this.shortCutGroup; }
-            set
-            {
-                if (Equals(value, this.shortCutGroup)) {
-                    return;
-                }
-                this.shortCutGroup = value;
-                this.OnPropertyChanged(() => this.ShortCutGroup);
-            }
+            set { this.Set(ref this.shortCutGroup, value); }
         }
 
         public ICommand SaveCommand
@@ -101,19 +74,23 @@ namespace MONI.ViewModels {
             get { return this.saveCommand ?? (this.saveCommand = new DelegateCommand(this.SaveShortcut, this.CanSave)); }
         }
 
-        public void SaveShortcut() {
-            if (this.ShortCutGroup == null && !string.IsNullOrWhiteSpace(this.ShortCutGroupKey)) {
-                var newSCGroup = new ShortCutGroup() {Key = this.ShortCutGroupKey};
+        public void SaveShortcut()
+        {
+            if (this.ShortCutGroup == null && !string.IsNullOrWhiteSpace(this.ShortCutGroupKey))
+            {
+                var newSCGroup = new ShortCutGroup() { Key = this.ShortCutGroupKey };
                 this.MoniSettings.ParserSettings.ShortCutGroups.Add(newSCGroup);
                 this.ShortCutGroup = newSCGroup;
             }
             this.Model.Group = this.ShortCutGroupKey;
 
             var shortCut = this.MoniSettings.ParserSettings.ShortCuts.FirstOrDefault(sc => Equals(sc, this.Model));
-            if (shortCut != null) {
+            if (shortCut != null)
+            {
                 shortCut.GetData(this.Model);
             }
-            else {
+            else
+            {
                 this.MoniSettings.ParserSettings.ShortCuts.Insert(0, this.Model);
             }
             this.Model = null;
@@ -121,12 +98,14 @@ namespace MONI.ViewModels {
             this.workWeek.Reparse();
 
             var action = this.viewcloseAction;
-            if (action != null) {
+            if (action != null)
+            {
                 action();
             }
         }
 
-        public bool CanSave() {
+        public bool CanSave()
+        {
             return this.Model != null
                    && !string.IsNullOrWhiteSpace(this.ShortCutKey) && !this.ShortCutKeyExists(this.ShortCutKey)
                    && !string.IsNullOrWhiteSpace(this.Model.Expansion);
@@ -137,8 +116,10 @@ namespace MONI.ViewModels {
             get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(this.viewcloseAction, () => this.viewcloseAction != null)); }
         }
 
-        private bool ShortCutKeyExists(string key) {
-            if (!this.IsNew) {
+        private bool ShortCutKeyExists(string key)
+        {
+            if (!this.IsNew)
+            {
                 return false;
             }
             var shortCut = this.MoniSettings.ParserSettings.ShortCuts.FirstOrDefault(sc => Equals(sc.Key, key));
@@ -149,8 +130,10 @@ namespace MONI.ViewModels {
         {
             get
             {
-                if (Equals("ShortCutKey", columnName)) {
-                    if (this.ShortCutKeyExists(this.ShortCutKey)) {
+                if (Equals("ShortCutKey", columnName))
+                {
+                    if (this.ShortCutKeyExists(this.ShortCutKey))
+                    {
                         return "Der Shortcut existiert schon!";
                     }
                 }

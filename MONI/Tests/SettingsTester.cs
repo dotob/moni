@@ -7,11 +7,14 @@ using MONI.Util;
 using NUnit.Framework;
 using Newtonsoft.Json;
 
-namespace MONI.Tests {
+namespace MONI.Tests
+{
     [TestFixture]
-    public class SettingsTester {
+    public class SettingsTester
+    {
         [Test]
-        public void WriteJson() {
+        public void WriteJson()
+        {
             var parserSettings = new WorkDayParserSettings();
             parserSettings.ShortCuts.Add(new ShortCut("ctbn", "25482-420(features)"));
             parserSettings.ShortCuts.Add(new ShortCut("ctbp", "25482-811(performanceverbesserungen)"));
@@ -44,7 +47,8 @@ namespace MONI.Tests {
         }
 
         [Test]
-        public void GetValidShortCuts_NoDoubles_ReturnListAsIs() {
+        public void GetValidShortCuts_NoDoubles_ReturnListAsIs()
+        {
             var shortCuts = new List<ShortCut>();
             shortCuts.Add(new ShortCut("ctbn", "12345-000"));
             shortCuts.Add(new ShortCut("ctbp", "12345-000"));
@@ -56,7 +60,8 @@ namespace MONI.Tests {
         }
 
         [Test]
-        public void GetValidShortCuts_MultipleKeysInterval_ReturnJustRightShortcuts() {
+        public void GetValidShortCuts_MultipleKeysInterval_ReturnJustRightShortcuts()
+        {
             var shortCuts = new List<ShortCut>();
             shortCuts.Add(new ShortCut("ctbn", "12345-000"));
             var findMe = new ShortCut("ctbn", "54321-000", new DateTime(2000, 1, 1));
@@ -66,11 +71,12 @@ namespace MONI.Tests {
 
             var matchOnShortcut = new DateTime(2005, 1, 1);
             var validShortCuts = WorkDayParserSettings.ValidShortCuts(shortCuts, matchOnShortcut);
-            CollectionAssert.AreEqual(new[] {findMe, andMe}, validShortCuts);
+            CollectionAssert.AreEqual(new[] { findMe, andMe }, validShortCuts);
         }
 
         [Test]
-        public void GetValidShortCuts_MultipleKeysDateMatch_ReturnJustRightShortcuts() {
+        public void GetValidShortCuts_MultipleKeysDateMatch_ReturnJustRightShortcuts()
+        {
             var shortCuts = new List<ShortCut>();
             shortCuts.Add(new ShortCut("ctbn", "12345-000"));
             var matchDate = new DateTime(2000, 1, 1);
@@ -80,11 +86,12 @@ namespace MONI.Tests {
             shortCuts.Add(andMe);
 
             var validShortCuts = WorkDayParserSettings.ValidShortCuts(shortCuts, matchDate);
-            CollectionAssert.AreEqual(new[] {findMe, andMe}, validShortCuts);
+            CollectionAssert.AreEqual(new[] { findMe, andMe }, validShortCuts);
         }
 
         [Test]
-        public void GetValidShortCuts_NoMatch_ReturnNoShortcuts() {
+        public void GetValidShortCuts_NoMatch_ReturnNoShortcuts()
+        {
             var shortCuts = new List<ShortCut>();
             shortCuts.Add(new ShortCut("ctbn", "54321-000", new DateTime(2001, 1, 1)));
             shortCuts.Add(new ShortCut("ctbn", "54321-000", new DateTime(2002, 1, 1)));
@@ -95,24 +102,30 @@ namespace MONI.Tests {
         }
 
         [Test]
-        public void Paths() {
+        public void Paths()
+        {
             string patchFilePath = Utils.PatchFilePath("#{userhome}");
         }
 
         [Test]
-        public void Regex() {
+        public void Regex()
+        {
             Regex sr = new Regex(string.Format("(?<pre>.*?)(?<searchText>{0})", "l"), RegexOptions.Compiled);
             Match m = sr.Match("muller");
-            while (m.Success) {
+            while (m.Success)
+            {
                 m.ToString();
-                foreach (Group g in m.Groups) {
+                foreach (Group g in m.Groups)
+                {
                     g.ToString();
                 }
                 m = m.NextMatch();
             }
             MatchCollection matchCollection = sr.Matches("mulller");
-            foreach (Match match in matchCollection) {
-                foreach (var g in match.Groups) {
+            foreach (Match match in matchCollection)
+            {
+                foreach (var g in match.Groups)
+                {
                     g.ToString();
                 }
                 match.ToString();

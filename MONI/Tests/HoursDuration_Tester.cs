@@ -3,11 +3,14 @@ using MONI.Data;
 using NUnit.Framework;
 using System.Linq;
 
-namespace MONI.Tests {
+namespace MONI.Tests
+{
     [TestFixture]
-    public class HoursDuration_Tester {
+    public class HoursDuration_Tester
+    {
         [Test]
-        public void HoursDuration_OnADay_ShouldSumCorrect() {
+        public void HoursDuration_OnADay_ShouldSumCorrect()
+        {
             WorkDay wd = new WorkDay(2011, 1, 1, null);
             wd.AddWorkItem(new WorkItem(new TimeItem(10), new TimeItem(11)));
             Assert.AreEqual(1, wd.HoursDuration);
@@ -20,7 +23,8 @@ namespace MONI.Tests {
         }
 
         [Test]
-        public void HoursDuration_OnAWeek_ShouldSumCorrect() {
+        public void HoursDuration_OnAWeek_ShouldSumCorrect()
+        {
             WorkMonth wm = new WorkMonth(2011, 1, null, new WorkDayParserSettings(), 1);
             WorkDay wd = wm.Days.First();
             wd.AddWorkItem(new WorkItem(new TimeItem(10), new TimeItem(11)));
@@ -37,7 +41,8 @@ namespace MONI.Tests {
         }
 
         [Test]
-        public void HoursDuration_OnAMonth_ShouldSumCorrect() {
+        public void HoursDuration_OnAMonth_ShouldSumCorrect()
+        {
             WorkMonth wm = new WorkMonth(2011, 1, null, new WorkDayParserSettings(), 1);
             WorkDay wd = wm.Days.First();
             wd.AddWorkItem(new WorkItem(new TimeItem(10), new TimeItem(11)));
@@ -53,10 +58,11 @@ namespace MONI.Tests {
         }
 
         [Test]
-        public void ShortCutStatistic_OnAMonth_ShouldSumCorrect() {
+        public void ShortCutStatistic_OnAMonth_ShouldSumCorrect()
+        {
             var abbr = new List<ShortCut>();
             abbr.Add(new ShortCut("ctb", "11111-111"));
-            WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings {ShortCuts = abbr, InsertDayBreak = false};
+            WorkDayParserSettings workDayParserSettings = new WorkDayParserSettings { ShortCuts = abbr, InsertDayBreak = false };
             WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
             WorkDayParser.Instance = wdp;
             WorkMonth wm = new WorkMonth(2011, 1, null, workDayParserSettings, 1);

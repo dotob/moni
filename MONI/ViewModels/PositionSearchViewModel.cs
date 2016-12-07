@@ -9,37 +9,46 @@ using System.Windows.Input;
 using MONI.Util;
 using NLog;
 
-namespace MONI.ViewModels {
-    public class PositionSearchViewModel : ViewModelBase {
-        private bool showPnSearch;
+namespace MONI.ViewModels
+{
+    public class PositionSearchViewModel : ViewModelBase
+    {
+        private bool isPosSearchViewOpen;
         private string searchText;
         private ICommand cancelCommand;
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private Dictionary<string, string> pnHash;
+        private List<PositionNumber> posNumbers = new List<PositionNumber>();
 
-
-        public PositionSearchViewModel(string projectNumberFiles) {
+        public PositionSearchViewModel(string posNumberFiles)
+        {
             this.Results = new QuickFillObservableCollection<PositionNumber>();
-            this.ProjectNumbers = new List<PositionNumber>();
-            Task.Factory.StartNew(() => this.ReadPNFile(projectNumberFiles));
+            Task.Factory.StartNew(() => this.ReadPNFile(posNumberFiles));
         }
 
-        private void ReadPNFile(string pnFilePaths) {
-            if (!string.IsNullOrWhiteSpace(pnFilePaths)) {
-                foreach (var pnFileUnpatched in pnFilePaths.Split(';')) {
+        private void ReadPNFile(string posNumberFiles)
+        {
+            if (!string.IsNullOrWhiteSpace(posNumberFiles))
+            {
+                foreach (var pnFileUnpatched in posNumberFiles.Split(';'))
+                {
                     var pnFile = Utils.PatchFilePath(pnFileUnpatched);
-                    if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile)) {
+                    if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile))
+                    {
                         var allPnLines = File.ReadAllLines(pnFile, Encoding.Default);
-                        foreach (string line in allPnLines.Skip(1)) {
-                            try {
+                        foreach (string line in allPnLines.Skip(1))
+                        {
+                            try
+                            {
                                 var pn = new PositionNumber();
                                 string[] columns = line.Split(';');
                                 pn.Number = columns[0];
                                 pn.Description = columns[1];
                                 pn.Customer = columns[2];
-                                this.ProjectNumbers.Add(pn);
+                                this.posNumbers.Add(pn);
                             }
-                            catch (Exception e) {
+                            catch (Exception e)
+                            {
                                 logger.Warn(e, "Could not read as projectnumber info: {0}", line);
                             }
                         }
@@ -48,19 +57,13 @@ namespace MONI.ViewModels {
                     }
                 }
             }
-            this.pnHash = this.ProjectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
+            this.pnHash = this.posNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
         }
 
-        protected List<PositionNumber> ProjectNumbers { get; set; }
-
-        public bool ShowPNSearch
+        public bool IsPosSearchViewOpen
         {
-            get { return this.showPnSearch; }
-            set
-            {
-                this.showPnSearch = value;
-                this.OnPropertyChanged(() => this.ShowPNSearch);
-            }
+            get { return this.isPosSearchViewOpen; }
+            set { this.Set(ref this.isPosSearchViewOpen, value); }
         }
 
         public string SearchText
@@ -68,24 +71,31 @@ namespace MONI.ViewModels {
             get { return this.searchText; }
             set
             {
-                this.searchText = value;
-                this.Search();
+                if (this.Set(ref this.searchText, value))
+                {
+                    this.Search();
+                }
             }
         }
 
-        private void Search() {
+        private void Search()
+        {
             var s = this.searchText;
-            if (!string.IsNullOrWhiteSpace(s)) {
-                try {
-                    var res = this.ProjectNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Customer, s, RegexOptions.IgnoreCase));
+            if (!string.IsNullOrWhiteSpace(s))
+            {
+                try
+                {
+                    var res = this.posNumbers.Where(pn => Regex.IsMatch(pn.Number, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Description, s, RegexOptions.IgnoreCase) || Regex.IsMatch(pn.Customer, s, RegexOptions.IgnoreCase));
                     this.Results.AddItems(res, true);
                 }
-                catch (Exception ex) {
+                catch (Exception ex)
+                {
                     // ignore, usually there is an unfinished regex
                 }
             }
-            else {
-                this.Results.Clear();
+            else
+            {
+                this.Results.AddItems(this.posNumbers, true);
             }
         }
 
@@ -93,19 +103,22 @@ namespace MONI.ViewModels {
 
         public ICommand CancelCommand
         {
-            get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(() => this.ShowPNSearch = false, () => true)); }
+            get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(() => this.IsPosSearchViewOpen = false, () => true)); }
         }
 
-        public string GetDescriptionForPositionNumber(string positionNumber) {
+        public string GetDescriptionForPositionNumber(string positionNumber)
+        {
             string ret;
-            if (this.pnHash.TryGetValue(positionNumber, out ret)) {
+            if (this.pnHash.TryGetValue(positionNumber, out ret))
+            {
                 return ret;
             }
             return null;
         }
     }
 
-    public class PositionNumber {
+    public class PositionNumber
+    {
         public string Number { get; set; }
         public string Description { get; set; }
         public string Customer { get; set; }

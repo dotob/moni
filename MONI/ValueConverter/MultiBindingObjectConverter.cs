@@ -4,16 +4,20 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
-namespace MONI.ValueConverter {
-    public class MultiBindingObjectConverter : IMultiValueConverter {
+namespace MONI.ValueConverter
+{
+    public class MultiBindingObjectConverter : IMultiValueConverter
+    {
         private static MultiBindingObjectConverter instance;
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
-        static MultiBindingObjectConverter() {
+        static MultiBindingObjectConverter()
+        {
         }
 
-        private MultiBindingObjectConverter() {
+        private MultiBindingObjectConverter()
+        {
         }
 
         public static MultiBindingObjectConverter Instance
@@ -21,11 +25,13 @@ namespace MONI.ValueConverter {
             get { return instance ?? (instance = new MultiBindingObjectConverter()); }
         }
 
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
             return values.ToArray();
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) {
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
             return targetTypes.Select(t => DependencyProperty.UnsetValue).ToArray();
         }
     }

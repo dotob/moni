@@ -4,10 +4,13 @@ using MONI.Data;
 using NUnit.Framework;
 using System.Linq;
 
-namespace MONI.Tests {
-    public class CalendarInitTester {
+namespace MONI.Tests
+{
+    public class CalendarInitTester
+    {
         [Test]
-        public void WorkYear_ctor_CreateWholeYear() {
+        public void WorkYear_ctor_CreateWholeYear()
+        {
             WorkYear wy = new WorkYear(2011, new WorkDayParserSettings(), 0, 1, null, null);
             Assert.AreEqual(12, wy.Months.Count);
             //test sample month

@@ -150,4 +150,11 @@
 		],
 		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.2/MONI.exe"
 	},
+	{
+		"Version": "1.0.1",
+		"Changes": [
+			"New: Alte Projektnummern werden bei der Projektnummern-Suche herausgefiltert (ein-/ausschaltbar)",
+		],
+		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.1/MONI.exe"
+	},
 ]

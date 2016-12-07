@@ -5,8 +5,10 @@ using System.Windows.Data;
 using System.Windows.Media;
 using MONI.Data;
 
-namespace MONI.ValueConverter {
-    public class DurationBGColorConverter : IValueConverter {
+namespace MONI.ValueConverter
+{
+    public class DurationBGColorConverter : IValueConverter
+    {
         private readonly Brush defaultBrush;
         private readonly Brush lessHoursPerDayBrush;
 
@@ -14,13 +16,15 @@ namespace MONI.ValueConverter {
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
-        static DurationBGColorConverter() {
+        static DurationBGColorConverter()
+        {
         }
 
-        private DurationBGColorConverter() {
+        private DurationBGColorConverter()
+        {
             this.defaultBrush = Brushes.Transparent;
             this.defaultBrush.Freeze();
-            this.lessHoursPerDayBrush = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#B3CD6969"));
+            this.lessHoursPerDayBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#B3CD6969"));
             this.lessHoursPerDayBrush.Freeze();
         }
 
@@ -29,16 +33,19 @@ namespace MONI.ValueConverter {
             get { return instance ?? (instance = new DurationBGColorConverter()); }
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var duration = (double) value;
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var duration = (double)value;
             var b = this.defaultBrush;
-            if (duration < MoniSettings.Current.MainSettings.HoursPerDay) {
+            if (duration < MoniSettings.Current.MainSettings.HoursPerDay)
+            {
                 b = this.lessHoursPerDayBrush;
             }
             return b;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
             return DependencyProperty.UnsetValue;
         }
     }

@@ -5,16 +5,20 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Threading;
 
-namespace MONI.Util {
-    public class QuickFillObservableCollection<T> : ObservableCollection<T> {
+namespace MONI.Util
+{
+    public class QuickFillObservableCollection<T> : ObservableCollection<T>
+    {
         private readonly object locker = new object();
         private bool suspendCollectionChangeNotification;
 
-        public QuickFillObservableCollection() {
+        public QuickFillObservableCollection()
+        {
         }
 
         public QuickFillObservableCollection(IEnumerable<T> collection)
-            : this() {
+            : this()
+        {
             this.AddItems(collection);
         }
 
@@ -24,26 +28,34 @@ namespace MONI.Util {
         /// </summary>
         /// <param name="sourceItems">The source collection.</param>
         /// <param name="clearCollection">Clears the target if true.</param>
-        public void AddItems(IEnumerable<T> sourceItems, bool clearCollection = false) {
-            lock (locker) {
-                if (sourceItems == null) {
+        public void AddItems(IEnumerable<T> sourceItems, bool clearCollection = false)
+        {
+            lock (locker)
+            {
+                if (sourceItems == null)
+                {
                     return;
                 }
                 var enumerator = sourceItems.GetEnumerator();
-                if (!enumerator.MoveNext()) {
+                if (!enumerator.MoveNext())
+                {
                     return;
                 }
                 this.SuspendCollectionChangeNotification();
-                try {
-                    if (clearCollection) {
+                try
+                {
+                    if (clearCollection)
+                    {
                         this.Clear();
                     }
                     this.InsertItem(this.Count, enumerator.Current);
-                    while (enumerator.MoveNext()) {
+                    while (enumerator.MoveNext())
+                    {
                         this.InsertItem(this.Count, enumerator.Current);
                     }
                 }
-                finally {
+                finally
+                {
                     this.NotifyChanges();
                 }
             }
@@ -54,23 +66,30 @@ namespace MONI.Util {
         /// It then notifies once after all items are removed.
         /// </summary>
         /// <param name="sourceItems">The source collection.</param>
-        public void RemoveItems(IEnumerable<T> sourceItems) {
-            lock (locker) {
-                if (sourceItems == null) {
+        public void RemoveItems(IEnumerable<T> sourceItems)
+        {
+            lock (locker)
+            {
+                if (sourceItems == null)
+                {
                     return;
                 }
                 var enumerator = sourceItems.GetEnumerator();
-                if (!enumerator.MoveNext()) {
+                if (!enumerator.MoveNext())
+                {
                     return;
                 }
                 this.SuspendCollectionChangeNotification();
-                try {
+                try
+                {
                     this.Remove(enumerator.Current);
-                    while (enumerator.MoveNext()) {
+                    while (enumerator.MoveNext())
+                    {
                         this.Remove(enumerator.Current);
                     }
                 }
-                finally {
+                finally
+                {
                     this.NotifyChanges();
                 }
             }
@@ -84,7 +103,8 @@ namespace MONI.Util {
         /// <summary>
         /// Raises collection change event.
         /// </summary>
-        public void NotifyChanges() {
+        public void NotifyChanges()
+        {
             this.ResumeCollectionChangeNotification();
             var arg = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
             this.OnCollectionChanged(arg);
@@ -93,14 +113,16 @@ namespace MONI.Util {
         /// <summary>
         /// Resumes collection changed notification.
         /// </summary>
-        public void ResumeCollectionChangeNotification() {
+        public void ResumeCollectionChangeNotification()
+        {
             this.suspendCollectionChangeNotification = false;
         }
 
         /// <summary>
         /// Suspends collection changed notification.
         /// </summary>
-        public void SuspendCollectionChangeNotification() {
+        public void SuspendCollectionChangeNotification()
+        {
             this.suspendCollectionChangeNotification = true;
         }
 
@@ -108,30 +130,37 @@ namespace MONI.Util {
         /// This collection changed event performs thread safe event raising.
         /// </summary>
         /// <param name="e">The event argument.</param>
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e) {
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
             // Recommended is to avoid reentry 
             // in collection changed event while collection
             // is getting changed on other thread.
-            using (BlockReentrancy()) {
-                if (!this.suspendCollectionChangeNotification) {
+            using (BlockReentrancy())
+            {
+                if (!this.suspendCollectionChangeNotification)
+                {
                     var eventHandler = this.CollectionChanged;
-                    if (eventHandler == null) {
+                    if (eventHandler == null)
+                    {
                         return;
                     }
 
                     // Walk thru invocation list.
                     var delegates = eventHandler.GetInvocationList().OfType<NotifyCollectionChangedEventHandler>();
 
-                    foreach (var handler in delegates) {
+                    foreach (var handler in delegates)
+                    {
                         // If the subscriber is a DispatcherObject and different thread.
                         var dispatcherObject = handler.Target as DispatcherObject;
 
-                        if (dispatcherObject != null && !dispatcherObject.CheckAccess()) {
+                        if (dispatcherObject != null && !dispatcherObject.CheckAccess())
+                        {
                             // Invoke handler in the target dispatcher's thread... 
                             // asynchronously for better responsiveness.
                             dispatcherObject.Dispatcher.BeginInvoke(DispatcherPriority.DataBind, handler, this, e);
                         }
-                        else {
+                        else
+                        {
                             // Execute handler as is.
                             handler(this, e);
                         }

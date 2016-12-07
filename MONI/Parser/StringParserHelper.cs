@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MONI.Util {
-    public static class StringParserHelper {
+namespace MONI.Util
+{
+    public static class StringParserHelper
+    {
         /// <summary>
         ///   small convenience method to access token (parts) of a string
         ///   <example>
@@ -22,24 +24,31 @@ namespace MONI.Util {
         /// <param name = "token">index of token to use, this is 1-based</param>
         /// <param name="fallback">what will be returned if separator is not found</param>
         /// <returns></returns>
-        public static string Token(this string s, string separator, int token, string fallback) {
-            if (!String.IsNullOrEmpty(s) && s.Contains(separator)) {
-                string[] tokens = s.Split(new[] {separator}, StringSplitOptions.RemoveEmptyEntries);
-                if (token > 0) {
+        public static string Token(this string s, string separator, int token, string fallback)
+        {
+            if (!String.IsNullOrEmpty(s) && s.Contains(separator))
+            {
+                string[] tokens = s.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries);
+                if (token > 0)
+                {
                     // means: start at the beginning
                     int idx = token - 1;
-                    if (idx < tokens.Length) {
+                    if (idx < tokens.Length)
+                    {
                         return tokens[idx];
                     }
                 }
-                else if (token < 0) {
+                else if (token < 0)
+                {
                     //  mean: start from end
                     int idx = tokens.Length + token;
-                    if (idx >= 0) {
+                    if (idx >= 0)
+                    {
                         return tokens[idx];
                     }
                 }
-                else {
+                else
+                {
                     return s;
                 }
             }
@@ -63,15 +72,20 @@ namespace MONI.Util {
         /// <param name = "separator">the separator the split is done with</param>
         /// <param name = "token">index of token to use, this is 1-based</param>
         /// <returns></returns>
-        public static string Token(this string s, string separator, int token) {
+        public static string Token(this string s, string separator, int token)
+        {
             return s.Token(separator, token, string.Empty);
         }
 
-        public static Tuple<string, string> SplitOnFirst(this string s, string separator) {
-            if (!string.IsNullOrWhiteSpace(s)) {
-                if (!string.IsNullOrWhiteSpace(separator)) {
+        public static Tuple<string, string> SplitOnFirst(this string s, string separator)
+        {
+            if (!string.IsNullOrWhiteSpace(s))
+            {
+                if (!string.IsNullOrWhiteSpace(separator))
+                {
                     var idx = s.IndexOf(separator, StringComparison.CurrentCulture);
-                    if (idx >= 0) {
+                    if (idx >= 0)
+                    {
                         return new Tuple<string, string>(s.Substring(0, idx), s.Substring(idx + separator.Length));
                     }
                     return new Tuple<string, string>(s, s);
@@ -81,11 +95,15 @@ namespace MONI.Util {
             return new Tuple<string, string>(string.Empty, string.Empty);
         }
 
-        public static Tuple<string, string> SplitOnLast(this string s, string separator) {
-            if (!string.IsNullOrWhiteSpace(s)) {
-                if (!string.IsNullOrWhiteSpace(separator)) {
+        public static Tuple<string, string> SplitOnLast(this string s, string separator)
+        {
+            if (!string.IsNullOrWhiteSpace(s))
+            {
+                if (!string.IsNullOrWhiteSpace(separator))
+                {
                     var idx = s.LastIndexOf(separator, StringComparison.CurrentCulture);
-                    if (idx >= 0) {
+                    if (idx >= 0)
+                    {
                         return new Tuple<string, string>(s.Substring(0, idx), s.Substring(idx + separator.Length));
                     }
                     return new Tuple<string, string>(s, s);
@@ -112,39 +130,49 @@ namespace MONI.Util {
         /// <param name = "separator">the separator the split is done with</param>
         /// <param name = "token">index of token to use, this is 1-based</param>
         /// <returns></returns>
-        public static string TokenReturnInputIfFail(this string s, string separator, int token) {
+        public static string TokenReturnInputIfFail(this string s, string separator, int token)
+        {
             return s.Token(separator, token, s);
         }
 
-        public static IEnumerable<string> SplitWithIgnoreRegions(this string s, char[] separators, params IgnoreRegion[] ignoreregions) {
-            if (separators == null) {
+        public static IEnumerable<string> SplitWithIgnoreRegions(this string s, char[] separators, params IgnoreRegion[] ignoreregions)
+        {
+            if (separators == null)
+            {
                 throw new ArgumentNullException("separators");
             }
-            if (ignoreregions == null || !ignoreregions.Any()) {
+            if (ignoreregions == null || !ignoreregions.Any())
+            {
                 throw new ArgumentNullException("ignoreregions");
             }
-            if (!string.IsNullOrWhiteSpace(s)) {
+            if (!string.IsNullOrWhiteSpace(s))
+            {
                 Stack<char> irStack = new Stack<char>();
                 var splitted = new List<string>();
                 string tmp = string.Empty;
-                foreach (char c in s) {
+                foreach (char c in s)
+                {
                     var irMatch = ignoreregions.FirstOrDefault(ir => ir.Start == c);
-                    if (irStack.Any() && irStack.Peek() == c) {
+                    if (irStack.Any() && irStack.Peek() == c)
+                    {
                         // found end of ignoreregion, remove last region info
                         irStack.Pop();
                         tmp += c;
                     }
-                    else if (irMatch != null) {
+                    else if (irMatch != null)
+                    {
                         // found start of ignoreregion
                         irStack.Push(irMatch.End);
                         tmp += c;
                     }
-                    else if (separators.Any(sep => sep == c) && !irStack.Any()) {
+                    else if (separators.Any(sep => sep == c) && !irStack.Any())
+                    {
                         // found valid separator, do split, but check if there are pending ignore regions in stack
                         splitted.Add(tmp);
                         tmp = string.Empty;
                     }
-                    else {
+                    else
+                    {
                         tmp += c;
                     }
                 }
@@ -155,11 +183,13 @@ namespace MONI.Util {
         }
     }
 
-    public class IgnoreRegion {
+    public class IgnoreRegion
+    {
         public char Start;
         public char End;
 
-        public IgnoreRegion(char start, char end) {
+        public IgnoreRegion(char start, char end)
+        {
             this.Start = start;
             this.End = end;
         }

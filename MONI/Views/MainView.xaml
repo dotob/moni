@@ -8,8 +8,8 @@
                       xmlns:views="clr-namespace:MONI.Views"
                       xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
                       xmlns:attachedCommandBehavior="clr-namespace:AttachedCommandBehavior"
-                      xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
                       xmlns:util="clr-namespace:MONI.Util"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       RenderOptions.ClearTypeHint="Enabled"
                       TextOptions.TextFormattingMode="Display"
                       Title="MONI"
@@ -25,6 +25,7 @@
                       BorderBrush="#808080"
                       Loaded="MainView_OnLoaded"
                       Icon="/MONI;component/Resources/moni.ico">
+
   <Window.CommandBindings>
     <CommandBinding Command="Help"
                     CanExecute="HelpCanExecute"
@@ -36,40 +37,7 @@
       <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewStyles.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewTemplates.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Icons.xaml" />
       </ResourceDictionary.MergedDictionaries>
-
-      <VisualBrush Stretch="Uniform"
-                   x:Key="editIcon"
-                   Visual="{StaticResource appbar_edit}" />
-      <VisualBrush Stretch="Uniform"
-                   x:Key="deleteIcon"
-                   Visual="{StaticResource appbar_delete}" />
-      <VisualBrush Stretch="Fill"
-                   x:Key="upIcon"
-                   Visual="{StaticResource appbar_chevron_up}" />
-      <VisualBrush Stretch="Fill"
-                   x:Key="downIcon"
-                   Visual="{StaticResource appbar_chevron_down}" />
-
-      <!-- our own colored appbar ribbon -->
-      <Canvas Width="48"
-              Height="48"
-              Clip="F1 M 0,0L 48,0L 48,48L 0,48L 0,0"
-              UseLayoutRounding="False"
-              x:Key="appbar_ribbon">
-        <Path Width="12"
-              Height="24"
-              Canvas.Left="18"
-              Canvas.Top="12"
-              Stretch="Fill"
-              Fill="#B10101"
-              Data="F1 M 18,36L 18,12L 30,12L 30,36L 24,30L 18,36 Z " />
-      </Canvas>
-
-      <VisualBrush Stretch="Fill"
-                   x:Key="ribbonIcon"
-                   Visual="{StaticResource appbar_ribbon}" />
     </ResourceDictionary>
   </Window.Resources>
 
@@ -113,65 +81,24 @@
   <!-- *** window commands ***************************************************************** -->
   <Controls:MetroWindow.RightWindowCommands>
     <Controls:WindowCommands>
-      <Button Click="ToMonlist_Button_Click"
+      <Button Content="{iconPacks:PackIconMaterial OpenInApp, Width=18, Height=18}"
+              Click="ToMonlist_Button_Click"
               x:Name="OpenMonlist"
-              ToolTip="Daten in Monlist importieren">
-        <Rectangle Width="20"
-                   Height="20"
-                   Fill="{DynamicResource WhiteBrush}">
-          <Rectangle.OpacityMask>
-            <VisualBrush Stretch="UniformToFill"
-                         Visual="{StaticResource appbar_cabinet_out}" />
-          </Rectangle.OpacityMask>
-        </Rectangle>
-      </Button>
-      <Button Click="GitHub_Button_Click"
-              ToolTip="MONI bei GitHub">
-        <Rectangle Width="20"
-                   Height="20"
-                   Fill="{DynamicResource WhiteBrush}">
-          <Rectangle.OpacityMask>
-            <VisualBrush Stretch="UniformToFill"
-                         Visual="{StaticResource appbar_github}" />
-          </Rectangle.OpacityMask>
-        </Rectangle>
-      </Button>
-      <Button Click="ShowPNSearch_Button_Click"
-              ToolTip="Projektnummern-Suche">
-        <Rectangle Width="20"
-                   Height="20"
-                   Fill="{DynamicResource WhiteBrush}">
-          <Rectangle.OpacityMask>
-            <VisualBrush Stretch="Uniform"
-                         Visual="{StaticResource appbar_page_search}" />
-          </Rectangle.OpacityMask>
-        </Rectangle>
-      </Button>
-      <Button Click="ShowPositionSearch_Button_Click"
-              ToolTip="Positionsnummern-Suche">
-        <Rectangle Width="20"
-                   Height="20"
-                   Fill="{DynamicResource WhiteBrush}">
-          <Rectangle.OpacityMask>
-            <VisualBrush Stretch="Uniform"
-                         Visual="{StaticResource appbar_page_search}" />
-          </Rectangle.OpacityMask>
-        </Rectangle>
-      </Button>
-      <Button Click="EditPreferences_Button_Click"
-              ToolTip="Einstellungen">
-        <Rectangle Width="20"
-                   Height="20"
-                   Fill="{DynamicResource WhiteBrush}">
-          <Rectangle.OpacityMask>
-            <VisualBrush Stretch="UniformToFill"
-                         Visual="{StaticResource appbar_settings}" />
-          </Rectangle.OpacityMask>
-        </Rectangle>
-      </Button>
-      <Button Content="?"
-              FontSize="18"
+              ToolTip="Daten in Monlist importieren" />
+      <Button Content="{iconPacks:PackIconMaterial FileFind, Width=18, Height=18}"
+              Click="ShowPNSearch_Button_Click"
+              ToolTip="Projektnummern-Suche" />
+      <Button Content="{iconPacks:PackIconMaterial FileFind, Width=18, Height=18}"
+              Click="ShowPositionSearch_Button_Click"
+              ToolTip="Positionsnummern-Suche" />
+      <Button Content="{iconPacks:PackIconMaterial Settings, Width=18, Height=18}"
+              Click="EditPreferences_Button_Click"
+              ToolTip="Einstellungen" />
+      <Button Content="{iconPacks:PackIconMaterial HelpCircleOutline, Width=18, Height=18}"
               Command="Help" />
+      <Button Content="{iconPacks:PackIconMaterial GithubCircle, Width=18, Height=18}"
+              Click="GitHub_Button_Click"
+              ToolTip="MONI bei GitHub" />
     </Controls:WindowCommands>
   </Controls:MetroWindow.RightWindowCommands>
 
@@ -437,65 +364,28 @@
         </Controls:Flyout.ContentTemplate>
       </Controls:Flyout>
 
-      <!-- search projectnumbers -->
-      <Controls:Flyout Header="Projektnummern-Suche"
-                       Width="500"
-                       Position="Right"
-                       KeyboardNavigation.TabNavigation="Cycle"
-                       Content="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
-                       IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.ShowPNSearch}">
-        <Controls:Flyout.ContentTemplate>
-          <DataTemplate DataType="{x:Type viewModels:PNSearchViewModel}">
-            <DataTemplate.Resources>
-              <Style TargetType="{x:Type TextBox}"
-                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}" />
-            </DataTemplate.Resources>
-            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-            <views:PNSearchView x:Name="pnSearchView"
-                                IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
-                                AddShortCutService="{Binding ElementName=mv}" />
-          </DataTemplate>
-        </Controls:Flyout.ContentTemplate>
-      </Controls:Flyout>
+      <!-- project numbers -->
+      <views:PNSearchFlyout Header="Projektnummern-Suche"
+                            Width="500"
+                            Position="Right"
+                            DataContext="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
+                            AddShortCutService="{Binding ElementName=mv}"
+                            IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.IsProjectSearchViewOpen}" />
 
-      <!-- search positionnumbers -->
-      <Controls:Flyout Header="Positionsnummern-Suche"
-                       Width="500"
-                       Position="Right"
-                       KeyboardNavigation.TabNavigation="Cycle"
-                       Content="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
-                       IsOpen="{Binding ElementName=mv, Path=ViewModel.PositionSearch.ShowPNSearch}">
-        <Controls:Flyout.ContentTemplate>
-          <DataTemplate DataType="{x:Type viewModels:PositionSearchViewModel}">
-            <DataTemplate.Resources>
-              <Style TargetType="{x:Type TextBox}"
-                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}" />
-            </DataTemplate.Resources>
-            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-            <views:PositionSearchView x:Name="posSearchView"
-                                      IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}"
-                                      AddShortCutService="{Binding ElementName=mv}" />
-          </DataTemplate>
-        </Controls:Flyout.ContentTemplate>
-      </Controls:Flyout>
+      <!-- position numbers -->
+      <views:PositionSearchFlyout Header="Positionsnummern-Suche"
+                                  Width="500"
+                                  Position="Right"
+                                  DataContext="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
+                                  AddShortCutService="{Binding ElementName=mv}"
+                                  IsOpen="{Binding ElementName=mv, Path=ViewModel.PositionSearch.IsPosSearchViewOpen}" />
 
       <!-- show update info -->
-      <Controls:Flyout Header="Update-Info"
-                       Width="500"
-                       Position="Right"
-                       KeyboardNavigation.TabNavigation="Cycle"
-                       Content="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
-                       IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}">
-        <Controls:Flyout.ContentTemplate>
-          <DataTemplate DataType="{x:Type viewModels:UpdateInfoViewModel}">
-            <DataTemplate.Resources>
-              <Style TargetType="{x:Type TextBox}"
-                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}" />
-            </DataTemplate.Resources>
-            <views:UpdateInfoView />
-          </DataTemplate>
-        </Controls:Flyout.ContentTemplate>
-      </Controls:Flyout>
+      <views:UpdateInfoFlyout Header="Update-Info"
+                              Width="500"
+                              Position="Right"
+                              DataContext="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
+                              IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}" />
     </Controls:FlyoutsControl>
 
   </Controls:MetroWindow.Flyouts>
@@ -516,7 +406,7 @@
     <Grid Margin="0 0 2 0">
       <Grid.ColumnDefinitions>
         <!-- month view -->
-        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" MinWidth="40" />
         <!-- week view -->
         <ColumnDefinition Width="*" />
         <!-- vertical splitter -->
@@ -542,40 +432,22 @@
         <Button Grid.Column="0"
                 Grid.Row="0"
                 x:Name="btnPrevMonth"
+                Content="{iconPacks:PackIconMaterial Rewind, Width=14, Height=14}"
                 Background="#537DBBDA"
+                Foreground="#CC119EDA"
                 Margin="2 3 1 1"
-                Command="{Binding ElementName=mv, Path=ViewModel.PreviousMonthCommand}">
-          <Rectangle Width="12"
-                     Height="12">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="#CC119EDA" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_control_rewind_variant}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </Button>
-        
+                Padding="0"
+                Command="{Binding ElementName=mv, Path=ViewModel.PreviousMonthCommand}" />
+
         <Button Grid.Column="0"
                 Grid.Row="1"
                 x:Name="btnNextMonth"
+                Content="{iconPacks:PackIconMaterial FastForward, Width=14, Height=14}"
                 Background="#537DBBDA"
+                Foreground="#CC119EDA"
                 Margin="2 1 1 2"
-                Command="{Binding ElementName=mv, Path=ViewModel.NextMonthCommand}">
-          <Rectangle Width="12"
-                     Height="12">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="#CC119EDA" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_control_fastforward_variant}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </Button>
+                Padding="0"
+                Command="{Binding ElementName=mv, Path=ViewModel.NextMonthCommand}" />
       </Grid>
 
       <!-- days of month -->
@@ -608,21 +480,12 @@
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 x:Name="btnPrev"
+                Content="{iconPacks:PackIconMaterial ArrowLeftBold, Width=18, Height=18}"
                 Background="#537DBBDA"
+                Foreground="#CC119EDA"
                 Margin="2 3 1 2"
-                Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}">
-          <Rectangle Width="15"
-                     Height="15">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="#CC119EDA" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_arrow_left}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </Button>
+                Padding="0"
+                Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}" />
 
         <TextBlock Grid.Column="1"
                    Grid.Row="0"
@@ -705,21 +568,12 @@
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 x:Name="btnNext"
+                Content="{iconPacks:PackIconMaterial ArrowRightBold, Width=18, Height=18}"
                 Background="#537DBBDA"
+                Foreground="#CC119EDA"
                 Margin="1 3 11 2"
-                Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}">
-          <Rectangle Width="15"
-                     Height="15">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="#CC119EDA" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_arrow_right}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </Button>
+                Padding="0"
+                Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}" />
 
       </Grid>
 
@@ -928,29 +782,17 @@
                   VerticalAlignment="Bottom"
                   Orientation="Horizontal"
                   Visibility="Collapsed">
-        <TextBlock FontSize="20"
+        <TextBlock Text="Shortcuts" FontSize="20"
                    Foreground="#CC119EDA"
-                   FontWeight="Bold">
-                    Shortcuts
-        </TextBlock>
-        <Button Width="13"
+                   FontWeight="Bold" />
+        <Button Width="16"
                 Height="20"
                 Margin="10 0 0 0"
                 Style="{StaticResource ImageButtonStyle}"
+                Content="{iconPacks:PackIconMaterial BookmarkPlus}"
+                Foreground="#CC119EDA"
                 Click="AddShortcut_OnClick"
-                ToolTip="Neuen Shortcut erstellen">
-          <Rectangle Width="10"
-                     Height="20">
-            <Rectangle.Resources>
-              <SolidColorBrush x:Key="BlackBrush"
-                               Color="#CC119EDA" />
-            </Rectangle.Resources>
-            <Rectangle.Fill>
-              <VisualBrush Stretch="Fill"
-                           Visual="{StaticResource appbar_location_add}" />
-            </Rectangle.Fill>
-          </Rectangle>
-        </Button>
+                ToolTip="Neuen Shortcut erstellen" />
       </StackPanel>
 
       <ListBox x:Name="shortCutList"
@@ -969,7 +811,7 @@
                TextOptions.TextFormattingMode="Display"
                ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
                ItemsSource="{Binding Source={StaticResource ShortCutCVS}}">
-        
+
         <ListBox.GroupStyle>
           <GroupStyle ContainerStyle="{StaticResource ShortCutGroupGroupItemStyle}">
             <GroupStyle.Panel>
@@ -979,164 +821,158 @@
             </GroupStyle.Panel>
           </GroupStyle>
         </ListBox.GroupStyle>
-        
-        <ListBox.ItemTemplate>
-            <!-- shortcut -->
-            <DataTemplate DataType="{x:Type data:ShortCutStatistic}">
 
-              <DataTemplate.Triggers>
-                <EventTrigger RoutedEvent="Control.MouseEnter">
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.200"
+        <ListBox.ItemTemplate>
+          <!-- shortcut -->
+          <DataTemplate DataType="{x:Type data:ShortCutStatistic}">
+
+            <DataTemplate.Triggers>
+              <EventTrigger RoutedEvent="Control.MouseEnter">
+                <BeginStoryboard>
+                  <Storyboard>
+                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.200"
                                                      Storyboard.TargetName="actions"
                                                      Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
-                        <EasingDoubleKeyFrame KeyTime="00:00:00.400"
+                      <EasingDoubleKeyFrame KeyTime="00:00:00.400"
                                               Value="0"
                                               x:Name="showFrame">
-                          <EasingDoubleKeyFrame.EasingFunction>
-                            <CubicEase EasingMode="EaseOut" />
-                          </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                      </DoubleAnimationUsingKeyFrames>
+                        <EasingDoubleKeyFrame.EasingFunction>
+                          <CubicEase EasingMode="EaseOut" />
+                        </EasingDoubleKeyFrame.EasingFunction>
+                      </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
 
-                      <DoubleAnimation Duration="0:0:0.3"
+                    <DoubleAnimation Duration="0:0:0.3"
                                        BeginTime="00:00:00.400"
                                        To="0.8"
                                        Storyboard.TargetName="actions"
                                        Storyboard.TargetProperty="Opacity" />
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="Control.MouseLeave">
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                  </Storyboard>
+                </BeginStoryboard>
+              </EventTrigger>
+              <EventTrigger RoutedEvent="Control.MouseLeave">
+                <BeginStoryboard>
+                  <Storyboard>
+                    <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
                                                      Storyboard.TargetName="actions"
                                                      Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
-                        <EasingDoubleKeyFrame KeyTime="00:00:00.400"
+                      <EasingDoubleKeyFrame KeyTime="00:00:00.400"
                                               Value="200"
                                               x:Name="hideFrame">
-                          <EasingDoubleKeyFrame.EasingFunction>
-                            <CubicEase EasingMode="EaseOut" />
-                          </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                      </DoubleAnimationUsingKeyFrames>
+                        <EasingDoubleKeyFrame.EasingFunction>
+                          <CubicEase EasingMode="EaseOut" />
+                        </EasingDoubleKeyFrame.EasingFunction>
+                      </EasingDoubleKeyFrame>
+                    </DoubleAnimationUsingKeyFrames>
 
-                      
-                      <DoubleAnimation Duration="0:0:0.3"
+                    <DoubleAnimation Duration="0:0:0.3"
                                        To="0"
                                        Storyboard.TargetName="actions"
                                        Storyboard.TargetProperty="Opacity" />
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger>
-              </DataTemplate.Triggers>
+                  </Storyboard>
+                </BeginStoryboard>
+              </EventTrigger>
+            </DataTemplate.Triggers>
 
-              <!-- use transparent background for correct highlighting -->
-              <Grid Background="Transparent">
+            <!-- use transparent background for correct highlighting -->
+            <Grid Background="Transparent">
 
-                <Grid x:Name="root"
+              <Grid x:Name="root"
                       Margin="1 1 1 1"
                       Background="#FFF3EDED">
 
-                  <!-- usage history graph -->
-                  <ItemsControl Margin="-1 0 -1 -1"
+                <!-- usage history graph -->
+                <ItemsControl Margin="-1 0 -1 -1"
                                 ItemTemplate="{StaticResource UsageHistoryDayDataTemplate}"
                                 ItemsSource="{Binding UsageHistory}">
-                    <ItemsControl.ItemsPanel>
-                      <ItemsPanelTemplate>
-                        <UniformGrid Rows="1"
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <UniformGrid Rows="1"
                                      Columns="31" />
-                      </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                  </ItemsControl>
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                </ItemsControl>
 
-                  <Grid Margin="2 2 2 5">
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="Auto"
-                                        SharedSizeGroup="0" />
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="Auto" />
-                      <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <Grid Margin="2 2 2 5">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"
+                                      SharedSizeGroup="0" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0"
-                               VerticalAlignment="Bottom"
-                               Text="{Binding Key}"
-                               FontWeight="Bold"
-                               FontSize="14" />
-                    <TextBlock Grid.Column="1"
-                               VerticalAlignment="Bottom"
-                               Text="{Binding Expansion}"
-                               Foreground="DarkSlateGray"
-                               FontSize="10"
-                               TextTrimming="CharacterEllipsis"
-                               Margin="10 0 0 0" />
-                    <TextBlock Grid.Column="2"
-                               VerticalAlignment="Bottom"
-                               HorizontalAlignment="Right"
-                               Text="{Binding UsedInMonth, StringFormat='{} {0:##}'}"
-                               Foreground="Gray"
-                               FontWeight="Bold"
-                               FontSize="14"
-                               Margin="10 0 3 0" />
+                  <TextBlock Grid.Column="0"
+                             VerticalAlignment="Bottom"
+                             Text="{Binding Key}"
+                             FontWeight="Bold"
+                             FontSize="14" />
+                  <TextBlock Grid.Column="1"
+                             VerticalAlignment="Bottom"
+                             Text="{Binding Expansion}"
+                             Foreground="DarkSlateGray"
+                             FontSize="10"
+                             TextTrimming="CharacterEllipsis"
+                             Margin="10 0 0 0" />
+                  <TextBlock Grid.Column="2"
+                             VerticalAlignment="Bottom"
+                             HorizontalAlignment="Right"
+                             Text="{Binding UsedInMonth, StringFormat='{} {0:##}'}"
+                             Foreground="Gray"
+                             FontWeight="Bold"
+                             FontSize="14"
+                             Margin="10 0 3 0" />
 
-                    <!--wholeday expansion info-->
-                    <Rectangle Grid.Column="3"
-                               VerticalAlignment="Top"
-                               HorizontalAlignment="Right"
-                               Width="8"
-                               Height="15"
-                               Margin="0 -2 0 0"
-                               Visibility="{Binding WholeDayExpansion, Converter={StaticResource false2HiddenConverter}}"
-                               Fill="{StaticResource ribbonIcon}"
-                               ToolTip="Ersetzt ganzen Tag" />
-                  </Grid>
+                  <!--wholeday expansion info-->
+                  <iconPacks:PackIconModern Grid.Column="3"
+                                            Kind="Ribbon"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Right"
+                                            Foreground="#B10101"
+                                            Width="8"
+                                            Height="15"
+                                            Margin="0 -2 0 0"
+                                            Visibility="{Binding WholeDayExpansion, Converter={StaticResource false2HiddenConverter}}"
+                                            ToolTip="Ersetzt ganzen Tag" />
+                </Grid>
 
-                  <!--actions-->
-                  <Border x:Name="actions"
+                <!--actions-->
+                <Border x:Name="actions"
                           Background="Silver"
                           Margin="0 1 2 1"
                           HorizontalAlignment="Right"
                           Opacity="0">
-                    <Border.RenderTransform>
-                      <TranslateTransform X="200" />
-                    </Border.RenderTransform>
+                  <Border.RenderTransform>
+                    <TranslateTransform X="200" />
+                  </Border.RenderTransform>
 
-                    <StackPanel Orientation="Horizontal"
+                  <StackPanel Orientation="Horizontal"
                                 VerticalAlignment="Center">
 
-                      <Button Tag="{Binding }"
-                              Style="{DynamicResource MetroCircleEditButtonStyle}"
-                              Width="21"
-                              Height="21"
-                              Margin="5 1 5 1"
-                              Click="EditShortcut_OnClick"
-                              ToolTip="Shortcut editieren">
-                        <Rectangle Width="10"
-                                   Height="10"
-                                   Fill="{StaticResource editIcon}" />
-                      </Button>
-                      <Button Tag="{Binding }"
-                              Style="{DynamicResource MetroCircleEditButtonStyle}"
-                              Width="21"
-                              Height="21"
-                              Margin="5 1 5 1"
-                              Click="RemoveShortcut_OnClick"
-                              ToolTip="Shortcut löschen">
-                        <Rectangle Width="10"
-                                   Height="10"
-                                   Fill="{StaticResource deleteIcon}" />
-                      </Button>
+                    <Button Content="{iconPacks:PackIconModern Edit, Width=10, Height=10}"
+                            Tag="{Binding }"
+                            Style="{DynamicResource MetroCircleEditButtonStyle}"
+                            Width="21"
+                            Height="21"
+                            Margin="5 1 5 1"
+                            Click="EditShortcut_OnClick"
+                            ToolTip="Shortcut editieren" />
+                    <Button Content="{iconPacks:PackIconModern Delete, Width=10, Height=10}"
+                            Tag="{Binding }"
+                            Style="{DynamicResource MetroCircleEditButtonStyle}"
+                            Width="21"
+                            Height="21"
+                            Margin="5 1 5 1"
+                            Click="RemoveShortcut_OnClick"
+                            ToolTip="Shortcut löschen" />
 
-                    </StackPanel>
-                  </Border>
-                </Grid>
-
+                  </StackPanel>
+                </Border>
               </Grid>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
+
+            </Grid>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
       </ListBox>
 
       <!-- project hitlist -->

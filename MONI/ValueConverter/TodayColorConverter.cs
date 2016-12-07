@@ -4,8 +4,10 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace MONI.ValueConverter {
-    public class TodayColorConverter : IValueConverter {
+namespace MONI.ValueConverter
+{
+    public class TodayColorConverter : IValueConverter
+    {
         private readonly Brush todayBrush;
         private readonly Brush notTodayBrush;
 
@@ -13,15 +15,17 @@ namespace MONI.ValueConverter {
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
-        static TodayColorConverter() {
+        static TodayColorConverter()
+        {
         }
 
-        private TodayColorConverter() {
+        private TodayColorConverter()
+        {
             // set opacity here and not for the rectangle, because it's even faster
-            this.todayBrush = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#F000638E"));
+            this.todayBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F000638E"));
             this.todayBrush.Opacity = 0.5;
             this.todayBrush.Freeze();
-            this.notTodayBrush = new SolidColorBrush((Color) ColorConverter.ConvertFromString("#CC119EDA"));
+            this.notTodayBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CC119EDA"));
             this.notTodayBrush.Opacity = 0.5;
             this.notTodayBrush.Freeze();
         }
@@ -31,16 +35,19 @@ namespace MONI.ValueConverter {
             get { return instance ?? (instance = new TodayColorConverter()); }
         }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
-            var isToday = (bool) value;
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var isToday = (bool)value;
             var b = this.notTodayBrush;
-            if (isToday) {
+            if (isToday)
+            {
                 b = this.todayBrush;
             }
             return b;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
             return DependencyProperty.UnsetValue;
         }
     }

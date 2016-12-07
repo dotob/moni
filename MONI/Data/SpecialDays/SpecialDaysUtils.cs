@@ -1,7 +1,9 @@
 ﻿using System;
 
-namespace MONI.Data.SpecialDays {
-    public class SpecialDaysUtils {
+namespace MONI.Data.SpecialDays
+{
+    public class SpecialDaysUtils
+    {
         /// <summary>
         /// Berechnet das Datum des Ostersonntags des übergebenen Jahres (Das C# 2010 Codebook)
         /// </summary>
@@ -10,9 +12,11 @@ namespace MONI.Data.SpecialDays {
         /// <remarks>
         /// Die Berechnung erfolgt nach dem Original von Ronald W. Mallen (www.assa.org.au/edm.html)
         /// </remarks>
-        public static DateTime GetEasterSundayDate(int year) {
+        public static DateTime GetEasterSundayDate(int year)
+        {
             // Überprüfen, ob das Jahr für die Osterberechnung gültig ist
-            if (year < 1583 || year > 4099) {
+            if (year < 1583 || year > 4099)
+            {
                 throw new Exception("Das Jahr muss zwischen 1583 und 4099 liegen");
             }
 
@@ -25,7 +29,8 @@ namespace MONI.Data.SpecialDays {
             // PFM-Datum berechnen
             temp = (firstDigits - 15) / 2 + 202 - 11 * remaining19;
 
-            switch (firstDigits) {
+            switch (firstDigits)
+            {
                 case 21:
                 case 24:
                 case 25:
@@ -52,10 +57,12 @@ namespace MONI.Data.SpecialDays {
             temp = temp % 30;
 
             tA = temp + 21;
-            if (temp == 29) {
+            if (temp == 29)
+            {
                 tA = tA - 1;
             }
-            if (temp == 28 && remaining19 > 10) {
+            if (temp == 28 && remaining19 > 10)
+            {
                 tA = tA - 1;
             }
 
@@ -63,10 +70,12 @@ namespace MONI.Data.SpecialDays {
             tB = (tA - 19) % 7;
 
             tC = (40 - firstDigits) % 4;
-            if (tC == 3) {
+            if (tC == 3)
+            {
                 tC = tC + 1;
             }
-            if (tC > 1) {
+            if (tC > 1)
+            {
                 tC = tC + 1;
             }
 
@@ -79,11 +88,13 @@ namespace MONI.Data.SpecialDays {
             var day = tA + tE;
             var month = 0;
 
-            if (day > 31) {
+            if (day > 31)
+            {
                 day -= 31;
                 month = 4;
             }
-            else {
+            else
+            {
                 month = 3;
             }
 
@@ -95,7 +106,8 @@ namespace MONI.Data.SpecialDays {
         /// </summary>
         /// <param name="year">Das Jahr, für das die speziellen Tage berechnet werden sollen</param>
         /// <returns>Gibt eine GermanSpecialDays-Auflistung mit den Daten der wichtigsten speziellen Tage für Deutschland zurück</returns>
-        public static GermanSpecialDays GetGermanSpecialDays(int year) {
+        public static GermanSpecialDays GetGermanSpecialDays(int year)
+        {
             var gsd = new GermanSpecialDays(year);
 
             // Die festen besonderen Tage eintragen
