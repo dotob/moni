@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MahApps.Metro.Native;
 using Newtonsoft.Json;
 using System.Linq;
+using MONI.Util;
 
 namespace MONI.Data
 {
@@ -14,7 +15,7 @@ namespace MONI.Data
         public static MoniSettings GetEmptySettings()
         {
             var ms = new MainSettings {
-                DataDirectory = AppDomain.CurrentDomain.BaseDirectory,
+                DataDirectory = Utils.MoniAppDataPath(),//AppDomain.CurrentDomain.BaseDirectory,
                 MonlistExecutablePath = @"n:\Monlist2\Monlist2.exe",
                 ProjectNumberFilePath = @"n:\Monlist2\projekte.txt",
                 UpdateInfoURL = "http://mtools/moni_updates.json",
