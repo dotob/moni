@@ -157,4 +157,11 @@
 		],
 		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.1/MONI.exe"
 	},
+	{
+		"Version": "1.0.2",
+		"Changes": [
+			"Update: Das Data und Log Verzeichnis ist jetzt beim ersten Start C:\Users\<User>\AppData\Roaming\moni\",
+		],
+		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.2/MONI.exe"
+	},
 ]
