@@ -500,7 +500,7 @@ namespace MONI.ViewModels
             {
                 this.CreateAndLoadYear(date.Year);
             }
-            if (this.workMonth == null || date.Month != this.workMonth.Month)
+            if (this.workMonth == null || date.Year != this.workMonth.Year || date.Month != this.workMonth.Month)
             {
                 this.WorkMonth = this.WorkYear.Months.ElementAt(date.Month - 1);
                 this.WorkMonth.CalcPreviewHours();
