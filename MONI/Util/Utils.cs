@@ -25,8 +25,7 @@ namespace MONI.Util
 
         public static string MoniAppDataPath()
         {
-            var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            var moniAppData = Path.Combine(appData, "moni");
+            var moniAppData = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "moni");
             return moniAppData;
         }
 

@@ -187,14 +187,13 @@ namespace MONI.Util
             var fileTarget = new FileTarget();
             config.AddTarget("file", fileTarget);
 
-            ColoredConsoleTarget consoleTarget = null;
-            if (false)
-            {
-                consoleTarget = new ColoredConsoleTarget();
-                config.AddTarget("console", consoleTarget);
-                // Step 3. Set target properties 
-                consoleTarget.Layout = "${longdate} ${level:uppercase=true} ${logger} ${message} ${exception:format=Message,Type,StackTrace:separator=//}";
-            }
+            // Step 3. Set target properties 
+
+#if DEBUG
+            var consoleTarget = new ColoredConsoleTarget();
+            consoleTarget.Layout = "${longdate} ${level:uppercase=true} ${logger} ${message} ${exception:format=Message,Type,StackTrace:separator=//}";
+            config.AddTarget("console", consoleTarget);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Info, consoleTarget));
 
             // check where we can write
             if (Utils.CanCreateFile("."))
@@ -205,20 +204,16 @@ namespace MONI.Util
             {
                 fileTarget.FileName = Utils.MoniAppDataPath() + "/logs/" + this.ApplicationName + ".${shortdate}.log";
             }
+#else
+            fileTarget.FileName = Utils.MoniAppDataPath() + "/logs/" + this.ApplicationName + ".${shortdate}.log";
+#endif
             fileTarget.KeepFileOpen = false;
             fileTarget.CreateDirs = true;
             fileTarget.ConcurrentWrites = true;
             fileTarget.Layout = "${longdate} ${level:uppercase=true} ${logger} ${message} ${exception:format=Message,Type,StackTrace:separator=//}";
 
             // Step 4. Define rules
-            if (consoleTarget != null)
-            {
-                var rule1 = new LoggingRule("*", LogLevel.Debug, consoleTarget);
-                config.LoggingRules.Add(rule1);
-            }
-
-            var rule2 = new LoggingRule("*", LogLevel.Debug, fileTarget);
-            config.LoggingRules.Add(rule2);
+            config.LoggingRules.Add(new LoggingRule("*", LogLevel.Debug, fileTarget));
 
             // Step 5. Activate the configuration
             LogManager.Configuration = config;
