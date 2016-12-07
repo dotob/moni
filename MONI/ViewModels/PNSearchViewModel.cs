@@ -65,7 +65,7 @@ namespace MONI.ViewModels
             }
             catch (Exception e)
             {
-                logger.Warn("Exception while converting projekte to dictionary", e);
+                logger.Warn(e, "Exception while converting project numbers to dictionary");
             }
         }
 
