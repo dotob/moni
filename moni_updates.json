@@ -1,4 +1,4 @@
-[
+﻿[
 	{
 		"Version": "0.9.8.4",
 		"Changes": [
@@ -146,21 +146,21 @@
 	{
 		"Version": "1.0.0.2",
 		"Changes": [
-			"Fix: Tab-Navigation zwischen den Tagen",
+			"Fix: Tab-Navigation zwischen den Tagen"
 		],
 		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.2/MONI.exe"
 	},
 	{
 		"Version": "1.0.1",
 		"Changes": [
-			"New: Alte Projektnummern werden bei der Projektnummern-Suche herausgefiltert (ein-/ausschaltbar)",
+			"New: Alte Projektnummern werden bei der Projektnummern-Suche herausgefiltert (ein-/ausschaltbar)"
 		],
 		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.1/MONI.exe"
 	},
 	{
 		"Version": "1.0.2",
 		"Changes": [
-			"Update: Das Data und Log Verzeichnis ist jetzt beim ersten Start C:\Users\<User>\AppData\Roaming\moni\",
+			"Update: Das Data und Log Verzeichnis ist jetzt beim ersten Start C:\\Users\\<User>\\AppData\\Roaming\\moni\\"
 		],
 		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.2/MONI.exe"
 	},
@@ -168,8 +168,8 @@
 		"Version": "1.0.3",
 		"Changes": [
 			"Fix: Änderungen wurden nicht mehr direkt gespeichert. Erst beim Beenden des Programms.",
-			"Update: Import Dialog überarbeitet.",
+			"Update: Import Dialog überarbeitet."
 		],
 		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.3/MONI.exe"
-	},
+	}
 ]
