@@ -49,7 +49,8 @@ namespace MONI.Data
 
         private void workWeek_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            //this.OnPropertyChanged("HoursDuration");
+            // this property doesn't exist here, but we want to trigger saving the data at MainViewModel
+            this.OnPropertyChanged("HoursDuration");
             this.UpdateProjectHitlistAsync();
             this.UpdatePositionHitlistAsync();
         }
