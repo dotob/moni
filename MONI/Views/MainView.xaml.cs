@@ -15,6 +15,7 @@ using MONI.Parser;
 using MONI.Util;
 using MONI.ViewModels;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Newtonsoft.Json;
 using NLog;
 
@@ -301,10 +302,45 @@ namespace MONI.Views
             this.CheckForMonlist();
         }
 
-        private void ToMonlist_Button_Click(object sender, RoutedEventArgs e)
+        private async void ToMonlist_Button_Click(object sender, RoutedEventArgs e)
         {
-            this.ViewModel.ShowPasswordDialog = true;
-            this.passwordBox.Focus();
+            var message = "Hierduch wird der gesamte, aktuell angezeigte Monat in MonList ersetzt. Alle Daten in MonList werden hierdurch überschrieben!";
+            if (this.ViewModel.MonlistImportLoginData != null)
+            {
+                var settings = new MetroDialogSettings()
+                {
+                    AffirmativeButtonText = "Importieren",
+                    NegativeButtonText = "Abbrechen",
+                };
+                MessageDialogResult result = await this.ShowMessageAsync("Monlist Daten-Import", message, MessageDialogStyle.AffirmativeAndNegative, settings);
+                if (result == MessageDialogResult.Affirmative)
+                {
+                    this.UploadToMonlist(this.ViewModel.MonlistImportLoginData.Password);
+                }
+            }
+            else
+            {
+                var settings = new LoginDialogSettings
+                {
+                    ShouldHideUsername = !string.IsNullOrWhiteSpace(this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber),
+                    EnablePasswordPreview = true,
+                    AffirmativeButtonText = "Importieren",
+                    NegativeButtonText = "Abbrechen",
+                    NegativeButtonVisibility = Visibility.Visible
+                };
+                LoginDialogData result = await this.ShowLoginAsync("Monlist Daten-Import", message + "\n\nPasswort", settings);
+                if (result != null && !string.IsNullOrWhiteSpace(result.Password))
+                {
+                    // user pressed ok
+                    if (!settings.ShouldHideUsername)
+                    {
+                        this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber = result.Username;
+                    }
+                    this.ViewModel.MonlistImportLoginData = result;
+
+                    this.UploadToMonlist(result.Password);
+                }
+            }
         }
 
         private void WorkDayTextBox_OnGotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
@@ -347,22 +383,15 @@ namespace MONI.Views
             }
         }
 
-        private void PasswordCancel_OnClick(object sender, RoutedEventArgs e)
+        private void UploadToMonlist(string password)
         {
-            this.ViewModel.ShowPasswordDialog = false;
-        }
-
-        private void PasswordOK_OnClick(object sender, RoutedEventArgs e)
-        {
-            this.ViewModel.ShowPasswordDialog = false;
-            var password = this.passwordBox.Password;
+            string user = this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber;
             if (!string.IsNullOrWhiteSpace(password))
             {
                 // decide if you want to use monapi
                 if (!this.ViewModel.Settings.MainSettings.UseMonApi)
                 {
                     var currentMonthMonlistImportFile = this.ViewModel.CurrentMonthMonlistImportFile;
-                    string user = this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber;
                     string pw = password;
                     var args = string.Format("--user=\"{0}\" --pw=\"{1}\" --monat=\"{2}\" --jahr=\"{3}\" --file=\"{4}\"", user, pw, this.ViewModel.WorkMonth.Month, this.ViewModel.WorkMonth.Year, currentMonthMonlistImportFile);
                     Process.Start(this.ViewModel.Settings.MainSettings.MonlistExecutablePath, args);
@@ -370,7 +399,7 @@ namespace MONI.Views
                 else
                 {
                     int usernumberAsInt;
-                    if (int.TryParse(this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber, out usernumberAsInt))
+                    if (int.TryParse(user.Trim('0'), out usernumberAsInt))
                     {
                         var me = new MonapiJSONExporter(usernumberAsInt);
                         var jsonData = me.Export(this.ViewModel.WorkMonth);

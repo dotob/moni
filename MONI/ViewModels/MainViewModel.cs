@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GongSolutions.Wpf.DragDrop;
+using MahApps.Metro.Controls.Dialogs;
 using MONI.Data;
 using MONI.Util;
 using NLog;
@@ -42,7 +43,6 @@ namespace MONI.ViewModels
         private ICommand previousMonthCommand;
         private ICommand previousWeekCommand;
         private Visibility projectHitListVisibility;
-        private bool showPasswordDialog;
         private WorkMonth workMonth;
         private WorkWeek workWeek;
         private WorkYear workYear;
@@ -260,11 +260,7 @@ namespace MONI.ViewModels
 
         public string CurrentMonthMonlistImportFile { get; private set; }
 
-        public bool ShowPasswordDialog
-        {
-            get { return this.showPasswordDialog; }
-            set { this.Set(ref this.showPasswordDialog, value); }
-        }
+        public LoginDialogData MonlistImportLoginData { get; internal set; }
 
         public void DragOver(IDropInfo dropInfo)
         {

@@ -164,4 +164,12 @@
 		],
 		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.2/MONI.exe"
 	},
+	{
+		"Version": "1.0.3",
+		"Changes": [
+			"Fix: Änderungen wurden nicht mehr direkt gespeichert. Erst beim Beenden des Programms.",
+			"Update: Import Dialog überarbeitet.",
+		],
+		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.3/MONI.exe"
+	},
 ]
