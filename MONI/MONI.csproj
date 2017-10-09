@@ -97,6 +97,7 @@
     <Compile Include="Util\AttachedCommandBehavior\EventHandlerGenerator.cs" />
     <Compile Include="Util\AttachedCommandBehavior\ExecutionStrategy.cs" />
     <Compile Include="Util\AttachedCommandBehavior\SimpleCommand.cs" />
+    <Compile Include="Util\CalendarHelper.cs" />
     <Compile Include="Util\CustomPropertyGroupDescription.cs" />
     <Compile Include="Util\Markdown\HtmlToXamlConverter.cs" />
     <Compile Include="Util\Markdown\Markdown.cs" />
@@ -247,7 +248,7 @@
     </When>
   </Choose>
   <Target AfterTargets="AfterBuild;NonWinFodyTarget" Name="CleanReferenceCopyLocalPaths" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <Delete Files="@(ReferenceCopyLocalPaths-&gt;'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
+    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
   </Target>
   <Import Project="..\.paket\paket.targets" />
   <Choose>
