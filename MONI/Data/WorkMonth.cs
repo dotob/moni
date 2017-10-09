@@ -16,11 +16,9 @@ namespace MONI.Data
         private readonly int month;
         private readonly float hoursPerDay;
         private readonly int year;
-        private readonly WorkDayParserSettings parserSettings;
 
         public WorkMonth(int year, int month, GermanSpecialDays specialDays, WorkDayParserSettings parserSettings, float hoursPerDay)
         {
-            this.parserSettings = parserSettings;
             this.year = year;
             this.month = month;
             this.hoursPerDay = hoursPerDay;
@@ -30,7 +28,7 @@ namespace MONI.Data
             // TODO which date should i take?
             this.ReloadShortcutStatistic(parserSettings.ShortCuts);
 
-            var cal = new GregorianCalendar();
+            var cal = CultureInfo.CurrentCulture.Calendar;
             WorkWeek lastWeek = null;
             for (int day = 1; day <= cal.GetDaysInMonth(year, month); day++)
             {
@@ -38,7 +36,7 @@ namespace MONI.Data
 
                 WorkDay wd = new WorkDay(year, month, day, specialDays);
                 this.Days.Add(wd);
-                var weekOfYear = cal.GetWeekOfYear(dt, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
+                var weekOfYear = cal.GetWeekOfYear(dt);
                 if (lastWeek == null || lastWeek.WeekOfYear != weekOfYear)
                 {
                     lastWeek = new WorkWeek(this, weekOfYear);

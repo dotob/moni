@@ -17,7 +17,6 @@ using MONI.Data;
 using MONI.Util;
 using NLog;
 using Newtonsoft.Json;
-using Calendar = System.Globalization.Calendar;
 using DragDrop = GongSolutions.Wpf.DragDrop.DragDrop;
 
 namespace MONI.ViewModels
@@ -25,7 +24,6 @@ namespace MONI.ViewModels
     public class MainViewModel : ViewModelBase, IDropTarget
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private readonly Calendar calendar = new GregorianCalendar();
 
         private readonly CSVExporter csvExporter;
         private readonly TextFilePersistenceLayer persistenceLayer;
@@ -501,9 +499,7 @@ namespace MONI.ViewModels
                 this.WorkMonth = this.WorkYear.Months.ElementAt(date.Month - 1);
                 this.WorkMonth.CalcPreviewHours();
             }
-            this.WorkWeek =
-                this.WorkMonth.Weeks.First(
-                    ww => ww.WeekOfYear == this.calendar.GetWeekOfYear(date, CalendarWeekRule.FirstDay, DayOfWeek.Monday));
+            this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date));
             // look for workday and focus
             var selectedWorkDay = this.workWeek.Days.FirstOrDefault(d => d.Day == date.Day);
             SelectWorkDay(selectedWorkDay);
