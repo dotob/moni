@@ -57,7 +57,7 @@ namespace MONI.Views
 
         private void CheckForMonlist()
         {
-            var mlp = Utils.PatchFilePath(this.ViewModel.Settings.MainSettings.MonlistExecutablePath);
+            var mlp = MONI.Util.Utils.PatchFilePath(this.ViewModel.Settings.MainSettings.MonlistExecutablePath);
             this.OpenMonlist.IsEnabled = !(string.IsNullOrWhiteSpace(mlp) || !File.Exists(mlp));
         }
 
