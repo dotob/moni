@@ -44,7 +44,8 @@ namespace MONI.Views
             this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
             this.CheckForMonlist();
             this.Closed += (sender, e) => this.ViewModel.Save();
-            this.Activated += (s, e) => {
+            this.Activated += (s, e) =>
+            {
                 var readWriteResult = this.ViewModel.PersistentResult;
                 if (readWriteResult != null && !readWriteResult.Success)
                 {
@@ -63,7 +64,7 @@ namespace MONI.Views
 
         public MainViewModel ViewModel { get; set; }
 
-        private void mv_PreviewKeyUp(object sender, KeyEventArgs e)
+        private async void mv_PreviewKeyUp(object sender, KeyEventArgs e)
         {
             var activeTB = e.OriginalSource as TextBox;
             if ((Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control && (Keyboard.Modifiers & ModifierKeys.Alt) != ModifierKeys.Alt)
@@ -74,8 +75,15 @@ namespace MONI.Views
                         if (activeTB != null && activeTB.Name == "userEntry")
                         {
                             var currentDay = activeTB.DataContext as WorkDay;
-                            this.ViewModel.CopyFromPreviousDay(currentDay);
-                            e.Handled = true;
+                            //var settings = new MetroDialogSettings() { DefaultButtonFocus = MessageDialogResult.Affirmative };
+                            MessageDialogResult result = currentDay != null && currentDay.Items.Any()
+                                ? await this.ShowMessageAsync("Achtung!", "Wollen Sie wirklich den gesamten heutigen Arbeitstag durch den gestrigen Arbeitstag ersetzen?", MessageDialogStyle.AffirmativeAndNegative)
+                                : MessageDialogResult.Affirmative;
+                            if (result == MessageDialogResult.Affirmative)
+                            {
+                                this.ViewModel.CopyFromPreviousDay(currentDay);
+                                e.Handled = true;
+                            }
                         }
                         break;
                     case Key.N:
@@ -448,7 +456,7 @@ namespace MONI.Views
         {
             this.ViewModel.PNSearch.IsProjectSearchViewOpen = false;
             var sc = new ShortCut(key, expansion);
-            this.ViewModel.EditShortCut = new ShortcutViewModel(sc, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null) { IsNew = true };
+            this.ViewModel.EditShortCut = new ShortcutViewModel(sc, this.ViewModel.WorkWeek, this.ViewModel.Settings, () => this.ViewModel.EditShortCut = null) {IsNew = true};
         }
 
         private void HelpCanExecute(object sender, CanExecuteRoutedEventArgs e)
