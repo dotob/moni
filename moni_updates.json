@@ -171,5 +171,13 @@
 			"Update: Import Dialog überarbeitet."
 		],
 		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.3/MONI.exe"
+	},
+	{
+		"Version": "1.0.4",
+		"Changes": [
+			"Fix: Anzeige der falche Wochennummer.",
+			"Update: Absichern des Shortcuts Ctrl+U."
+		],
+		"DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.4/MONI.exe"
 	}
 ]

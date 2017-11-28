@@ -3,9 +3,9 @@ NUGET
   remote: https://www.nuget.org/api/v2
     Costura.Fody (1.6.2)
       Fody (>= 2.0 < 3.0)
-    Fody (2.1.3)
+    Fody (2.2.1)
     gong-wpf-dragdrop (1.1)
-    JetBrains.Annotations (11.0)
+    JetBrains.Annotations (11.1)
     MahApps.Metro (1.5)
     MahApps.Metro.IconPacks.Material (1.9.1)
     MahApps.Metro.IconPacks.Modern (1.9.1)

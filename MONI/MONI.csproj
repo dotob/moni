@@ -236,7 +236,7 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
       <PropertyGroup>
-        <__paket__Fody_targets>netstandard1.2\Fody</__paket__Fody_targets>
+        <__paket__Fody_targets>net452\Fody</__paket__Fody_targets>
       </PropertyGroup>
     </When>
   </Choose>
@@ -247,9 +247,6 @@
       </PropertyGroup>
     </When>
   </Choose>
-  <Target AfterTargets="AfterBuild;NonWinFodyTarget" Name="CleanReferenceCopyLocalPaths" Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' Or '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <Delete Files="@(ReferenceCopyLocalPaths->'$(OutDir)%(DestinationSubDirectory)%(Filename)%(Extension)')" />
-  </Target>
   <Import Project="..\.paket\paket.targets" />
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">

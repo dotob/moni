@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
@@ -11,7 +9,7 @@ using System.Windows;
 [assembly: AssemblyTitle("moni")]
 [assembly: AssemblyDescription("the better way to enter monlist data")]
 [assembly: AssemblyCompany("basti, jan & co 4 inform")]
-[assembly: AssemblyCopyright("Copyright © basti, jan & co 2014-2015")]
+[assembly: AssemblyCopyright("Copyright © basti, jan & co 2014")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -50,6 +48,7 @@ using System.Windows;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("1.0.3.0")]
-[assembly: AssemblyFileVersion("1.0.3.0")]
-[assembly: AssemblyProduct("moni 1.0.3.0")]
+[assembly: AssemblyVersion("1.0.4.0")]
+[assembly: AssemblyFileVersion("1.0.4.0")]
+[assembly: AssemblyInformationalVersion("1.0.4.0")]
+[assembly: AssemblyProduct("moni 1.0.4.0")]
