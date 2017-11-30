@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace MONI.Tests
 {
+    [TestFixture]
     public class TimeItemTester
     {
         [Test]

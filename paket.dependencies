@@ -7,7 +7,7 @@ nuget Costura.Fody
 nuget JetBrains.Annotations
 nuget Newtonsoft.Json ~> 9.0
 nuget NLog ~> 4.3
-nuget NUnit ~> 2.6
+nuget NUnit < 4
 nuget MahApps.Metro
 nuget MahApps.Metro.IconPacks.Modern
 nuget MahApps.Metro.IconPacks.Material

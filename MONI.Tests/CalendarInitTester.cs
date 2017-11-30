@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace MONI.Tests
 {
+    [TestFixture]
     public class CalendarInitTester
     {
         [Test]

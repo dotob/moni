@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace MONI.Tests
 {
+    [TestFixture]
     public class UpdateInfoTester
     {
         [Test]

@@ -20,7 +20,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -80,15 +80,7 @@
     <Compile Include="Data\UpdateInfo.cs" />
     <Compile Include="Parser\DescriptionParser.cs" />
     <Compile Include="Parser\WorkDayParserExtensions.cs" />
-    <Compile Include="Tests\DescriptionParserTester.cs" />
-    <Compile Include="Tests\UpdateInfoTester.cs" />
-    <Compile Include="Tests\HoursDuration_Tester.cs" />
-    <Compile Include="Tests\MainViewModelTester.cs" />
-    <Compile Include="Tests\PersistentTester.cs" />
-    <Compile Include="Tests\SettingsTester.cs" />
-    <Compile Include="Tests\StringParserHelperTester.cs" />
-    <Compile Include="Tests\WorkDayParserExtensionsTester.cs" />
-    <Compile Include="Tests\WorkDayParserMainTester.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Util\AppHelper.cs" />
     <Compile Include="Util\AttachedCommandBehavior\BehaviorBinding.cs" />
     <Compile Include="Util\AttachedCommandBehavior\CommandBehavior.cs" />
@@ -122,8 +114,6 @@
     <Compile Include="Util\DelegateCommand.cs" />
     <Compile Include="Parser\StringParserHelper.cs" />
     <Compile Include="Parser\WorkDayParser.cs" />
-    <Compile Include="Tests\CalendarInitTester.cs" />
-    <Compile Include="Tests\TimeItemTester.cs" />
     <Compile Include="Util\Utils.cs" />
     <Compile Include="Util\ViewModelBase.cs" />
     <Compile Include="ValueConverter\VisibilityConverter.cs" />
@@ -204,27 +194,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="..\paket.dependencies">
       <Link>paket.dependencies</Link>
     </None>
     <None Include="app.config" />
     <None Include="paket.references" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <AppDesigner Include="Properties\" />
     <Content Include="FodyWeavers.xml" />
-    <Content Include="Resources\UpdateInfoTest.json.txt" />
     <None Include="Resources\README.md" />
     <None Include="Util\AttachedCommandBehavior\ACB.cd" />
     <None Include="Util\AttachedCommandBehavior\LICENSE.md" />
@@ -335,17 +316,6 @@
       <ItemGroup>
         <Reference Include="NLog">
           <HintPath>..\packages\NLog\lib\net45\NLog.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.5.2'">
-      <ItemGroup>
-        <Reference Include="nunit.framework">
-          <HintPath>..\packages\NUnit\lib\nunit.framework.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

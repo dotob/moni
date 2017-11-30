@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MONI.Properties {
+namespace MONI.Tests.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MONI.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MONI.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MONI.Tests.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,12 +61,20 @@ namespace MONI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to [
+        ///{
+        ///	&quot;Version&quot; : &quot;1.1.1.1&quot;,
+        ///	&quot;Changes&quot; : [
+        ///		&quot;eins&quot;,
+        ///		&quot;zwei&quot;
+        ///		],
+        ///	&quot;DownLoadURL&quot; : &quot;http://mtools/MONI.exe&quot;
+        ///},
+        ///].
         /// </summary>
-        internal static byte[] README {
+        internal static string UpdateInfoTest_json {
             get {
-                object obj = ResourceManager.GetObject("README", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("UpdateInfoTest_json", resourceCulture);
             }
         }
     }

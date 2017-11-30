@@ -13,7 +13,7 @@ namespace MONI.ViewModels
 {
     public class PNSearchViewModel : ViewModelBase
     {
-        public static readonly Regex ProjectFileLineRegex = new Regex(@"^(?<pn>\d{5})\s(\S{1})\s(\S{1})\s(\S{1})\s(?<isold>\d{1})\s(?<desc>.*)$", RegexOptions.Compiled);
+        public static readonly Regex ProjectFileLineRegex = new Regex(@"^(?<pn>\d{5})\s(\S{1,5})\s(\S{1,5})\s(\S{1,5})\s(?<isold>\d{1})\s(?<desc>.*)$", RegexOptions.Compiled);
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         private bool isProjectSearchViewOpen;
@@ -48,10 +48,17 @@ namespace MONI.ViewModels
                     if (!string.IsNullOrWhiteSpace(pnFile) && File.Exists(pnFile))
                     {
                         var allPnLines = File.ReadAllLines(pnFile, Encoding.Default);
-                        foreach (string line in allPnLines.Skip(1))
+                        foreach (var line in allPnLines.Skip(1))
                         {
-                            var pn = new ProjectNumber(line);
-                            this.projectNumbers.Add(pn);
+                            var pn = new ProjectNumber();
+                            if (pn.TryParse(line))
+                            {
+                                this.projectNumbers.Add(pn);
+                            }
+                            else
+                            {
+                                logger.Warn($"Could not parse project numbers line: {line}");
+                            }
                         }
                         // break after first file worked
                         break;
@@ -65,7 +72,7 @@ namespace MONI.ViewModels
             }
             catch (Exception e)
             {
-                logger.Warn(e, "Exception while converting project numbers to dictionary");
+                logger.Error(e, "Exception while converting project numbers to dictionary");
             }
         }
 
@@ -141,19 +148,27 @@ namespace MONI.ViewModels
 
     public class ProjectNumber
     {
-        public ProjectNumber(string line)
+        public ProjectNumber()
         {
-            var lineMatch = PNSearchViewModel.ProjectFileLineRegex.Match(line);
-
-            this.Number = lineMatch.Groups["pn"].Value;
-            this.GB = Convert.ToInt32(this.Number.Substring(0, 1));
-            this.IsOld = lineMatch.Groups["isold"].Value == "1";
-            this.Description = lineMatch.Groups["desc"].Value;
         }
 
         public int GB { get; private set; }
         public string Number { get; private set; }
         public bool IsOld { get; private set; }
         public string Description { get; private set; }
+
+        public bool TryParse(string line)
+        {
+            var lineMatch = PNSearchViewModel.ProjectFileLineRegex.Match(line);
+            var success = lineMatch.Success;
+            if (success)
+            {
+                this.Number = lineMatch.Groups["pn"].Value;
+                this.GB = Convert.ToInt32(this.Number.Substring(0, 1));
+                this.IsOld = lineMatch.Groups["isold"].Value == "1";
+                this.Description = lineMatch.Groups["desc"].Value;
+            }
+            return success;
+        }
     }
 }
