@@ -29,16 +29,19 @@ namespace MONI.ViewModels
 
         public Task ReadFileAsync(string posNumberFiles)
         {
-            return Task.Factory
-                .StartNew(() => this.ReadFile(posNumberFiles))
-                .ContinueWith(task =>
+            return Task
+                .Run(() => this.ReadFile(posNumberFiles))
+                .ContinueWith(t =>
                 {
-                    var exception = task.Exception?.InnerException ?? task.Exception;
-                    if (exception != null)
+                    if (t.IsFaulted)
                     {
-                        logger.Error(exception, "Could not read the position numbers file:");
+                        var exception = t.Exception?.InnerException ?? t.Exception;
+                        if (exception != null)
+                        {
+                            logger.Error(exception, "Could not read the position numbers file:");
+                        }
                     }
-                }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.AttachedToParent);
+                }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void ReadFile(string posNumberFiles)

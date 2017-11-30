@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using MONI.Util;
 using System;
+using System.Threading;
 using NLog;
 
 namespace MONI.ViewModels
@@ -34,16 +35,19 @@ namespace MONI.ViewModels
 
         public Task ReadFileAsync(string projectNumberFiles, int gbNumber)
         {
-            return Task.Factory
-                .StartNew(() => this.ReadFile(projectNumberFiles, gbNumber))
-                .ContinueWith(task =>
+            return Task
+                .Run(() => this.ReadFile(projectNumberFiles, gbNumber))
+                .ContinueWith(t =>
                 {
-                    var exception = task.Exception?.InnerException ?? task.Exception;
-                    if (exception != null)
+                    if (t.IsFaulted)
                     {
-                        logger.Error(exception, "Could not read the project numbers file:");
+                        var exception = t.Exception?.InnerException ?? t.Exception;
+                        if (exception != null)
+                        {
+                            logger.Error(exception, "Could not read the project numbers file:");
+                        }
                     }
-                }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.AttachedToParent);
+                }, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         private void FilterByGBNumber(int gbNumber)

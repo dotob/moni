@@ -188,5 +188,12 @@
             "Update: MONI Target framework ist jetzt .NET Framework 4.6.2"
         ],
         "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.5/MONI.zip"
+    },
+    {
+        "Version": "1.0.6",
+        "Changes": [
+            "Fix: Fehler beim Einlesen der Projektnummern und Positionsnummern wenn die Einstellungen gespeichert und geschlossen wurden."
+        ],
+        "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.6/MONI.zip"
     }
 ]
