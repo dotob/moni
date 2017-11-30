@@ -304,9 +304,9 @@ namespace MONI.Views
             this.ViewModel.CancelEditingPreferences();
         }
 
-        private void EditPreferencesSave_OnClick(object sender, RoutedEventArgs e)
+        private async void EditPreferencesSave_OnClick(object sender, RoutedEventArgs e)
         {
-            this.ViewModel.SaveEditingPreferences();
+            await this.ViewModel.SaveEditingPreferencesAsync();
             this.CheckForMonlist();
         }
 

@@ -370,7 +370,7 @@
                             Position="Right"
                             DataContext="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
                             AddShortCutService="{Binding ElementName=mv}"
-                            IsOpen="{Binding ElementName=mv, Path=ViewModel.PNSearch.IsProjectSearchViewOpen}" />
+                            IsOpen="{Binding IsProjectSearchViewOpen}" />
 
       <!-- position numbers -->
       <views:PositionSearchFlyout Header="Positionsnummern-Suche"
@@ -378,14 +378,14 @@
                                   Position="Right"
                                   DataContext="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
                                   AddShortCutService="{Binding ElementName=mv}"
-                                  IsOpen="{Binding ElementName=mv, Path=ViewModel.PositionSearch.IsPosSearchViewOpen}" />
+                                  IsOpen="{Binding IsPosSearchViewOpen}" />
 
       <!-- show update info -->
       <views:UpdateInfoFlyout Header="Update-Info"
                               Width="500"
                               Position="Right"
                               DataContext="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
-                              IsOpen="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel.ShowUpdateInfo}" />
+                              IsOpen="{Binding ShowUpdateInfo}" />
     </Controls:FlyoutsControl>
 
   </Controls:MetroWindow.Flyouts>

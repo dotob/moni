@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -128,8 +129,8 @@ namespace MONI.ViewModels
             set { this.Set(ref this.showHelp, value); }
         }
 
-        public PositionSearchViewModel PositionSearch { get; set; }
-        public PNSearchViewModel PNSearch { get; set; }
+        public PositionSearchViewModel PositionSearch { get; private set; }
+        public PNSearchViewModel PNSearch { get; private set; }
 
         public Action<object> SelectWorkItemTextComplete { get; private set; }
         public Action<object> SelectWorkItemTextWithOutTime { get; private set; }
@@ -552,8 +553,7 @@ namespace MONI.ViewModels
 
         public void CopyFromPreviousDay(WorkDay currentDay)
         {
-            WorkDay lastValidBefore =
-                this.WorkMonth.Days.LastOrDefault(x => x.Day < currentDay.Day && x.Items != null && x.Items.Any());
+            WorkDay lastValidBefore = this.WorkMonth.Days.LastOrDefault(x => x.Day < currentDay.Day && x.Items != null && x.Items.Any());
             if (lastValidBefore != null)
             {
                 currentDay.OriginalString = lastValidBefore.OriginalString;
@@ -594,12 +594,16 @@ namespace MONI.ViewModels
             this.EditPreferences = this.MonlistSettings;
         }
 
-        public void SaveEditingPreferences()
+        public async Task SaveEditingPreferencesAsync()
         {
             UpdateVisibility();
             if (this.PNSearch != null)
             {
-                this.PNSearch.FilterByGBNumber(this.Settings.MainSettings.MonlistGBNumber);
+                await this.PNSearch.ReadFileAsync(this.Settings.MainSettings.ProjectNumberFilePath, this.Settings.MainSettings.MonlistGBNumber);
+            }
+            if (this.PositionSearch != null)
+            {
+                await this.PositionSearch.ReadFileAsync(this.Settings.MainSettings.PositionNumberFilePath);
             }
             this.EditPreferences = null;
             this.WorkWeek.Reparse();

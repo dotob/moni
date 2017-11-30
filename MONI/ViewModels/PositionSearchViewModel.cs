@@ -23,11 +23,28 @@ namespace MONI.ViewModels
         public PositionSearchViewModel(string posNumberFiles)
         {
             this.Results = new QuickFillObservableCollection<PositionNumber>();
-            Task.Factory.StartNew(() => this.ReadPNFile(posNumberFiles));
+            this.CancelCommand = new DelegateCommand(() => this.IsPosSearchViewOpen = false, () => true);
+            ReadFileAsync(posNumberFiles);
         }
 
-        private void ReadPNFile(string posNumberFiles)
+        public Task ReadFileAsync(string posNumberFiles)
         {
+            return Task.Factory
+                .StartNew(() => this.ReadFile(posNumberFiles))
+                .ContinueWith(task =>
+                {
+                    var exception = task.Exception?.InnerException ?? task.Exception;
+                    if (exception != null)
+                    {
+                        logger.Error(exception, "Could not read the position numbers file:");
+                    }
+                }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.AttachedToParent);
+        }
+
+        private void ReadFile(string posNumberFiles)
+        {
+            this.posNumbers.Clear();
+
             if (!string.IsNullOrWhiteSpace(posNumberFiles))
             {
                 foreach (var pnFileUnpatched in posNumberFiles.Split(';'))
@@ -41,15 +58,25 @@ namespace MONI.ViewModels
                             try
                             {
                                 var pn = new PositionNumber();
-                                string[] columns = line.Split(';');
-                                pn.Number = columns[0];
-                                pn.Description = columns[1];
-                                pn.Customer = columns[2];
-                                this.posNumbers.Add(pn);
+                                if (pn.TryParse(line))
+                                {
+                                    this.posNumbers.Add(pn);
+                                }
+                                else
+                                {
+                                    if (pn.Exception != null)
+                                    {
+                                        logger.Warn(pn.Exception, $"Could not parse position number line: {line} :");
+                                    }
+                                    else
+                                    {
+                                        logger.Warn($"Could not parse position number line: {line}");
+                                    }
+                                }
                             }
                             catch (Exception e)
                             {
-                                logger.Warn(e, "Could not read as projectnumber info: {0}", line);
+                                logger.Warn(e, $"Could not parse position number line: {line} :");
                             }
                         }
                         // break after first file worked
@@ -57,6 +84,7 @@ namespace MONI.ViewModels
                     }
                 }
             }
+
             this.pnHash = this.posNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
         }
 
@@ -103,7 +131,8 @@ namespace MONI.ViewModels
 
         public ICommand CancelCommand
         {
-            get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(() => this.IsPosSearchViewOpen = false, () => true)); }
+            get { return this.cancelCommand; }
+            set { this.Set(ref this.cancelCommand, value); }
         }
 
         public string GetDescriptionForPositionNumber(string positionNumber)
@@ -119,8 +148,26 @@ namespace MONI.ViewModels
 
     public class PositionNumber
     {
-        public string Number { get; set; }
-        public string Description { get; set; }
-        public string Customer { get; set; }
+        public string Number { get; private set; }
+        public string Description { get; private set; }
+        public string Customer { get; private set; }
+        public Exception Exception { get; private set; }
+
+        public bool TryParse(string line)
+        {
+            try
+            {
+                var columns = line.Split(';');
+                Number = columns[0];
+                Description = columns[1];
+                Customer = columns[2];
+            }
+            catch (Exception e)
+            {
+                this.Exception = e;
+                return false;
+            }
+            return true;
+        }
     }
 }

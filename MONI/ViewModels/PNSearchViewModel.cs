@@ -20,7 +20,7 @@ namespace MONI.ViewModels
         private string searchText;
         private ICommand cancelCommand;
         private Dictionary<string, string> pnHash;
-        private int gbNumber;
+        private int currentGBNumber;
         private List<ProjectNumber> projectNumbers = new List<ProjectNumber>();
         private List<ProjectNumber> projectNumbersToSearch = new List<ProjectNumber>();
         private bool filterOldProjectsOut = true;
@@ -28,18 +28,35 @@ namespace MONI.ViewModels
         public PNSearchViewModel(string projectNumberFiles, int gbNumber)
         {
             this.Results = new QuickFillObservableCollection<ProjectNumber>();
-            Task.Factory.StartNew(() => this.ReadPNFile(projectNumberFiles, gbNumber));
+            this.CancelCommand = new DelegateCommand(() => this.IsProjectSearchViewOpen = false, () => true);
+            ReadFileAsync(projectNumberFiles, gbNumber);
         }
 
-        public void FilterByGBNumber(int gbNumber)
+        public Task ReadFileAsync(string projectNumberFiles, int gbNumber)
         {
-            this.gbNumber = gbNumber / 10;
-            this.projectNumbersToSearch = this.projectNumbers.Where(pn => this.gbNumber <= 0 || pn.GB == this.gbNumber).ToList();
+            return Task.Factory
+                .StartNew(() => this.ReadFile(projectNumberFiles, gbNumber))
+                .ContinueWith(task =>
+                {
+                    var exception = task.Exception?.InnerException ?? task.Exception;
+                    if (exception != null)
+                    {
+                        logger.Error(exception, "Could not read the project numbers file:");
+                    }
+                }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.AttachedToParent);
+        }
+
+        private void FilterByGBNumber(int gbNumber)
+        {
+            this.currentGBNumber = gbNumber / 10;
+            this.projectNumbersToSearch = this.projectNumbers.Where(pn => this.currentGBNumber <= 0 || pn.GB == this.currentGBNumber).ToList();
             this.Search();
         }
 
-        private void ReadPNFile(string pnFilePaths, int gbNumber)
+        private void ReadFile(string pnFilePaths, int gbNumber)
         {
+            this.projectNumbers.Clear();
+
             if (!string.IsNullOrWhiteSpace(pnFilePaths))
             {
                 foreach (var pnFileUnpatched in pnFilePaths.Split(';'))
@@ -65,15 +82,10 @@ namespace MONI.ViewModels
                     }
                 }
             }
+
             this.FilterByGBNumber(gbNumber);
-            try
-            {
-                this.pnHash = this.projectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
-            }
-            catch (Exception e)
-            {
-                logger.Error(e, "Exception while converting project numbers to dictionary");
-            }
+
+            this.pnHash = this.projectNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
         }
 
         public bool IsProjectSearchViewOpen
@@ -130,7 +142,8 @@ namespace MONI.ViewModels
 
         public ICommand CancelCommand
         {
-            get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(() => this.IsProjectSearchViewOpen = false, () => true)); }
+            get { return this.cancelCommand; }
+            set { this.Set(ref this.cancelCommand, value); }
         }
 
         public bool FilterOldProjectsOut
