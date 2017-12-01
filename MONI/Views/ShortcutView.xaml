@@ -10,7 +10,7 @@
              d:DesignWidth="300"
              d:DataContext="{d:DesignInstance ViewModels:ShortcutViewModel}">
 
-  <Grid Margin="10">
+  <Grid Margin="10" x:Name="layoutRoot">
     
     <Grid.Resources>
       <CollectionViewSource x:Key="ShortCutGroupCVS"

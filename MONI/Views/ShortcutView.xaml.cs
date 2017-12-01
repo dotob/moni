@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using MONI.ViewModels;
 
 namespace MONI.Views
@@ -18,6 +19,9 @@ namespace MONI.Views
             if (view != null && e.NewValue != e.OldValue && (bool)e.NewValue)
             {
                 var vm = view.DataContext as ShortcutViewModel;
+
+                // need to refresh list binding, because plain list does not fire CollectionChanged-events
+                RefreshShortcutGroupsList(view);
                 if (vm != null && vm.IsNew && view.shortcutTextBox.Focusable)
                 {
                     view.shortcutTextBox.Focus();
@@ -27,6 +31,13 @@ namespace MONI.Views
                     view.expansionTextBox.Focus();
                 }
             }
+        }
+
+        private static void RefreshShortcutGroupsList(ShortcutView view)
+        {
+            // need to refresh list binding, because plain list does not fire CollectionChanged-events
+            var shortcutsListSource = view.layoutRoot?.TryFindResource("ShortCutGroupCVS") as CollectionViewSource;
+            shortcutsListSource?.View?.Refresh();
         }
 
         public bool IsOpen
