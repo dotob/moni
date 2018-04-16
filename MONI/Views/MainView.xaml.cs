@@ -391,6 +391,11 @@ namespace MONI.Views
             }
         }
 
+        public void uploadWrapper(string password)
+        {
+            UploadToMonlist(password);
+        }
+
         private void UploadToMonlist(string password)
         {
             string user = this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber;
