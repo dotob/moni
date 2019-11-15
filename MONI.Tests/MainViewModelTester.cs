@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Windows.Threading;
 using MONI.Data;
 using MONI.ViewModels;
@@ -10,6 +11,12 @@ namespace MONI.Tests
     [TestFixture]
     public class MainViewModelTester
     {
+        [SetUp]
+        public void Setup()
+        {
+            SynchronizationContext.SetSynchronizationContext(new SynchronizationContext());
+        }
+
         [Test]
         public void CreatedShortCutShouldShownInNextMonth()
         {

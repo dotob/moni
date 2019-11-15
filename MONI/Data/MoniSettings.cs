@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using MahApps.Metro.Native;
 using Newtonsoft.Json;
 using System.Linq;
+using ControlzEx.Standard;
 using MONI.Util;
 
 namespace MONI.Data
@@ -42,7 +42,7 @@ namespace MONI.Data
         public int HitListLookBackInWeeks { get; set; }
         public bool ShowProjectHitList { get; set; }
         public bool ShowPositionHitList { get; set; }
-        public WINDOWPLACEMENT? Placement { get; set; }
+        public WINDOWPLACEMENT Placement { get; set; }
         public float HoursPerDay { get; set; }
         public string ProjectNumberFilePath { get; set; }
         public string PositionNumberFilePath { get; set; }

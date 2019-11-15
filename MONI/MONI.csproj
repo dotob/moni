@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Costura.Fody\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody\build\Costura.Fody.props')" Label="Paket" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -42,6 +43,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>MONI.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -200,6 +204,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="app.manifest" />
     <None Include="paket.references" />
     <AppDesigner Include="Properties\" />
     <Content Include="FodyWeavers.xml" />
@@ -211,26 +216,17 @@
     <Resource Include="Resources\moni.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <PropertyGroup>
-        <__paket__Fody_targets>net452\Fody</__paket__Fody_targets>
-      </PropertyGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <PropertyGroup>
-        <__paket__Costura_Fody_targets>portable-net+sl+win+wpa+wp\Costura.Fody</__paket__Costura_Fody_targets>
-      </PropertyGroup>
-    </When>
-  </Choose>
   <Import Project="..\.paket\paket.targets" />
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
       <ItemGroup>
-        <Reference Include="Costura">
-          <HintPath>..\packages\Costura.Fody\lib\portable-net+sl+win+wpa+wp\Costura.dll</HintPath>
+        <Reference Include="ControlzEx">
+          <HintPath>..\packages\ControlzEx\lib\net462\ControlzEx.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Windows.Interactivity">
+          <HintPath>..\packages\ControlzEx\lib\net462\System.Windows.Interactivity.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -240,8 +236,19 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
       <ItemGroup>
-        <Reference Include="GongSolutions.Wpf.DragDrop">
-          <HintPath>..\packages\gong-wpf-dragdrop\lib\net46\GongSolutions.Wpf.DragDrop.dll</HintPath>
+        <Reference Include="Costura">
+          <HintPath>..\packages\Costura.Fody\lib\net40\Costura.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
+      <ItemGroup>
+        <Reference Include="GongSolutions.WPF.DragDrop">
+          <HintPath>..\packages\gong-wpf-dragdrop\lib\net46\GongSolutions.WPF.DragDrop.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -263,12 +270,7 @@
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
       <ItemGroup>
         <Reference Include="MahApps.Metro">
-          <HintPath>..\packages\MahApps.Metro\lib\net45\MahApps.Metro.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="System.Windows.Interactivity">
-          <HintPath>..\packages\MahApps.Metro\lib\net45\System.Windows.Interactivity.dll</HintPath>
+          <HintPath>..\packages\MahApps.Metro\lib\net46\MahApps.Metro.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -311,6 +313,18 @@
   <Choose>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
       <ItemGroup>
+        <Reference Include="System.IO.Compression">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Runtime.Serialization">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.ServiceModel">
+          <Paket>True</Paket>
+        </Reference>
+        <Reference Include="System.Transactions">
+          <Paket>True</Paket>
+        </Reference>
         <Reference Include="NLog">
           <HintPath>..\packages\NLog\lib\net45\NLog.dll</HintPath>
           <Private>True</Private>
@@ -319,6 +333,5 @@
       </ItemGroup>
     </When>
   </Choose>
-  <Import Project="..\packages\Costura.Fody\build\$(__paket__Costura_Fody_targets).targets" Condition="Exists('..\packages\Costura.Fody\build\$(__paket__Costura_Fody_targets).targets')" Label="Paket" />
-  <Import Project="..\packages\Fody\build\$(__paket__Fody_targets).targets" Condition="Exists('..\packages\Fody\build\$(__paket__Fody_targets).targets')" Label="Paket" />
+  <Import Project="..\packages\Fody\build\Fody.targets" Condition="Exists('..\packages\Fody\build\Fody.targets')" Label="Paket" />
 </Project>

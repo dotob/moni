@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
@@ -76,12 +77,8 @@ namespace MONI.ViewModels
 
         public void SaveShortcut()
         {
-            if (this.ShortCutGroup == null && !string.IsNullOrWhiteSpace(this.ShortCutGroupKey))
-            {
-                var newSCGroup = new ShortCutGroup() { Key = this.ShortCutGroupKey };
-                this.MoniSettings.ParserSettings.ShortCutGroups.Add(newSCGroup);
-                this.ShortCutGroup = newSCGroup;
-            }
+            this.ShortCutGroup =
+                LookupOrCreateShortcutGroup(this.MoniSettings.ParserSettings.ShortCutGroups, this.ShortCutGroupKey);
             this.Model.Group = this.ShortCutGroupKey;
 
             var shortCut = this.MoniSettings.ParserSettings.ShortCuts.FirstOrDefault(sc => Equals(sc, this.Model));
@@ -102,6 +99,20 @@ namespace MONI.ViewModels
             {
                 action();
             }
+        }
+
+        private ShortCutGroup LookupOrCreateShortcutGroup(ICollection<ShortCutGroup> knownGroups, string groupKey)
+        {
+            if (string.IsNullOrWhiteSpace(this.ShortCutGroupKey))
+            {
+                return null;
+            }
+            var grp = knownGroups.FirstOrDefault(g => Equals(this.ShortCutGroupKey, g.Key));
+            if (grp == null) {
+                grp = new ShortCutGroup { Key = groupKey };
+                knownGroups.Add(grp);
+            }
+            return grp;
         }
 
         public bool CanSave()
