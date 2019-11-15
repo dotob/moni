@@ -10,6 +10,6 @@ nuget Newtonsoft.Json
 nuget NLog < 5
 nuget NUnit < 4
 nuget MahApps.Metro
-nuget MahApps.Metro.IconPacks.Modern
-nuget MahApps.Metro.IconPacks.Material
+nuget MahApps.Metro.IconPacks.Modern prerelease
+nuget MahApps.Metro.IconPacks.Material prerelease
 nuget gong-wpf-dragdrop
