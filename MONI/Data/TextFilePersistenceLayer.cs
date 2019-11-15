@@ -81,7 +81,9 @@ namespace MONI.Data
                                 wdpd.FileName = dataFile;
 
                                 string wdStringData = wdLine.Token("|", 2);
-                                wdpd.OriginalString = wdStringData.Replace("<br />", Environment.NewLine);
+                                wdpd.OriginalString = wdStringData
+                                    .Replace("&#x007C;", "|")
+                                    .Replace("<br />", Environment.NewLine);
                                 this.workDaysData.Add(wdpd);
                                 i++;
                             }
@@ -106,7 +108,10 @@ namespace MONI.Data
                 var changedWorkDays = month.Days.Where(wd => wd.IsChanged || !string.IsNullOrWhiteSpace(wd.OriginalString)).ToList();
                 foreach (var workDay in changedWorkDays)
                 {
-                    data.Add(string.Format("{0},{1},{2}|{3}", workDay.Year, workDay.Month, workDay.Day, workDay.OriginalString.Replace(Environment.NewLine, "<br />")));
+                    var description = workDay.OriginalString
+                        .Replace(Environment.NewLine, "<br />")
+                        .Replace("|", "&#x007C;");
+                    data.Add(string.Format("{0},{1},{2}|{3}", workDay.Year, workDay.Month, workDay.Day, description));
                 }
                 var dataFileName = string.Format("{0}_{1}.md", year.Year, month.Month.ToString("00"));
                 var dataFilePath = Path.Combine(this.dataDirectory, dataFileName);
