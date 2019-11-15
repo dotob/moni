@@ -200,6 +200,7 @@
     "Version": "1.0.7",
     "Changes": [
       "Fix: Avoid creating duplicate ShortCut Groups.",
+      "Fix: Use pipe html unicode to fix loading saved workdays.",
       "Update: Upgrade some project library dependencies."
     ],
     "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.7/MONI.zip"
