@@ -1,8 +1,7 @@
-﻿<Controls:MetroWindow x:Class="MONI.Views.MainView"
+﻿<controls:MetroWindow x:Class="MONI.Views.MainView"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-                      xmlns:dd="clr-namespace:GongSolutions.Wpf.DragDrop;assembly=GongSolutions.Wpf.DragDrop"
+                      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:data="clr-namespace:MONI.Data"
                       xmlns:viewModels="clr-namespace:MONI.ViewModels"
                       xmlns:views="clr-namespace:MONI.Views"
@@ -10,6 +9,7 @@
                       xmlns:attachedCommandBehavior="clr-namespace:AttachedCommandBehavior"
                       xmlns:util="clr-namespace:MONI.Util"
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                      xmlns:dd="urn:gong-wpf-dragdrop"
                       RenderOptions.ClearTypeHint="Enabled"
                       TextOptions.TextFormattingMode="Display"
                       Title="MONI"
@@ -41,7 +41,7 @@
     </ResourceDictionary>
   </Window.Resources>
 
-  <Controls:MetroWindow.IconTemplate>
+  <controls:MetroWindow.IconTemplate>
     <DataTemplate>
       <Grid Width="{TemplateBinding Width}"
             Height="{TemplateBinding Height}"
@@ -65,9 +65,9 @@
         </Grid.OpacityMask>
       </Grid>
     </DataTemplate>
-  </Controls:MetroWindow.IconTemplate>
+  </controls:MetroWindow.IconTemplate>
 
-  <Controls:MetroWindow.TitleTemplate>
+  <controls:MetroWindow.TitleTemplate>
     <DataTemplate>
       <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, Converter={StaticResource ToUpperConverter}}"
                  TextTrimming="CharacterEllipsis"
@@ -76,44 +76,44 @@
                  FontSize="{DynamicResource WindowTitleFontSize}"
                  FontFamily="{DynamicResource DefaultFont}" />
     </DataTemplate>
-  </Controls:MetroWindow.TitleTemplate>
+  </controls:MetroWindow.TitleTemplate>
 
   <!-- *** window commands ***************************************************************** -->
-  <Controls:MetroWindow.RightWindowCommands>
-    <Controls:WindowCommands>
-      <Button Content="{iconPacks:PackIconMaterial OpenInApp, Width=18, Height=18}"
+  <controls:MetroWindow.RightWindowCommands>
+    <controls:WindowCommands>
+      <Button Content="{iconPacks:Material OpenInApp, Width=18, Height=18}"
               Click="ToMonlist_Button_Click"
               x:Name="OpenMonlist"
               ToolTip="Daten in Monlist importieren" />
-      <Button Content="{iconPacks:PackIconMaterial FileFind, Width=18, Height=18}"
+      <Button Content="{iconPacks:Material FileFind, Width=18, Height=18}"
               Click="ShowPNSearch_Button_Click"
               ToolTip="Projektnummern-Suche" />
-      <Button Content="{iconPacks:PackIconMaterial FileFind, Width=18, Height=18}"
+      <Button Content="{iconPacks:Material FileFind, Width=18, Height=18}"
               Click="ShowPositionSearch_Button_Click"
               ToolTip="Positionsnummern-Suche" />
-      <Button Content="{iconPacks:PackIconMaterial Settings, Width=18, Height=18}"
+      <Button Content="{iconPacks:Material Settings, Width=18, Height=18}"
               Click="EditPreferences_Button_Click"
               ToolTip="Einstellungen" />
-      <Button Content="{iconPacks:PackIconMaterial HelpCircleOutline, Width=18, Height=18}"
+      <Button Content="{iconPacks:Material HelpCircleOutline, Width=18, Height=18}"
               Command="Help" />
-      <Button Content="{iconPacks:PackIconMaterial GithubCircle, Width=18, Height=18}"
+      <Button Content="{iconPacks:Material GithubCircle, Width=18, Height=18}"
               Click="GitHub_Button_Click"
               ToolTip="MONI bei GitHub" />
-    </Controls:WindowCommands>
-  </Controls:MetroWindow.RightWindowCommands>
+    </controls:WindowCommands>
+  </controls:MetroWindow.RightWindowCommands>
 
   <!-- *** flyouts ***************************************************************** -->
-  <Controls:MetroWindow.Flyouts>
+  <controls:MetroWindow.Flyouts>
 
-    <Controls:FlyoutsControl>
+    <controls:FlyoutsControl>
       <!-- shortcut help -->
-      <Controls:Flyout Header="Hilfe"
+      <controls:Flyout Header="Hilfe"
                        Width="700"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel}"
                        IsOpen="{Binding ElementName=mv, Path=ViewModel.ShowHelp}">
-        <Controls:Flyout.ContentTemplate>
+        <controls:Flyout.ContentTemplate>
           <DataTemplate>
             <DataTemplate.Resources>
               <valueConverter:MarkdownToFlowDocumentConverter x:Key="MarkdownToFlowDocumentConverter" />
@@ -125,17 +125,17 @@
                                         Document="{Binding Path=Help, Converter={StaticResource MarkdownToFlowDocumentConverter}}" />
             </Grid>
           </DataTemplate>
-        </Controls:Flyout.ContentTemplate>
-      </Controls:Flyout>
+        </controls:Flyout.ContentTemplate>
+      </controls:Flyout>
 
       <!-- settings -->
-      <Controls:Flyout Header="Settings"
+      <controls:Flyout Header="Settings"
                        Width="500"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
                        IsOpen="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}">
-        <Controls:Flyout.ContentTemplate>
+        <controls:Flyout.ContentTemplate>
           <DataTemplate DataType="{x:Type data:MoniSettings}">
             <DataTemplate.Resources>
               <SolidColorBrush x:Key="ComboBoxMouseOverInnerBorderBrush">#4EA6EA</SolidColorBrush>
@@ -341,17 +341,17 @@
 
             </Grid>
           </DataTemplate>
-        </Controls:Flyout.ContentTemplate>
-      </Controls:Flyout>
+        </controls:Flyout.ContentTemplate>
+      </controls:Flyout>
 
       <!-- edit / new shortcut -->
-      <Controls:Flyout Header="Shortcut"
+      <controls:Flyout Header="Shortcut"
                        Width="500"
                        Position="Right"
                        KeyboardNavigation.TabNavigation="Cycle"
                        Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
                        IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}">
-        <Controls:Flyout.ContentTemplate>
+        <controls:Flyout.ContentTemplate>
           <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
             <DataTemplate.Resources>
               <Style TargetType="{x:Type TextBox}"
@@ -359,10 +359,10 @@
             </DataTemplate.Resources>
             <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
             <views:ShortcutView x:Name="shortcutView"
-                                IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Controls:Flyout}}, Path=IsOpen}" />
+                                IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:Flyout}}, Path=IsOpen}" />
           </DataTemplate>
-        </Controls:Flyout.ContentTemplate>
-      </Controls:Flyout>
+        </controls:Flyout.ContentTemplate>
+      </controls:Flyout>
 
       <!-- project numbers -->
       <views:PNSearchFlyout Header="Projektnummern-Suche"
@@ -386,9 +386,9 @@
                               Position="Right"
                               DataContext="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
                               IsOpen="{Binding ShowUpdateInfo}" />
-    </Controls:FlyoutsControl>
+    </controls:FlyoutsControl>
 
-  </Controls:MetroWindow.Flyouts>
+  </controls:MetroWindow.Flyouts>
 
   <!-- *** layout root ***************************************************************** -->
   <Grid RenderOptions.ClearTypeHint="Enabled"
@@ -432,7 +432,7 @@
         <Button Grid.Column="0"
                 Grid.Row="0"
                 x:Name="btnPrevMonth"
-                Content="{iconPacks:PackIconMaterial Rewind, Width=14, Height=14}"
+                Content="{iconPacks:Material Rewind, Width=14, Height=14}"
                 Background="#537DBBDA"
                 Foreground="#CC119EDA"
                 Margin="2 3 1 1"
@@ -442,7 +442,7 @@
         <Button Grid.Column="0"
                 Grid.Row="1"
                 x:Name="btnNextMonth"
-                Content="{iconPacks:PackIconMaterial FastForward, Width=14, Height=14}"
+                Content="{iconPacks:Material FastForward, Width=14, Height=14}"
                 Background="#537DBBDA"
                 Foreground="#CC119EDA"
                 Margin="2 1 1 2"
@@ -480,7 +480,7 @@
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 x:Name="btnPrev"
-                Content="{iconPacks:PackIconMaterial ArrowLeftBold, Width=18, Height=18}"
+                Content="{iconPacks:Material ArrowLeftBold, Width=18, Height=18}"
                 Background="#537DBBDA"
                 Foreground="#CC119EDA"
                 Margin="2 3 1 2"
@@ -568,7 +568,7 @@
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 x:Name="btnNext"
-                Content="{iconPacks:PackIconMaterial ArrowRightBold, Width=18, Height=18}"
+                Content="{iconPacks:Material ArrowRightBold, Width=18, Height=18}"
                 Background="#537DBBDA"
                 Foreground="#CC119EDA"
                 Margin="1 3 11 2"
@@ -789,7 +789,7 @@
                 Height="20"
                 Margin="10 0 0 0"
                 Style="{StaticResource ImageButtonStyle}"
-                Content="{iconPacks:PackIconMaterial BookmarkPlus}"
+                Content="{iconPacks:Material BookmarkPlus}"
                 Foreground="#CC119EDA"
                 Click="AddShortcut_OnClick"
                 ToolTip="Neuen Shortcut erstellen" />
@@ -949,7 +949,7 @@
                   <StackPanel Orientation="Horizontal"
                                 VerticalAlignment="Center">
 
-                    <Button Content="{iconPacks:PackIconModern Edit, Width=10, Height=10}"
+                    <Button Content="{iconPacks:Modern Edit, Width=10, Height=10}"
                             Tag="{Binding }"
                             Style="{DynamicResource MetroCircleEditButtonStyle}"
                             Width="21"
@@ -957,7 +957,7 @@
                             Margin="5 1 5 1"
                             Click="EditShortcut_OnClick"
                             ToolTip="Shortcut editieren" />
-                    <Button Content="{iconPacks:PackIconModern Delete, Width=10, Height=10}"
+                    <Button Content="{iconPacks:Modern Delete, Width=10, Height=10}"
                             Tag="{Binding }"
                             Style="{DynamicResource MetroCircleEditButtonStyle}"
                             Width="21"
@@ -1108,4 +1108,4 @@
     </Grid>
 
   </Grid>
-</Controls:MetroWindow>
+</controls:MetroWindow>

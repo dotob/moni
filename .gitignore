@@ -258,3 +258,5 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/MONI.Tests/packages.config
+/MONI/packages.config

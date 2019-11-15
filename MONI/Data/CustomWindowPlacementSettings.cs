@@ -1,5 +1,5 @@
-﻿using MahApps.Metro.Controls;
-using MahApps.Metro.Native;
+﻿using ControlzEx.Standard;
+using MahApps.Metro.Controls;
 
 namespace MONI.Data
 {
@@ -12,7 +12,7 @@ namespace MONI.Data
             this.moniSettings = settings;
         }
 
-        public WINDOWPLACEMENT? Placement { get; set; }
+        public WINDOWPLACEMENT Placement { get; set; }
 
         public bool UpgradeSettings { get; set; }
 

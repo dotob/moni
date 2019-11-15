@@ -80,7 +80,7 @@
                   Height="22"
                   Margin="5 0 0 0"
                   Style="{StaticResource ImageButtonStyle}"
-                  Content="{iconPacks:PackIconMaterial PlusBox, Width=22, Height=22}"
+                  Content="{iconPacks:Material PlusBox, Width=22, Height=22}"
                   Foreground="#CC119EDA"
                   Click="AddAsShortcut_OnClick"
                   Tag="{Binding}"
