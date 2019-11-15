@@ -3,10 +3,11 @@ framework: auto-detect
 
 source https://nuget.org/api/v2
 
-nuget Costura.Fody
+nuget Fody < 7
+nuget Costura.Fody < 5
 nuget JetBrains.Annotations
-nuget Newtonsoft.Json ~> 9.0
-nuget NLog ~> 4.3
+nuget Newtonsoft.Json
+nuget NLog < 5
 nuget NUnit < 4
 nuget MahApps.Metro
 nuget MahApps.Metro.IconPacks.Modern
