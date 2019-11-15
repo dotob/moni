@@ -1,199 +1,207 @@
 ﻿[
-    {
-        "Version": "0.9.8.4",
-        "Changes": [
-            "einstellungen: es lagen eingaben übereinander",
-            "log datei namen geändert (*.log)",
-            "wenn beim einlesen ein fehler passiert, dann wurde die datendatei möglicherweise kaputt geschrieben",
-            "mehr logging",
-            "bessere anzeige bei parse fehlern",
-            "bei multiline einträgen ging cursor up/down zur zeitenanpassung nicht immer korrekt"
-        ],
-        "DownLoadURL": "http://mtools"
-    },
-    {
-        "Version": "0.9.8.5",
-        "Changes": [
-            "updateinfo"
-        ],
-        "DownLoadURL": "http://mtools"
-    },
-    {
-        "Version": "0.9.8.6",
-        "Changes": [
-            "statt strg+rechts/links läuft man jetzt mit alt+rechts/links durch die wochen",
-            "in den tagesitems wird nun die stundenanzahl mit angezeigt"
-        ],
-        "DownLoadURL": "http://mtools"
-    },
-    {
-        "Version": "0.9.8.7",
-        "Changes": [
-            "pausen können nun nicht nur im stundenformat (z.b. 1!), sondern auch im zeitformat (z.b. -10:30!) angegeben werden",
-            "issue #28 closed: beim cursor up/down gab es ein problem wenn der neu eingesetzte textteil kürzer als der vcorige war. dann sprang der cursor in den nächsten eintrag.",
-            "issue #26 closed: shortcut anlegen aus der projektnummern suche"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.8.7/MONI.exe"
-    },
-    {
-        "Version": "0.9.8.8",
-        "Changes": [
-            "Anzeige für einen ganzen Tag in der Liste der ShortCuts behoben",
-            "Schnellere Projektnummern Suche",
-            "Statt Up/Down für Zeitanpassung nun PageUp/PageDown um die Funktionalität der Up/Down Tasten wiederherzustellen",
-            "Beim Setzen des Cursors bei der Zeitanpassung konnte es zu einer falschen Cursorposition kommen",
-            "issue #33 closed: Up/Down für Zeitanpassung hat nicht funktioniert beim Tagesanfang wenn die automatische Pause über // abgeschaltet wurde",
-            "issue #27 closed: Einige Texte eingedeutscht",
-            "issue #33 closed: Man kann jetzt mit shift+strg+links/rechts einen Monat vor/zurück springen",
-            "issue #35 closed: Beim Wochen springen wurde eine Woche übersprungen wenn darin ein Monatswechsel lag",
-            "issue #25: Feature experimentell eingebaut, Mausklick auf einen Stundeneintrag selektiert den zugehörigen Text in der Textbox, funktioniert nicht in allen Situationen und nicht alle Textteile werden selektiert (Pausen gehen nicht, bei mehreren gleichen Texten wird aktuell nur der erste selektiert)"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.8.8/MONI.exe"
-    },
-    {
-        "Version": "0.9.8.9",
-        "Changes": [
-            "issue #36: Fehler behoben, der durch issue #25 verursacht wurde (es konnte zu einer Exception kommen)"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.8.9/MONI.exe"
-    },
-    {
-        "Version": "0.9.9.0",
-        "Changes": [
-            "Kleiner Parser Fehler behoben mit Leerzeichen vor Kommentarklammern",
-            "Positionsnummern-Hitliste ähnlich der Projektnummern-Hitliste (Wunsch GB10)",
-            "Positionsnummern-Suche ähnlich der Projektnummern-Suche (Wunsch GB10)",
-            "Hitlisten-Rückblick nun einstellbar",
-            "Neue Funktion: Strg+<Zahl von 1-9> hängt an die aktuelle Eingabe z.B. ,1; an. Also bereitet quasi einen neues Item vor mit der Stundenzahl.",
-            "Neue Funktion: F1 öffnet/schließt eine Eingabe-Hilfe"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.0/MONI.exe"
-    },
-    {
-        "Version": "0.9.9.1",
-        "Changes": [
-            "Klicken auf eine Zeiteintrag unterhalb der Textbox markiert den zugehörigen Text",
-            "Klicken auf Projekt-/Positionsnummerneintrag in der Hitliste fügt diese in die aktuelle Textbox am Ende ein (vorrausgesetzt der Text in der Textbox paßt dazu)",
-            "Parser verbessert: Es können jetzt in einem Kommentar auch Klammern benutzt werden. Dabei zählt die letzte geschlossen Klammer als Ende des Kommentars.",
-            "Fix: Es konnten keine eckigen Klammern eingegeben werden",
-            "Positionsnummern-Suche (GB10): Aufnahme von Kunden, Anpassung an CSV Format",
-            "Projekt-/Positionsnummern-Suche: Hier können jetzt in den Einstellungen mehrere Dateien (getrennt durch ;) angegeben werden. Die erste Datei, die gefunden wird, wird benutzt.",
-            "Projekt-/Positionsnummern-Suche: Der Suchtext wird nun in den Suchergebnissen hervorgehoben",
-            "Projekt-/Positionsnummern-Suche: Der Suchtext kann ein Regulärer Ausdruck sein, leider gabs Ärger beim Eingeben. Jetzt nicht mehr.",
-            "Alle Pfade unterstützen jetzt #{appdata} und #{userhome} als Platzhalter."
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.1/MONI.exe"
-    },
-    {
-        "Version": "0.9.9.2",
-        "Changes": [
-            "Fix: Ganztages Shortcuts wurden auch in Stundeneinträgen genutzt. Das sollte nicht.",
-            "Update: Starten geht jetzt etwas schneller (30%). Die shortcuts werden verzögert angezeigt.",
-            "Fix: Die Einstellungen haben unnötig viele Daten abgespeichert",
-            "Fix: Eingaben von @ schließt MONI",
-            "Update: Ein neuer Shortcut wird nun ganz oben statt ganz unten eingefügt",
-            "Update: Verzögerungen bei der Eingabe treten jetzt nicht mehr auf",
-            "Fix: Blättern von KW 14 nach KW 15 in 2014 funktionierte nicht",
-            "Projekt-Suche: Die Liste kann in den Settings nach GB vorgefiltert werden"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.2/MONI.exe"
-    },
-    {
-        "Version": "0.9.9.3",
-        "Changes": [
-            "Update: Flyouts nicht mehr modal. (Projekt-, Positionsnummern-Suche, etc)",
-            "Fix: Der Hilfe Text war nicht mehr sichtbar"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.3/MONI.exe"
-    },
-    {
-        "Version": "0.9.9.4",
-        "Changes": [
-            "Update: Es wird nun eine Warnung angezeigt wenn man die Daten in MonList importiert",
-            "New: Strg+ + hängt (+ ), an den aktuellen Eintrag, damit man direkt eine Kommentarerweiterung eingeben kann",
-            "New: Monatsleiste (diese kann in den Einstellungen abgeschaltet werden)",
-            "Fix: PageDown auf einer Stundenzahl wird nun nicht kleiner als 0",
-            "Fix: Semikolon in Beschreibung schneidet Beschreibung ab"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.4/MONI.exe"
-    },
-    {
-        "Version": "0.9.9.5",
-        "Changes": [
-            "New: Links-Klick auf einen Eintrag unterhalb der Textbox selektiert (gabs schon) und kopiert den zugehörigen Text (incl. Zeitangabe) in die Zwischenablage",
-            "New: Rechts-Klick auf einen Eintrag unterhalb der Textbox selektiert und kopiert den zugehörigen Text (excl. Zeitangabe) in die Zwischenablage"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.5/MONI.exe"
-    },
-    {
-        "Version": "1.0.0.0",
-        "Changes": [
-            "New: Gruppieren von ShortCuts",
-            "New: Kommentar für Pausen (Vor dem **!** kann geklammert ein Kommentar stehen: **8:00,4;12345-000,1(werkstatt)!,4;12345-000**)",
-            "New: Unterstützung für MonAPI, siehe Einstellungen (damit muss nicht mehr der Monlist-Client geöffnet werden, Anmeldung erforderlich!!)",
-            "New: Ersetzung der Positionsnummer (Die in der Abkürzung gespeicherte Positionsnummer kann von Fall zu Fall überschrieben werden)"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.0/MONI.exe"
-    },
-    {
-        "Version": "1.0.0.1",
-        "Changes": [
-            "Fix: settings datei einlesen hatte einen fehler",
-            "Fix: exception loggin ohne exception"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.1/MONI.exe"
-    },
-    {
-        "Version": "1.0.0.2",
-        "Changes": [
-            "Fix: Tab-Navigation zwischen den Tagen"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.2/MONI.exe"
-    },
-    {
-        "Version": "1.0.1",
-        "Changes": [
-            "New: Alte Projektnummern werden bei der Projektnummern-Suche herausgefiltert (ein-/ausschaltbar)"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.1/MONI.exe"
-    },
-    {
-        "Version": "1.0.2",
-        "Changes": [
-            "Update: Das Data und Log Verzeichnis ist jetzt beim ersten Start C:\\Users\\<User>\\AppData\\Roaming\\moni\\"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.2/MONI.exe"
-    },
-    {
-        "Version": "1.0.3",
-        "Changes": [
-            "Fix: Änderungen wurden nicht mehr direkt gespeichert. Erst beim Beenden des Programms.",
-            "Update: Import Dialog überarbeitet."
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.3/MONI.exe"
-    },
-    {
-        "Version": "1.0.4",
-        "Changes": [
-            "Fix: Anzeige der falschen Wochennummer.",
-            "New: Absichern des Shortcuts Ctrl+U."
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.4/MONI.exe"
-    },
-    {
-        "Version": "1.0.5",
-        "Changes": [
-            "Fix: Projektnummern Kennzeichen mit mehr als einem Zeichen konnten nicht eingelesen werden. Dies führte zum Abbruch und einer leeren Projektnummernliste.",
-            "Update: Projektnummern und Positionsnummern werden jetzt eingelesen wenn die Einstellungen gespeichert und geschlossen werden.",
-            "Update: MONI Target framework ist jetzt .NET Framework 4.6.2"
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.5/MONI.zip"
-    },
-    {
-        "Version": "1.0.6",
-        "Changes": [
-            "Fix: Fehler beim Einlesen der Projektnummern und Positionsnummern wenn die Einstellungen gespeichert und geschlossen wurden."
-        ],
-        "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.6/MONI.zip"
-    }
+  {
+    "Version": "0.9.8.4",
+    "Changes": [
+      "einstellungen: es lagen eingaben übereinander",
+      "log datei namen geändert (*.log)",
+      "wenn beim einlesen ein fehler passiert, dann wurde die datendatei möglicherweise kaputt geschrieben",
+      "mehr logging",
+      "bessere anzeige bei parse fehlern",
+      "bei multiline einträgen ging cursor up/down zur zeitenanpassung nicht immer korrekt"
+    ],
+    "DownLoadURL": "http://mtools"
+  },
+  {
+    "Version": "0.9.8.5",
+    "Changes": [
+      "updateinfo"
+    ],
+    "DownLoadURL": "http://mtools"
+  },
+  {
+    "Version": "0.9.8.6",
+    "Changes": [
+      "statt strg+rechts/links läuft man jetzt mit alt+rechts/links durch die wochen",
+      "in den tagesitems wird nun die stundenanzahl mit angezeigt"
+    ],
+    "DownLoadURL": "http://mtools"
+  },
+  {
+    "Version": "0.9.8.7",
+    "Changes": [
+      "pausen können nun nicht nur im stundenformat (z.b. 1!), sondern auch im zeitformat (z.b. -10:30!) angegeben werden",
+      "issue #28 closed: beim cursor up/down gab es ein problem wenn der neu eingesetzte textteil kürzer als der vcorige war. dann sprang der cursor in den nächsten eintrag.",
+      "issue #26 closed: shortcut anlegen aus der projektnummern suche"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.8.7/MONI.exe"
+  },
+  {
+    "Version": "0.9.8.8",
+    "Changes": [
+      "Anzeige für einen ganzen Tag in der Liste der ShortCuts behoben",
+      "Schnellere Projektnummern Suche",
+      "Statt Up/Down für Zeitanpassung nun PageUp/PageDown um die Funktionalität der Up/Down Tasten wiederherzustellen",
+      "Beim Setzen des Cursors bei der Zeitanpassung konnte es zu einer falschen Cursorposition kommen",
+      "issue #33 closed: Up/Down für Zeitanpassung hat nicht funktioniert beim Tagesanfang wenn die automatische Pause über // abgeschaltet wurde",
+      "issue #27 closed: Einige Texte eingedeutscht",
+      "issue #33 closed: Man kann jetzt mit shift+strg+links/rechts einen Monat vor/zurück springen",
+      "issue #35 closed: Beim Wochen springen wurde eine Woche übersprungen wenn darin ein Monatswechsel lag",
+      "issue #25: Feature experimentell eingebaut, Mausklick auf einen Stundeneintrag selektiert den zugehörigen Text in der Textbox, funktioniert nicht in allen Situationen und nicht alle Textteile werden selektiert (Pausen gehen nicht, bei mehreren gleichen Texten wird aktuell nur der erste selektiert)"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.8.8/MONI.exe"
+  },
+  {
+    "Version": "0.9.8.9",
+    "Changes": [
+      "issue #36: Fehler behoben, der durch issue #25 verursacht wurde (es konnte zu einer Exception kommen)"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.8.9/MONI.exe"
+  },
+  {
+    "Version": "0.9.9.0",
+    "Changes": [
+      "Kleiner Parser Fehler behoben mit Leerzeichen vor Kommentarklammern",
+      "Positionsnummern-Hitliste ähnlich der Projektnummern-Hitliste (Wunsch GB10)",
+      "Positionsnummern-Suche ähnlich der Projektnummern-Suche (Wunsch GB10)",
+      "Hitlisten-Rückblick nun einstellbar",
+      "Neue Funktion: Strg+<Zahl von 1-9> hängt an die aktuelle Eingabe z.B. ,1; an. Also bereitet quasi einen neues Item vor mit der Stundenzahl.",
+      "Neue Funktion: F1 öffnet/schließt eine Eingabe-Hilfe"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.0/MONI.exe"
+  },
+  {
+    "Version": "0.9.9.1",
+    "Changes": [
+      "Klicken auf eine Zeiteintrag unterhalb der Textbox markiert den zugehörigen Text",
+      "Klicken auf Projekt-/Positionsnummerneintrag in der Hitliste fügt diese in die aktuelle Textbox am Ende ein (vorrausgesetzt der Text in der Textbox paßt dazu)",
+      "Parser verbessert: Es können jetzt in einem Kommentar auch Klammern benutzt werden. Dabei zählt die letzte geschlossen Klammer als Ende des Kommentars.",
+      "Fix: Es konnten keine eckigen Klammern eingegeben werden",
+      "Positionsnummern-Suche (GB10): Aufnahme von Kunden, Anpassung an CSV Format",
+      "Projekt-/Positionsnummern-Suche: Hier können jetzt in den Einstellungen mehrere Dateien (getrennt durch ;) angegeben werden. Die erste Datei, die gefunden wird, wird benutzt.",
+      "Projekt-/Positionsnummern-Suche: Der Suchtext wird nun in den Suchergebnissen hervorgehoben",
+      "Projekt-/Positionsnummern-Suche: Der Suchtext kann ein Regulärer Ausdruck sein, leider gabs Ärger beim Eingeben. Jetzt nicht mehr.",
+      "Alle Pfade unterstützen jetzt #{appdata} und #{userhome} als Platzhalter."
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.1/MONI.exe"
+  },
+  {
+    "Version": "0.9.9.2",
+    "Changes": [
+      "Fix: Ganztages Shortcuts wurden auch in Stundeneinträgen genutzt. Das sollte nicht.",
+      "Update: Starten geht jetzt etwas schneller (30%). Die shortcuts werden verzögert angezeigt.",
+      "Fix: Die Einstellungen haben unnötig viele Daten abgespeichert",
+      "Fix: Eingaben von @ schließt MONI",
+      "Update: Ein neuer Shortcut wird nun ganz oben statt ganz unten eingefügt",
+      "Update: Verzögerungen bei der Eingabe treten jetzt nicht mehr auf",
+      "Fix: Blättern von KW 14 nach KW 15 in 2014 funktionierte nicht",
+      "Projekt-Suche: Die Liste kann in den Settings nach GB vorgefiltert werden"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.2/MONI.exe"
+  },
+  {
+    "Version": "0.9.9.3",
+    "Changes": [
+      "Update: Flyouts nicht mehr modal. (Projekt-, Positionsnummern-Suche, etc)",
+      "Fix: Der Hilfe Text war nicht mehr sichtbar"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.3/MONI.exe"
+  },
+  {
+    "Version": "0.9.9.4",
+    "Changes": [
+      "Update: Es wird nun eine Warnung angezeigt wenn man die Daten in MonList importiert",
+      "New: Strg+ + hängt (+ ), an den aktuellen Eintrag, damit man direkt eine Kommentarerweiterung eingeben kann",
+      "New: Monatsleiste (diese kann in den Einstellungen abgeschaltet werden)",
+      "Fix: PageDown auf einer Stundenzahl wird nun nicht kleiner als 0",
+      "Fix: Semikolon in Beschreibung schneidet Beschreibung ab"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.4/MONI.exe"
+  },
+  {
+    "Version": "0.9.9.5",
+    "Changes": [
+      "New: Links-Klick auf einen Eintrag unterhalb der Textbox selektiert (gabs schon) und kopiert den zugehörigen Text (incl. Zeitangabe) in die Zwischenablage",
+      "New: Rechts-Klick auf einen Eintrag unterhalb der Textbox selektiert und kopiert den zugehörigen Text (excl. Zeitangabe) in die Zwischenablage"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/0.9.9.5/MONI.exe"
+  },
+  {
+    "Version": "1.0.0.0",
+    "Changes": [
+      "New: Gruppieren von ShortCuts",
+      "New: Kommentar für Pausen (Vor dem **!** kann geklammert ein Kommentar stehen: **8:00,4;12345-000,1(werkstatt)!,4;12345-000**)",
+      "New: Unterstützung für MonAPI, siehe Einstellungen (damit muss nicht mehr der Monlist-Client geöffnet werden, Anmeldung erforderlich!!)",
+      "New: Ersetzung der Positionsnummer (Die in der Abkürzung gespeicherte Positionsnummer kann von Fall zu Fall überschrieben werden)"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.0/MONI.exe"
+  },
+  {
+    "Version": "1.0.0.1",
+    "Changes": [
+      "Fix: settings datei einlesen hatte einen fehler",
+      "Fix: exception loggin ohne exception"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.1/MONI.exe"
+  },
+  {
+    "Version": "1.0.0.2",
+    "Changes": [
+      "Fix: Tab-Navigation zwischen den Tagen"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.0.2/MONI.exe"
+  },
+  {
+    "Version": "1.0.1",
+    "Changes": [
+      "New: Alte Projektnummern werden bei der Projektnummern-Suche herausgefiltert (ein-/ausschaltbar)"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.1/MONI.exe"
+  },
+  {
+    "Version": "1.0.2",
+    "Changes": [
+      "Update: Das Data und Log Verzeichnis ist jetzt beim ersten Start C:\\Users\\<User>\\AppData\\Roaming\\moni\\"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.2/MONI.exe"
+  },
+  {
+    "Version": "1.0.3",
+    "Changes": [
+      "Fix: Änderungen wurden nicht mehr direkt gespeichert. Erst beim Beenden des Programms.",
+      "Update: Import Dialog überarbeitet."
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.3/MONI.exe"
+  },
+  {
+    "Version": "1.0.4",
+    "Changes": [
+      "Fix: Anzeige der falschen Wochennummer.",
+      "New: Absichern des Shortcuts Ctrl+U."
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.4/MONI.exe"
+  },
+  {
+    "Version": "1.0.5",
+    "Changes": [
+      "Fix: Projektnummern Kennzeichen mit mehr als einem Zeichen konnten nicht eingelesen werden. Dies führte zum Abbruch und einer leeren Projektnummernliste.",
+      "Update: Projektnummern und Positionsnummern werden jetzt eingelesen wenn die Einstellungen gespeichert und geschlossen werden.",
+      "Update: MONI Target framework ist jetzt .NET Framework 4.6.2"
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.5/MONI.zip"
+  },
+  {
+    "Version": "1.0.6",
+    "Changes": [
+      "Fix: Fehler beim Einlesen der Projektnummern und Positionsnummern wenn die Einstellungen gespeichert und geschlossen wurden."
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.6/MONI.zip"
+  },
+  {
+    "Version": "1.0.7",
+    "Changes": [
+      "Fix: Avoid creating duplicate ShortCut Groups.",
+      "Update: Upgrade some project library dependencies."
+    ],
+    "DownLoadURL": "https://github.com/dotob/moni/releases/download/1.0.7/MONI.zip"
+  }
 ]
