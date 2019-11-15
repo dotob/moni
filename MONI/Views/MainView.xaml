@@ -10,8 +10,6 @@
                       xmlns:util="clr-namespace:MONI.Util"
                       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                       xmlns:dd="urn:gong-wpf-dragdrop"
-                      RenderOptions.ClearTypeHint="Enabled"
-                      TextOptions.TextFormattingMode="Display"
                       Title="MONI"
                       Width="800"
                       MinWidth="700"
@@ -41,6 +39,10 @@
     </ResourceDictionary>
   </Window.Resources>
 
+  <controls:MetroWindow.WindowButtonCommands>
+    <controls:WindowButtonCommands Style="{DynamicResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
+  </controls:MetroWindow.WindowButtonCommands>
+
   <controls:MetroWindow.IconTemplate>
     <DataTemplate>
       <Grid Width="{TemplateBinding Width}"
@@ -66,17 +68,6 @@
       </Grid>
     </DataTemplate>
   </controls:MetroWindow.IconTemplate>
-
-  <controls:MetroWindow.TitleTemplate>
-    <DataTemplate>
-      <TextBlock Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, Converter={StaticResource ToUpperConverter}}"
-                 TextTrimming="CharacterEllipsis"
-                 VerticalAlignment="Center"
-                 Margin="8 -1 0 0"
-                 FontSize="{DynamicResource WindowTitleFontSize}"
-                 FontFamily="{DynamicResource DefaultFont}" />
-    </DataTemplate>
-  </controls:MetroWindow.TitleTemplate>
 
   <!-- *** window commands ***************************************************************** -->
   <controls:MetroWindow.RightWindowCommands>
