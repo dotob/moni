@@ -44,6 +44,9 @@
   <PropertyGroup>
     <StartupObject>MONI.App</StartupObject>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -201,6 +204,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="app.manifest" />
     <None Include="paket.references" />
     <AppDesigner Include="Properties\" />
     <Content Include="FodyWeavers.xml" />
