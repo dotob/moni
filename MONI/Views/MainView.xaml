@@ -357,7 +357,7 @@
 
       <!-- project numbers -->
       <views:PNSearchFlyout Header="Projektnummern-Suche"
-                            Width="500"
+                            Width="600"
                             Position="Right"
                             DataContext="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
                             AddShortCutService="{Binding ElementName=mv}"
@@ -365,7 +365,7 @@
 
       <!-- position numbers -->
       <views:PositionSearchFlyout Header="Positionsnummern-Suche"
-                                  Width="500"
+                                  Width="600"
                                   Position="Right"
                                   DataContext="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
                                   AddShortCutService="{Binding ElementName=mv}"

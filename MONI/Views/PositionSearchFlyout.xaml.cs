@@ -30,10 +30,10 @@ namespace MONI.Views
             Button button = sender as Button;
             if (button != null)
             {
-                PositionNumber pn = button.Tag as PositionNumber;
-                if (pn != null && this.AddShortCutService != null)
+                PositionNumber posNumber = button.Tag as PositionNumber;
+                if (posNumber != null && this.AddShortCutService != null)
                 {
-                    this.AddShortCutService.AddShortCut(string.Empty, string.Format("000-{0}({1}:{2})", pn.Number, pn.Customer, pn.Description));
+                    this.AddShortCutService.AddShortCut(string.Empty, string.Format("000-{0}({1}:{2})", posNumber.Number, posNumber.Customer, posNumber.Description));
                 }
             }
         }

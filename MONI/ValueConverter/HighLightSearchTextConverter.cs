@@ -34,7 +34,7 @@ namespace MONI.ValueConverter
         {
             var result = values.ElementAtOrDefault(0) as string;
             var searchText = values.ElementAtOrDefault(1) as string;
-            var wp = new TextBlock() { TextTrimming = TextTrimming.CharacterEllipsis };
+            var wp = new TextBlock() { TextTrimming = TextTrimming.CharacterEllipsis, HorizontalAlignment = HorizontalAlignment.Left };
             if (!string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(searchText))
             {
                 bool found = false;
@@ -51,6 +51,7 @@ namespace MONI.ValueConverter
                     {
                         wp.Inlines.Add(new Run(preText));
                     }
+
                     Run lastRun = wp.Inlines.LastInline as Run;
                     if (lastRun != null && lastRun.Background == highLightBrush)
                     {
@@ -63,25 +64,32 @@ namespace MONI.ValueConverter
                         run.Foreground = Brushes.DimGray;
                         wp.Inlines.Add(run);
                     }
+
                     found = true;
                 }
+
                 if (found)
                 {
                     if (!string.IsNullOrEmpty(lastchars))
                     {
                         wp.Inlines.Add(new Run(lastchars));
                     }
+
                     return wp;
                 }
                 else
                 {
-                    return new Run(result);
+                    wp.Text = result;
+                    return wp;
                 }
             }
+
             if (!string.IsNullOrEmpty(result))
             {
-                return result;
+                wp.Text = result;
+                return wp;
             }
+
             return "-/-";
         }
 

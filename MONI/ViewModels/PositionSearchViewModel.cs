@@ -88,6 +88,8 @@ namespace MONI.ViewModels
                 }
             }
 
+            this.Search();
+
             this.pnHash = this.posNumbers.ToDictionary(pnum => pnum.Number, pnum => pnum.Description);
         }
 
