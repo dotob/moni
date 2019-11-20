@@ -2,129 +2,107 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
 
-  <ResourceDictionary.MergedDictionaries>
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.CheckBox.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TextBox.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Label.xaml" />
-    <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.CheckBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.ComboBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.TextBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.Label.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
 
-    <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.ListBox.xaml" />
-  </ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/MONI;component/Resources/Controls.ListBox.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-  <Style x:Key="MetroFlatButtonFocusVisual">
-    <Setter Property="Control.Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type Control}">
-          <Rectangle Margin="1"
-                     Stroke="{DynamicResource BlackBrush}"
-                     StrokeDashArray="1.5 1.5"
-                     StrokeThickness="1"
-                     SnapsToDevicePixels="True" />
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+    <Style x:Key="MetroFlatButtonFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Control}">
+                    <Rectangle Margin="1"
+                               SnapsToDevicePixels="True"
+                               Stroke="{DynamicResource BlackBrush}"
+                               StrokeDashArray="1.5 1.5"
+                               StrokeThickness="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-  <Style TargetType="{x:Type Button}"
-         BasedOn="{StaticResource MetroFlatButton}">
-    <Setter Property="FocusVisualStyle"
-            Value="{StaticResource MetroFlatButtonFocusVisual}" />
-  </Style>
+    <Style BasedOn="{StaticResource MetroFlatButton}" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource MetroFlatButtonFocusVisual}" />
+    </Style>
 
-  <!--TextBox Style-->
-  <Style TargetType="{x:Type TextBox}"
-         BasedOn="{StaticResource MetroTextBox}">
-    <Setter Property="controls:ControlsHelper.FocusBorderBrush"
-            Value="{DynamicResource TextBoxFocusBorderBrush}" />
-    <Setter Property="controls:ControlsHelper.MouseOverBorderBrush"
-            Value="{DynamicResource TextBoxMouseOverBorderBrush}" />
-    <Setter Property="VerticalAlignment"
-            Value="Center" />
-  </Style>
+    <!--  TextBox Style  -->
+    <Style BasedOn="{StaticResource MetroTextBox}" TargetType="{x:Type TextBox}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="controls:ControlsHelper.FocusBorderBrush" Value="{DynamicResource TextBoxFocusBorderBrush}" />
+        <Setter Property="controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource TextBoxMouseOverBorderBrush}" />
+    </Style>
 
-  <Style x:Key="MONIMetroFlyoutTextBox"
-         TargetType="{x:Type TextBox}"
-         BasedOn="{StaticResource MetroTextBox}">
-    <Setter Property="controls:ControlsHelper.FocusBorderBrush"
-            Value="#4EA6EA" />
-    <Setter Property="controls:ControlsHelper.MouseOverBorderBrush"
-            Value="{DynamicResource TextBoxMouseOverBorderBrush}" />
-    <Setter Property="BorderBrush"
-            Value="#1F1F1F" />
-    <Setter Property="Background"
-            Value="#404040" />
-    <Setter Property="VerticalContentAlignment"
-            Value="Center" />
-  </Style>
+    <Style x:Key="MONIMetroFlyoutTextBox"
+           BasedOn="{StaticResource MetroTextBox}"
+           TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="#404040" />
+        <Setter Property="BorderBrush" Value="#1F1F1F" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="controls:ControlsHelper.FocusBorderBrush" Value="#4EA6EA" />
+        <Setter Property="controls:ControlsHelper.MouseOverBorderBrush" Value="{DynamicResource TextBoxMouseOverBorderBrush}" />
+    </Style>
 
-  <Style x:Key="MONIMetroComboBox"
-         TargetType="{x:Type ComboBox}"
-         BasedOn="{StaticResource MetroComboBox}">
-    <Setter Property="FocusVisualStyle"
-            Value="{x:Null}" />
-    <Setter Property="VerticalAlignment"
-            Value="Center" />
-    <Setter Property="ScrollViewer.CanContentScroll"
-            Value="True" />
-    <Setter Property="ItemsPanel">
-      <Setter.Value>
-        <ItemsPanelTemplate>
-          <VirtualizingStackPanel IsItemsHost="True"
-                                  KeyboardNavigation.DirectionalNavigation="Contained"
-                                  VirtualizationMode="Recycling" />
-        </ItemsPanelTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+    <Style x:Key="MONIMetroComboBox"
+           BasedOn="{StaticResource MetroComboBox}"
+           TargetType="{x:Type ComboBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel IsItemsHost="True"
+                                            KeyboardNavigation.DirectionalNavigation="Contained"
+                                            VirtualizationMode="Recycling" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
 
-  <Style x:Key="MONIMetroFlyoutComboBox"
-         TargetType="{x:Type ComboBox}"
-         BasedOn="{StaticResource MONIMetroComboBox}">
-    <Setter Property="BorderBrush"
-            Value="#1F1F1F" />
-    <Setter Property="Background"
-            Value="#404040" />
-  </Style>
+    <Style x:Key="MONIMetroFlyoutComboBox"
+           BasedOn="{StaticResource MONIMetroComboBox}"
+           TargetType="{x:Type ComboBox}">
+        <Setter Property="Background" Value="#404040" />
+        <Setter Property="BorderBrush" Value="#1F1F1F" />
+    </Style>
 
-  <Style TargetType="{x:Type ComboBox}"
-         BasedOn="{StaticResource MONIMetroComboBox}" />
+    <Style BasedOn="{StaticResource MONIMetroComboBox}" TargetType="{x:Type ComboBox}" />
 
-    <Style TargetType="{x:Type Label}"
-         BasedOn="{StaticResource MetroLabel}">
-    <Setter Property="VerticalAlignment"
-            Value="Center" />
-  </Style>
+    <Style BasedOn="{StaticResource MetroLabel}" TargetType="{x:Type Label}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
 
-  <Style TargetType="{x:Type CheckBox}"
-         BasedOn="{StaticResource MetroCheckBox}">
-    <Setter Property="FocusVisualStyle"
-            Value="{x:Null}" />
-    <Setter Property="SnapsToDevicePixels"
-            Value="True" />
-  </Style>
+    <Style BasedOn="{StaticResource MetroCheckBox}" TargetType="{x:Type CheckBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+    </Style>
 
-  <Style x:Key="MahApps.Styles.GridSplitter.Preview">
-    <Setter Property="Control.Template">
-      <Setter.Value>
-        <ControlTemplate>
-          <Rectangle Fill="{DynamicResource BlackBrush}" Opacity="0.5" />
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+    <Style x:Key="MahApps.Styles.GridSplitter.Preview">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Fill="{DynamicResource BlackBrush}" Opacity="0.5" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-  <Style TargetType="{x:Type GridSplitter}">
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
-    <Setter Property="PreviewStyle" Value="{StaticResource MahApps.Styles.GridSplitter.Preview}" />
-    <Setter Property="ShowsPreview" Value="True" />
-    <Setter Property="VerticalAlignment" Value="Stretch" />
-    <Style.Triggers>
-      <Trigger Property="IsMouseOver" Value="True">
-        <Setter Property="Background" Value="{DynamicResource GrayBrush9}" />
-      </Trigger>
-    </Style.Triggers>
-  </Style>
+    <Style TargetType="{x:Type GridSplitter}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="PreviewStyle" Value="{StaticResource MahApps.Styles.GridSplitter.Preview}" />
+        <Setter Property="ShowsPreview" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource GrayBrush9}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 
 </ResourceDictionary>

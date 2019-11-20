@@ -1,1119 +1,1090 @@
 ﻿<controls:MetroWindow x:Class="MONI.Views.MainView"
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:attachedCommandBehavior="clr-namespace:AttachedCommandBehavior"
                       xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
                       xmlns:data="clr-namespace:MONI.Data"
+                      xmlns:dd="urn:gong-wpf-dragdrop"
+                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                      xmlns:util="clr-namespace:MONI.Util"
+                      xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
                       xmlns:viewModels="clr-namespace:MONI.ViewModels"
                       xmlns:views="clr-namespace:MONI.Views"
-                      xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
-                      xmlns:attachedCommandBehavior="clr-namespace:AttachedCommandBehavior"
-                      xmlns:util="clr-namespace:MONI.Util"
-                      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                      xmlns:dd="urn:gong-wpf-dragdrop"
+                      x:Name="mv"
                       Title="MONI"
                       Width="800"
-                      MinWidth="800"
                       Height="700"
+                      MinWidth="800"
                       MinHeight="500"
-                      PreviewKeyUp="mv_PreviewKeyUp"
-                      x:Name="mv"
-                      WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}"
-                      SaveWindowPosition="True"
-                      BorderThickness="1"
                       BorderBrush="{DynamicResource AccentBaseColorBrush}"
+                      BorderThickness="1"
+                      Icon="/MONI;component/Resources/moni.ico"
                       Loaded="MainView_OnLoaded"
-                      Icon="/MONI;component/Resources/moni.ico">
+                      PreviewKeyUp="mv_PreviewKeyUp"
+                      SaveWindowPosition="True"
+                      WindowPlacementSettings="{Binding ElementName=mv, Path=ViewModel.CustomWindowPlacementSettings, Mode=OneWay}">
 
-  <Window.CommandBindings>
-    <CommandBinding Command="Help"
-                    CanExecute="HelpCanExecute"
-                    Executed="HelpExecuted" />
-  </Window.CommandBindings>
+    <Window.CommandBindings>
+        <CommandBinding CanExecute="HelpCanExecute"
+                        Command="Help"
+                        Executed="HelpExecuted" />
+    </Window.CommandBindings>
 
-  <Window.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewStyles.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewTemplates.xaml" />
-      </ResourceDictionary.MergedDictionaries>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewStyles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MONI;component/Views/ViewTemplates.xaml" />
+            </ResourceDictionary.MergedDictionaries>
 
-      <valueConverter:BooleanConverter x:Key="BoolToGridLengthConverter" TrueValue="*" FalseValue="Auto" />
-    </ResourceDictionary>
-  </Window.Resources>
+            <valueConverter:BooleanConverter x:Key="BoolToGridLengthConverter"
+                                             FalseValue="Auto"
+                                             TrueValue="*" />
+        </ResourceDictionary>
+    </Window.Resources>
 
-  <controls:MetroWindow.WindowButtonCommands>
-    <controls:WindowButtonCommands Style="{DynamicResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
-  </controls:MetroWindow.WindowButtonCommands>
+    <controls:MetroWindow.WindowButtonCommands>
+        <controls:WindowButtonCommands Style="{DynamicResource MahApps.Metro.Styles.WindowButtonCommands.Win10}" />
+    </controls:MetroWindow.WindowButtonCommands>
 
-  <controls:MetroWindow.IconTemplate>
-    <DataTemplate>
-      <Grid Width="{TemplateBinding Width}"
-            Height="{TemplateBinding Height}"
-            Margin="4"
-            Background="{DynamicResource IdealForegroundColorBrush}"
-            RenderOptions.EdgeMode="Aliased"
-            RenderOptions.BitmapScalingMode="HighQuality">
-        <Grid.OpacityMask>
-          <VisualBrush Stretch="Uniform">
-            <VisualBrush.Visual>
-              <Viewbox>
-                  <Path Data="M27.01135,34.797C29.658478,34.797 31.806999,36.945377 31.806999,39.593949 31.806999,42.23962 29.658478,44.387998 27.01135,44.387998 26.184092,44.387998 25.405671,44.178195 24.726353,43.808978L24.68371,43.784446 15.832217,48.526999 14.663001,46.649397 22.339024,40.666025 22.31443,40.55954C22.250549,40.247596 22.217,39.924658 22.217,39.593949 22.217,36.945377 24.364122,34.797 27.01135,34.797z M27.01146,21.938999C17.262583,21.938999 9.3590002,29.844053 9.3589997,39.593998 9.3590002,49.341244 17.262583,57.244999 27.01146,57.244999 36.760237,57.244999 44.664,49.341244 44.664,39.593998 44.664,29.844053 36.760237,21.938999 27.01146,21.938999z M27.011558,15.183998C40.491858,15.183998 51.42,26.112107 51.42,39.593998 51.42,53.072886 40.491858,63.999998 27.011558,63.999998 13.531358,63.999998 2.6029997,53.072886 2.6029997,39.593998 2.6029997,26.112107 13.531358,15.183998 27.011558,15.183998z M6.0752745,12.689999L11.013999,17.614599 4.9399252,23.710999 0,18.7878z M48.017965,12.616999L54.092001,18.713409 49.153337,23.637999 43.078001,17.541489z M19.674001,0L34.568001,0 34.568001,8.645998 31.879,8.645998 31.879,12.712999 22.216999,12.712999 22.216999,8.645998 19.674001,8.645998z"
-                        Stretch="Uniform"
-                        Fill="Black"
-                        Width="48"
-                        Height="48"
-                        Margin="0,0,0,0" />
-              </Viewbox>
-            </VisualBrush.Visual>
-          </VisualBrush>
-        </Grid.OpacityMask>
-      </Grid>
-    </DataTemplate>
-  </controls:MetroWindow.IconTemplate>
-
-  <!-- *** window commands ***************************************************************** -->
-  <controls:MetroWindow.RightWindowCommands>
-    <controls:WindowCommands>
-      <Button Content="{iconPacks:Material OpenInApp, Width=18, Height=18}"
-              Click="ToMonlist_Button_Click"
-              x:Name="OpenMonlist"
-              ToolTip="Daten in Monlist importieren" />
-      <Button Content="{iconPacks:Material FileFind, Width=18, Height=18}"
-              Click="ShowPNSearch_Button_Click"
-              ToolTip="Projektnummern-Suche" />
-      <Button Content="{iconPacks:Material FileFind, Width=18, Height=18}"
-              Click="ShowPositionSearch_Button_Click"
-              ToolTip="Positionsnummern-Suche" />
-      <Button Content="{iconPacks:Material Settings, Width=18, Height=18}"
-              Click="EditPreferences_Button_Click"
-              ToolTip="Einstellungen" />
-      <Button Content="{iconPacks:Material HelpCircleOutline, Width=18, Height=18}"
-              Command="Help" />
-      <Button Content="{iconPacks:Material GithubCircle, Width=18, Height=18}"
-              Click="GitHub_Button_Click"
-              ToolTip="MONI bei GitHub" />
-    </controls:WindowCommands>
-  </controls:MetroWindow.RightWindowCommands>
-
-  <!-- *** flyouts ***************************************************************** -->
-  <controls:MetroWindow.Flyouts>
-
-    <controls:FlyoutsControl>
-      <!-- shortcut help -->
-      <controls:Flyout Header="Hilfe"
-                       Width="700"
-                       Position="Right"
-                       KeyboardNavigation.TabNavigation="Cycle"
-                       Content="{Binding ElementName=mv, Path=ViewModel}"
-                       IsOpen="{Binding ElementName=mv, Path=ViewModel.ShowHelp}">
-        <controls:Flyout.ContentTemplate>
-          <DataTemplate>
-            <DataTemplate.Resources>
-              <valueConverter:MarkdownToFlowDocumentConverter x:Key="MarkdownToFlowDocumentConverter" />
-            </DataTemplate.Resources>
-            <Grid Background="White" Margin="1,0,1,1">
-              <FlowDocumentScrollViewer Margin="10" Foreground="Black"
-                                        VerticalScrollBarVisibility="Auto"
-                                        HorizontalScrollBarVisibility="Disabled"
-                                        Document="{Binding Path=Help, Converter={StaticResource MarkdownToFlowDocumentConverter}}" />
+    <controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Grid Width="{TemplateBinding Width}"
+                  Height="{TemplateBinding Height}"
+                  Margin="4"
+                  Background="{DynamicResource IdealForegroundColorBrush}"
+                  RenderOptions.BitmapScalingMode="HighQuality"
+                  RenderOptions.EdgeMode="Aliased">
+                <Grid.OpacityMask>
+                    <VisualBrush Stretch="Uniform">
+                        <VisualBrush.Visual>
+                            <Viewbox>
+                                <Path Width="48"
+                                      Height="48"
+                                      Margin="0 0 0 0"
+                                      Data="M27.01135,34.797C29.658478,34.797 31.806999,36.945377 31.806999,39.593949 31.806999,42.23962 29.658478,44.387998 27.01135,44.387998 26.184092,44.387998 25.405671,44.178195 24.726353,43.808978L24.68371,43.784446 15.832217,48.526999 14.663001,46.649397 22.339024,40.666025 22.31443,40.55954C22.250549,40.247596 22.217,39.924658 22.217,39.593949 22.217,36.945377 24.364122,34.797 27.01135,34.797z M27.01146,21.938999C17.262583,21.938999 9.3590002,29.844053 9.3589997,39.593998 9.3590002,49.341244 17.262583,57.244999 27.01146,57.244999 36.760237,57.244999 44.664,49.341244 44.664,39.593998 44.664,29.844053 36.760237,21.938999 27.01146,21.938999z M27.011558,15.183998C40.491858,15.183998 51.42,26.112107 51.42,39.593998 51.42,53.072886 40.491858,63.999998 27.011558,63.999998 13.531358,63.999998 2.6029997,53.072886 2.6029997,39.593998 2.6029997,26.112107 13.531358,15.183998 27.011558,15.183998z M6.0752745,12.689999L11.013999,17.614599 4.9399252,23.710999 0,18.7878z M48.017965,12.616999L54.092001,18.713409 49.153337,23.637999 43.078001,17.541489z M19.674001,0L34.568001,0 34.568001,8.645998 31.879,8.645998 31.879,12.712999 22.216999,12.712999 22.216999,8.645998 19.674001,8.645998z"
+                                      Fill="Black"
+                                      Stretch="Uniform" />
+                            </Viewbox>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Grid.OpacityMask>
             </Grid>
-          </DataTemplate>
-        </controls:Flyout.ContentTemplate>
-      </controls:Flyout>
+        </DataTemplate>
+    </controls:MetroWindow.IconTemplate>
 
-      <!-- settings -->
-      <controls:Flyout Header="Settings"
-                       Width="500"
-                       Position="Right"
-                       KeyboardNavigation.TabNavigation="Cycle"
-                       Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
-                       IsOpen="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}">
-        <controls:Flyout.ContentTemplate>
-          <DataTemplate DataType="{x:Type data:MoniSettings}">
-            <DataTemplate.Resources>
-              <SolidColorBrush x:Key="ComboBoxMouseOverInnerBorderBrush">#4EA6EA</SolidColorBrush>
-              <Style TargetType="{x:Type TextBox}"
-                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}" />
-              <Style TargetType="{x:Type ComboBox}"
-                     BasedOn="{StaticResource MONIMetroFlyoutComboBox}" />
-            </DataTemplate.Resources>
+    <!--  *** window commands *****************************************************************  -->
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands>
+            <Button x:Name="OpenMonlist"
+                    Click="ToMonlist_Button_Click"
+                    Content="{iconPacks:Material OpenInApp, Width=18, Height=18}"
+                    ToolTip="Daten in Monlist importieren" />
+            <Button Click="ShowPNSearch_Button_Click"
+                    Content="{iconPacks:Material FileFind, Width=18, Height=18}"
+                    ToolTip="Projektnummern-Suche" />
+            <Button Click="ShowPositionSearch_Button_Click"
+                    Content="{iconPacks:Material FileFind, Width=18, Height=18}"
+                    ToolTip="Positionsnummern-Suche" />
+            <Button Click="EditPreferences_Button_Click"
+                    Content="{iconPacks:Material Settings, Width=18, Height=18}"
+                    ToolTip="Einstellungen" />
+            <Button Command="Help" Content="{iconPacks:Material HelpCircleOutline, Width=18, Height=18}" />
+            <Button Click="GitHub_Button_Click"
+                    Content="{iconPacks:Material GithubCircle, Width=18, Height=18}"
+                    ToolTip="MONI bei GitHub" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
 
-            <Grid Margin="10">
+    <!--  *** flyouts *****************************************************************  -->
+    <controls:MetroWindow.Flyouts>
 
-              <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-              </Grid.RowDefinitions>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition />
-              </Grid.ColumnDefinitions>
+        <controls:FlyoutsControl>
+            <!--  shortcut help  -->
+            <controls:Flyout Width="700"
+                             Content="{Binding ElementName=mv, Path=ViewModel}"
+                             Header="Hilfe"
+                             IsOpen="{Binding ElementName=mv, Path=ViewModel.ShowHelp}"
+                             KeyboardNavigation.TabNavigation="Cycle"
+                             Position="Right">
+                <controls:Flyout.ContentTemplate>
+                    <DataTemplate>
+                        <DataTemplate.Resources>
+                            <valueConverter:MarkdownToFlowDocumentConverter x:Key="MarkdownToFlowDocumentConverter" />
+                        </DataTemplate.Resources>
+                        <Grid Margin="1 0 1 1" Background="White">
+                            <FlowDocumentScrollViewer Margin="10"
+                                                      Document="{Binding Path=Help, Converter={StaticResource MarkdownToFlowDocumentConverter}}"
+                                                      Foreground="Black"
+                                                      HorizontalScrollBarVisibility="Disabled"
+                                                      VerticalScrollBarVisibility="Auto" />
+                        </Grid>
+                    </DataTemplate>
+                </controls:Flyout.ContentTemplate>
+            </controls:Flyout>
 
-              <Label Grid.Column="0"
-                     Grid.Row="0">
-                Daten-Verzeichnis
-              </Label>
-              <TextBox Grid.Column="1"
-                       Grid.Row="0"
-                       Margin="2"
-                       Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}" />
+            <!--  settings  -->
+            <controls:Flyout Width="500"
+                             Content="{Binding ElementName=mv, Path=ViewModel.EditPreferences}"
+                             Header="Settings"
+                             IsOpen="{Binding ElementName=mv, Path=ViewModel.EditPreferences, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}"
+                             KeyboardNavigation.TabNavigation="Cycle"
+                             Position="Right">
+                <controls:Flyout.ContentTemplate>
+                    <DataTemplate DataType="{x:Type data:MoniSettings}">
+                        <DataTemplate.Resources>
+                            <SolidColorBrush x:Key="ComboBoxMouseOverInnerBorderBrush">#4EA6EA</SolidColorBrush>
+                            <Style BasedOn="{StaticResource MONIMetroFlyoutTextBox}" TargetType="{x:Type TextBox}" />
+                            <Style BasedOn="{StaticResource MONIMetroFlyoutComboBox}" TargetType="{x:Type ComboBox}" />
+                        </DataTemplate.Resources>
 
-              <Label Grid.Column="0"
-                     Grid.Row="1">
-                projekte.txt-Pfad
-              </Label>
-              <TextBox Grid.Column="1"
-                       Grid.Row="1"
-                       Margin="2"
-                       Text="{Binding MainSettings.ProjectNumberFilePath, UpdateSourceTrigger=PropertyChanged}" />
+                        <Grid Margin="10">
 
-              <Label Grid.Column="0"
-                     Grid.Row="2">
-                positionsnummern.txt-Pfad
-              </Label>
-              <TextBox Grid.Column="1"
-                       Grid.Row="2"
-                       Margin="2"
-                       Text="{Binding MainSettings.PositionNumberFilePath, UpdateSourceTrigger=PropertyChanged}" />
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
 
-              <Label Grid.Column="0"
-                     Grid.Row="3">
-                Monlist.exe-Pfad
-              </Label>
-              <TextBox Grid.Column="1"
-                       Grid.Row="3"
-                       Margin="2"
-                       Text="{Binding MainSettings.MonlistExecutablePath, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label Grid.Row="0" Grid.Column="0">
+                                Daten-Verzeichnis
+                            </Label>
+                            <TextBox Grid.Row="0"
+                                     Grid.Column="1"
+                                     Margin="2"
+                                     Text="{Binding MainSettings.DataDirectory, UpdateSourceTrigger=PropertyChanged}" />
 
-              <Label Grid.Column="0"
-                     Grid.Row="4">
-                Mitarbeiternummer
-              </Label>
-              <TextBox Grid.Column="1"
-                       Grid.Row="4"
-                       Margin="2"
-                       Text="{Binding MainSettings.MonlistEmployeeNumber, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label Grid.Row="1" Grid.Column="0">
+                                projekte.txt-Pfad
+                            </Label>
+                            <TextBox Grid.Row="1"
+                                     Grid.Column="1"
+                                     Margin="2"
+                                     Text="{Binding MainSettings.ProjectNumberFilePath, UpdateSourceTrigger=PropertyChanged}" />
 
-              <Label Grid.Column="0"
-                   Grid.Row="5">
-                GB
-              </Label>
-              <ComboBox Grid.Column="1"
-                     Grid.Row="5"
-                     Margin="2"
-                     Text="{Binding MainSettings.MonlistGBNumber, UpdateSourceTrigger=PropertyChanged}">
-                     <ComboBoxItem>10</ComboBoxItem>
-                     <ComboBoxItem>20</ComboBoxItem>
-                     <ComboBoxItem>30</ComboBoxItem>
-                     <ComboBoxItem>40</ComboBoxItem>
-                     <ComboBoxItem>50</ComboBoxItem>
-                     <ComboBoxItem>60</ComboBoxItem>
-                     <ComboBoxItem>80</ComboBoxItem>
-              </ComboBox>
+                            <Label Grid.Row="2" Grid.Column="0">
+                                positionsnummern.txt-Pfad
+                            </Label>
+                            <TextBox Grid.Row="2"
+                                     Grid.Column="1"
+                                     Margin="2"
+                                     Text="{Binding MainSettings.PositionNumberFilePath, UpdateSourceTrigger=PropertyChanged}" />
 
-              <Label Grid.Column="0"
-                     Grid.Row="6">
-                Projekt-Hitliste anzeigen
-              </Label>
-              <CheckBox Grid.Column="1"
-                        Grid.Row="6"
-                        Margin="2"
-                        VerticalAlignment="Center"
-                        IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label Grid.Row="3" Grid.Column="0">
+                                Monlist.exe-Pfad
+                            </Label>
+                            <TextBox Grid.Row="3"
+                                     Grid.Column="1"
+                                     Margin="2"
+                                     Text="{Binding MainSettings.MonlistExecutablePath, UpdateSourceTrigger=PropertyChanged}" />
 
-              <Label Grid.Column="0"
-                     Grid.Row="7">
-                Positions-Hitliste anzeigen
-              </Label>
-              <CheckBox Grid.Column="1"
-                        Grid.Row="7"
-                        Margin="2"
-                        VerticalAlignment="Center"
-                        IsChecked="{Binding MainSettings.ShowPositionHitList, UpdateSourceTrigger=PropertyChanged}" />
-              
-              <Label Grid.Column="0"
-                     Grid.Row="8">
-                Monatsübersicht anzeigen
-              </Label>
-              <CheckBox Grid.Column="1"
-                        Grid.Row="8"
-                        Margin="2"
-                        VerticalAlignment="Center"
-                        IsChecked="{Binding MainSettings.ShowMonthList, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label Grid.Row="4" Grid.Column="0">
+                                Mitarbeiternummer
+                            </Label>
+                            <TextBox Grid.Row="4"
+                                     Grid.Column="1"
+                                     Margin="2"
+                                     Text="{Binding MainSettings.MonlistEmployeeNumber, UpdateSourceTrigger=PropertyChanged}" />
 
-              <Label Grid.Column="0"
-                     Grid.Row="9">
-                Hitlisten-Rückblick [Wochen]
-              </Label>
-              <TextBox Grid.Column="1"
-                       Grid.Row="9"
-                       Margin="2"
-                       Text="{Binding MainSettings.HitListLookBackInWeeks, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label Grid.Row="5" Grid.Column="0">
+                                GB
+                            </Label>
+                            <ComboBox Grid.Row="5"
+                                      Grid.Column="1"
+                                      Margin="2"
+                                      Text="{Binding MainSettings.MonlistGBNumber, UpdateSourceTrigger=PropertyChanged}">
+                                <ComboBoxItem>10</ComboBoxItem>
+                                <ComboBoxItem>20</ComboBoxItem>
+                                <ComboBoxItem>30</ComboBoxItem>
+                                <ComboBoxItem>40</ComboBoxItem>
+                                <ComboBoxItem>50</ComboBoxItem>
+                                <ComboBoxItem>60</ComboBoxItem>
+                                <ComboBoxItem>80</ComboBoxItem>
+                            </ComboBox>
 
-              <Label Grid.Column="0"
-                     Grid.Row="10">
-                Stunden pro Tag [h]
-              </Label>
-              <TextBox Grid.Column="1"
-                       Grid.Row="10"
-                       Margin="2"
-                       Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label Grid.Row="6" Grid.Column="0">
+                                Projekt-Hitliste anzeigen
+                            </Label>
+                            <CheckBox Grid.Row="6"
+                                      Grid.Column="1"
+                                      Margin="2"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding MainSettings.ShowProjectHitList, UpdateSourceTrigger=PropertyChanged}" />
 
-              <!-- auto break -->
-              <Label Grid.Column="0"
-                     Grid.Row="11">
-                Automatische Pause einfügen
-              </Label>
-              <CheckBox Grid.Column="1"
-                        Grid.Row="11"
-                        Margin="2"
-                        VerticalAlignment="Center"
-                        x:Name="autoPause"
-                        IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}" />
+                            <Label Grid.Row="7" Grid.Column="0">
+                                Positions-Hitliste anzeigen
+                            </Label>
+                            <CheckBox Grid.Row="7"
+                                      Grid.Column="1"
+                                      Margin="2"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding MainSettings.ShowPositionHitList, UpdateSourceTrigger=PropertyChanged}" />
 
-              <Label Grid.Column="0"
-                     Grid.Row="12"
-                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
-                Uhrzeit [hh:mm]
-              </Label>
-              <TextBox Grid.Column="1"
-                       Grid.Row="12"
-                       Margin="2"
-                       IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
-                       Text="{Binding ParserSettings.DayBreakTime, Converter={x:Static valueConverter:TimeItemConverter.Instance}}" />
+                            <Label Grid.Row="8" Grid.Column="0">
+                                Monatsübersicht anzeigen
+                            </Label>
+                            <CheckBox Grid.Row="8"
+                                      Grid.Column="1"
+                                      Margin="2"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding MainSettings.ShowMonthList, UpdateSourceTrigger=PropertyChanged}" />
 
-              <Label Grid.Column="0"
-                     Grid.Row="13"
-                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
-                Dauer [min]
-              </Label>
-              <TextBox Grid.Column="1"
-                       Grid.Row="13"
-                       Margin="2"
-                       IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
-                       Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}" />
-              
-              <Label Grid.Column="0"
-                     Grid.Row="14">
-                MonAPI benutzen
-              </Label>
-              <CheckBox Grid.Column="1"
-                        Grid.Row="14"
-                        Margin="2"
-                        VerticalAlignment="Center"
-                        IsChecked="{Binding MainSettings.UseMonApi, UpdateSourceTrigger=PropertyChanged}" />
-              
-              <UniformGrid Grid.Column="0"
-                           Grid.Row="15"
-                           Grid.ColumnSpan="2"
-                           VerticalAlignment="Bottom"
-                           Columns="2">
-                <Button Margin="0,0,2,0"
-                        Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
-                <Button Margin="2,0,0,0"
-                        Click="EditPreferencesSave_OnClick"
-                        IsDefault="True">
-                  Speichern
-                </Button>
-              </UniformGrid>
+                            <Label Grid.Row="9" Grid.Column="0">
+                                Hitlisten-Rückblick [Wochen]
+                            </Label>
+                            <TextBox Grid.Row="9"
+                                     Grid.Column="1"
+                                     Margin="2"
+                                     Text="{Binding MainSettings.HitListLookBackInWeeks, UpdateSourceTrigger=PropertyChanged}" />
 
-            </Grid>
-          </DataTemplate>
-        </controls:Flyout.ContentTemplate>
-      </controls:Flyout>
+                            <Label Grid.Row="10" Grid.Column="0">
+                                Stunden pro Tag [h]
+                            </Label>
+                            <TextBox Grid.Row="10"
+                                     Grid.Column="1"
+                                     Margin="2"
+                                     Text="{Binding MainSettings.HoursPerDay, UpdateSourceTrigger=PropertyChanged}" />
 
-      <!-- edit / new shortcut -->
-      <controls:Flyout Header="Shortcut"
-                       Width="500"
-                       Position="Right"
-                       KeyboardNavigation.TabNavigation="Cycle"
-                       Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
-                       IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}">
-        <controls:Flyout.ContentTemplate>
-          <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
-            <DataTemplate.Resources>
-              <Style TargetType="{x:Type TextBox}"
-                     BasedOn="{StaticResource MONIMetroFlyoutTextBox}" />
-            </DataTemplate.Resources>
-            <!-- bind to IsOpen to set the focus to first editable textbox, not the best, but it works -->
-            <views:ShortcutView x:Name="shortcutView"
-                                IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:Flyout}}, Path=IsOpen}" />
-          </DataTemplate>
-        </controls:Flyout.ContentTemplate>
-      </controls:Flyout>
+                            <!--  auto break  -->
+                            <Label Grid.Row="11" Grid.Column="0">
+                                Automatische Pause einfügen
+                            </Label>
+                            <CheckBox x:Name="autoPause"
+                                      Grid.Row="11"
+                                      Grid.Column="1"
+                                      Margin="2"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding ParserSettings.InsertDayBreak, UpdateSourceTrigger=PropertyChanged}" />
 
-      <!-- project numbers -->
-      <views:PNSearchFlyout Header="Projektnummern-Suche"
-                            Width="600"
-                            Position="Right"
-                            DataContext="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
-                            AddShortCutService="{Binding ElementName=mv}"
-                            IsOpen="{Binding IsProjectSearchViewOpen}" />
+                            <Label Grid.Row="12"
+                                   Grid.Column="0"
+                                   IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
+                                Uhrzeit [hh:mm]
+                            </Label>
+                            <TextBox Grid.Row="12"
+                                     Grid.Column="1"
+                                     Margin="2"
+                                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
+                                     Text="{Binding ParserSettings.DayBreakTime, Converter={x:Static valueConverter:TimeItemConverter.Instance}}" />
 
-      <!-- position numbers -->
-      <views:PositionSearchFlyout Header="Positionsnummern-Suche"
-                                  Width="600"
-                                  Position="Right"
-                                  DataContext="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
+                            <Label Grid.Row="13"
+                                   Grid.Column="0"
+                                   IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}">
+                                Dauer [min]
+                            </Label>
+                            <TextBox Grid.Row="13"
+                                     Grid.Column="1"
+                                     Margin="2"
+                                     IsEnabled="{Binding IsChecked, ElementName=autoPause, Mode=OneWay}"
+                                     Text="{Binding ParserSettings.DayBreakDurationInMinutes, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <Label Grid.Row="14" Grid.Column="0">
+                                MonAPI benutzen
+                            </Label>
+                            <CheckBox Grid.Row="14"
+                                      Grid.Column="1"
+                                      Margin="2"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding MainSettings.UseMonApi, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <UniformGrid Grid.Row="15"
+                                         Grid.Column="0"
+                                         Grid.ColumnSpan="2"
+                                         VerticalAlignment="Bottom"
+                                         Columns="2">
+                                <Button Margin="0 0 2 0" Click="EditPreferencesCancel_OnClick">Abbrechen</Button>
+                                <Button Margin="2 0 0 0"
+                                        Click="EditPreferencesSave_OnClick"
+                                        IsDefault="True">
+                                    Speichern
+                                </Button>
+                            </UniformGrid>
+
+                        </Grid>
+                    </DataTemplate>
+                </controls:Flyout.ContentTemplate>
+            </controls:Flyout>
+
+            <!--  edit / new shortcut  -->
+            <controls:Flyout Width="500"
+                             Content="{Binding ElementName=mv, Path=ViewModel.EditShortCut}"
+                             Header="Shortcut"
+                             IsOpen="{Binding ElementName=mv, Path=ViewModel.EditShortCut, Converter={x:Static valueConverter:Null2FalseConverter.Instance}}"
+                             KeyboardNavigation.TabNavigation="Cycle"
+                             Position="Right">
+                <controls:Flyout.ContentTemplate>
+                    <DataTemplate DataType="{x:Type viewModels:ShortcutViewModel}">
+                        <DataTemplate.Resources>
+                            <Style BasedOn="{StaticResource MONIMetroFlyoutTextBox}" TargetType="{x:Type TextBox}" />
+                        </DataTemplate.Resources>
+                        <!--  bind to IsOpen to set the focus to first editable textbox, not the best, but it works  -->
+                        <views:ShortcutView x:Name="shortcutView" IsOpen="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type controls:Flyout}}, Path=IsOpen}" />
+                    </DataTemplate>
+                </controls:Flyout.ContentTemplate>
+            </controls:Flyout>
+
+            <!--  project numbers  -->
+            <views:PNSearchFlyout Width="600"
                                   AddShortCutService="{Binding ElementName=mv}"
-                                  IsOpen="{Binding IsPosSearchViewOpen}" />
+                                  DataContext="{Binding ElementName=mv, Path=ViewModel.PNSearch}"
+                                  Header="Projektnummern-Suche"
+                                  IsOpen="{Binding IsProjectSearchViewOpen}"
+                                  Position="Right" />
 
-      <!-- show update info -->
-      <views:UpdateInfoFlyout Header="Update-Info"
-                              Width="500"
-                              Position="Right"
-                              DataContext="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
-                              IsOpen="{Binding ShowUpdateInfo}" />
-    </controls:FlyoutsControl>
+            <!--  position numbers  -->
+            <views:PositionSearchFlyout Width="600"
+                                        AddShortCutService="{Binding ElementName=mv}"
+                                        DataContext="{Binding ElementName=mv, Path=ViewModel.PositionSearch}"
+                                        Header="Positionsnummern-Suche"
+                                        IsOpen="{Binding IsPosSearchViewOpen}"
+                                        Position="Right" />
 
-  </controls:MetroWindow.Flyouts>
+            <!--  show update info  -->
+            <views:UpdateInfoFlyout Width="500"
+                                    DataContext="{Binding ElementName=mv, Path=ViewModel.UpdateInfoViewModel}"
+                                    Header="Update-Info"
+                                    IsOpen="{Binding ShowUpdateInfo}"
+                                    Position="Right" />
+        </controls:FlyoutsControl>
 
-  <!-- *** layout root ***************************************************************** -->
-  <Grid RenderOptions.ClearTypeHint="Enabled"
-        TextOptions.TextFormattingMode="Display">
-    
-    <Grid.Resources>
-      <CollectionViewSource x:Key="ShortCutCVS"
-                            Source="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}">
-        <CollectionViewSource.GroupDescriptions>
-          <util:CustomPropertyGroupDescription PropertyName="Group" />
-        </CollectionViewSource.GroupDescriptions>
-      </CollectionViewSource>
-    </Grid.Resources>
-    
-    <Grid Margin="0 0 2 0">
-      <Grid.ColumnDefinitions>
-        <!-- month view -->
-        <ColumnDefinition Width="Auto" />
-        <!-- week view -->
-        <ColumnDefinition Width="*" />
-        <!-- vertical splitter -->
-        <ColumnDefinition Width="Auto" />
-        <!-- shortcuts -->
-        <ColumnDefinition MinWidth="250" Width="250" />
-        <!-- Hitlisten -->
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="50" />
-        <RowDefinition Height="*" />
-      </Grid.RowDefinitions>
+    </controls:MetroWindow.Flyouts>
 
-      <!-- month change buttons-->
-      <Grid Grid.Column="0"
-            Grid.Row="0"
-            Visibility="{Binding ElementName=mv, Path=ViewModel.IsMonthListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
-        <Grid.RowDefinitions>
-          <RowDefinition Height="*" />
-          <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Button Grid.Column="0"
-                Grid.Row="0"
-                x:Name="btnPrevMonth"
-                Content="{iconPacks:Material Rewind, Width=14, Height=14}"
-                Background="#537DBBDA"
-                Foreground="#CC119EDA"
-                Margin="2 3 1 1"
-                Padding="0"
-                Command="{Binding ElementName=mv, Path=ViewModel.PreviousMonthCommand}" />
+    <!--  *** layout root *****************************************************************  -->
+    <Grid RenderOptions.ClearTypeHint="Enabled" TextOptions.TextFormattingMode="Display">
 
-        <Button Grid.Column="0"
-                Grid.Row="1"
-                x:Name="btnNextMonth"
-                Content="{iconPacks:Material FastForward, Width=14, Height=14}"
-                Background="#537DBBDA"
-                Foreground="#CC119EDA"
-                Margin="2 1 1 2"
-                Padding="0"
-                Command="{Binding ElementName=mv, Path=ViewModel.NextMonthCommand}" />
-      </Grid>
+        <Grid.Resources>
+            <CollectionViewSource x:Key="ShortCutCVS" Source="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.ShortCutStatistic}">
+                <CollectionViewSource.GroupDescriptions>
+                    <util:CustomPropertyGroupDescription PropertyName="Group" />
+                </CollectionViewSource.GroupDescriptions>
+            </CollectionViewSource>
+        </Grid.Resources>
 
-      <!-- days of month -->
-      <ListBox Grid.Row="1"
-               Grid.Column="0"
-               MinWidth="40"
-               ScrollViewer.VerticalScrollBarVisibility="Auto"
-               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-               HorizontalContentAlignment="Stretch"
-               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
-               Visibility="{Binding ElementName=mv, Path=ViewModel.IsMonthListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
-               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkMonth.Days}"
-               ItemTemplate="{StaticResource DayOfMonthDataTemplate}" />
+        <Grid Margin="0 0 2 0">
+            <Grid.ColumnDefinitions>
+                <!--  month view  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  week view  -->
+                <ColumnDefinition Width="*" />
+                <!--  vertical splitter  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  shortcuts  -->
+                <ColumnDefinition Width="250" MinWidth="250" />
+                <!--  Hitlisten  -->
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-      <!-- infos and week change buttons-->
-      <Grid Grid.Column="1"
-            Grid.Row="0"
-            x:Name="InfoPanel">
+            <!--  month change buttons  -->
+            <Grid Grid.Row="0"
+                  Grid.Column="0"
+                  Visibility="{Binding ElementName=mv, Path=ViewModel.IsMonthListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Button x:Name="btnPrevMonth"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Margin="2 3 1 1"
+                        Padding="0"
+                        Background="#537DBBDA"
+                        Command="{Binding ElementName=mv, Path=ViewModel.PreviousMonthCommand}"
+                        Content="{iconPacks:Material Rewind, Width=14, Height=14}"
+                        Foreground="#CC119EDA" />
 
-        <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="50" />
-          <ColumnDefinition Width="Auto" />
-          <ColumnDefinition Width="*" />
-          <ColumnDefinition Width="50" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-          <RowDefinition Height="*" />
-          <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+                <Button x:Name="btnNextMonth"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Margin="2 1 1 2"
+                        Padding="0"
+                        Background="#537DBBDA"
+                        Command="{Binding ElementName=mv, Path=ViewModel.NextMonthCommand}"
+                        Content="{iconPacks:Material FastForward, Width=14, Height=14}"
+                        Foreground="#CC119EDA" />
+            </Grid>
 
-        <Button Grid.Column="0"
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                x:Name="btnPrev"
-                Content="{iconPacks:Material ArrowLeftBold, Width=18, Height=18}"
-                Background="#537DBBDA"
-                Foreground="#CC119EDA"
-                Margin="2 3 1 2"
-                Padding="0"
-                Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}" />
+            <!--  days of month  -->
+            <ListBox Grid.Row="1"
+                     Grid.Column="0"
+                     MinWidth="40"
+                     HorizontalContentAlignment="Stretch"
+                     ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+                     ItemTemplate="{StaticResource DayOfMonthDataTemplate}"
+                     ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkMonth.Days}"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     Visibility="{Binding ElementName=mv, Path=ViewModel.IsMonthListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
 
-        <TextBlock Grid.Column="1"
-                   Grid.Row="0"
-                   HorizontalAlignment="Center"
-                   FontWeight="Bold"
-                   VerticalAlignment="Bottom"
-                   Foreground="#CC119EDA"
-                   FontSize="20"
-                   Text="{Binding ElementName=mv, Path=ViewModel.WorkYear.Year}" />
+            <!--  infos and week change buttons  -->
+            <Grid x:Name="InfoPanel"
+                  Grid.Row="0"
+                  Grid.Column="1">
 
-        <StackPanel Grid.Column="2"
-                    Grid.Row="0"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-          <TextBlock HorizontalAlignment="Center"
-                     FontWeight="Bold"
-                     VerticalAlignment="Bottom"
-                     Foreground="#CC7DBEDA"
-                     Margin="2 0 5 2"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.HoursDuration, StringFormat='{}{0:f} h'}"
-                     ToolTip="Wochenstundenzahl" />
-          <TextBlock HorizontalAlignment="Center"
-                     FontWeight="Bold"
-                     VerticalAlignment="Bottom"
-                     Foreground="#CC119EDA"
-                     FontSize="20"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat='{}KW: {0}'}"
-                     ToolTip="Kalenderwoche" />
-        </StackPanel>
-
-        <StackPanel Grid.Column="2"
-                    Grid.Row="1"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Bottom">
-          <TextBlock FontWeight="Bold"
-                     VerticalAlignment="Bottom"
-                     Foreground="#CC7DBEDA"
-                     Margin="2 0 5 2"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.HoursDuration, StringFormat='{}{0:f} h'}"
-                     ToolTip="Ist-Stunden Monat" />
-          <TextBlock FontWeight="Bold"
-                     VerticalAlignment="Bottom"
-                     Margin="2 0 5 2"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.PreviewHours, StringFormat='{}({0:f} h'}"
-                     ToolTip="Prognose-Stunden Monat">
-            <TextBlock.Foreground>
-              <MultiBinding Converter="{x:Static valueConverter:LessThanColorConverter.Instance}">
-                <MultiBinding.Bindings>
-                  <Binding Path="ViewModel.WorkWeek.Month.NecessaryHours"
-                           ElementName="mv"
-                           Mode="OneWay" />
-                  <Binding Path="ViewModel.WorkWeek.Month.PreviewHours"
-                           ElementName="mv"
-                           Mode="OneWay" />
-                </MultiBinding.Bindings>
-              </MultiBinding>
-            </TextBlock.Foreground>
-          </TextBlock>
-          <TextBlock FontWeight="Bold"
-                     VerticalAlignment="Bottom"
-                     Foreground="#CC7DBEDA"
-                     Margin="2 0 5 2"
-                     Text="von" />
-          <TextBlock FontWeight="Bold"
-                     VerticalAlignment="Bottom"
-                     Foreground="#CC7DBEDA"
-                     Margin="2 0 5 2"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.NecessaryHours, StringFormat='{}{0:f} h)'}"
-                     ToolTip="Soll-Stunden Monat" />
-          <TextBlock FontWeight="Bold"
-                     VerticalAlignment="Bottom"
-                     FontSize="20"
-                     Foreground="#CC119EDA"
-                     Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.MonthName}" />
-        </StackPanel>
-
-        <Button Grid.Column="3"
-                Grid.Row="0"
-                Grid.RowSpan="2"
-                x:Name="btnNext"
-                Content="{iconPacks:Material ArrowRightBold, Width=18, Height=18}"
-                Background="#537DBBDA"
-                Foreground="#CC119EDA"
-                Margin="1 3 2 2"
-                Padding="0"
-                Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}" />
-
-      </Grid>
-
-      <!-- week view -->
-      <!-- days -->
-      <ListBox Grid.Row="1"
-               Grid.Column="1"
-               Grid.IsSharedSizeScope="True"
-               ScrollViewer.VerticalScrollBarVisibility="Auto"
-               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-               KeyboardNavigation.ControlTabNavigation="Cycle"
-               KeyboardNavigation.TabNavigation="Cycle"
-               KeyboardNavigation.DirectionalNavigation="Cycle"
-               HorizontalContentAlignment="Stretch"
-               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
-               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}">
-        <ListBox.ItemTemplate>
-          <!-- this is a day -->
-          <DataTemplate>
-            <Border x:Name="dayBorder"
-                    BorderThickness="1"
-                    Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
-                    Margin="1"
-                    Padding="1"
-                    SnapsToDevicePixels="True">
-              <Grid>
                 <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="Auto"
-                                    SharedSizeGroup="Labels" />
-                  <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="Auto" />
-                  <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0"
-                           Grid.Row="0"
-                           Margin="0 4 0 0"
-                           Text="{Binding DayOfWeek, Converter={x:Static valueConverter:DayOfWeekTranslatorConverter.Instance}}"
-                           Foreground="{StaticResource lightText}"
-                           HorizontalAlignment="Center" />
-                <TextBlock Grid.Column="0"
-                           Grid.Row="1"
-                           Text="{Binding SpecialDay.Name}"
-                           Foreground="{StaticResource lightText}"
+                <Button x:Name="btnPrev"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.Column="0"
+                        Margin="2 3 1 2"
+                        Padding="0"
+                        Background="#537DBBDA"
+                        Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}"
+                        Content="{iconPacks:Material ArrowLeftBold, Width=18, Height=18}"
+                        Foreground="#CC119EDA" />
+
+                <TextBlock Grid.Row="0"
+                           Grid.Column="1"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Bottom"
+                           FontSize="20"
                            FontWeight="Bold"
-                           Visibility="{Binding SpecialDay, Converter={StaticResource null2CollapsedConverter}}"
-                           HorizontalAlignment="Center" />
-                <TextBlock Grid.Column="0"
-                           Grid.Row="2"
-                           Text="{Binding Day}"
-                           FontWeight="Bold"
-                           HorizontalAlignment="Center" />
-                <TextBlock Grid.Column="0"
-                           Grid.Row="3"
-                           Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}"
-                           FontWeight="Bold"
-                           Padding="3 0 3 0"
-                           Foreground="{Binding HoursDuration, Converter={x:Static valueConverter:DurationFGColorConverter.Instance}}"
-                           Background="{Binding HoursDuration, Converter={x:Static valueConverter:DurationBGColorConverter.Instance}}"
-                           HorizontalAlignment="Center" />
+                           Foreground="#CC119EDA"
+                           Text="{Binding ElementName=mv, Path=ViewModel.WorkYear.Year}" />
 
-                <TextBox x:Name="userEntry"
-                         Loaded="TextBox_Loaded"
-                         GotKeyboardFocus="WorkDayTextBox_OnGotKeyboardFocus"
-                         PreviewKeyDown="WorkDayTextBox_OnKeyDown"
-                         Grid.Column="1"
-                         Grid.Row="0"
-                         Grid.RowSpan="3"
-                         Margin="3,2,2,2"
-                         Tag="{Binding}"
-                         AcceptsReturn="True"
-                         Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-
-                <!-- day items -->
-                <ItemsControl Grid.Column="1"
-                              Grid.Row="3"
-                              Grid.RowSpan="2"
-                              Margin="3,0,2,2"
-                              ItemsSource="{Binding Items}"
-                              IsTabStop="False"
-                              Grid.IsSharedSizeScope="True">
-                  <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                      <Grid>
-                        <attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
-                          <!-- left click on item in daylist, select workitems text in textbox -->
-                          <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseLeftButtonUp"
-                                                                   Action="{Binding ElementName=mv, Path=ViewModel.SelectWorkItemTextComplete, Mode=OneWay}">
-                            <attachedCommandBehavior:BehaviorBinding.CommandParameter>
-                              <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
-                                <!-- WorkItem -->
-                                <Binding Mode="OneWay" />
-                                <!-- TextBox -->
-                                <Binding ElementName="userEntry"
-                                         Mode="OneWay" />
-                              </MultiBinding>
-                            </attachedCommandBehavior:BehaviorBinding.CommandParameter>
-                          </attachedCommandBehavior:BehaviorBinding>
-                          <!-- right click on item in daylist, select workitems text without time in textbox -->
-                          <attachedCommandBehavior:BehaviorBinding Event="PreviewMouseRightButtonUp"
-                                                                   Action="{Binding ElementName=mv, Path=ViewModel.SelectWorkItemTextWithOutTime, Mode=OneWay}">
-                            <attachedCommandBehavior:BehaviorBinding.CommandParameter>
-                              <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
-                                <!-- WorkItem -->
-                                <Binding Mode="OneWay" />
-                                <!-- TextBox -->
-                                <Binding ElementName="userEntry"
-                                         Mode="OneWay" />
-                              </MultiBinding>
-                            </attachedCommandBehavior:BehaviorBinding.CommandParameter>
-                          </attachedCommandBehavior:BehaviorBinding>
-                        </attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
-
-                        <Grid.ColumnDefinitions>
-                          <ColumnDefinition Width="Auto"
-                                            SharedSizeGroup="1" />
-                          <ColumnDefinition Width="Auto"
-                                            SharedSizeGroup="2" />
-                          <ColumnDefinition Width="Auto"
-                                            SharedSizeGroup="3" />
-                          <ColumnDefinition Width="Auto"
-                                            SharedSizeGroup="4" />
-                          <ColumnDefinition Width="Auto"
-                                            SharedSizeGroup="5" />
-                          <ColumnDefinition Width="Auto"
-                                            SharedSizeGroup="6" />
-                          <ColumnDefinition Width="Auto"
-                                            SharedSizeGroup="7" />
-                          <ColumnDefinition Width="Auto"
-                                            SharedSizeGroup="8" />
-                          <ColumnDefinition Width="Auto"
-                                            SharedSizeGroup="9" />
-                          <ColumnDefinition Width="Auto"
-                                            SharedSizeGroup="10" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"
-                                   TextAlignment="Right"
-                                   Text="{Binding Start}"
-                                   FontWeight="Bold" />
-                        <TextBlock Grid.Column="1"
-                                   Text=" => "
-                                   Foreground="{StaticResource lightText}" />
-                        <TextBlock Grid.Column="2"
-                                   TextAlignment="Right"
-                                   Text="{Binding End}"
-                                   FontWeight="Bold" />
-                        <TextBlock Grid.Column="3"
-                                   TextAlignment="Right"
-                                   Foreground="DarkSlateGray"
-                                   Text="{Binding HoursDuration, StringFormat='{} ({0:f} h)'}" />
-                        <TextBlock Grid.Column="4"
-                                   Text=" : "
-                                   Foreground="{StaticResource lightText}" />
-                        <TextBlock Grid.Column="5"
-                                   Text="{Binding Project}"
-                                   FontWeight="Bold" />
-                        <TextBlock Grid.Column="6"
-                                   Text="-"
-                                   Foreground="{StaticResource lightText}" />
-                        <TextBlock Grid.Column="7"
-                                   Text="{Binding Position}"
-                                   FontWeight="Bold" />
-                        <TextBlock Grid.Column="8"
-                                   Text="=>"
-                                   Foreground="{StaticResource lightText}" />
-                        <TextBlock Grid.Column="9"
-                                   Text="{Binding Description}"
-                                   Foreground="{StaticResource lightText}" />
-                      </Grid>
-                    </DataTemplate>
-                  </ItemsControl.ItemTemplate>
-                </ItemsControl>
-              </Grid>
-            </Border>
-            <DataTemplate.Triggers>
-              <DataTrigger Binding="{Binding FocusMe}"
-                           Value="true">
-                <Setter TargetName="userEntry"
-                        Property="FocusManager.FocusedElement"
-                        Value="{Binding ElementName=userEntry}" />
-              </DataTrigger>
-            </DataTemplate.Triggers>
-          </DataTemplate>
-        </ListBox.ItemTemplate>
-      </ListBox>
-
-      <GridSplitter Grid.Column="2"
-                    Grid.Row="0"
-                    Grid.RowSpan="2"
-                    VerticalAlignment="Stretch"
-                    HorizontalAlignment="Stretch"
-                    Width="5"
-                    Margin="0 1"
-                    Focusable="False" />
-
-      <StackPanel Orientation="Vertical"
-                  Grid.Column="3"
-                  Grid.Row="0"
-                  Grid.RowSpan="2">
-        <!-- shortcuts -->
-        <StackPanel x:Name="shortCutHeader"
-                  HorizontalAlignment="Right"
-                  Orientation="Horizontal"
-                  Margin="0 5 0 0"
-                  Visibility="Hidden">
-          <TextBlock Text="Shortcuts"
-                   FontSize="20"
-                   Foreground="#CC119EDA"
-                   FontWeight="Bold" />
-          <Button Width="16"
-                Height="20"
-                Margin="10 0 0 0"
-                Style="{StaticResource ImageButtonStyle}"
-                Content="{iconPacks:Material BookmarkPlus}"
-                Foreground="#CC119EDA"
-                Click="AddShortcut_OnClick"
-                ToolTip="Neuen Shortcut erstellen" />
-        </StackPanel>
-
-        <ListBox x:Name="shortCutList"
-               Margin="0 1 0 0"
-               Grid.IsSharedSizeScope="True"
-               ScrollViewer.VerticalScrollBarVisibility="Auto"
-               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-               HorizontalContentAlignment="Stretch"
-               Visibility="Hidden"
-               dd:DragDrop.IsDragSource="True"
-               dd:DragDrop.IsDropTarget="True"
-               dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}"
-               RenderOptions.ClearTypeHint="Enabled"
-               TextOptions.TextFormattingMode="Display"
-               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
-               ItemsSource="{Binding Source={StaticResource ShortCutCVS}}">
-
-          <ListBox.GroupStyle>
-            <GroupStyle ContainerStyle="{StaticResource ShortCutGroupGroupItemStyle}">
-              <GroupStyle.Panel>
-                <ItemsPanelTemplate>
-                  <VirtualizingStackPanel />
-                </ItemsPanelTemplate>
-              </GroupStyle.Panel>
-            </GroupStyle>
-          </ListBox.GroupStyle>
-
-          <ListBox.ItemTemplate>
-            <!-- shortcut -->
-            <DataTemplate DataType="{x:Type data:ShortCutStatistic}">
-
-              <DataTemplate.Triggers>
-                <EventTrigger RoutedEvent="Control.MouseEnter">
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.200"
-                                                     Storyboard.TargetName="actions"
-                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
-                        <EasingDoubleKeyFrame KeyTime="00:00:00.400"
-                                              Value="0"
-                                              x:Name="showFrame">
-                          <EasingDoubleKeyFrame.EasingFunction>
-                            <CubicEase EasingMode="EaseOut" />
-                          </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                      </DoubleAnimationUsingKeyFrames>
-
-                      <DoubleAnimation Duration="0:0:0.3"
-                                       BeginTime="00:00:00.400"
-                                       To="0.8"
-                                       Storyboard.TargetName="actions"
-                                       Storyboard.TargetProperty="Opacity" />
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="Control.MouseLeave">
-                  <BeginStoryboard>
-                    <Storyboard>
-                      <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
-                                                     Storyboard.TargetName="actions"
-                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
-                        <EasingDoubleKeyFrame KeyTime="00:00:00.400"
-                                              Value="200"
-                                              x:Name="hideFrame">
-                          <EasingDoubleKeyFrame.EasingFunction>
-                            <CubicEase EasingMode="EaseOut" />
-                          </EasingDoubleKeyFrame.EasingFunction>
-                        </EasingDoubleKeyFrame>
-                      </DoubleAnimationUsingKeyFrames>
-
-                      <DoubleAnimation Duration="0:0:0.3"
-                                       To="0"
-                                       Storyboard.TargetName="actions"
-                                       Storyboard.TargetProperty="Opacity" />
-                    </Storyboard>
-                  </BeginStoryboard>
-                </EventTrigger>
-              </DataTemplate.Triggers>
-
-              <!-- use transparent background for correct highlighting -->
-              <Grid Background="Transparent">
-
-                <Grid x:Name="root"
-                      Margin="1 1 1 1"
-                      Background="#FFF3EDED">
-
-                  <!-- usage history graph -->
-                  <ItemsControl Margin="-1 0 -1 -1"
-                                ItemTemplate="{StaticResource UsageHistoryDayDataTemplate}"
-                                ItemsSource="{Binding UsageHistory}">
-                    <ItemsControl.ItemsPanel>
-                      <ItemsPanelTemplate>
-                        <UniformGrid Rows="1" Columns="31" />
-                      </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                  </ItemsControl>
-
-                  <Grid Margin="4">
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="Auto" SharedSizeGroup="KeyColumn" />
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="Auto" />
-                      <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock Grid.Column="0"
-                             VerticalAlignment="Center"
-                             Text="{Binding Key}"
-                             FontWeight="Bold"
-                             FontSize="14" />
-                    <TextBlock Grid.Column="1"
-                             VerticalAlignment="Center"
-                             Text="{Binding Expansion}"
-                             Foreground="DarkSlateGray"
-                             FontSize="10"
-                             TextTrimming="CharacterEllipsis"
-                             Margin="4 0 0 0" />
-                    <TextBlock Grid.Column="2"
-                             VerticalAlignment="Center"
-                             HorizontalAlignment="Right"
-                             Text="{Binding UsedInMonth, StringFormat='{} {0:##}'}"
-                             Foreground="DimGray"
-                             FontWeight="Bold"
-                             FontSize="14"
-                             Margin="4 0 0 0" />
-
-                    <!--wholeday expansion info-->
-                    <iconPacks:PackIconModern Grid.Column="3"
-                                            Kind="Ribbon"
-                                            VerticalAlignment="Top"
-                                            HorizontalAlignment="Right"
-                                            HorizontalContentAlignment="Right"
-                                            Foreground="#B10101"
-                                            Height="15"
-                                            Width="15"
-                                            Margin="0 -4 -4 0"
-                                            Visibility="{Binding WholeDayExpansion, Converter={StaticResource false2HiddenConverter}}"
-                                            ToolTip="Ersetzt ganzen Tag" />
-                  </Grid>
-
-                  <!--actions-->
-                  <Border x:Name="actions"
-                          Background="Silver"
-                          Margin="0"
-                          HorizontalAlignment="Right"
-                          Opacity="0">
-                    <Border.RenderTransform>
-                      <TranslateTransform X="200" />
-                    </Border.RenderTransform>
-
-                    <StackPanel Orientation="Horizontal"
-                                VerticalAlignment="Center">
-
-                      <Button Content="{iconPacks:Modern Edit, Width=10, Height=10}"
-                            Tag="{Binding}"
-                            Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
-                            BorderBrush="{DynamicResource BlackBrush}"
-                            Width="21"
-                            Height="21"
-                            Margin="5 1 5 1"
-                            Click="EditShortcut_OnClick"
-                            ToolTip="Shortcut editieren" />
-                      <Button Content="{iconPacks:Modern Delete, Width=10, Height=10}"
-                            Tag="{Binding}"
-                            Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
-                            BorderBrush="{DynamicResource BlackBrush}"
-                            Width="21"
-                            Height="21"
-                            Margin="5 1 5 1"
-                            Click="RemoveShortcut_OnClick"
-                            ToolTip="Shortcut löschen" />
-
-                    </StackPanel>
-                  </Border>
-                </Grid>
-
-              </Grid>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
-      </StackPanel>
-
-      <Grid Grid.Row="0"
-            Grid.RowSpan="2"
-            Grid.Column="4">
-        <Grid.RowDefinitions>
-          <RowDefinition Height="Auto" />
-          <RowDefinition Height="{Binding ElementName=mv, Path=ViewModel.IsProjectHitListVisible, Converter={StaticResource BoolToGridLengthConverter}, Mode=OneWay}" />
-          <RowDefinition Height="Auto" />
-          <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <!-- project hitlist -->
-        <TextBlock Grid.Row="0"
-                   Text="Projekt-Hitliste"
-                   HorizontalAlignment="Right"
-                   VerticalAlignment="Bottom"
-                   FontSize="20"
-                   Foreground="#CC119EDA"
-                   FontWeight="Bold"
-                   Margin="0 5 10 0"
-                   Visibility="{Binding ElementName=mv, Path=ViewModel.IsProjectHitListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
-        <ListBox Margin="0 1 0 0"
-                 Grid.Row="1"
-                 MinWidth="250" Width="250"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 HorizontalContentAlignment="Stretch"
-                 RenderOptions.ClearTypeHint="Enabled"
-                 TextOptions.TextFormattingMode="Display"
-                 ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
-                 Visibility="{Binding ElementName=mv, Path=ViewModel.IsProjectHitListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
-                 ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist, Mode=OneWay, IsAsync=True}">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <Border BorderThickness="1"
-                      BorderBrush="#FFF3EDED"
-                      Background="#FFF3EDED"
-                      Margin="1"
-                      Padding="1"
-                      SnapsToDevicePixels="True"
-                      PreviewMouseLeftButtonUp="Project_OnPreviewMouseLeftButtonUp"
-                      Tag="{Binding}">
-                <Grid Margin="1">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <TextBlock Grid.Column="0"
-                             Text="{Binding Key}"
-                             VerticalAlignment="Center"
-                             FontWeight="Bold"
-                             FontSize="14" />
-                  <TextBlock Grid.Column="1"
-                             Text="{Binding LastUsedDescription}"
-                             VerticalAlignment="Center"
-                             TextTrimming="CharacterEllipsis"
-                             TextWrapping="NoWrap"
-                             Foreground="DarkSlateGray"
-                             FontSize="10"
-                             Margin="5 0 0 0" />
-                  <TextBlock Grid.Column="2"
-                             VerticalAlignment="Center"
+                <StackPanel Grid.Row="0"
+                            Grid.Column="2"
                             HorizontalAlignment="Right"
-                             Text="{Binding HoursUsed}"
-                             Foreground="DimGray"
-                             FontWeight="Bold"
-                             FontSize="14"
-                             Margin="5 0 0 0" />
-                </Grid>
-              </Border>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
+                            VerticalAlignment="Bottom"
+                            Orientation="Horizontal">
+                    <TextBlock Margin="2 0 5 2"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               FontWeight="Bold"
+                               Foreground="#CC7DBEDA"
+                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.HoursDuration, StringFormat='{}{0:f} h'}"
+                               ToolTip="Wochenstundenzahl" />
+                    <TextBlock HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#CC119EDA"
+                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat='{}KW: {0}'}"
+                               ToolTip="Kalenderwoche" />
+                </StackPanel>
 
-        <!-- position hitlist -->
-        <TextBlock Grid.Row="2"
-                 Text="Positions-Hitliste"
-                 HorizontalAlignment="Right"
-                 VerticalAlignment="Bottom"
-                 FontSize="20"
-                 Foreground="#CC119EDA"
-                 FontWeight="Bold"
-                 Margin="0 5 10 0"
-                 Visibility="{Binding ElementName=mv, Path=ViewModel.IsPositionHitListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
-        <ListBox Grid.Row="3"
-               Margin="0 1 0 0"
-               MinWidth="250" Width="250"
-               ScrollViewer.VerticalScrollBarVisibility="Auto"
-               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-               HorizontalContentAlignment="Stretch"
-               RenderOptions.ClearTypeHint="Enabled"
-               TextOptions.TextFormattingMode="Display"
-               ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
-               Visibility="{Binding ElementName=mv, Path=ViewModel.IsPositionHitListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}"
-               ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist, Mode=OneWay, IsAsync=True}">
-          <ListBox.ItemTemplate>
-            <DataTemplate>
-              <Border BorderThickness="1"
-                      BorderBrush="#FFF3EDED"
-                      Background="#FFF3EDED"
-                      Margin="1"
-                      Padding="1"
-                      SnapsToDevicePixels="True"
-                      PreviewMouseLeftButtonUp="Position_OnPreviewMouseLeftButtonUp"
-                      Tag="{Binding}">
-                <Grid Margin="1">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <TextBlock Grid.Column="0"
-                             Text="{Binding Key}"
-                             VerticalAlignment="Center"
-                             FontWeight="Bold"
-                             FontSize="14" />
-                  <TextBlock Grid.Column="1"
-                             Text="{Binding LastUsedDescription}"
-                             TextTrimming="CharacterEllipsis"
-                             TextWrapping="NoWrap"
-                             VerticalAlignment="Center"
-                             Foreground="DarkSlateGray"
-                             FontSize="10"
-                             Margin="5 0 0 0" />
-                  <TextBlock Grid.Column="2"
-                             VerticalAlignment="Center"
-                             HorizontalAlignment="Right"
-                             Text="{Binding HoursUsed}"
-                             Foreground="DimGray"
-                             FontWeight="Bold"
-                             FontSize="14"
-                             Margin="5 0 0 0" />
-                </Grid>
-              </Border>
-            </DataTemplate>
-          </ListBox.ItemTemplate>
-        </ListBox>
+                <StackPanel Grid.Row="1"
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Orientation="Horizontal">
+                    <TextBlock Margin="2 0 5 2"
+                               VerticalAlignment="Bottom"
+                               FontWeight="Bold"
+                               Foreground="#CC7DBEDA"
+                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.HoursDuration, StringFormat='{}{0:f} h'}"
+                               ToolTip="Ist-Stunden Monat" />
+                    <TextBlock Margin="2 0 5 2"
+                               VerticalAlignment="Bottom"
+                               FontWeight="Bold"
+                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.PreviewHours, StringFormat='{}({0:f} h'}"
+                               ToolTip="Prognose-Stunden Monat">
+                        <TextBlock.Foreground>
+                            <MultiBinding Converter="{x:Static valueConverter:LessThanColorConverter.Instance}">
+                                <MultiBinding.Bindings>
+                                    <Binding ElementName="mv"
+                                             Mode="OneWay"
+                                             Path="ViewModel.WorkWeek.Month.NecessaryHours" />
+                                    <Binding ElementName="mv"
+                                             Mode="OneWay"
+                                             Path="ViewModel.WorkWeek.Month.PreviewHours" />
+                                </MultiBinding.Bindings>
+                            </MultiBinding>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                    <TextBlock Margin="2 0 5 2"
+                               VerticalAlignment="Bottom"
+                               FontWeight="Bold"
+                               Foreground="#CC7DBEDA"
+                               Text="von" />
+                    <TextBlock Margin="2 0 5 2"
+                               VerticalAlignment="Bottom"
+                               FontWeight="Bold"
+                               Foreground="#CC7DBEDA"
+                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.NecessaryHours, StringFormat='{}{0:f} h)'}"
+                               ToolTip="Soll-Stunden Monat" />
+                    <TextBlock VerticalAlignment="Bottom"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#CC119EDA"
+                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.MonthName}" />
+                </StackPanel>
 
-      </Grid>
+                <Button x:Name="btnNext"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Grid.Column="3"
+                        Margin="1 3 2 2"
+                        Padding="0"
+                        Background="#537DBBDA"
+                        Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}"
+                        Content="{iconPacks:Material ArrowRightBold, Width=18, Height=18}"
+                        Foreground="#CC119EDA" />
+
+            </Grid>
+
+            <!--  week view  -->
+            <!--  days  -->
+            <ListBox Grid.Row="1"
+                     Grid.Column="1"
+                     HorizontalContentAlignment="Stretch"
+                     Grid.IsSharedSizeScope="True"
+                     ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+                     ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Days}"
+                     KeyboardNavigation.ControlTabNavigation="Cycle"
+                     KeyboardNavigation.DirectionalNavigation="Cycle"
+                     KeyboardNavigation.TabNavigation="Cycle"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <ListBox.ItemTemplate>
+                    <!--  this is a day  -->
+                    <DataTemplate>
+                        <Border x:Name="dayBorder"
+                                Margin="1"
+                                Padding="1"
+                                Background="{Binding DayType, Converter={x:Static valueConverter:DayTypeColorConverter.Instance}}"
+                                BorderThickness="1"
+                                SnapsToDevicePixels="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" SharedSizeGroup="Labels" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0"
+                                           Grid.Column="0"
+                                           Margin="0 4 0 0"
+                                           HorizontalAlignment="Center"
+                                           Foreground="{StaticResource lightText}"
+                                           Text="{Binding DayOfWeek, Converter={x:Static valueConverter:DayOfWeekTranslatorConverter.Instance}}" />
+                                <TextBlock Grid.Row="1"
+                                           Grid.Column="0"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="{StaticResource lightText}"
+                                           Text="{Binding SpecialDay.Name}"
+                                           Visibility="{Binding SpecialDay, Converter={StaticResource null2CollapsedConverter}}" />
+                                <TextBlock Grid.Row="2"
+                                           Grid.Column="0"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Text="{Binding Day}" />
+                                <TextBlock Grid.Row="3"
+                                           Grid.Column="0"
+                                           Padding="3 0 3 0"
+                                           HorizontalAlignment="Center"
+                                           Background="{Binding HoursDuration, Converter={x:Static valueConverter:DurationBGColorConverter.Instance}}"
+                                           FontWeight="Bold"
+                                           Foreground="{Binding HoursDuration, Converter={x:Static valueConverter:DurationFGColorConverter.Instance}}"
+                                           Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}" />
+
+                                <TextBox x:Name="userEntry"
+                                         Grid.Row="0"
+                                         Grid.RowSpan="3"
+                                         Grid.Column="1"
+                                         Margin="3 2 2 2"
+                                         AcceptsReturn="True"
+                                         GotKeyboardFocus="WorkDayTextBox_OnGotKeyboardFocus"
+                                         Loaded="TextBox_Loaded"
+                                         PreviewKeyDown="WorkDayTextBox_OnKeyDown"
+                                         Tag="{Binding}"
+                                         Text="{Binding OriginalString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                                <!--  day items  -->
+                                <ItemsControl Grid.Row="3"
+                                              Grid.RowSpan="2"
+                                              Grid.Column="1"
+                                              Margin="3 0 2 2"
+                                              Grid.IsSharedSizeScope="True"
+                                              IsTabStop="False"
+                                              ItemsSource="{Binding Items}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+                                                    <!--  left click on item in daylist, select workitems text in textbox  -->
+                                                    <attachedCommandBehavior:BehaviorBinding Action="{Binding ElementName=mv, Path=ViewModel.SelectWorkItemTextComplete, Mode=OneWay}" Event="PreviewMouseLeftButtonUp">
+                                                        <attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                                                            <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
+                                                                <!--  WorkItem  -->
+                                                                <Binding Mode="OneWay" />
+                                                                <!--  TextBox  -->
+                                                                <Binding ElementName="userEntry" Mode="OneWay" />
+                                                            </MultiBinding>
+                                                        </attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                                                    </attachedCommandBehavior:BehaviorBinding>
+                                                    <!--  right click on item in daylist, select workitems text without time in textbox  -->
+                                                    <attachedCommandBehavior:BehaviorBinding Action="{Binding ElementName=mv, Path=ViewModel.SelectWorkItemTextWithOutTime, Mode=OneWay}" Event="PreviewMouseRightButtonUp">
+                                                        <attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                                                            <MultiBinding Converter="{x:Static valueConverter:MultiBindingObjectConverter.Instance}">
+                                                                <!--  WorkItem  -->
+                                                                <Binding Mode="OneWay" />
+                                                                <!--  TextBox  -->
+                                                                <Binding ElementName="userEntry" Mode="OneWay" />
+                                                            </MultiBinding>
+                                                        </attachedCommandBehavior:BehaviorBinding.CommandParameter>
+                                                    </attachedCommandBehavior:BehaviorBinding>
+                                                </attachedCommandBehavior:CommandBehaviorCollection.Behaviors>
+
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="1" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="2" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="3" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="4" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="5" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="6" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="7" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="8" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="9" />
+                                                    <ColumnDefinition Width="Auto" SharedSizeGroup="10" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0"
+                                                           FontWeight="Bold"
+                                                           Text="{Binding Start}"
+                                                           TextAlignment="Right" />
+                                                <TextBlock Grid.Column="1"
+                                                           Foreground="{StaticResource lightText}"
+                                                           Text=" =&gt; " />
+                                                <TextBlock Grid.Column="2"
+                                                           FontWeight="Bold"
+                                                           Text="{Binding End}"
+                                                           TextAlignment="Right" />
+                                                <TextBlock Grid.Column="3"
+                                                           Foreground="DarkSlateGray"
+                                                           Text="{Binding HoursDuration, StringFormat='{} ({0:f} h)'}"
+                                                           TextAlignment="Right" />
+                                                <TextBlock Grid.Column="4"
+                                                           Foreground="{StaticResource lightText}"
+                                                           Text=" : " />
+                                                <TextBlock Grid.Column="5"
+                                                           FontWeight="Bold"
+                                                           Text="{Binding Project}" />
+                                                <TextBlock Grid.Column="6"
+                                                           Foreground="{StaticResource lightText}"
+                                                           Text="-" />
+                                                <TextBlock Grid.Column="7"
+                                                           FontWeight="Bold"
+                                                           Text="{Binding Position}" />
+                                                <TextBlock Grid.Column="8"
+                                                           Foreground="{StaticResource lightText}"
+                                                           Text="=&gt;" />
+                                                <TextBlock Grid.Column="9"
+                                                           Foreground="{StaticResource lightText}"
+                                                           Text="{Binding Description}" />
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+                        </Border>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding FocusMe}" Value="true">
+                                <Setter TargetName="userEntry" Property="FocusManager.FocusedElement" Value="{Binding ElementName=userEntry}" />
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <GridSplitter Grid.Row="0"
+                          Grid.RowSpan="2"
+                          Grid.Column="2"
+                          Width="5"
+                          Margin="0 1"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Focusable="False" />
+
+            <Grid Grid.Row="0"
+                  Grid.RowSpan="2"
+                  Grid.Column="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  shortcuts  -->
+                <StackPanel x:Name="shortCutHeader"
+                            Grid.Row="0"
+                            Margin="0 5 0 0"
+                            HorizontalAlignment="Right"
+                            Orientation="Horizontal"
+                            Visibility="Hidden">
+                    <TextBlock FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="#CC119EDA"
+                               Text="Shortcuts" />
+                    <Button Width="16"
+                            Height="20"
+                            Margin="10 0 0 0"
+                            Click="AddShortcut_OnClick"
+                            Content="{iconPacks:Material BookmarkPlus}"
+                            Foreground="#CC119EDA"
+                            Style="{StaticResource ImageButtonStyle}"
+                            ToolTip="Neuen Shortcut erstellen" />
+                </StackPanel>
+
+                <ListBox x:Name="shortCutList"
+                         Grid.Row="1"
+                         Margin="0 1 0 0"
+                         HorizontalContentAlignment="Stretch"
+                         dd:DragDrop.DropHandler="{Binding ElementName=mv, Path=ViewModel}"
+                         dd:DragDrop.IsDragSource="True"
+                         dd:DragDrop.IsDropTarget="True"
+                         Grid.IsSharedSizeScope="True"
+                         ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+                         ItemsSource="{Binding Source={StaticResource ShortCutCVS}}"
+                         RenderOptions.ClearTypeHint="Enabled"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         TextOptions.TextFormattingMode="Display"
+                         Visibility="Hidden">
+
+                    <ListBox.GroupStyle>
+                        <GroupStyle ContainerStyle="{StaticResource ShortCutGroupGroupItemStyle}">
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                        </GroupStyle>
+                    </ListBox.GroupStyle>
+
+                    <ListBox.ItemTemplate>
+                        <!--  shortcut  -->
+                        <DataTemplate DataType="{x:Type data:ShortCutStatistic}">
+
+                            <DataTemplate.Triggers>
+                                <EventTrigger RoutedEvent="Control.MouseEnter">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00.200"
+                                                                           Storyboard.TargetName="actions"
+                                                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                                <EasingDoubleKeyFrame x:Name="showFrame"
+                                                                      KeyTime="00:00:00.400"
+                                                                      Value="0">
+                                                    <EasingDoubleKeyFrame.EasingFunction>
+                                                        <CubicEase EasingMode="EaseOut" />
+                                                    </EasingDoubleKeyFrame.EasingFunction>
+                                                </EasingDoubleKeyFrame>
+                                            </DoubleAnimationUsingKeyFrames>
+
+                                            <DoubleAnimation BeginTime="00:00:00.400"
+                                                             Storyboard.TargetName="actions"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0.8"
+                                                             Duration="0:0:0.3" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="Control.MouseLeave">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00"
+                                                                           Storyboard.TargetName="actions"
+                                                                           Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.X)">
+                                                <EasingDoubleKeyFrame x:Name="hideFrame"
+                                                                      KeyTime="00:00:00.400"
+                                                                      Value="200">
+                                                    <EasingDoubleKeyFrame.EasingFunction>
+                                                        <CubicEase EasingMode="EaseOut" />
+                                                    </EasingDoubleKeyFrame.EasingFunction>
+                                                </EasingDoubleKeyFrame>
+                                            </DoubleAnimationUsingKeyFrames>
+
+                                            <DoubleAnimation Storyboard.TargetName="actions"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             To="0"
+                                                             Duration="0:0:0.3" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </DataTemplate.Triggers>
+
+                            <!--  use transparent background for correct highlighting  -->
+                            <Grid Background="Transparent">
+
+                                <Grid x:Name="root"
+                                      Margin="1 1 1 1"
+                                      Background="#FFF3EDED">
+
+                                    <!--  usage history graph  -->
+                                    <ItemsControl Margin="-1 0 -1 -1"
+                                                  ItemTemplate="{StaticResource UsageHistoryDayDataTemplate}"
+                                                  ItemsSource="{Binding UsageHistory}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Columns="31" Rows="1" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+
+                                    <Grid Margin="4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" SharedSizeGroup="KeyColumn" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Column="0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="14"
+                                                   FontWeight="Bold"
+                                                   Text="{Binding Key}" />
+                                        <TextBlock Grid.Column="1"
+                                                   Margin="4 0 0 0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="10"
+                                                   Foreground="DarkSlateGray"
+                                                   Text="{Binding Expansion}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Grid.Column="2"
+                                                   Margin="4 0 0 0"
+                                                   HorizontalAlignment="Right"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="14"
+                                                   FontWeight="Bold"
+                                                   Foreground="DimGray"
+                                                   Text="{Binding UsedInMonth, StringFormat='{} {0:##}'}" />
+
+                                        <!--  wholeday expansion info  -->
+                                        <iconPacks:PackIconModern Grid.Column="3"
+                                                                  Width="15"
+                                                                  Height="15"
+                                                                  Margin="0 -4 -4 0"
+                                                                  HorizontalAlignment="Right"
+                                                                  VerticalAlignment="Top"
+                                                                  HorizontalContentAlignment="Right"
+                                                                  Foreground="#B10101"
+                                                                  Kind="Ribbon"
+                                                                  ToolTip="Ersetzt ganzen Tag"
+                                                                  Visibility="{Binding WholeDayExpansion, Converter={StaticResource false2HiddenConverter}}" />
+                                    </Grid>
+
+                                    <!--  actions  -->
+                                    <Border x:Name="actions"
+                                            Margin="0"
+                                            HorizontalAlignment="Right"
+                                            Background="Silver"
+                                            Opacity="0">
+                                        <Border.RenderTransform>
+                                            <TranslateTransform X="200" />
+                                        </Border.RenderTransform>
+
+                                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+
+                                            <Button Width="21"
+                                                    Height="21"
+                                                    Margin="5 1 5 1"
+                                                    BorderBrush="{DynamicResource BlackBrush}"
+                                                    Click="EditShortcut_OnClick"
+                                                    Content="{iconPacks:Modern Edit, Width=10, Height=10}"
+                                                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                                                    Tag="{Binding}"
+                                                    ToolTip="Shortcut editieren" />
+                                            <Button Width="21"
+                                                    Height="21"
+                                                    Margin="5 1 5 1"
+                                                    BorderBrush="{DynamicResource BlackBrush}"
+                                                    Click="RemoveShortcut_OnClick"
+                                                    Content="{iconPacks:Modern Delete, Width=10, Height=10}"
+                                                    Style="{DynamicResource MahApps.Metro.Styles.MetroCircleButtonStyle}"
+                                                    Tag="{Binding}"
+                                                    ToolTip="Shortcut löschen" />
+
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+
+            <Grid Grid.Row="0"
+                  Grid.RowSpan="2"
+                  Grid.Column="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="{Binding ElementName=mv, Path=ViewModel.IsProjectHitListVisible, Converter={StaticResource BoolToGridLengthConverter}, Mode=OneWay}" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  project hitlist  -->
+                <TextBlock Grid.Row="0"
+                           Margin="0 5 10 0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#CC119EDA"
+                           Text="Projekt-Hitliste"
+                           Visibility="{Binding ElementName=mv, Path=ViewModel.IsProjectHitListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+                <ListBox Grid.Row="1"
+                         Width="250"
+                         MinWidth="250"
+                         Margin="0 1 0 0"
+                         HorizontalContentAlignment="Stretch"
+                         ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+                         ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.ProjectHitlist, Mode=OneWay, IsAsync=True}"
+                         RenderOptions.ClearTypeHint="Enabled"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         TextOptions.TextFormattingMode="Display"
+                         Visibility="{Binding ElementName=mv, Path=ViewModel.IsProjectHitListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="1"
+                                    Padding="1"
+                                    Background="#FFF3EDED"
+                                    BorderBrush="#FFF3EDED"
+                                    BorderThickness="1"
+                                    PreviewMouseLeftButtonUp="Project_OnPreviewMouseLeftButtonUp"
+                                    SnapsToDevicePixels="True"
+                                    Tag="{Binding}">
+                                <Grid Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Text="{Binding Key}" />
+                                    <TextBlock Grid.Column="1"
+                                               Margin="5 0 0 0"
+                                               VerticalAlignment="Center"
+                                               FontSize="10"
+                                               Foreground="DarkSlateGray"
+                                               Text="{Binding LastUsedDescription}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap" />
+                                    <TextBlock Grid.Column="2"
+                                               Margin="5 0 0 0"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Foreground="DimGray"
+                                               Text="{Binding HoursUsed}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <!--  position hitlist  -->
+                <TextBlock Grid.Row="2"
+                           Margin="0 5 10 0"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Foreground="#CC119EDA"
+                           Text="Positions-Hitliste"
+                           Visibility="{Binding ElementName=mv, Path=ViewModel.IsPositionHitListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
+                <ListBox Grid.Row="3"
+                         Width="250"
+                         MinWidth="250"
+                         Margin="0 1 0 0"
+                         HorizontalContentAlignment="Stretch"
+                         ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
+                         ItemsSource="{Binding ElementName=mv, Path=ViewModel.WorkYear.PositionHitlist, Mode=OneWay, IsAsync=True}"
+                         RenderOptions.ClearTypeHint="Enabled"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         TextOptions.TextFormattingMode="Display"
+                         Visibility="{Binding ElementName=mv, Path=ViewModel.IsPositionHitListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="1"
+                                    Padding="1"
+                                    Background="#FFF3EDED"
+                                    BorderBrush="#FFF3EDED"
+                                    BorderThickness="1"
+                                    PreviewMouseLeftButtonUp="Position_OnPreviewMouseLeftButtonUp"
+                                    SnapsToDevicePixels="True"
+                                    Tag="{Binding}">
+                                <Grid Margin="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Text="{Binding Key}" />
+                                    <TextBlock Grid.Column="1"
+                                               Margin="5 0 0 0"
+                                               VerticalAlignment="Center"
+                                               FontSize="10"
+                                               Foreground="DarkSlateGray"
+                                               Text="{Binding LastUsedDescription}"
+                                               TextTrimming="CharacterEllipsis"
+                                               TextWrapping="NoWrap" />
+                                    <TextBlock Grid.Column="2"
+                                               Margin="5 0 0 0"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               FontWeight="Bold"
+                                               Foreground="DimGray"
+                                               Text="{Binding HoursUsed}" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </Grid>
+
+        </Grid>
 
     </Grid>
-
-  </Grid>
 </controls:MetroWindow>

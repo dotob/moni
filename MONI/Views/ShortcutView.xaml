@@ -1,88 +1,83 @@
 ﻿<UserControl x:Class="MONI.Views.ShortcutView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ViewModels="clr-namespace:MONI.ViewModels"
              xmlns:componentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-             mc:Ignorable="d"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DataContext="{d:DesignInstance ViewModels:ShortcutViewModel}"
              d:DesignHeight="300"
              d:DesignWidth="300"
-             d:DataContext="{d:DesignInstance ViewModels:ShortcutViewModel}">
+             mc:Ignorable="d">
 
-  <Grid Margin="10" x:Name="layoutRoot">
-    
-    <Grid.Resources>
-      <CollectionViewSource x:Key="ShortCutGroupCVS"
-                            Source="{Binding MoniSettings.ParserSettings.ShortCutGroups}">
-        <CollectionViewSource.SortDescriptions>
-          <componentModel:SortDescription PropertyName="Key" />
-        </CollectionViewSource.SortDescriptions>
-      </CollectionViewSource>
-    </Grid.Resources>
+    <Grid x:Name="layoutRoot" Margin="10">
 
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
-        <ColumnDefinition />
-    </Grid.ColumnDefinitions>
+        <Grid.Resources>
+            <CollectionViewSource x:Key="ShortCutGroupCVS" Source="{Binding MoniSettings.ParserSettings.ShortCutGroups}">
+                <CollectionViewSource.SortDescriptions>
+                    <componentModel:SortDescription PropertyName="Key" />
+                </CollectionViewSource.SortDescriptions>
+            </CollectionViewSource>
+        </Grid.Resources>
 
-    <Label Grid.Column="0"
-           Grid.Row="0">Shortcut</Label>
-    <TextBox Grid.Column="1"
-             Grid.Row="0"
-             Margin="2"
-             Focusable="True"
-             x:Name="shortcutTextBox"
-             IsEnabled="{Binding IsNew, Mode=OneWay}"
-             Text="{Binding ShortCutKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-      <Label Grid.Column="0"
-           Grid.Row="1">Shortcut Gruppe</Label>
-    <ComboBox Grid.Column="1"
-              Grid.Row="1"
-              Margin="2"
-              Focusable="True"
-              IsEditable="True"
-              x:Name="shortcutGroupComboBox"
-              ItemsSource="{Binding Source={StaticResource ShortCutGroupCVS}}"
-              SelectedItem="{Binding ShortCutGroup, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-              DisplayMemberPath="Key"
-              SelectedValuePath="Key"
-              Text="{Binding ShortCutGroupKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+        <Label Grid.Row="0" Grid.Column="0">Shortcut</Label>
+        <TextBox x:Name="shortcutTextBox"
+                 Grid.Row="0"
+                 Grid.Column="1"
+                 Margin="2"
+                 Focusable="True"
+                 IsEnabled="{Binding IsNew, Mode=OneWay}"
+                 Text="{Binding ShortCutKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-      <Label Grid.Column="0"
-           Grid.Row="2">Ersetzung</Label>
-    <TextBox Grid.Column="1"
-             Grid.Row="2"
-             Margin="2"
-             Focusable="True"
-             x:Name="expansionTextBox"
-             Text="{Binding Model.Expansion, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="1" Grid.Column="0">Shortcut Gruppe</Label>
+        <ComboBox x:Name="shortcutGroupComboBox"
+                  Grid.Row="1"
+                  Grid.Column="1"
+                  Margin="2"
+                  DisplayMemberPath="Key"
+                  Focusable="True"
+                  IsEditable="True"
+                  ItemsSource="{Binding Source={StaticResource ShortCutGroupCVS}}"
+                  SelectedItem="{Binding ShortCutGroup, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                  SelectedValuePath="Key"
+                  Text="{Binding ShortCutGroupKey, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
 
-      <Label Grid.Column="0"
-           Grid.Row="3">Ganzen Tag ersetzen</Label>
-    <CheckBox Grid.Column="1"
-              Grid.Row="3"
-              Margin="2"
-              VerticalAlignment="Center"
-              IsChecked="{Binding Model.WholeDayExpansion, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="2" Grid.Column="0">Ersetzung</Label>
+        <TextBox x:Name="expansionTextBox"
+                 Grid.Row="2"
+                 Grid.Column="1"
+                 Margin="2"
+                 Focusable="True"
+                 Text="{Binding Model.Expansion, UpdateSourceTrigger=PropertyChanged}" />
 
-      <UniformGrid Grid.Column="0"
-                 Grid.Row="4"
-                 Grid.ColumnSpan="2"
-                 VerticalAlignment="Bottom"
-                 Columns="2">
-      <Button Command="{Binding CancelCommand, Mode=OneWay}">Abbrechen</Button>
-      <Button Command="{Binding SaveCommand, Mode=OneWay}">Speichern</Button>
-    </UniformGrid>
+        <Label Grid.Row="3" Grid.Column="0">Ganzen Tag ersetzen</Label>
+        <CheckBox Grid.Row="3"
+                  Grid.Column="1"
+                  Margin="2"
+                  VerticalAlignment="Center"
+                  IsChecked="{Binding Model.WholeDayExpansion, UpdateSourceTrigger=PropertyChanged}" />
 
-  </Grid>
+        <UniformGrid Grid.Row="4"
+                     Grid.Column="0"
+                     Grid.ColumnSpan="2"
+                     VerticalAlignment="Bottom"
+                     Columns="2">
+            <Button Command="{Binding CancelCommand, Mode=OneWay}">Abbrechen</Button>
+            <Button Command="{Binding SaveCommand, Mode=OneWay}">Speichern</Button>
+        </UniformGrid>
+
+    </Grid>
 
 </UserControl>

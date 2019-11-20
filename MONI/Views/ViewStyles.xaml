@@ -2,164 +2,140 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls">
 
-  <!-- expander style for shortcuts ListView GroupStyle -->
+    <!--  expander style for shortcuts ListView GroupStyle  -->
 
-  <Style x:Key="ShortCutMetroExpander"
-         TargetType="{x:Type Expander}"
-         BasedOn="{StaticResource MetroExpander}">
-    <Setter Property="Margin"
-            Value="0 1 0 1" />
-    <Setter Property="Padding"
-            Value="0" />
-    <Setter Property="BorderThickness"
-            Value="0" />
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type Expander}">
-          <Grid>
-            <VisualStateManager.VisualStateGroups>
-              <VisualStateGroup x:Name="CommonStates">
-                <VisualState x:Name="Normal" />
-                <VisualState x:Name="MouseOver" />
-                <VisualState x:Name="Disabled">
-                  <Storyboard>
-                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity"
-                                                   Storyboard.TargetName="DisabledVisualElement">
-                      <SplineDoubleKeyFrame KeyTime="0"
-                                            Value="0.7" />
-                    </DoubleAnimationUsingKeyFrames>
-                    <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
-                                                   Storyboard.TargetName="ExpanderRoot">
-                      <EasingDoubleKeyFrame KeyTime="0"
-                                            Value="0.3" />
-                    </DoubleAnimationUsingKeyFrames>
-                  </Storyboard>
-                </VisualState>
-              </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-            <Rectangle x:Name="DisabledVisualElement"
-                       Fill="{DynamicResource ControlsDisabledBrush}"
-                       IsHitTestVisible="false"
-                       Opacity="0" />
-            <DockPanel x:Name="ExpanderRoot">
-              <Border x:Name="HeaderSite"
-                      Background="{TemplateBinding Background}"
-                      BorderBrush="{TemplateBinding BorderBrush}"
-                      BorderThickness="0"
-                      Margin="1 0 1 0"
-                      DockPanel.Dock="Top">
-                <ToggleButton x:Name="ToggleSite"
-                              Margin="2"
-                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                              Background="Transparent"
-                              BorderBrush="Transparent"
-                              FocusVisualStyle="{x:Null}"
-                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                              Style="{DynamicResource ExpanderDownHeaderStyle}">
-                  <ContentPresenter Margin="{TemplateBinding Padding}"
-                                    Content="{TemplateBinding Header}"
-                                    ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                    ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
-                                    RecognizesAccessKey="True"
-                                    TextElement.FontSize="{TemplateBinding controls:ControlsHelper.HeaderFontSize}"
-                                    TextElement.FontStretch="{TemplateBinding controls:ControlsHelper.HeaderFontStretch}"
-                                    TextElement.FontWeight="{TemplateBinding controls:ControlsHelper.HeaderFontWeight}" />
-                </ToggleButton>
-              </Border>
-              <Border x:Name="ExpandSite"
-                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                      Background="Transparent"
-                      BorderBrush="{TemplateBinding BorderBrush}"
-                      BorderThickness="0"
-                      DockPanel.Dock="Bottom"
-                      Focusable="false"
-                      Opacity="0"
-                      Visibility="Collapsed">
-                <ContentPresenter Margin="{TemplateBinding Padding}"
-                                  Content="{TemplateBinding Content}"
-                                  ContentTemplate="{TemplateBinding ContentTemplate}"
-                                  Cursor="{TemplateBinding Cursor}" />
-              </Border>
-            </DockPanel>
-          </Grid>
-          <ControlTemplate.Triggers>
-            <Trigger Property="IsExpanded"
-                     Value="true">
-              <Setter TargetName="ExpandSite"
-                      Property="Visibility"
-                      Value="Visible" />
-              <Trigger.EnterActions>
-                <BeginStoryboard>
-                  <Storyboard>
-                    <DoubleAnimation Duration="0:0:0.25"
-                                     Storyboard.TargetName="ExpandSite"
-                                     Storyboard.TargetProperty="(UIElement.Opacity)"
-                                     To="1" />
-                  </Storyboard>
-                </BeginStoryboard>
-              </Trigger.EnterActions>
-              <Trigger.ExitActions>
-                <BeginStoryboard>
-                  <Storyboard>
-                    <DoubleAnimation Duration="0:0:0.25"
-                                     Storyboard.TargetName="ExpandSite"
-                                     Storyboard.TargetProperty="(UIElement.Opacity)"
-                                     To="0" />
-                  </Storyboard>
-                </BeginStoryboard>
-              </Trigger.ExitActions>
-            </Trigger>
-            <Trigger Property="ExpandDirection"
-                     Value="Up">
-              <Setter TargetName="ExpandSite"
-                      Property="DockPanel.Dock"
-                      Value="Top" />
-              <Setter TargetName="ExpandSite"
-                      Property="BorderThickness"
-                      Value="1,1,1,0" />
-              <Setter TargetName="HeaderSite"
-                      Property="DockPanel.Dock"
-                      Value="Bottom" />
-              <Setter TargetName="ToggleSite"
-                      Property="Style"
-                      Value="{DynamicResource ExpanderUpHeaderStyle}" />
-            </Trigger>
-            <Trigger Property="IsEnabled"
-                     Value="false">
-              <Setter Property="Foreground"
-                      Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-            </Trigger>
-          </ControlTemplate.Triggers>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+    <Style x:Key="ShortCutMetroExpander"
+           BasedOn="{StaticResource MetroExpander}"
+           TargetType="{x:Type Expander}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Margin" Value="0 1 0 1" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Expander}">
+                    <Grid>
+                        <Rectangle x:Name="DisabledVisualElement"
+                                   Fill="{DynamicResource ControlsDisabledBrush}"
+                                   IsHitTestVisible="false"
+                                   Opacity="0" />
+                        <DockPanel x:Name="ExpanderRoot">
+                            <Border x:Name="HeaderSite"
+                                    Margin="1 0 1 0"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0"
+                                    DockPanel.Dock="Top">
+                                <ToggleButton x:Name="ToggleSite"
+                                              Margin="2"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Background="Transparent"
+                                              BorderBrush="Transparent"
+                                              FocusVisualStyle="{x:Null}"
+                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{DynamicResource ExpanderDownHeaderStyle}">
+                                    <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                      Content="{TemplateBinding Header}"
+                                                      ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                                      ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                                      RecognizesAccessKey="True"
+                                                      TextElement.FontSize="{TemplateBinding controls:ControlsHelper.HeaderFontSize}"
+                                                      TextElement.FontStretch="{TemplateBinding controls:ControlsHelper.HeaderFontStretch}"
+                                                      TextElement.FontWeight="{TemplateBinding controls:ControlsHelper.HeaderFontWeight}" />
+                                </ToggleButton>
+                            </Border>
+                            <Border x:Name="ExpandSite"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Background="Transparent"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="0"
+                                    DockPanel.Dock="Bottom"
+                                    Focusable="false"
+                                    Opacity="0"
+                                    Visibility="Collapsed">
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  Cursor="{TemplateBinding Cursor}" />
+                            </Border>
+                        </DockPanel>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver" />
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="Opacity">
+                                            <SplineDoubleKeyFrame KeyTime="0" Value="0.7" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ExpanderRoot" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.3" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="true">
+                            <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible" />
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ExpandSite"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         To="1"
+                                                         Duration="0:0:0.25" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="ExpandSite"
+                                                         Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                         To="0"
+                                                         Duration="0:0:0.25" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <Trigger Property="ExpandDirection" Value="Up">
+                            <Setter TargetName="ExpandSite" Property="BorderThickness" Value="1 1 1 0" />
+                            <Setter TargetName="ExpandSite" Property="DockPanel.Dock" Value="Top" />
+                            <Setter TargetName="HeaderSite" Property="DockPanel.Dock" Value="Bottom" />
+                            <Setter TargetName="ToggleSite" Property="Style" Value="{DynamicResource ExpanderUpHeaderStyle}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-  <!-- shortcut GroupItem style  -->
+    <!--  shortcut GroupItem style  -->
 
-  <Style x:Key="ShortCutGroupGroupItemStyle"
-         TargetType="{x:Type GroupItem}">
-    <Setter Property="Margin"
-            Value="0" />
-    <Setter Property="Template">
-      <Setter.Value>
-        <ControlTemplate TargetType="{x:Type GroupItem}">
-          <Expander Style="{StaticResource ShortCutMetroExpander}"
-                    IsExpanded="True">
-            <Expander.Header>
-              <TextBlock Text="{Binding Name}"
-                         VerticalAlignment="Center"
-                         Foreground="{DynamicResource WhiteBrush}" />
-            </Expander.Header>
-            <Expander.Content>
-              <ItemsPresenter />
-            </Expander.Content>
-          </Expander>
-        </ControlTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
+    <Style x:Key="ShortCutGroupGroupItemStyle" TargetType="{x:Type GroupItem}">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupItem}">
+                    <Expander IsExpanded="True" Style="{StaticResource ShortCutMetroExpander}">
+                        <Expander.Header>
+                            <TextBlock VerticalAlignment="Center"
+                                       Foreground="{DynamicResource WhiteBrush}"
+                                       Text="{Binding Name}" />
+                        </Expander.Header>
+                        <Expander.Content>
+                            <ItemsPresenter />
+                        </Expander.Content>
+                    </Expander>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

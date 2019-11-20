@@ -1,84 +1,83 @@
 ﻿<controls:Flyout x:Class="MONI.Views.UpdateInfoFlyout"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:ViewModels="clr-namespace:MONI.ViewModels"
                  xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
-                 mc:Ignorable="d"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 d:DataContext="{d:DesignInstance ViewModels:UpdateInfoViewModel}"
                  d:DesignHeight="300"
                  d:DesignWidth="300"
-                 d:DataContext="{d:DesignInstance ViewModels:UpdateInfoViewModel}">
+                 mc:Ignorable="d">
 
-  <controls:Flyout.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Button.xaml" />
-      </ResourceDictionary.MergedDictionaries>
-      <Style TargetType="{x:Type TextBox}"
-             BasedOn="{StaticResource MONIMetroFlyoutTextBox}" />
-    </ResourceDictionary>
-  </controls:Flyout.Resources>
+    <controls:Flyout.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style BasedOn="{StaticResource MONIMetroFlyoutTextBox}" TargetType="{x:Type TextBox}" />
+        </ResourceDictionary>
+    </controls:Flyout.Resources>
 
-  <Grid Margin="10">
+    <Grid Margin="10">
 
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto" />
-      <ColumnDefinition />
-    </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
-    <Label Grid.Column="0"
-           Grid.Row="0"
-           Content="Es steht eine neue Version zur Verfügung:" />
-    <TextBlock Grid.Column="1"
-               Grid.Row="0"
-               Margin="2"
-               Focusable="True"
-               FontWeight="Bold"
-               Text="{Binding UpdateInfo.Version, UpdateSourceTrigger=PropertyChanged}" />
+        <Label Grid.Row="0"
+               Grid.Column="0"
+               Content="Es steht eine neue Version zur Verfügung:" />
+        <TextBlock Grid.Row="0"
+                   Grid.Column="1"
+                   Margin="2"
+                   Focusable="True"
+                   FontWeight="Bold"
+                   Text="{Binding UpdateInfo.Version, UpdateSourceTrigger=PropertyChanged}" />
 
-    <Label Grid.Column="0"
-           Grid.Row="1"
-           Content="Hier herunterladen:" />
-    <Button Grid.Column="1"
-            Grid.Row="1"
-            Content="Download"
-            Click="ButtonBase_OnClick" />
+        <Label Grid.Row="1"
+               Grid.Column="0"
+               Content="Hier herunterladen:" />
+        <Button Grid.Row="1"
+                Grid.Column="1"
+                Click="ButtonBase_OnClick"
+                Content="Download" />
 
-    <Label Grid.Column="0"
-           Grid.Row="2"
-           Content="Änderungen:" />
-    <ItemsControl Grid.Column="0"
-                  Grid.ColumnSpan="2"
-                  Grid.Row="3"
-                  ItemsSource="{Binding UpdateInfo.Changes}">
-      <ItemsControl.ItemTemplate>
-        <DataTemplate>
-          <Border Background="DimGray"
-                  CornerRadius="2"
-                  Margin="20 0 0 2"
-                  Padding="8">
-            <TextBlock Text="{Binding}"
-                       TextWrapping="Wrap"
-                       Foreground="Gainsboro" />
-          </Border>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-    </ItemsControl>
+        <Label Grid.Row="2"
+               Grid.Column="0"
+               Content="Änderungen:" />
+        <ItemsControl Grid.Row="3"
+                      Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      ItemsSource="{Binding UpdateInfo.Changes}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="20 0 0 2"
+                            Padding="8"
+                            Background="DimGray"
+                            CornerRadius="2">
+                        <TextBlock Foreground="Gainsboro"
+                                   Text="{Binding}"
+                                   TextWrapping="Wrap" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
-    <Button Grid.Column="0"
-            Grid.Row="4"
-            Grid.ColumnSpan="2"
-            Content="Schließen"
-            Command="{Binding CancelCommand, Mode=OneWay}" />
+        <Button Grid.Row="4"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Command="{Binding CancelCommand, Mode=OneWay}"
+                Content="Schließen" />
 
-  </Grid>
+    </Grid>
 
 </controls:Flyout>
