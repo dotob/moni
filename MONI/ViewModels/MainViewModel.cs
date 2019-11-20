@@ -38,10 +38,10 @@ namespace MONI.ViewModels
         private MoniSettings monlistSettings;
         private ICommand nextMonthCommand;
         private ICommand nextWeekCommand;
-        private Visibility positionHitListVisibility;
+        private bool isPositionHitListVisible;
         private ICommand previousMonthCommand;
         private ICommand previousWeekCommand;
-        private Visibility projectHitListVisibility;
+        private bool isProjectHitListVisible;
         private WorkMonth workMonth;
         private WorkWeek workWeek;
         private WorkYear workYear;
@@ -120,7 +120,7 @@ namespace MONI.ViewModels
         }
 
         private bool showHelp;
-        private Visibility monthListVisibility;
+        private bool isMonthListVisible;
         private JSONExporter jsonExporter;
 
         public bool ShowHelp
@@ -226,24 +226,23 @@ namespace MONI.ViewModels
             set { this.Set(ref this.editPreferences, value); }
         }
 
-        public Visibility ProjectHitListVisibility
+        public bool IsProjectHitListVisible
         {
-            get { return this.projectHitListVisibility; }
-            private set { this.Set(ref this.projectHitListVisibility, value); }
+            get { return this.isProjectHitListVisible; }
+            private set { this.Set(ref this.isProjectHitListVisible, value); }
         }
 
-        public Visibility PositionHitListVisibility
+        public bool IsPositionHitListVisible
         {
-            get { return this.positionHitListVisibility; }
-            set { this.Set(ref this.positionHitListVisibility, value); }
+            get { return this.isPositionHitListVisible; }
+            set { this.Set(ref this.isPositionHitListVisible, value); }
         }
 
-        public Visibility MonthListVisibility
+        public bool IsMonthListVisible
         {
-            get { return this.monthListVisibility; }
-            set { this.Set(ref this.monthListVisibility, value); }
+            get { return this.isMonthListVisible; }
+            set { this.Set(ref this.isMonthListVisible, value); }
         }
-
 
         private MoniSettings MonlistSettings
         {
@@ -611,9 +610,9 @@ namespace MONI.ViewModels
 
         private void UpdateVisibility()
         {
-            this.ProjectHitListVisibility = this.MonlistSettings.MainSettings.ShowProjectHitList ? Visibility.Visible : Visibility.Collapsed;
-            this.PositionHitListVisibility = this.MonlistSettings.MainSettings.ShowPositionHitList ? Visibility.Visible : Visibility.Collapsed;
-            this.MonthListVisibility = this.MonlistSettings.MainSettings.ShowMonthList ? Visibility.Visible : Visibility.Collapsed;
+            this.IsProjectHitListVisible = this.MonlistSettings.MainSettings.ShowProjectHitList;
+            this.IsPositionHitListVisible = this.MonlistSettings.MainSettings.ShowPositionHitList;
+            this.IsMonthListVisible = this.MonlistSettings.MainSettings.ShowMonthList;
         }
 
         public void CancelEditingPreferences()
