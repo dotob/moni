@@ -1,0 +1,1 @@
+xstyler.exe -r -d ..\MONI\ -c .\Options\MONI.XAMLStyler.json
