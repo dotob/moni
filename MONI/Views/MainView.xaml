@@ -412,7 +412,7 @@
                         Background="#537DBBDA"
                         Command="{Binding ElementName=mv, Path=ViewModel.PreviousMonthCommand}"
                         Content="{iconPacks:Material Rewind, Width=14, Height=14}"
-                        Foreground="#CC119EDA" />
+                        Foreground="{DynamicResource AccentBaseColorBrush}" />
 
                 <Button x:Name="btnNextMonth"
                         Grid.Row="1"
@@ -422,13 +422,13 @@
                         Background="#537DBBDA"
                         Command="{Binding ElementName=mv, Path=ViewModel.NextMonthCommand}"
                         Content="{iconPacks:Material FastForward, Width=14, Height=14}"
-                        Foreground="#CC119EDA" />
+                        Foreground="{DynamicResource AccentBaseColorBrush}" />
             </Grid>
 
             <!--  days of month  -->
             <ListBox Grid.Row="1"
                      Grid.Column="0"
-                     MinWidth="40"
+                     MinWidth="50"
                      HorizontalContentAlignment="Stretch"
                      ItemContainerStyle="{StaticResource NonVisibleSelectedListBoxItem}"
                      ItemTemplate="{StaticResource DayOfMonthDataTemplate}"
@@ -462,16 +462,27 @@
                         Background="#537DBBDA"
                         Command="{Binding ElementName=mv, Path=ViewModel.PreviousWeekCommand}"
                         Content="{iconPacks:Material ArrowLeftBold, Width=18, Height=18}"
-                        Foreground="#CC119EDA" />
+                        Foreground="{DynamicResource AccentBaseColorBrush}" />
 
                 <TextBlock Grid.Row="0"
                            Grid.Column="1"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Bottom"
-                           FontSize="20"
+                           Margin="5 0 0 0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           FontSize="18"
                            FontWeight="Bold"
-                           Foreground="#CC119EDA"
-                           Text="{Binding ElementName=mv, Path=ViewModel.WorkYear.Year}" />
+                           Foreground="{DynamicResource AccentColorBrush}">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} {1}">
+                            <Binding ElementName="mv"
+                                     Mode="OneWay"
+                                     Path="ViewModel.WorkYear.Year" />
+                            <Binding ElementName="mv"
+                                     Mode="OneWay"
+                                     Path="ViewModel.WorkWeek.Month.MonthName" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
 
                 <StackPanel Grid.Row="0"
                             Grid.Column="2"
@@ -482,15 +493,16 @@
                                HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"
                                FontWeight="Bold"
-                               Foreground="#CC7DBEDA"
+                               Foreground="{DynamicResource AccentColorBrush2}"
                                Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.HoursDuration, StringFormat='{}{0:f} h'}"
                                ToolTip="Wochenstundenzahl" />
-                    <TextBlock HorizontalAlignment="Center"
+                    <TextBlock Margin="0 0 5 0"
+                               HorizontalAlignment="Center"
                                VerticalAlignment="Bottom"
-                               FontSize="20"
+                               FontSize="18"
                                FontWeight="Bold"
-                               Foreground="#CC119EDA"
-                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat='{}KW: {0}'}"
+                               Foreground="{DynamicResource AccentColorBrush}"
+                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.WeekOfYear, StringFormat='{}KW {0}'}"
                                ToolTip="Kalenderwoche" />
                 </StackPanel>
 
@@ -502,7 +514,7 @@
                     <TextBlock Margin="2 0 5 2"
                                VerticalAlignment="Bottom"
                                FontWeight="Bold"
-                               Foreground="#CC7DBEDA"
+                               Foreground="{DynamicResource AccentColorBrush2}"
                                Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.HoursDuration, StringFormat='{}{0:f} h'}"
                                ToolTip="Ist-Stunden Monat" />
                     <TextBlock Margin="2 0 5 2"
@@ -526,19 +538,14 @@
                     <TextBlock Margin="2 0 5 2"
                                VerticalAlignment="Bottom"
                                FontWeight="Bold"
-                               Foreground="#CC7DBEDA"
+                               Foreground="{DynamicResource AccentColorBrush2}"
                                Text="von" />
                     <TextBlock Margin="2 0 5 2"
                                VerticalAlignment="Bottom"
                                FontWeight="Bold"
-                               Foreground="#CC7DBEDA"
+                               Foreground="{DynamicResource AccentColorBrush2}"
                                Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.NecessaryHours, StringFormat='{}{0:f} h)'}"
                                ToolTip="Soll-Stunden Monat" />
-                    <TextBlock VerticalAlignment="Bottom"
-                               FontSize="20"
-                               FontWeight="Bold"
-                               Foreground="#CC119EDA"
-                               Text="{Binding ElementName=mv, Path=ViewModel.WorkWeek.Month.MonthName}" />
                 </StackPanel>
 
                 <Button x:Name="btnNext"
@@ -550,7 +557,7 @@
                         Background="#537DBBDA"
                         Command="{Binding ElementName=mv, Path=ViewModel.NextWeekCommand}"
                         Content="{iconPacks:Material ArrowRightBold, Width=18, Height=18}"
-                        Foreground="#CC119EDA" />
+                        Foreground="{DynamicResource AccentBaseColorBrush}" />
 
             </Grid>
 
@@ -750,14 +757,14 @@
                             Visibility="Hidden">
                     <TextBlock FontSize="20"
                                FontWeight="Bold"
-                               Foreground="#CC119EDA"
+                               Foreground="{DynamicResource AccentColorBrush}"
                                Text="Shortcuts" />
                     <Button Width="16"
                             Height="20"
                             Margin="10 0 0 0"
                             Click="AddShortcut_OnClick"
                             Content="{iconPacks:Material BookmarkPlus}"
-                            Foreground="#CC119EDA"
+                            Foreground="{DynamicResource AccentColorBrush}"
                             Style="{StaticResource ImageButtonStyle}"
                             ToolTip="Neuen Shortcut erstellen" />
                 </StackPanel>
@@ -775,6 +782,7 @@
                          RenderOptions.ClearTypeHint="Enabled"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Style="{DynamicResource VirtualisedMetroListBox}"
                          TextOptions.TextFormattingMode="Display"
                          Visibility="Hidden">
 
@@ -959,7 +967,7 @@
                            VerticalAlignment="Bottom"
                            FontSize="20"
                            FontWeight="Bold"
-                           Foreground="#CC119EDA"
+                           Foreground="{DynamicResource AccentColorBrush}"
                            Text="Projekt-Hitliste"
                            Visibility="{Binding ElementName=mv, Path=ViewModel.IsProjectHitListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
                 <ListBox Grid.Row="1"
@@ -1024,7 +1032,7 @@
                            VerticalAlignment="Bottom"
                            FontSize="20"
                            FontWeight="Bold"
-                           Foreground="#CC119EDA"
+                           Foreground="{DynamicResource AccentColorBrush}"
                            Text="Positions-Hitliste"
                            Visibility="{Binding ElementName=mv, Path=ViewModel.IsPositionHitListVisible, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}" />
                 <ListBox Grid.Row="3"
