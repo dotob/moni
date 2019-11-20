@@ -104,4 +104,27 @@
             Value="True" />
   </Style>
 
+  <Style x:Key="MahApps.Styles.GridSplitter.Preview">
+    <Setter Property="Control.Template">
+      <Setter.Value>
+        <ControlTemplate>
+          <Rectangle Fill="{DynamicResource BlackBrush}" Opacity="0.5" />
+        </ControlTemplate>
+      </Setter.Value>
+    </Setter>
+  </Style>
+
+  <Style TargetType="{x:Type GridSplitter}">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="PreviewStyle" Value="{StaticResource MahApps.Styles.GridSplitter.Preview}" />
+    <Setter Property="ShowsPreview" Value="True" />
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="Background" Value="{DynamicResource GrayBrush9}" />
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
 </ResourceDictionary>
