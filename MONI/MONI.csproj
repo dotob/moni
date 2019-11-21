@@ -85,6 +85,7 @@
     <Compile Include="Parser\DescriptionParser.cs" />
     <Compile Include="Parser\WorkDayParserExtensions.cs" />
     <Compile Include="Util\AppHelper.cs" />
+    <Compile Include="Util\AssemblyTextFileReader.cs" />
     <Compile Include="Util\AttachedCommandBehavior\BehaviorBinding.cs" />
     <Compile Include="Util\AttachedCommandBehavior\CommandBehavior.cs" />
     <Compile Include="Util\AttachedCommandBehavior\CommandBehaviorBinding.cs" />
@@ -94,8 +95,6 @@
     <Compile Include="Util\AttachedCommandBehavior\SimpleCommand.cs" />
     <Compile Include="Util\CalendarHelper.cs" />
     <Compile Include="Util\CustomPropertyGroupDescription.cs" />
-    <Compile Include="Util\Markdown\HtmlToXamlConverter.cs" />
-    <Compile Include="Util\Markdown\Markdown.cs" />
     <Compile Include="Util\VisualTreeExtensions.cs" />
     <Compile Include="ValueConverter\BooleanConverter.cs" />
     <Compile Include="ValueConverter\HighLightSearchTextConverter.cs" />
@@ -104,7 +103,6 @@
     <Compile Include="Util\ExceptionExtensions.cs" />
     <Compile Include="Util\IAddShortcutService.cs" />
     <Compile Include="ValueConverter\LessThanColorConverter.cs" />
-    <Compile Include="ValueConverter\MarkdownToFlowDocumentConverter.cs" />
     <Compile Include="ValueConverter\MultiBindingObjectConverter.cs" />
     <Compile Include="ValueConverter\Null2FalseConverter.cs" />
     <Compile Include="Util\QuickFillObservableCollection.cs" />
@@ -138,6 +136,10 @@
     <Compile Include="Views\ShortcutView.xaml.cs">
       <DependentUpon>ShortcutView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Resources\Markdown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\PositionSearchFlyout.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -203,12 +205,14 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\README.md">
+      <Link>Resources\README.md</Link>
+    </EmbeddedResource>
     <None Include="app.config" />
     <None Include="app.manifest" />
     <None Include="paket.references" />
     <AppDesigner Include="Properties\" />
     <Content Include="FodyWeavers.xml" />
-    <None Include="Resources\README.md" />
     <None Include="Util\AttachedCommandBehavior\ACB.cd" />
     <None Include="Util\AttachedCommandBehavior\LICENSE.md" />
   </ItemGroup>
@@ -303,6 +307,28 @@
         </Reference>
         <Reference Include="MahApps.Metro.IconPacks.Modern">
           <HintPath>..\packages\MahApps.Metro.IconPacks.Modern\lib\net46\MahApps.Metro.IconPacks.Modern.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
+      <ItemGroup>
+        <Reference Include="Markdig.Signed">
+          <HintPath>..\packages\Markdig.Signed\lib\net40\Markdig.Signed.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
+      <ItemGroup>
+        <Reference Include="Markdig.Wpf">
+          <HintPath>..\packages\Markdig.Wpf.Signed\lib\net452\Markdig.Wpf.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

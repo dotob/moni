@@ -10,6 +10,7 @@
                       xmlns:valueConverter="clr-namespace:MONI.ValueConverter"
                       xmlns:viewModels="clr-namespace:MONI.ViewModels"
                       xmlns:views="clr-namespace:MONI.Views"
+                      xmlns:wpf="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
                       x:Name="mv"
                       Title="MONI"
                       Width="800"
@@ -102,25 +103,18 @@
         <controls:FlyoutsControl>
             <!--  shortcut help  -->
             <controls:Flyout Width="700"
-                             Content="{Binding ElementName=mv, Path=ViewModel}"
                              Header="Hilfe"
                              IsOpen="{Binding ElementName=mv, Path=ViewModel.ShowHelp}"
                              KeyboardNavigation.TabNavigation="Cycle"
                              Position="Right">
-                <controls:Flyout.ContentTemplate>
-                    <DataTemplate>
-                        <DataTemplate.Resources>
-                            <valueConverter:MarkdownToFlowDocumentConverter x:Key="MarkdownToFlowDocumentConverter" />
-                        </DataTemplate.Resources>
-                        <Grid Margin="1 0 1 1" Background="White">
-                            <FlowDocumentScrollViewer Margin="10"
-                                                      Document="{Binding Path=Help, Converter={StaticResource MarkdownToFlowDocumentConverter}}"
-                                                      Foreground="Black"
-                                                      HorizontalScrollBarVisibility="Disabled"
-                                                      VerticalScrollBarVisibility="Auto" />
-                        </Grid>
-                    </DataTemplate>
-                </controls:Flyout.ContentTemplate>
+                <Grid Margin="4" Background="#323130">
+                    <wpf:MarkdownViewer x:Name="Viewer"
+                                        Margin="4"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        AutomationProperties.Name="README"
+                                        Markdown="{Binding ElementName=mv, Path=ViewModel.Help, Mode=OneWay}" />
+                </Grid>
             </controls:Flyout>
 
             <!--  settings  -->

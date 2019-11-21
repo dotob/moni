@@ -82,31 +82,23 @@ namespace MONI.ViewModels
             this.UpdateInfoViewModel = new UpdateInfoViewModel(dispatcher, this.Settings.MainSettings.UpdateInfoURL, currentVersion, this.persistenceLayer.EntryCount, this.persistenceLayer.FirstEntryDate);
 
             // load help
-            this.Help = this.ReadHelp();
+            dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(async () =>
+            {
+                var readme = await this.ReadHelpAsync().ConfigureAwait(false);
+                this.Help = readme;
+            }));
 
             this.SelectWorkItemTextComplete += DoSelectWorkItemTextComplete;
             this.SelectWorkItemTextWithOutTime += DoSelectWorkItemTextWithOutTime;
             this.GoToDay = DoGoToDay;
         }
 
-        private string ReadHelp()
+        private async Task<string> ReadHelpAsync()
         {
-            string completeHelp = Encoding.UTF8.GetString(Properties.Resources.README);
-            var asLines = completeHelp.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-            var sb = new StringBuilder();
-            var gotit = false;
-            foreach (var asLine in asLines)
-            {
-                if (gotit)
-                {
-                    sb.AppendLine(asLine);
-                }
-                else
-                {
-                    gotit = asLine.Contains("shorthelp:");
-                }
-            }
-            return sb.ToString();
+            var reader = new AssemblyTextFileReader(Assembly.GetExecutingAssembly());
+            var readme = await reader.ReadFileAsync("README.md").ConfigureAwait(false);
+            var index = readme.IndexOf("## Keyboad Shortcuts ##", StringComparison.InvariantCulture);
+            return readme.Remove(0, index);
         }
 
         private string help;

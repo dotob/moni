@@ -13,3 +13,5 @@ nuget MahApps.Metro
 nuget MahApps.Metro.IconPacks.Modern prerelease
 nuget MahApps.Metro.IconPacks.Material prerelease
 nuget gong-wpf-dragdrop
+nuget Markdig.Wpf.Signed 0.3.1
+nuget Markdig.Signed 0.18.0
