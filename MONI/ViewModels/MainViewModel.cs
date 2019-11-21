@@ -411,10 +411,15 @@ namespace MONI.ViewModels
             return MoniSettings.GetEmptySettings();
         }
 
-        private static void WriteSettings(MoniSettings settings, string settingsFile)
+        private static async Task WriteSettingsAsync(MoniSettings settings, string settingsFile)
         {
-            string settingsAsJson = JsonConvert.SerializeObject(settings, Formatting.Indented);
-            File.WriteAllText(settingsFile, settingsAsJson);
+            var settingsAsJson = await Task.Run(() => JsonConvert.SerializeObject(settings, Formatting.Indented)).ConfigureAwait(false);
+
+            using (var stream = new FileStream(settingsFile, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, 4096, true))
+            using (var sw = new StreamWriter(stream))
+            {
+                await sw.WriteAsync(settingsAsJson).ConfigureAwait(false);
+            }
         }
 
         private void workYear_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -537,7 +542,7 @@ namespace MONI.ViewModels
             Dispatcher.CurrentDispatcher.InvokeAsync(() => this.csvExporter.ExportAsync(this.WorkYear));
             Dispatcher.CurrentDispatcher.InvokeAsync(() => this.jsonExporter.ExportAsync(this.WorkYear));
             // save settings
-            WriteSettings(this.MonlistSettings, this.settingsFile);
+            Dispatcher.CurrentDispatcher.InvokeAsync(() => WriteSettingsAsync(this.MonlistSettings, this.settingsFile));
         }
 
         public void CopyFromPreviousDay(WorkDay currentDay)
