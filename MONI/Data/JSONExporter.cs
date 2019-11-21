@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace MONI.Data
@@ -28,35 +28,38 @@ namespace MONI.Data
             }
         }
 
-        public void Export(WorkYear year)
+        public async Task ExportAsync(WorkYear year)
         {
             foreach (var month in year.Months)
             {
                 var dataFileName = FilenameForMonth(month);
-                this.Export(month, dataFileName);
+                await this.ExportAsync(month, dataFileName).ConfigureAwait(false);
             }
         }
 
-        private void Export(WorkMonth month, string filename)
+        private async Task ExportAsync(WorkMonth month, string filename)
         {
-            var pack = new JSONPackage();
-            pack.UserId = 123;
+            var pack = new JSONPackage {UserId = 123};
             var items = new List<JSONWorkItem>();
             foreach (var day in month.Days)
             {
-                foreach (var item in day.Items)
-                {
-                    items.Add(new JSONWorkItem(item));
-                }
+                items.AddRange(day.Items.Select(item => new JSONWorkItem(item)));
             }
+
             pack.Items = items;
-            var serializeObject = JsonConvert.SerializeObject(pack, Formatting.Indented);
-            File.WriteAllText(filename, serializeObject);
+
+            var serializeObject = await Task.Run(() => JsonConvert.SerializeObject(pack, Formatting.Indented)).ConfigureAwait(false);
+
+            using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, 4096, true))
+            using (var sw = new StreamWriter(stream))
+            {
+                await sw.WriteAsync(serializeObject).ConfigureAwait(false);
+            }
         }
 
         public string FilenameForMonth(WorkMonth month)
         {
-            var filename = string.Format("monlist_{0}_{1}.json", month.Year, month.Month.ToString("00"));
+            var filename = $"monlist_{month.Year}_{month.Month:00}.json";
             return Path.Combine(this.dataDirectory, filename);
         }
     }
