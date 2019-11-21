@@ -84,7 +84,6 @@
     <Compile Include="Data\UpdateInfo.cs" />
     <Compile Include="Parser\DescriptionParser.cs" />
     <Compile Include="Parser\WorkDayParserExtensions.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="Util\AppHelper.cs" />
     <Compile Include="Util\AttachedCommandBehavior\BehaviorBinding.cs" />
     <Compile Include="Util\AttachedCommandBehavior\CommandBehavior.cs" />
