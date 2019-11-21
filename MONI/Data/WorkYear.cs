@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using MONI.Data.SpecialDays;
 using MONI.Util;
 using MONI.ViewModels;
@@ -43,16 +44,17 @@ namespace MONI.Data
             }
             this.ProjectHitlist = new QuickFillObservableCollection<HitlistInfo>();
             this.PositionHitlist = new QuickFillObservableCollection<HitlistInfo>();
-            this.UpdateProjectHitlistAsync();
-            this.UpdatePositionHitlistAsync();
+
+            Dispatcher.CurrentDispatcher.InvokeAsync(() => this.UpdateProjectHitlistAsync().ConfigureAwait(false), DispatcherPriority.ApplicationIdle);
+            Dispatcher.CurrentDispatcher.InvokeAsync(() => this.UpdatePositionHitlistAsync().ConfigureAwait(false), DispatcherPriority.ApplicationIdle);
         }
 
-        private void workWeek_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private async void workWeek_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // this property doesn't exist here, but we want to trigger saving the data at MainViewModel
             this.OnPropertyChanged("HoursDuration");
-            this.UpdateProjectHitlistAsync();
-            this.UpdatePositionHitlistAsync();
+            await this.UpdateProjectHitlistAsync().ConfigureAwait(false);
+            await this.UpdatePositionHitlistAsync().ConfigureAwait(false);
         }
 
         public ObservableCollection<WorkMonth> Months { get; protected set; }
@@ -60,15 +62,16 @@ namespace MONI.Data
         public QuickFillObservableCollection<HitlistInfo> ProjectHitlist { get; protected set; }
         public QuickFillObservableCollection<HitlistInfo> PositionHitlist { get; protected set; }
 
-        public async void UpdateProjectHitlistAsync()
+        public async Task UpdateProjectHitlistAsync()
         {
-            var newHitlist = await GetProjectHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.pnSearch);
+            var newHitlist = await GetProjectHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.pnSearch).ConfigureAwait(false);
             this.ProjectHitlist.AddItems(newHitlist, true);
         }
 
         private static async Task<IEnumerable<HitlistInfo>> GetProjectHitlistAsync(IEnumerable<WorkMonth> months, int lookBackInWeeks, PNSearchViewModel pnSearchViewModel)
         {
-            return await Task.Factory.StartNew(() => {
+            return await Task.Factory.StartNew(() =>
+            {
                 var allDays = months.SelectMany(m => m.Days);
                 var daysFromLookback = lookBackInWeeks > 0 ? allDays.Where(m => m.DateTime > DateTime.Now.AddDays(lookBackInWeeks * -7)) : allDays;
                 var hitlistInfos = daysFromLookback
@@ -84,18 +87,19 @@ namespace MONI.Data
                                 .FirstOrDefault())
                     );
                 return hitlistInfos.OrderByDescending(g => g.HoursUsed);
-            });
+            }).ConfigureAwait(false);
         }
 
-        public async void UpdatePositionHitlistAsync()
+        public async Task UpdatePositionHitlistAsync()
         {
-            var newHitlist = await GetPositionHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.positionSearch);
+            var newHitlist = await GetPositionHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.positionSearch).ConfigureAwait(false);
             this.PositionHitlist.AddItems(newHitlist, true);
         }
 
         private static async Task<IEnumerable<HitlistInfo>> GetPositionHitlistAsync(IEnumerable<WorkMonth> months, int lookBackInWeeks, PositionSearchViewModel posSearchViewModel)
         {
-            return await Task.Factory.StartNew(() => {
+            return await Task.Factory.StartNew(() =>
+            {
                 if (posSearchViewModel != null)
                 {
                     var allDays = months.SelectMany(m => m.Days);
@@ -116,7 +120,7 @@ namespace MONI.Data
                 {
                     return Enumerable.Empty<HitlistInfo>();
                 }
-            });
+            }).ConfigureAwait(false);
         }
 
         public override string ToString()
