@@ -52,7 +52,7 @@ namespace MONI.ViewModels
             this.settingsFile = this.DetermineSettingsFile();
             this.MonlistSettings = ReadSettings(this.settingsFile);
 
-            this.UpdateVisibility();
+            dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(UpdateVisibility));
 
             this.Settings = this.MonlistSettings;
             this.CustomWindowPlacementSettings = new CustomWindowPlacementSettings(this.Settings);
@@ -79,8 +79,7 @@ namespace MONI.ViewModels
 
             // updateinfo
             Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            this.UpdateInfoViewModel = new UpdateInfoViewModel(this.Settings.MainSettings.UpdateInfoURL, currentVersion, this.persistenceLayer.EntryCount, this.persistenceLayer.FirstEntryDate);
-
+            this.UpdateInfoViewModel = new UpdateInfoViewModel(dispatcher, this.Settings.MainSettings.UpdateInfoURL, currentVersion, this.persistenceLayer.EntryCount, this.persistenceLayer.FirstEntryDate);
 
             // load help
             this.Help = this.ReadHelp();
@@ -89,7 +88,6 @@ namespace MONI.ViewModels
             this.SelectWorkItemTextWithOutTime += DoSelectWorkItemTextWithOutTime;
             this.GoToDay = DoGoToDay;
         }
-
 
         private string ReadHelp()
         {

@@ -8,6 +8,7 @@ using MONI.Util;
 using NLog;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Windows.Threading;
 
 namespace MONI.ViewModels
 {
@@ -20,16 +21,21 @@ namespace MONI.ViewModels
         private readonly DateTime firstEntryDate;
         private bool showUpdateInfo;
         private UpdateInfo updateInfo;
-        private ICommand cancelCommand;
 
-        public UpdateInfoViewModel(string updateInfoURL, Version currentVersion, int entryCount, DateTime firstEntryDate)
+        public UpdateInfoViewModel(Dispatcher dispatcher, string updateInfoURL, Version currentVersion, int entryCount, DateTime firstEntryDate)
         {
             this.updateInfoURL = updateInfoURL;
             this.currentVersion = currentVersion;
             this.entryCount = entryCount;
             this.firstEntryDate = firstEntryDate;
 
-            Task<IEnumerable<UpdateInfo>>.Factory.StartNew(this.GetUpdateInfos, TaskCreationOptions.LongRunning).ContinueWith(x => this.CheckVersions(x.Result), TaskScheduler.Default);
+            this.CancelCommand = new DelegateCommand(() => this.ShowUpdateInfo = false, () => true);
+
+            dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(async () =>
+            {
+                var updates = await this.GetUpdateInfosAsync().ConfigureAwait(false);
+                this.CheckVersions(updates);
+            }));
         }
 
         private void CheckVersions(IEnumerable<UpdateInfo> uis)
@@ -46,33 +52,37 @@ namespace MONI.ViewModels
 
         private void FoundNewerVersion(UpdateInfo ui)
         {
-            logger.Debug("found newer version {0} under {1}", ui, this.updateInfoURL);
+            logger.Info("found newer version {0} under {1}", ui, this.updateInfoURL);
             this.UpdateInfo = ui;
             this.ShowUpdateInfo = true;
         }
 
-        private IEnumerable<UpdateInfo> GetUpdateInfos()
+        private async Task<IEnumerable<UpdateInfo>> GetUpdateInfosAsync()
         {
             try
             {
-                WebClient wc = new WebClient();
                 var url = this.updateInfoURL;
                 try
                 {
-                    url = string.Format("{0}?user={1}&machine={2}&framework={3}&entrycount={4}&firstentrydate={5:s}", this.updateInfoURL, Environment.UserName, Environment.MachineName, Environment.Version, entryCount, firstEntryDate);
+                    url = $"{this.updateInfoURL}?user={Environment.UserName}&machine={Environment.MachineName}&framework={Environment.Version}&entrycount={entryCount}&firstentrydate={firstEntryDate:s}";
                 }
                 catch (Exception e)
                 {
-                    logger.Error(e, "error while collecting enviroiniment info");
+                    logger.Error(e, "Error while collecting enviroiniment info");
                 }
-                var uisJson = wc.DownloadString(url);
-                UpdateInfo[] uis = JsonConvert.DeserializeObject<UpdateInfo[]>(uisJson);
-                return uis;
+
+                using (var webClient = new WebClient())
+                {
+                    var uisJson = await webClient.DownloadStringTaskAsync(new Uri(url, UriKind.RelativeOrAbsolute)).ConfigureAwait(false);
+                    var updates = await Task.Run(() => JsonConvert.DeserializeObject<IEnumerable<UpdateInfo>>(uisJson)).ConfigureAwait(false);
+                    return updates;
+                }
             }
             catch (Exception exception)
             {
-                logger.Error(exception, "while downloading updateinfo from {0} an exception occured", updateInfoURL);
+                logger.Error(exception, "Exception while downloading updateinfo from {0} an exception occured", updateInfoURL);
             }
+
             return Enumerable.Empty<UpdateInfo>();
         }
 
@@ -88,9 +98,6 @@ namespace MONI.ViewModels
             set { this.Set(ref this.updateInfo, value); }
         }
 
-        public ICommand CancelCommand
-        {
-            get { return this.cancelCommand ?? (this.cancelCommand = new DelegateCommand(() => this.ShowUpdateInfo = false, () => true)); }
-        }
+        public ICommand CancelCommand { get; }
     }
 }

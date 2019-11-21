@@ -201,6 +201,8 @@
     "Changes": [
       "Fix: Avoid creating duplicate ShortCut Groups.",
       "Fix: Use pipe html unicode to fix loading saved workdays.",
+      "Fix: Blocking UI on start while checking for updates.",
+      "Update: Improve UI.",
       "Update: Improve Position and Project Views, Load Position list on startup.",
       "Update: Upgrade some project library dependencies."
     ],
