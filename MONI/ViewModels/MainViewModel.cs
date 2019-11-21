@@ -533,7 +533,7 @@ namespace MONI.ViewModels
         public void Save()
         {
             // save data
-            this.persistenceLayer.SaveData(this.workYear);
+            Dispatcher.CurrentDispatcher.InvokeAsync(() => this.persistenceLayer.SaveDataAsync(this.workYear));
             this.csvExporter.Export(this.WorkYear);
             this.jsonExporter.Export(this.WorkYear);
             // save settings

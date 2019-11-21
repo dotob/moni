@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using MONI.Util;
 using NLog;
 
@@ -56,7 +57,7 @@ namespace MONI.Data
 
         public ReadWriteResult ReadData()
         {
-            ReadWriteResult ret = new ReadWriteResult { Success = true };
+            ReadWriteResult ret = new ReadWriteResult {Success = true};
             try
             {
                 var dataFiles = Directory.GetFiles(this.dataDirectory, "*md", SearchOption.TopDirectoryOnly);
@@ -71,20 +72,21 @@ namespace MONI.Data
                         {
                             if (!string.IsNullOrWhiteSpace(wdLine.Replace("\0", "")))
                             {
-                                string wdDateData = wdLine.Token("|", 1);
-                                var wdDateParts = wdDateData.Split(',').Select(s => Convert.ToInt32(s));
-                                WorkDayPersistenceData wdpd = new WorkDayPersistenceData();
-                                wdpd.Year = wdDateParts.ElementAt(0);
-                                wdpd.Month = wdDateParts.ElementAt(1);
-                                wdpd.Day = wdDateParts.ElementAt(2);
-                                wdpd.LineNumber = i;
-                                wdpd.FileName = dataFile;
+                                var wdDateData = wdLine.Token("|", 1);
+                                var wdDateParts = wdDateData.Split(',').Select(s => Convert.ToInt32(s)).ToList();
+                                var data = new WorkDayPersistenceData
+                                {
+                                    Year = wdDateParts.ElementAt(0),
+                                    Month = wdDateParts.ElementAt(1),
+                                    Day = wdDateParts.ElementAt(2),
+                                    LineNumber = i,
+                                    FileName = dataFile
+                                };
 
-                                string wdStringData = wdLine.Token("|", 2);
-                                wdpd.OriginalString = wdStringData
-                                    .Replace("&#x007C;", "|")
-                                    .Replace("<br />", Environment.NewLine);
-                                this.workDaysData.Add(wdpd);
+                                var wdStringData = wdLine.Token("|", 2);
+                                data.OriginalString = wdStringData.Replace("&#x007C;", "|").Replace("<br />", Environment.NewLine);
+
+                                this.workDaysData.Add(data);
                                 i++;
                             }
                         }
@@ -97,30 +99,43 @@ namespace MONI.Data
                 ret.Error = exception.Message;
                 logger.Error(exception, "readdata failed");
             }
+
             return ret;
         }
 
-        public ReadWriteResult SaveData(WorkYear year)
+        public async Task<ReadWriteResult> SaveDataAsync(WorkYear year)
         {
             foreach (var month in year.Months)
             {
-                List<string> data = new List<string>();
-                var changedWorkDays = month.Days.Where(wd => wd.IsChanged || !string.IsNullOrWhiteSpace(wd.OriginalString)).ToList();
-                foreach (var workDay in changedWorkDays)
+                var anyChanges = month.Days.Any(wd => wd.IsChanged);
+                if (!anyChanges)
                 {
-                    var description = workDay.OriginalString
-                        .Replace(Environment.NewLine, "<br />")
-                        .Replace("|", "&#x007C;");
-                    data.Add(string.Format("{0},{1},{2}|{3}", workDay.Year, workDay.Month, workDay.Day, description));
+                    continue;
                 }
-                var dataFileName = string.Format("{0}_{1}.md", year.Year, month.Month.ToString("00"));
-                var dataFilePath = Path.Combine(this.dataDirectory, dataFileName);
+
+                var changedWorkDays = month.Days.Where(wd => wd.IsChanged || !string.IsNullOrWhiteSpace(wd.OriginalString)).ToList();
+                var data = changedWorkDays
+                    .Select(workDay => $"{workDay.Year},{workDay.Month},{workDay.Day}|{workDay.OriginalString.Replace(Environment.NewLine, "<br />").Replace("|", "&#x007C;")}")
+                    .ToList();
+
                 if (data.Any())
                 {
-                    File.WriteAllLines(dataFilePath, data);
+                    var dataFileName = $"{year.Year}_{month.Month:00}.md";
+                    var dataFilePath = Path.Combine(this.dataDirectory, dataFileName);
+
+
+                    using (var stream = new FileStream(dataFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, 4096, true))
+                    using (var sw = new StreamWriter(stream))
+                    {
+                        foreach (var line in data)
+                        {
+                            await sw.WriteLineAsync(line).ConfigureAwait(false);
+                        }
+                    }
                 }
             }
-            return new ReadWriteResult { Success = true };
+
+            return new ReadWriteResult {Success = true};
         }
 
         public ReadWriteResult SetDataOfYear(WorkYear workYear)
