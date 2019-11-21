@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MONI.Data
 {
@@ -27,23 +28,30 @@ namespace MONI.Data
             }
         }
 
-        public void Export(WorkYear year)
+        public async Task ExportAsync(WorkYear year)
         {
             foreach (var month in year.Months)
             {
                 var dataFileName = FilenameForMonth(month);
-                this.Export(month, dataFileName);
+                await this.ExportAsync(month, dataFileName).ConfigureAwait(false);
             }
         }
 
-        private void Export(WorkMonth month, string filename)
+        private async Task ExportAsync(WorkMonth month, string filename)
         {
-            List<string> data = new List<string>();
+            var data = new List<string>();
             this.AddHeader(data);
             var gotData = this.AddData(month, data);
             if (gotData)
             {
-                File.WriteAllLines(filename, data, Encoding.GetEncoding("ISO-8859-1"));
+                using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, 4096, true))
+                using (var sw = new StreamWriter(stream, Encoding.GetEncoding("ISO-8859-1")))
+                {
+                    foreach (var line in data)
+                    {
+                        await sw.WriteLineAsync(line).ConfigureAwait(false);
+                    }
+                }
             }
         }
 
@@ -76,7 +84,7 @@ namespace MONI.Data
 
         public string FilenameForMonth(WorkMonth month)
         {
-            var filename = string.Format("monlist_{0}_{1}.txt", month.Year, month.Month.ToString("00"));
+            var filename = $"monlist_{month.Year}_{month.Month:00}.txt";
             return Path.Combine(this.dataDirectory, filename);
         }
     }

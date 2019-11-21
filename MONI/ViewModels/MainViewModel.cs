@@ -534,7 +534,7 @@ namespace MONI.ViewModels
         {
             // save data
             Dispatcher.CurrentDispatcher.InvokeAsync(() => this.persistenceLayer.SaveDataAsync(this.workYear));
-            this.csvExporter.Export(this.WorkYear);
+            Dispatcher.CurrentDispatcher.InvokeAsync(() => this.csvExporter.ExportAsync(this.WorkYear));
             this.jsonExporter.Export(this.WorkYear);
             // save settings
             WriteSettings(this.MonlistSettings, this.settingsFile);
