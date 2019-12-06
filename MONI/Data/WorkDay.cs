@@ -5,11 +5,13 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using MONI.Data.SpecialDays;
+using NLog;
 
 namespace MONI.Data
 {
     public class WorkDay : INotifyPropertyChanged, IDataErrorInfo
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly int day;
         private readonly int month;
         private readonly int year;
@@ -122,7 +124,7 @@ namespace MONI.Data
                 if (string.IsNullOrEmpty(this.originalString))
                 {
                     this.items.Clear();
-                    this.ImportantStuffChanged();
+                    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HoursDuration"));
                 }
                 else
                 {
@@ -131,26 +133,36 @@ namespace MONI.Data
             }
         }
 
+        public bool IsEmpty()
+        {
+            return string.IsNullOrWhiteSpace(this.OriginalString);
+        }
+
         private void ParseData(string value)
         {
             // do parsing
             if (WorkDayParser.Instance != null)
             {
                 WorkDay wd = this;
-                this.lastParseResult = WorkDayParser.Instance.Parse(value, ref wd);
-                if (!this.LastParseResult.Success)
+                this.lastParseResult = WorkDayParser.Instance.Parse(value, ref wd); // todo why is this a ref?
+                if (this.LastParseResult.Success)
+                {
+                    this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("HoursDuration"));
+                }
+                else
                 {
                     // todo what now?
+                    logger.Error($"Error while parsing the string: {value}");
                 }
-                this.ImportantStuffChanged();
             }
         }
 
         public void Reparse()
         {
-            if (!string.IsNullOrWhiteSpace(this.originalString))
+            if (!this.IsEmpty())
             {
                 this.ParseData(this.OriginalString);
+                this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("OriginalString"));
             }
         }
 
@@ -231,16 +243,6 @@ namespace MONI.Data
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
-
-        private void ImportantStuffChanged()
-        {
-            var tmp = this.PropertyChanged;
-            if (tmp != null)
-            {
-                tmp(this, new PropertyChangedEventArgs("OriginalString"));
-                tmp(this, new PropertyChangedEventArgs("HoursDuration"));
-            }
-        }
 
         public override string ToString()
         {
