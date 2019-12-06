@@ -42,7 +42,9 @@ namespace MONI.Data
         public int HitListLookBackInWeeks { get; set; }
         public bool ShowProjectHitList { get; set; }
         public bool ShowPositionHitList { get; set; }
+#pragma warning disable 618
         public WINDOWPLACEMENT Placement { get; set; }
+#pragma warning restore 618
         public float HoursPerDay { get; set; }
         public string ProjectNumberFilePath { get; set; }
         public string PositionNumberFilePath { get; set; }

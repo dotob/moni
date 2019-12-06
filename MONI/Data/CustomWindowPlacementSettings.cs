@@ -12,7 +12,9 @@ namespace MONI.Data
             this.moniSettings = settings;
         }
 
+#pragma warning disable 618
         public WINDOWPLACEMENT Placement { get; set; }
+#pragma warning restore 618
 
         public bool UpgradeSettings { get; set; }
 
