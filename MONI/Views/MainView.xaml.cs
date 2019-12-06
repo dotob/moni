@@ -40,10 +40,11 @@ namespace MONI.Views
                 MessageBox.Show(this, exception.Message, "Fehler beim Starten", MessageBoxButton.OK, MessageBoxImage.Error);
                 logger.Error(exception, "error while starting");
             }
+
             this.InitializeComponent();
-            this.Title = string.Format("MONI {0}", Assembly.GetExecutingAssembly().GetName().Version);
+            this.Title = $"MONI {Assembly.GetExecutingAssembly().GetName().Version}";
             this.CheckForMonlist();
-            this.Closed += (sender, e) => this.ViewModel.Save();
+            this.Closing += MainViewOnClosing;
             this.Activated += (s, e) =>
             {
                 var readWriteResult = this.ViewModel.PersistentResult;
@@ -54,6 +55,21 @@ namespace MONI.Views
                     this.Close();
                 }
             };
+        }
+
+        private bool doClose = false;
+
+        private async void MainViewOnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!doClose)
+            {
+                e.Cancel = true;
+
+                await this.ViewModel.SaveAsync();
+
+                doClose = true;
+                this.Close();
+            }
         }
 
         private void CheckForMonlist()
@@ -85,6 +101,7 @@ namespace MONI.Views
                                 e.Handled = true;
                             }
                         }
+
                         break;
                     case Key.N:
                         if (activeTB != null && activeTB.Name == "userEntry")
@@ -96,8 +113,10 @@ namespace MONI.Views
                                 // set cursor to end
                                 activeTB.SelectionStart = currentDay.OriginalString.Length;
                             }
+
                             e.Handled = true;
                         }
+
                         break;
                     case Key.Q:
                         Application.Current.Shutdown();
@@ -150,6 +169,7 @@ namespace MONI.Views
                                 FocusManager.SetFocusedElement(this, this.btnPrevMonth);
                                 this.ViewModel.PreviousMonthCommand.Execute(null);
                             }
+
                             break;
                         case Key.Right:
                             if (this.ViewModel.NextMonthCommand.CanExecute(null))
@@ -157,6 +177,7 @@ namespace MONI.Views
                                 FocusManager.SetFocusedElement(this, this.btnNextMonth);
                                 this.ViewModel.NextMonthCommand.Execute(null);
                             }
+
                             break;
                     }
                 }
@@ -171,6 +192,7 @@ namespace MONI.Views
                                 FocusManager.SetFocusedElement(this, this.btnPrev);
                                 this.ViewModel.PreviousWeekCommand.Execute(null);
                             }
+
                             break;
                         case Key.Right:
                             if (this.ViewModel.NextWeekCommand.CanExecute(null))
@@ -178,6 +200,7 @@ namespace MONI.Views
                                 FocusManager.SetFocusedElement(this, this.btnNext);
                                 this.ViewModel.NextWeekCommand.Execute(null);
                             }
+
                             break;
                     }
                 }
@@ -209,10 +232,12 @@ namespace MONI.Views
                     {
                         newText = oldText + WorkDayParser.itemSeparator;
                     }
+
                     newText = newText + i.ToString() + WorkDayParser.hourProjectInfoSeparator;
                     activeTB2.Text = newText;
                     activeTB2.Select(newText.Length, 0);
                 }
+
                 e.Handled = true;
             }
         }
@@ -230,6 +255,7 @@ namespace MONI.Views
                     activeTB2.Text = newText;
                     activeTB2.Select(newText.Length - 2, 0);
                 }
+
                 e.Handled = true;
             }
         }
@@ -284,6 +310,7 @@ namespace MONI.Views
             {
                 sc = button.Tag as ShortCut;
             }
+
             return sc;
         }
 
@@ -344,6 +371,7 @@ namespace MONI.Views
                     {
                         this.ViewModel.Settings.MainSettings.MonlistEmployeeNumber = result.Username;
                     }
+
                     this.ViewModel.MonlistImportLoginData = result;
 
                     this.UploadToMonlist(result.Password);
@@ -380,6 +408,7 @@ namespace MONI.Views
                     tb.SelectionStart = selectionStart;
                     e.Handled = true;
                 }
+
                 if (e.Key == Key.PageDown)
                 {
                     var selectionStart = tb.SelectionStart;
@@ -431,6 +460,7 @@ namespace MONI.Views
                             {
                                 MessageBox.Show(response, "Ergebnis MonApi");
                             }
+
                             logger.Info("Response from sending data to MonApi: {0}", response);
                         }
                         catch (Exception exception)

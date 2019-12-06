@@ -51,6 +51,7 @@ namespace MONI.Data
                 {
                     return workDayPersistenceData.Date;
                 }
+
                 return DateTime.Today;
             }
         }
@@ -105,33 +106,27 @@ namespace MONI.Data
 
         public async Task<ReadWriteResult> SaveDataAsync(WorkYear year)
         {
-            foreach (var month in year.Months)
+            Dictionary<string, List<string>> changedFiles = year.Months
+                .Where(m => m.Days.Any(wd => wd.IsChanged))
+                .ToDictionary(
+                    m => Path.Combine(this.dataDirectory, $"{year.Year}_{m.Month:00}.md"),
+                    m => m.Days
+                        .Where(wd => wd.IsChanged && !wd.IsEmpty() || !wd.IsEmpty())
+                        .Select(wd => $"{wd.Year},{wd.Month},{wd.Day}|{wd.OriginalString.Replace(Environment.NewLine, "<br />").Replace("|", "&#x007C;")}")
+                        .ToList());
+
+            foreach (var fileInfo in changedFiles.Where(f => f.Value.Any()))
             {
-                var anyChanges = month.Days.Any(wd => wd.IsChanged);
-                if (!anyChanges)
+                using (var stream = new FileStream(fileInfo.Key, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, 4096, true))
+                using (var sw = new StreamWriter(stream))
                 {
-                    continue;
-                }
-
-                var changedWorkDays = month.Days.Where(wd => wd.IsChanged || !string.IsNullOrWhiteSpace(wd.OriginalString)).ToList();
-                var data = changedWorkDays
-                    .Select(workDay => $"{workDay.Year},{workDay.Month},{workDay.Day}|{workDay.OriginalString.Replace(Environment.NewLine, "<br />").Replace("|", "&#x007C;")}")
-                    .ToList();
-
-                if (data.Any())
-                {
-                    var dataFileName = $"{year.Year}_{month.Month:00}.md";
-                    var dataFilePath = Path.Combine(this.dataDirectory, dataFileName);
-
-
-                    using (var stream = new FileStream(dataFilePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, 4096, true))
-                    using (var sw = new StreamWriter(stream))
+                    foreach (var line in fileInfo.Value)
                     {
-                        foreach (var line in data)
-                        {
-                            await sw.WriteLineAsync(line).ConfigureAwait(false);
-                        }
+                        await sw.WriteLineAsync(line);
                     }
+
+                    await sw.FlushAsync();
+                    await stream.FlushAsync();
                 }
             }
 
@@ -164,15 +159,18 @@ namespace MONI.Data
                                 errorMessage = string.Format("Beim Einlesen von {0} in der Datei {1} trat in Zeile {2} folgender Fehler auf: {3}", errorDay, data.FileName, data.LineNumber, exception.Message);
                                 logger.Error(errorMessage);
                             }
+
                             ret.Error = errorMessage;
                         }
                     }
                 }
+
                 if (ret.ErrorCount > 1)
                 {
                     ret.Error += string.Format("\n\n\nEs liegen noch {0} weitere Fehler vor.", ret.ErrorCount);
                 }
             }
+
             return ret;
         }
     }

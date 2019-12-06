@@ -6,12 +6,12 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
+using AsyncAwaitBestPractices;
 using GongSolutions.Wpf.DragDrop;
 using MahApps.Metro.Controls.Dialogs;
 using MONI.Data;
@@ -71,6 +71,7 @@ namespace MONI.ViewModels
             this.jsonExporter = new JSONExporter(dataDirectory);
             //this.persistentResult = this.persistenceLayer.ReadData();
             this.SelectToday(); // sets data from persistencelayer
+
             if (dispatcher != null)
             {
                 this.throttleSaveAndCalc = new DispatcherTimer(DispatcherPriority.DataBind, dispatcher);
@@ -96,7 +97,7 @@ namespace MONI.ViewModels
         private async Task<string> ReadHelpAsync()
         {
             var reader = new AssemblyTextFileReader(Assembly.GetExecutingAssembly());
-            var readme = await reader.ReadFileAsync("README.md").ConfigureAwait(false);
+            var readme = await reader.ReadFileAsync("README.md");
             var index = readme.IndexOf("## Keyboad Shortcuts ##", StringComparison.InvariantCulture);
             return readme.Remove(0, index);
         }
@@ -194,6 +195,7 @@ namespace MONI.ViewModels
                 {
                     this.workYear.PropertyChanged -= this.workYear_PropertyChanged;
                 }
+
                 if (this.Set(ref this.workYear, value))
                 {
                     if (this.workYear != null)
@@ -260,7 +262,7 @@ namespace MONI.ViewModels
         {
             try
             {
-                var source = (ShortCutStatistic)dropInfo.DragInfo.Data;
+                var source = (ShortCutStatistic) dropInfo.DragInfo.Data;
                 if (source != null)
                 {
                     var targetIndex = dropInfo.InsertIndex;
@@ -284,7 +286,10 @@ namespace MONI.ViewModels
             WorkItem workItem;
             TextBox tb;
             string wholeString;
-            if (!GetTextBoxWorkItemInfo(o, out workItem, out tb, out wholeString)) { return; }
+            if (!GetTextBoxWorkItemInfo(o, out workItem, out tb, out wholeString))
+            {
+                return;
+            }
 
             if (!string.IsNullOrWhiteSpace(wholeString))
             {
@@ -303,7 +308,10 @@ namespace MONI.ViewModels
             WorkItem workItem;
             TextBox tb;
             string wholeString;
-            if (!GetTextBoxWorkItemInfo(o, out workItem, out tb, out wholeString)) { return; }
+            if (!GetTextBoxWorkItemInfo(o, out workItem, out tb, out wholeString))
+            {
+                return;
+            }
 
             if (!string.IsNullOrWhiteSpace(wholeString))
             {
@@ -336,12 +344,14 @@ namespace MONI.ViewModels
             {
                 return false;
             }
+
             workItem = bindedValues.OfType<object>().ElementAtOrDefault(0) as WorkItem;
             tb = bindedValues.OfType<object>().ElementAtOrDefault(1) as TextBox;
             if (workItem == null || tb == null)
             {
                 return false;
             }
+
             tb.Focus();
             wholeString = tb.Text;
             return true;
@@ -359,19 +369,21 @@ namespace MONI.ViewModels
                 logger.Debug("found settingsfile in appdata: {0}", moniAppDataSettingsFile);
                 return moniAppDataSettingsFile;
             }
+
             // check if we can create settings file in exe dir
             if (Utils.CanCreateFile("."))
             {
                 logger.Debug("could write in currentdir: {0} use {1} as settingsfile", Directory.GetCurrentDirectory(), fileName);
                 return fileName;
             }
+
             logger.Debug("create new settingsfile in appdata: {0}", moniAppDataSettingsFile);
             return moniAppDataSettingsFile;
         }
 
-        private void throttleSaveAndCalc_Tick(object sender, EventArgs e)
+        private async void throttleSaveAndCalc_Tick(object sender, EventArgs e)
         {
-            this.SaveAndCalc();
+            await this.SaveAndCalc();
             this.throttleSaveAndCalc.Stop();
         }
 
@@ -413,12 +425,14 @@ namespace MONI.ViewModels
 
         private static async Task WriteSettingsAsync(MoniSettings settings, string settingsFile)
         {
-            var settingsAsJson = await Task.Run(() => JsonConvert.SerializeObject(settings, Formatting.Indented)).ConfigureAwait(false);
+            var settingsAsJson = await Task.Run(() => JsonConvert.SerializeObject(settings, Formatting.Indented));
 
-            using (var stream = new FileStream(settingsFile, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, 4096, true))
+            using (var stream = new FileStream(settingsFile, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, 4096, true))
             using (var sw = new StreamWriter(stream))
             {
-                await sw.WriteAsync(settingsAsJson).ConfigureAwait(false);
+                await sw.WriteAsync(settingsAsJson);
+                await sw.FlushAsync();
+                await stream.FlushAsync();
             }
         }
 
@@ -436,9 +450,9 @@ namespace MONI.ViewModels
             }
         }
 
-        private void SaveAndCalc()
+        private async Task SaveAndCalc()
         {
-            this.Save();
+            await this.SaveAsync();
             this.WorkMonth.CalcShortCutStatistic();
         }
 
@@ -489,11 +503,13 @@ namespace MONI.ViewModels
             {
                 this.CreateAndLoadYear(date.Year);
             }
+
             if (this.workMonth == null || date.Year != this.workMonth.Year || date.Month != this.workMonth.Month)
             {
                 this.WorkMonth = this.WorkYear.Months.ElementAt(date.Month - 1);
                 this.WorkMonth.CalcPreviewHours();
             }
+
             this.WorkWeek = this.WorkMonth.Weeks.First(ww => ww.WeekOfYear == CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date));
             // look for workday and focus
             var selectedWorkDay = this.workWeek.Days.FirstOrDefault(d => d.Day == date.Day);
@@ -506,6 +522,7 @@ namespace MONI.ViewModels
             {
                 this.SelectedWorkDay.FocusMe = false;
             }
+
             this.SelectedWorkDay = selectedWorkDay;
             if (this.SelectedWorkDay != null)
             {
@@ -515,14 +532,14 @@ namespace MONI.ViewModels
 
         public WorkDay SelectedWorkDay { get; set; }
 
-
         private void CreateAndLoadYear(int year)
         {
             if (this.WorkYear != null)
             {
                 // need to save years data
-                this.Save();
+                this.SaveAsync().SafeFireAndForget(true, exception => { logger.Error(exception, "Error while saving data."); });
             }
+
             var sw = Stopwatch.StartNew();
             this.WorkYear = new WorkYear(year, this.MonlistSettings.ParserSettings,
                 this.MonlistSettings.MainSettings.HitListLookBackInWeeks,
@@ -532,17 +549,18 @@ namespace MONI.ViewModels
             this.loadingData = true;
             this.PersistentResult = this.persistenceLayer.SetDataOfYear(this.WorkYear);
             this.loadingData = false;
-            Console.WriteLine("reading data took: {0}ms", sw.ElapsedMilliseconds);
+            sw.Stop();
+            logger.Debug("Reading data took: {0}ms", sw.ElapsedMilliseconds);
         }
 
-        public void Save()
+        public async Task SaveAsync()
         {
             // save data
-            Dispatcher.CurrentDispatcher.InvokeAsync(() => this.persistenceLayer.SaveDataAsync(this.workYear));
-            Dispatcher.CurrentDispatcher.InvokeAsync(() => this.csvExporter.ExportAsync(this.WorkYear));
-            Dispatcher.CurrentDispatcher.InvokeAsync(() => this.jsonExporter.ExportAsync(this.WorkYear));
+            await this.persistenceLayer.SaveDataAsync(this.workYear);
+            await this.csvExporter.ExportAsync(this.WorkYear);
+            await this.jsonExporter.ExportAsync(this.WorkYear);
             // save settings
-            Dispatcher.CurrentDispatcher.InvokeAsync(() => WriteSettingsAsync(this.MonlistSettings, this.settingsFile));
+            await WriteSettingsAsync(this.MonlistSettings, this.settingsFile);
         }
 
         public void CopyFromPreviousDay(WorkDay currentDay)
@@ -569,6 +587,7 @@ namespace MONI.ViewModels
                 this.MonlistSettings.ParserSettings.ShortCuts.Remove(sc);
                 this.MonlistSettings.ParserSettings.ShortCuts.Insert(idx - 1, sc);
             }
+
             this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
         }
 
@@ -580,6 +599,7 @@ namespace MONI.ViewModels
                 this.MonlistSettings.ParserSettings.ShortCuts.Remove(sc);
                 this.MonlistSettings.ParserSettings.ShortCuts.Insert(idx + 1, sc);
             }
+
             this.WorkWeek.Month.ReloadShortcutStatistic(this.MonlistSettings.ParserSettings.GetValidShortCuts(this.WorkWeek.StartDate));
         }
 
@@ -595,10 +615,12 @@ namespace MONI.ViewModels
             {
                 await this.PNSearch.ReadFileAsync(this.Settings.MainSettings.ProjectNumberFilePath, this.Settings.MainSettings.MonlistGBNumber);
             }
+
             if (this.PositionSearch != null)
             {
                 await this.PositionSearch.ReadFileAsync(this.Settings.MainSettings.PositionNumberFilePath);
             }
+
             this.EditPreferences = null;
             this.WorkWeek.Reparse();
         }

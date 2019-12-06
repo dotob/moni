@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,11 +30,8 @@ namespace MONI.Data
 
         public async Task ExportAsync(WorkYear year)
         {
-            foreach (var month in year.Months)
-            {
-                var dataFileName = FilenameForMonth(month);
-                await this.ExportAsync(month, dataFileName).ConfigureAwait(false);
-            }
+            var listOfTasks = year.Months.Select(month => this.ExportAsync(month, FilenameForMonth(month))).ToList();
+            await Task.WhenAll(listOfTasks);
         }
 
         private async Task ExportAsync(WorkMonth month, string filename)
@@ -48,12 +45,14 @@ namespace MONI.Data
 
             pack.Items = items;
 
-            var serializeObject = await Task.Run(() => JsonConvert.SerializeObject(pack, Formatting.Indented)).ConfigureAwait(false);
+            var serializeObject = await Task.Run(() => JsonConvert.SerializeObject(pack, Formatting.Indented));
 
-            using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, 4096, true))
+            using (var stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, 4096, true))
             using (var sw = new StreamWriter(stream))
             {
-                await sw.WriteAsync(serializeObject).ConfigureAwait(false);
+                await sw.WriteAsync(serializeObject);
+                await sw.FlushAsync();
+                await stream.FlushAsync();
             }
         }
 

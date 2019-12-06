@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,11 +31,8 @@ namespace MONI.Data
 
         public async Task ExportAsync(WorkYear year)
         {
-            foreach (var month in year.Months)
-            {
-                var dataFileName = FilenameForMonth(month);
-                await this.ExportAsync(month, dataFileName).ConfigureAwait(false);
-            }
+            var listOfTasks = year.Months.Select(month => this.ExportAsync(month, FilenameForMonth(month))).ToList();
+            await Task.WhenAll(listOfTasks);
         }
 
         private async Task ExportAsync(WorkMonth month, string filename)
@@ -44,13 +42,16 @@ namespace MONI.Data
             var gotData = this.AddData(month, data);
             if (gotData)
             {
-                using (var stream = new FileStream(filename, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None, 4096, true))
+                using (var stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.ReadWrite, 4096, true))
                 using (var sw = new StreamWriter(stream, Encoding.GetEncoding("ISO-8859-1")))
                 {
                     foreach (var line in data)
                     {
-                        await sw.WriteLineAsync(line).ConfigureAwait(false);
+                        await sw.WriteLineAsync(line);
                     }
+
+                    await sw.FlushAsync();
+                    await stream.FlushAsync();
                 }
             }
         }
@@ -73,6 +74,7 @@ namespace MONI.Data
                     gotData = true;
                 }
             }
+
             return gotData;
         }
 
