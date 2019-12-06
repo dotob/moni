@@ -6,14 +6,17 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using AsyncAwaitBestPractices;
 using MONI.Data.SpecialDays;
 using MONI.Util;
 using MONI.ViewModels;
+using NLog;
 
 namespace MONI.Data
 {
     public class WorkYear : ViewModelBase
     {
+        private static readonly Logger logger = LogManager.GetCurrentClassLogger();
         private readonly int hitListLookBackInWeeks;
         private readonly PNSearchViewModel pnSearch;
         private readonly PositionSearchViewModel positionSearch;
@@ -27,29 +30,35 @@ namespace MONI.Data
             this.positionSearch = positionSearch;
             this.Year = year;
             this.Months = new ObservableCollection<WorkMonth>();
-            this.Weeks = new ObservableCollection<WorkWeek>();
 
             var germanSpecialDays = SpecialDaysUtils.GetGermanSpecialDays(year);
 
-            var cal = new GregorianCalendar();
-            for (int month = 1; month <= cal.GetMonthsInYear(year); month++)
+            var calendar = new GregorianCalendar();
+            for (var month = 1; month <= calendar.GetMonthsInYear(year); month++)
             {
-                WorkMonth wm = new WorkMonth(year, month, germanSpecialDays, parserSettings, hoursPerDay);
-                this.Months.Add(wm);
-                foreach (var workWeek in wm.Weeks)
-                {
-                    this.Weeks.Add(workWeek);
-                    workWeek.PropertyChanged += this.workWeek_PropertyChanged;
-                }
+                var workMonth = new WorkMonth(year, month, germanSpecialDays, parserSettings, hoursPerDay);
+                this.Months.Add(workMonth);
             }
+
             this.ProjectHitlist = new QuickFillObservableCollection<HitlistInfo>();
             this.PositionHitlist = new QuickFillObservableCollection<HitlistInfo>();
 
-            Dispatcher.CurrentDispatcher.InvokeAsync(() => this.UpdateProjectHitlistAsync().ConfigureAwait(false), DispatcherPriority.ApplicationIdle);
-            Dispatcher.CurrentDispatcher.InvokeAsync(() => this.UpdatePositionHitlistAsync().ConfigureAwait(false), DispatcherPriority.ApplicationIdle);
+            Dispatcher.CurrentDispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+            {
+                this.UpdateProjectHitlistAsync().SafeFireAndForget(onException: exception => { logger.Error(exception, "Error while updating the Project Hitlist."); });
+                this.UpdatePositionHitlistAsync().SafeFireAndForget(onException: exception => { logger.Error(exception, "Error while updating the Position Hitlist."); });
+
+                foreach (var month in this.Months)
+                {
+                    foreach (var week in month.Weeks)
+                    {
+                        week.PropertyChanged += this.WorkWeek_PropertyChanged;
+                    }
+                }
+            }));
         }
 
-        private async void workWeek_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private async void WorkWeek_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             // this property doesn't exist here, but we want to trigger saving the data at MainViewModel
             this.OnPropertyChanged("HoursDuration");
@@ -58,19 +67,18 @@ namespace MONI.Data
         }
 
         public ObservableCollection<WorkMonth> Months { get; protected set; }
-        public ObservableCollection<WorkWeek> Weeks { get; protected set; }
         public QuickFillObservableCollection<HitlistInfo> ProjectHitlist { get; protected set; }
         public QuickFillObservableCollection<HitlistInfo> PositionHitlist { get; protected set; }
 
         public async Task UpdateProjectHitlistAsync()
         {
-            var newHitlist = await GetProjectHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.pnSearch).ConfigureAwait(false);
+            var newHitlist = await GetProjectHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.pnSearch);
             this.ProjectHitlist.AddItems(newHitlist, true);
         }
 
         private static async Task<IEnumerable<HitlistInfo>> GetProjectHitlistAsync(IEnumerable<WorkMonth> months, int lookBackInWeeks, PNSearchViewModel pnSearchViewModel)
         {
-            return await Task.Factory.StartNew(() =>
+            return await Task.Run(() =>
             {
                 var allDays = months.SelectMany(m => m.Days);
                 var daysFromLookback = lookBackInWeeks > 0 ? allDays.Where(m => m.DateTime > DateTime.Now.AddDays(lookBackInWeeks * -7)) : allDays;
@@ -87,18 +95,18 @@ namespace MONI.Data
                                 .FirstOrDefault())
                     );
                 return hitlistInfos.OrderByDescending(g => g.HoursUsed);
-            }).ConfigureAwait(false);
+            });
         }
 
         public async Task UpdatePositionHitlistAsync()
         {
-            var newHitlist = await GetPositionHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.positionSearch).ConfigureAwait(false);
+            var newHitlist = await GetPositionHitlistAsync(this.Months, this.hitListLookBackInWeeks, this.positionSearch);
             this.PositionHitlist.AddItems(newHitlist, true);
         }
 
         private static async Task<IEnumerable<HitlistInfo>> GetPositionHitlistAsync(IEnumerable<WorkMonth> months, int lookBackInWeeks, PositionSearchViewModel posSearchViewModel)
         {
-            return await Task.Factory.StartNew(() =>
+            return await Task.Run(() =>
             {
                 if (posSearchViewModel != null)
                 {
@@ -120,7 +128,7 @@ namespace MONI.Data
                 {
                     return Enumerable.Empty<HitlistInfo>();
                 }
-            }).ConfigureAwait(false);
+            });
         }
 
         public override string ToString()
