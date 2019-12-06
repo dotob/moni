@@ -1,83 +1,65 @@
-﻿<controls:Flyout x:Class="MONI.Views.UpdateInfoFlyout"
+﻿<mah:Flyout x:Class="MONI.Views.UpdateInfoFlyout"
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:ViewModels="clr-namespace:MONI.ViewModels"
-                 xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                  d:DataContext="{d:DesignInstance ViewModels:UpdateInfoViewModel}"
                  d:DesignHeight="300"
                  d:DesignWidth="300"
-                 mc:Ignorable="d">
-
-    <controls:Flyout.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Button.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-            <Style BasedOn="{StaticResource MONIMetroFlyoutTextBox}" TargetType="{x:Type TextBox}" />
-        </ResourceDictionary>
-    </controls:Flyout.Resources>
+                 mc:Ignorable="d"
+                 IsModal="True"
+                 CloseButtonVisibility="Collapsed">
 
     <Grid Margin="10">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0"
-               Grid.Column="0"
-               Content="Es steht eine neue Version zur Verfügung:" />
-        <TextBlock Grid.Row="0"
-                   Grid.Column="1"
-                   Margin="2"
-                   Focusable="True"
-                   FontWeight="Bold"
-                   Text="{Binding UpdateInfo.Version, UpdateSourceTrigger=PropertyChanged}" />
+        <mah:MetroHeader mah:ControlsHelper.HeaderFontSize="18" Grid.Row="0" Header="Es steht eine neue Version zur Verfügung">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           Margin="20 4 4 4"
+                           Focusable="True"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Text="{Binding UpdateInfo.Version, Mode=OneWay}" />
+                <Button Grid.Column="1"
+                        Click="ButtonBase_OnClick"
+                        Content="Download" />
+            </Grid>
+        </mah:MetroHeader>
 
-        <Label Grid.Row="1"
-               Grid.Column="0"
-               Content="Hier herunterladen:" />
-        <Button Grid.Row="1"
-                Grid.Column="1"
-                Click="ButtonBase_OnClick"
-                Content="Download" />
+        <mah:MetroHeader mah:ControlsHelper.HeaderFontSize="18" Grid.Row="1" Header="Änderungen">
+            <ItemsControl ItemsSource="{Binding UpdateInfo.Changes}" Margin="0 4" Focusable="False">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="20 0 0 2"
+                                Padding="8"
+                                Background="DimGray"
+                                CornerRadius="2">
+                            <TextBlock Foreground="Gainsboro"
+                                       Text="{Binding}"
+                                       TextWrapping="Wrap" />
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </mah:MetroHeader>
 
-        <Label Grid.Row="2"
-               Grid.Column="0"
-               Content="Änderungen:" />
-        <ItemsControl Grid.Row="3"
-                      Grid.Column="0"
-                      Grid.ColumnSpan="2"
-                      ItemsSource="{Binding UpdateInfo.Changes}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Margin="20 0 0 2"
-                            Padding="8"
-                            Background="DimGray"
-                            CornerRadius="2">
-                        <TextBlock Foreground="Gainsboro"
-                                   Text="{Binding}"
-                                   TextWrapping="Wrap" />
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-
-        <Button Grid.Row="4"
-                Grid.Column="0"
-                Grid.ColumnSpan="2"
+        <Button Grid.Row="3"
                 Command="{Binding CancelCommand, Mode=OneWay}"
-                Content="Schließen" />
+                Content="MONI Beenden" />
 
     </Grid>
 
-</controls:Flyout>
+</mah:Flyout>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -79,12 +79,12 @@ namespace MONI.ViewModels
 
             // updateinfo
             Version currentVersion = Assembly.GetExecutingAssembly().GetName().Version;
-            this.UpdateInfoViewModel = new UpdateInfoViewModel(dispatcher, this.Settings.MainSettings.UpdateInfoURL, currentVersion, this.persistenceLayer.EntryCount, this.persistenceLayer.FirstEntryDate);
+            this.UpdateInfoViewModel = new UpdateInfoViewModel(this.Settings.MainSettings.UpdateInfoURL, currentVersion, this.persistenceLayer.EntryCount, this.persistenceLayer.FirstEntryDate);
 
             // load help
             dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(async () =>
             {
-                var readme = await this.ReadHelpAsync().ConfigureAwait(false);
+                var readme = await this.ReadHelpAsync();
                 this.Help = readme;
             }));
 
