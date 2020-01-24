@@ -187,9 +187,7 @@ namespace MONI.Tests
         [Test]
         public void WDPSplitIntoParts_ConsiderNewline()
         {
-            var parts = WorkDayParserExtensions.SplitIntoParts(@"9,4;12345-000,
--16:00;12345-001,
--17:00;12345-001");
+            var parts = WorkDayParserExtensions.SplitIntoParts($@"9,4;12345-000,{Environment.NewLine}-16:00;12345-001,{Environment.NewLine}-17:00;12345-001");
             CollectionAssert.AreEqual(new[] { "9", ",", "4", ";", "12345-000", ",", Environment.NewLine, "-16:00", ";", "12345-001", ",", Environment.NewLine, "-17:00", ";", "12345-001" }, parts);
         }
     }
