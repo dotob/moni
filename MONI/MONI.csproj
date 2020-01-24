@@ -14,9 +14,6 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="AsyncAwaitBestPractices" Version="4.0.1" />
-        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-        <PackageReference Include="NLog" Version="4.6.8" />
         <PackageReference Include="MahApps.Metro" Version="1.6.5" />
         <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="3.1.0" />
         <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="3.1.0" />

@@ -23,6 +23,10 @@
 
     <!-- Add the references for all projects and targets -->
     <ItemGroup>
+        <PackageReference Include="AsyncAwaitBestPractices" Version="4.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="NLog" Version="4.6.8" />
+
         <PackageReference Include="JetBrains.Annotations" Version="2019.*" PrivateAssets="All" includeAssets="build;compile" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.*" PrivateAssets="All" IncludeAssets="build;native" />
     </ItemGroup>
