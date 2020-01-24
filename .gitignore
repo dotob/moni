@@ -256,4 +256,8 @@ paket-files/
 .idea/
 *.sln.iml
 
+# cake
+tools/
+
+# XamlStyler
 !XamlStyler/**/*
