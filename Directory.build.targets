@@ -1,0 +1,21 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+    <!-- AssemblyInfo -->
+    <PropertyGroup>
+        <Company>basti, jan and co 4 inform</Company>
+        <Product>MONI</Product>
+        <Copyright>Copyright © $([System.DateTime]::Today.ToString(yyyy)) basti, jan and co</Copyright>
+        <Description>The better way to enter monlist data.</Description>
+
+        <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+        <Version>1.0.7.0</Version>
+        <AssemblyVersion>1.0.7.0</AssemblyVersion>
+        <FileVersion>1.0.7.0</FileVersion>
+        <InformationalVersion>1.0.7.0</InformationalVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Page Update="@(Page)" SubType="Designer" Generator="MSBuild:Compile" />
+    </ItemGroup>
+
+</Project>

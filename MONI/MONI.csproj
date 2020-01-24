@@ -1,384 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Costura.Fody\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody\build\Costura.Fody.props')" Label="Paket" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8BC740CF-1273-4042-B33F-A6029A1A3BFB}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MONI</RootNamespace>
-    <AssemblyName>MONI</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <NoWarn>0067,1591,0168</NoWarn>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Resources\moni.ico</ApplicationIcon>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>MONI.App</StartupObject>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Data\MonapiJSONExporter.cs" />
-    <Compile Include="Data\JSONExporter.cs" />
-    <Compile Include="Data\CSVExporter.cs" />
-    <Compile Include="Data\CustomWindowPlacementSettings.cs" />
-    <Compile Include="Data\MoniSettings.cs" />
-    <Compile Include="Data\ShortCut.cs" />
-    <Compile Include="Data\ShortCutGroup.cs" />
-    <Compile Include="Data\ShortCutStatistic.cs" />
-    <Compile Include="Data\SpecialDays\GermanSpecialDay.cs" />
-    <Compile Include="Data\SpecialDays\GermanSpecialDays.cs" />
-    <Compile Include="Data\SpecialDays\ISpecialDay.cs" />
-    <Compile Include="Data\SpecialDays\SpecialDaysUtils.cs" />
-    <Compile Include="Data\TextFilePersistenceLayer.cs" />
-    <Compile Include="Data\UpdateInfo.cs" />
-    <Compile Include="Parser\DescriptionParser.cs" />
-    <Compile Include="Parser\WorkDayParserExtensions.cs" />
-    <Compile Include="Util\AppHelper.cs" />
-    <Compile Include="Util\AssemblyTextFileReader.cs" />
-    <Compile Include="Util\AttachedCommandBehavior\BehaviorBinding.cs" />
-    <Compile Include="Util\AttachedCommandBehavior\CommandBehavior.cs" />
-    <Compile Include="Util\AttachedCommandBehavior\CommandBehaviorBinding.cs" />
-    <Compile Include="Util\AttachedCommandBehavior\CommandBehaviorCollection.cs" />
-    <Compile Include="Util\AttachedCommandBehavior\EventHandlerGenerator.cs" />
-    <Compile Include="Util\AttachedCommandBehavior\ExecutionStrategy.cs" />
-    <Compile Include="Util\AttachedCommandBehavior\SimpleCommand.cs" />
-    <Compile Include="Util\CalendarHelper.cs" />
-    <Compile Include="Util\CustomPropertyGroupDescription.cs" />
-    <Compile Include="Util\VisualTreeExtensions.cs" />
-    <Compile Include="ValueConverter\BooleanConverter.cs" />
-    <Compile Include="ValueConverter\HighLightSearchTextConverter.cs" />
-    <Compile Include="ValueConverter\DayOfWeekTranslatorConverter.cs" />
-    <Compile Include="Util\EnvironmentInfos.cs" />
-    <Compile Include="Util\ExceptionExtensions.cs" />
-    <Compile Include="Util\IAddShortcutService.cs" />
-    <Compile Include="ValueConverter\LessThanColorConverter.cs" />
-    <Compile Include="ValueConverter\MultiBindingObjectConverter.cs" />
-    <Compile Include="ValueConverter\Null2FalseConverter.cs" />
-    <Compile Include="Util\QuickFillObservableCollection.cs" />
-    <Compile Include="Util\TimeSpanUtil.cs" />
-    <Compile Include="ValueConverter\TodayColorConverter.cs" />
-    <Compile Include="ValueConverter\ScaleDoubleConverter.cs" />
-    <Compile Include="ValueConverter\TimeItemConverter.cs" />
-    <Compile Include="ValueConverter\DurationBGColorConverter.cs" />
-    <Compile Include="ValueConverter\DurationFGColorConverter.cs" />
-    <Compile Include="ValueConverter\DayTypeColorConverter.cs" />
-    <Compile Include="Util\DelegateCommand.cs" />
-    <Compile Include="Parser\StringParserHelper.cs" />
-    <Compile Include="Parser\WorkDayParser.cs" />
-    <Compile Include="Util\Utils.cs" />
-    <Compile Include="Util\ViewModelBase.cs" />
-    <Compile Include="ValueConverter\VisibilityConverter.cs" />
-    <Compile Include="ViewModels\PositionSearchViewModel.cs" />
-    <Compile Include="ViewModels\PNSearchViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\ShortcutViewModel.cs" />
-    <Compile Include="ViewModels\UpdateInfoViewModel.cs" />
-    <Compile Include="Views\PositionSearchFlyout.xaml.cs">
-      <DependentUpon>PositionSearchFlyout.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\UpdateInfoFlyout.xaml.cs">
-      <DependentUpon>UpdateInfoFlyout.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PNSearchFlyout.xaml.cs">
-      <DependentUpon>PNSearchFlyout.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ShortcutView.xaml.cs">
-      <DependentUpon>ShortcutView.xaml</DependentUpon>
-    </Compile>
-    <Page Include="Resources\Markdown.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\PositionSearchFlyout.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\MainView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Data\TimeItem.cs" />
-    <Compile Include="Data\WorkDay.cs" />
-    <Compile Include="Data\WorkItem.cs" />
-    <Compile Include="Data\WorkMonth.cs" />
-    <Compile Include="Data\WorkWeek.cs" />
-    <Compile Include="Data\WorkYear.cs" />
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Resources\Controls.ListBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Controls.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\UpdateInfoFlyout.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\PNSearchFlyout.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ShortcutView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ViewStyles.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ViewTemplates.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\README.md">
-      <Link>Resources\README.md</Link>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="app.manifest" />
-    <None Include="paket.references" />
-    <AppDesigner Include="Properties\" />
-    <Content Include="FodyWeavers.xml" />
-    <None Include="Util\AttachedCommandBehavior\ACB.cd" />
-    <None Include="Util\AttachedCommandBehavior\LICENSE.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\moni.ico" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\.paket\paket.targets" />
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="AsyncAwaitBestPractices">
-          <HintPath>..\packages\AsyncAwaitBestPractices\lib\netstandard1.0\AsyncAwaitBestPractices.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="ControlzEx">
-          <HintPath>..\packages\ControlzEx\lib\net462\ControlzEx.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="System.Windows.Interactivity">
-          <HintPath>..\packages\ControlzEx\lib\net462\System.Windows.Interactivity.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="Costura">
-          <HintPath>..\packages\Costura.Fody\lib\net40\Costura.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="GongSolutions.WPF.DragDrop">
-          <HintPath>..\packages\gong-wpf-dragdrop\lib\net46\GongSolutions.WPF.DragDrop.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="JetBrains.Annotations">
-          <HintPath>..\packages\JetBrains.Annotations\lib\net20\JetBrains.Annotations.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="MahApps.Metro">
-          <HintPath>..\packages\MahApps.Metro\lib\net46\MahApps.Metro.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="MahApps.Metro.IconPacks.Core">
-          <HintPath>..\packages\MahApps.Metro.IconPacks.Material\lib\net46\MahApps.Metro.IconPacks.Core.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="MahApps.Metro.IconPacks.Material">
-          <HintPath>..\packages\MahApps.Metro.IconPacks.Material\lib\net46\MahApps.Metro.IconPacks.Material.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="MahApps.Metro.IconPacks.Core">
-          <HintPath>..\packages\MahApps.Metro.IconPacks.Modern\lib\net46\MahApps.Metro.IconPacks.Core.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="MahApps.Metro.IconPacks.Modern">
-          <HintPath>..\packages\MahApps.Metro.IconPacks.Modern\lib\net46\MahApps.Metro.IconPacks.Modern.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="Markdig.Signed">
-          <HintPath>..\packages\Markdig.Signed\lib\net40\Markdig.Signed.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="Markdig.Wpf">
-          <HintPath>..\packages\Markdig.Wpf.Signed\lib\net452\Markdig.Wpf.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="Newtonsoft.Json">
-          <HintPath>..\packages\Newtonsoft.Json\lib\net45\Newtonsoft.Json.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And $(TargetFrameworkVersion) == 'v4.6.2'">
-      <ItemGroup>
-        <Reference Include="System.IO.Compression">
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="System.Runtime.Serialization">
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="System.ServiceModel">
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="System.Transactions">
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="NLog">
-          <HintPath>..\packages\NLog\lib\net45\NLog.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-      </ItemGroup>
-    </When>
-  </Choose>
-  <Import Project="..\packages\Fody\build\Fody.targets" Condition="Exists('..\packages\Fody\build\Fody.targets')" Label="Paket" />
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+    <PropertyGroup>
+        <AssemblyName>MONI</AssemblyName>
+        <RootNamespace>MONI</RootNamespace>
+        <DisableFody Condition=" '$(Configuration)' == 'Debug' or $(TargetFramework.StartsWith('netcoreapp')) ">true</DisableFody>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <NoWarn>SA1652</NoWarn>
+        <ApplicationIcon>Resources\moni.ico</ApplicationIcon>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="AsyncAwaitBestPractices" Version="4.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+        <PackageReference Include="NLog" Version="4.6.8" />
+        <PackageReference Include="MahApps.Metro" Version="1.6.5" />
+        <PackageReference Include="MahApps.Metro.IconPacks.Modern" Version="3.1.0" />
+        <PackageReference Include="MahApps.Metro.IconPacks.Material" Version="3.1.0" />
+        <PackageReference Include="gong-wpf-dragdrop" Version="2.2.0" />
+        <PackageReference Include="Markdig.Wpf.Signed" Version="0.3.1" />
+        <PackageReference Include="Markdig.Signed" Version="0.18.0" />
+
+        <PackageReference Include="Fody" Version="6.*">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Costura.Fody" Version="4.*" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="app.manifest" />
+        <EmbeddedResource Include="..\README.md" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile DependentUpon="%(Filename)" SubType="Code" Update="**\obj\**\*.g$(DefaultLanguageSourceExtension)" />
+        <Compile DependentUpon="%(Filename)" SubType="Designer" Update="**\*.xaml$(DefaultLanguageSourceExtension)" />
+    </ItemGroup>
+
 </Project>

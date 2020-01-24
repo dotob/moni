@@ -1,4 +1,7 @@
-﻿using MONI.Data;
+﻿using System.Reflection;
+using System.Threading.Tasks;
+using MONI.Data;
+using MONI.Util;
 using NUnit.Framework;
 using Newtonsoft.Json;
 
@@ -8,9 +11,11 @@ namespace MONI.Tests
     public class UpdateInfoTester
     {
         [Test]
-        public void Read_Infos()
+        public async Task Read_Infos()
         {
-            var uiArray = JsonConvert.DeserializeObject<UpdateInfo[]>(Properties.Resources.UpdateInfoTest_json);
+            var reader = new AssemblyTextFileReader(Assembly.GetExecutingAssembly());
+            var jsonTxt = await reader.ReadFileAsync(@"updateinfotest.json.txt");
+            var uiArray = JsonConvert.DeserializeObject<UpdateInfo[]>(jsonTxt);
             CollectionAssert.IsNotEmpty(uiArray);
             var ui = uiArray[0];
             Assert.AreEqual(ui.Version, "1.1.1.1");
