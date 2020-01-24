@@ -10,6 +10,7 @@ using NUnit.Framework;
 namespace MONI.Tests
 {
     [TestFixture]
+    [SetCulture("de-DE")]
     public class MainViewModelTester
     {
         [SetUp]
@@ -46,7 +47,7 @@ namespace MONI.Tests
         {
             var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
 
-            vm.SelectDate(new DateTime(2014, 3, 31, new GregorianCalendar()));
+            vm.SelectDate(new DateTime(2014, 3, 31));
 
             Assert.AreEqual(2014, vm.WorkYear.Year);
             Assert.AreEqual(3, vm.WorkMonth.Month);
@@ -64,7 +65,7 @@ namespace MONI.Tests
         {
             var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
 
-            vm.SelectDate(new DateTime(2014, 2, 28, new GregorianCalendar()));
+            vm.SelectDate(new DateTime(2014, 2, 28));
 
             Assert.AreEqual(2014, vm.WorkYear.Year);
             Assert.AreEqual(2, vm.WorkMonth.Month);
@@ -82,7 +83,7 @@ namespace MONI.Tests
         {
             var vm = new MainViewModel(Dispatcher.CurrentDispatcher);
 
-            vm.SelectDate(new DateTime(2013, 12, 31, new GregorianCalendar()));
+            vm.SelectDate(new DateTime(2013, 12, 31));
 
             Assert.AreEqual(2013, vm.WorkYear.Year);
             Assert.AreEqual(12, vm.WorkMonth.Month);
