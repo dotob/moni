@@ -214,13 +214,13 @@ Konfiguration:
 
 Eingabe: 
 
-**8:30,4.25;ctb(support),2.75;ktl(spezifikation schnittstelle),1;ktl(+ bahn)**
+**8:30,4.25;ctb(support),2.75;ktl(schnittstelle spezifiziert),1;ktl(+ bahnschnittstelle)**
 
 Ausgabe: 
 
 - 8:30-12:45 12345-000  support
-- 12:45-15:30 54321-000  spezifikation schnittstelle
-- 15:30-17:30 54321-000  spezifikation schnittstelle bahn
+- 12:45-15:30 54321-000  schnittstelle spezifiziert
+- 15:30-17:30 54321-000  spezifikation bahnschnittstelle
 
 Erläuterung: 
 
