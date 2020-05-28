@@ -615,7 +615,7 @@
                                            Background="{Binding HoursDuration, Converter={x:Static valueConverter:DurationBGColorConverter.Instance}}"
                                            FontWeight="Bold"
                                            Foreground="{Binding HoursDuration, Converter={x:Static valueConverter:DurationFGColorConverter.Instance}}"
-                                           Text="{Binding HoursDuration, StringFormat='{}{0:f} h'}" />
+                                           Text="{Binding HoursDuration, Mode=OneWay, Converter={x:Static valueConverter:DurationToStringConverter.Instance}}" />
 
                                 <TextBox x:Name="userEntry"
                                          Grid.Row="0"
