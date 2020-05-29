@@ -609,5 +609,16 @@ namespace MONI.Tests
             var workItemParserResult = wdp.Parse("7:30,-11;11111-111,-11:45;11111-111,-12:15;11111-111,-15;11111-111", ref wd);
             Assert.IsFalse(workItemParserResult.Success, workItemParserResult.Error);
         }
+
+        [Test]
+        public void WDParser_DidNotWorkThisDay()
+        {
+            WorkDay wd = new WorkDay(1, 1, 1, null);
+            WorkDayParser wdp = new WorkDayParser();
+            var workItemParserResult = wdp.Parse("!,", ref wd);
+            Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+            Assert.IsEmpty(workItemParserResult.Error);
+            CollectionAssert.IsEmpty(wd.Items);
+        }
     }
 }
