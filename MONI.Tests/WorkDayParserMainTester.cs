@@ -42,7 +42,7 @@ namespace MONI.Tests
             Assert.IsEmpty(workItemParserResult.Error);
             wd.OriginalString = string.Empty;
             CollectionAssert.IsEmpty(wd.Items);
-            Assert.AreEqual(0, wd.HoursDuration);
+            Assert.AreEqual(null, wd.HoursDuration);
         }
 
         [Test]
