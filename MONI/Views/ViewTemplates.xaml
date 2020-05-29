@@ -37,7 +37,7 @@
                                HorizontalAlignment="Center"
                                FontSize="10"
                                Foreground="{StaticResource lightText}"
-                               Text="{Binding HoursDuration}" />
+                               Text="{Binding HoursDuration, StringFormat='{}{0:f}'}" />
                 </Grid>
             </Border>
             <UniformGrid Columns="2" IsHitTestVisible="False">
