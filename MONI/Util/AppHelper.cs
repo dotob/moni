@@ -8,19 +8,16 @@ using System.Windows.Threading;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
-using System.Linq;
 
 namespace MONI.Util
 {
     public sealed class AppHelper
     {
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
-        private Timer gcTimer;
-        private Timer gcTimerEnv;
+        private DispatcherTimer gcTimer;
+        private DispatcherTimer gcTimerEnv;
         private static readonly object lockErrorDialog = 1;
         private static bool blockExceptionDialog;
-
-        private static readonly AppHelper instance = new AppHelper();
 
         // Explicit static constructor to tell C# compiler
         // not to mark type as beforefieldinit
@@ -32,60 +29,73 @@ namespace MONI.Util
         {
         }
 
-        public static AppHelper Instance
-        {
-            get { return instance; }
-        }
+        public static AppHelper Instance { get; } = new AppHelper();
 
         public void SetCultureToCurrentThread(string cultureString)
         {
-            if (!String.IsNullOrEmpty(cultureString))
+            var ci = Thread.CurrentThread.CurrentCulture;
+            if (!string.IsNullOrEmpty(cultureString))
             {
-                var ci = CultureInfo.GetCultureInfo(cultureString);
-                Thread.CurrentThread.CurrentCulture = ci;
-                Thread.CurrentThread.CurrentUICulture = ci;
-
-                FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+                ci = CultureInfo.GetCultureInfo(cultureString);
+                logger.Info($"{this.ApplicationName} set CurrentCulture to {ci}");
             }
+            else
+            {
+                logger.Info($"{this.ApplicationName} use CurrentCulture {ci}");
+            }
+
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
+            CultureInfo.DefaultThreadCurrentCulture = ci;
+            CultureInfo.DefaultThreadCurrentUICulture = ci;
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(ci.IetfLanguageTag)));
         }
 
         private string ApplicationName { get; set; }
 
         private DateTime AppStartedUtcTime { get; set; }
 
-        private void LogMemoryUsageAndInfos(object state)
-        {
-            var workingSetInMiB = Environment.WorkingSet / 1024 / 1024;
-            var gcTotalMemoryInMiB = GC.GetTotalMemory(true) / 1024 / 1024;
-            var uptime = DateTime.UtcNow - this.AppStartedUtcTime;
-            logger.Info("{0} Memory-Usage (GC.GetTotalMemory(true)/Environment.WorkingSet): {1,4}/{2,4} MiB of instance {3} (uptime: {4} ({5:0.#####} minutes))", this.ApplicationName, workingSetInMiB, gcTotalMemoryInMiB, this.AppStartedUtcTime, TimeSpanUtil.ConvertMinutes2String(uptime.TotalMinutes), uptime.TotalMinutes);
-        }
-
         private void ConfigureHandlingUnhandledExceptions()
         {
             // see more: http://dotnet.dzone.com/news/order-chaos-handling-unhandled
             Thread.GetDomain().UnhandledException += this.BackgroundThreadUnhandledException;
-            if (System.Windows.Application.Current != null)
+            if (Application.Current != null)
             {
-                System.Windows.Application.Current.DispatcherUnhandledException += this.WPFUIThreadException;
+                Application.Current.DispatcherUnhandledException += this.WPFUIThreadException;
+                Application.Current.Exit += this.OnApplicationExit;
             }
+        }
+
+        private void OnApplicationExit(object sender, ExitEventArgs args)
+        {
+            // Not really fatal, but that way it is easy to find in the logs.
+            logger.Info($"{this.ApplicationName} exits with exit-code {args.ApplicationExitCode} after uptime {TimeSpanUtil.UptimeString(this.AppStartedUtcTime)}");
+            logger.Fatal("========================================:: {0} stopped", this.ApplicationName);
+            LogManager.Shutdown();
         }
 
         private void BackgroundThreadUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            logger.Debug("BackgroundThreadUnhandledException");
+            logger.Error(nameof(BackgroundThreadUnhandledException));
             HandleUnhandledException(e.ExceptionObject, true);
         }
 
         private void WPFUIThreadException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             e.Handled = true; // prevent app to quit automatically, see: http://dotnet.dzone.com/news/order-chaos-handling-unhandled
-            logger.Debug("WPFUIThreadException");
+
+            logger.Error(nameof(WPFUIThreadException));
             HandleUnhandledException(e.Exception, false);
         }
 
         public static void HandleUnhandledException(object exception, bool exitProgram)
         {
+            if (Debugger.IsAttached)
+            {
+                // When debugging or running unit tests, let the unhandled exception surface.
+                return;
+            }
+
             // only allow one thread (UI)
             lock (lockErrorDialog)
             {
@@ -96,29 +106,16 @@ namespace MONI.Util
                     {
                         exitProgram = ExceptionExtensions.IsFatalException((Exception)exception);
                     }
+
                     // prevent recursion on the message loop
                     if (!blockExceptionDialog)
                     {
                         blockExceptionDialog = true;
-                        // only log once. Otherwise it is poosible to file the file system with exceptions (message pump + exception)
-                        logger.Fatal("UnhandledException: {0}\n\n\nAt Stack: {1}", exception, Environment.StackTrace);
+
                         try
                         {
-                            // we do not switch to the UI thread, because the dialog that we are going to show has its own message pump (all dialogs have). 
-                            // As long as the dialog does not call methods of other windows there should be no problem.
-                            if (exception == null)
-                            {
-                                //TS_StackTraceBox.ShowStackTraceBox("Unhandled Exception Occurred", Environment.StackTrace);
-                            }
-                            else if (exception is Exception)
-                            {
-                                //TS_ExceptionBox.ShowErrorBox((Exception)exception);
-                            }
-                            else
-                            {
-                                // won't happen really - exception is really always of type Exception
-                                //TS_StackTraceBox.ShowStackTraceBox("Unhandled Exception Occurred: " + exception, Environment.StackTrace);
-                            }
+                            // only log once. Otherwise it is possible to fill the file system with exceptions (message pump + exception)
+                            LogFatalException("UnhandledException", exception as Exception);
                         }
                         finally
                         {
@@ -129,18 +126,36 @@ namespace MONI.Util
                         }
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    logger.Fatal(e, "Unable to Handle UnhandledException");
+                    LogFatalException("Unable to handle UnhandledException", ex);
                 }
                 finally
                 {
                     if (exitProgram)
                     {
-                        logger.Warn("Application exits due to UnhandledException");
+                        logger.Fatal($"Application exits due to UnhandledException, after uptime:{TimeSpanUtil.UptimeString(AppHelper.Instance.AppStartedUtcTime)}");
+
                         Environment.Exit(0);
                     }
                 }
+            }
+        }
+
+        private static void LogFatalException(string message, Exception ex)
+        {
+            if (ex is InvalidOperationException invalidOpEx)
+            {
+                logger.Fatal(invalidOpEx, message);
+                logger.Fatal($"{message} details: {invalidOpEx}");
+                if (invalidOpEx.InnerException != null)
+                {
+                    logger.Fatal($"{message} InnerException: {invalidOpEx.InnerException}");
+                }
+            }
+            else
+            {
+                logger.Fatal($"{message} {Environment.NewLine} {ex} {Environment.NewLine} At Stack {Environment.NewLine} {Environment.StackTrace}");
             }
         }
 
@@ -154,15 +169,26 @@ namespace MONI.Util
 
             this.ConfigureLogging();
 
-            logger.Info("========================== {0} started ==========================", this.ApplicationName);
-            app.Exit += (sender, args) => logger.Info("========================== {0} stopped ==========================", this.ApplicationName);
+            logger.Fatal("========================================:: {0} started", this.ApplicationName);
 
             // setup exception handling
             this.ConfigureHandlingUnhandledExceptions();
 
+            logger.Info(EnvironmentInfos.Instance.PrettyPrintInfos());
+            logger.Info(EnvironmentInfos.Instance.MemoryUsage(this.ApplicationName, this.AppStartedUtcTime));
+
             // configure timer (log all 10min == 600000ms)
-            this.gcTimer = new Timer(this.LogMemoryUsageAndInfos, this.AppStartedUtcTime, 0, 30000); //600000);
-            this.gcTimerEnv = new Timer(o => logger.Info(EnvironmentInfos.Instance.PrettyPrintInfos(this.AppStartedUtcTime)), this.AppStartedUtcTime, 0, 600000); //600000);
+            this.gcTimer = new DispatcherTimer(TimeSpan.FromSeconds(30),
+                                               DispatcherPriority.Background,
+                                               (sender, eventArgs) => logger.Info(EnvironmentInfos.Instance.MemoryUsage(this.ApplicationName, this.AppStartedUtcTime)),
+                                               Dispatcher.CurrentDispatcher);
+            this.gcTimer.Start();
+
+            this.gcTimerEnv = new DispatcherTimer(TimeSpan.FromSeconds(60),
+                                                  DispatcherPriority.Background,
+                                                  (sender, eventArgs) => logger.Info(EnvironmentInfos.Instance.PrettyPrintInfos()),
+                                                  Dispatcher.CurrentDispatcher);
+            this.gcTimerEnv.Start();
 
             this.CheckForRunningMoni(app);
         }
