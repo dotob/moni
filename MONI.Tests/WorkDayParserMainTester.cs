@@ -42,7 +42,7 @@ namespace MONI.Tests
             Assert.IsEmpty(workItemParserResult.Error);
             wd.OriginalString = string.Empty;
             CollectionAssert.IsEmpty(wd.Items);
-            Assert.AreEqual(0, wd.HoursDuration);
+            Assert.AreEqual(null, wd.HoursDuration);
         }
 
         [Test]
@@ -608,6 +608,17 @@ namespace MONI.Tests
             WorkDayParser wdp = new WorkDayParser(workDayParserSettings);
             var workItemParserResult = wdp.Parse("7:30,-11;11111-111,-11:45;11111-111,-12:15;11111-111,-15;11111-111", ref wd);
             Assert.IsFalse(workItemParserResult.Success, workItemParserResult.Error);
+        }
+
+        [Test]
+        public void WDParser_DidNotWorkThisDay()
+        {
+            WorkDay wd = new WorkDay(1, 1, 1, null);
+            WorkDayParser wdp = new WorkDayParser();
+            var workItemParserResult = wdp.Parse("!,", ref wd);
+            Assert.IsTrue(workItemParserResult.Success, workItemParserResult.Error);
+            Assert.IsEmpty(workItemParserResult.Error);
+            CollectionAssert.IsEmpty(wd.Items);
         }
     }
 }

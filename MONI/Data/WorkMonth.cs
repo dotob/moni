@@ -197,7 +197,7 @@ namespace MONI.Data
         public void CalcPreviewHours()
         {
             this.NecessaryHours = this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working) * hoursPerDay;
-            this.PreviewHours = this.HoursDuration + this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working && d.HoursDuration == 0) * hoursPerDay;
+            this.PreviewHours = this.HoursDuration + this.Weeks.SelectMany(w => w.Days).Count(d => d.DayType == DayType.Working && d.HoursDuration == null) * hoursPerDay;
         }
 
         public override string ToString()

@@ -74,5 +74,36 @@ namespace MONI.Tests
             Assert.NotNull(scs);
             Assert.AreEqual(8, scs.UsedInMonth);
         }
+
+        [Test]
+        public void HoursDuration_EmptyWorkDaySchouldReturnNull()
+        {
+            WorkDay wd = new WorkDay(2011, 1, 1, null);
+            Assert.IsTrue(wd.IsEmpty());
+            Assert.AreEqual(null, wd.HoursDuration);
+        }
+
+        [Test]
+        public void HoursDuration_WorkDayWithOutEmptyOriginalStringSchouldReturn0()
+        { //white spaces do not count!
+            WorkDay wd = new WorkDay(2011, 1, 1, null);
+            wd.OriginalString = "!";
+            Assert.AreEqual(0, wd.HoursDuration);
+        }
+
+        [Test]
+        public void HoursDuration_EmptyWorkWeekSchouldReturn0()
+        {
+            WorkMonth wm = new WorkMonth(2011, 1, null, new WorkDayParserSettings(), 1);
+            WorkWeek ww = new WorkWeek(wm, 1);
+            Assert.AreEqual(0, ww.HoursDuration);
+        }
+
+        [Test]
+        public void HoursDuration_EmptyWorkMonthSchouldReturn0()
+        {
+            WorkMonth wm = new WorkMonth(2011, 1, null, new WorkDayParserSettings(), 1);
+            Assert.AreEqual(0, wm.HoursDuration);
+        }
     }
 }

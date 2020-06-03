@@ -35,9 +35,9 @@ namespace MONI.ValueConverter
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var duration = (double)value;
+            var duration = (double?)value;
             var b = this.defaultBrush;
-            if (duration < MoniSettings.Current.MainSettings.HoursPerDay)
+            if (duration != null && duration < MoniSettings.Current.MainSettings.HoursPerDay)
             {
                 b = this.lessHoursPerDayBrush;
             }

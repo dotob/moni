@@ -48,7 +48,12 @@ namespace MONI.Data
                 string error;
                 // should be like "<daystarttime>,..."
                 // eg 7,... or 7:30,...
-                if (this.GetDayStartTime(userInput, out dayStartTime, out remainingString, out error))
+
+                if (this.ForceDurationToZero(userInput))
+                {
+                    ret.Success = true;
+                }
+                else if (this.GetDayStartTime(userInput, out dayStartTime, out remainingString, out error))
                 {
                     // proceed with parsing items
                     var parts = remainingString.SplitWithIgnoreRegions(new[] { itemSeparator }, new IgnoreRegion('(', ')'));
@@ -350,6 +355,15 @@ namespace MONI.Data
                 return string.Format("{0}-{1}", beforeDescription.TokenReturnInputIfFail("-", 1), posReplacement);
             }
             return beforeDescription;
+        }
+
+        private bool ForceDurationToZero(string input)
+        {
+            var dayStartToken = input.Token(dayStartSeparator.ToString(), 1, input); // do not trim here, need original length later
+            bool forceDurationToZero = dayStartToken.Trim().Equals(pauseChar.ToString());
+            bool noFurtherItemsToParse = dayStartToken.Length + 1 >= input.TrimEnd().Length;
+
+            return forceDurationToZero && noFurtherItemsToParse;
         }
 
         private bool GetDayStartTime(string input, out TimeItem dayStartTime, out string remainingString, out string error)

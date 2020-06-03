@@ -327,6 +327,15 @@ Erläuterung:
 
 Statt der Stunden Anzahl kann auch eine Zeit eingegeben werden, diese muß dann mit **-** prefixed werden. Automatische Pausen werden dabei ebenfalls berücksichtigt.
 
+## Geleistete Arbeitszeit eines Tages auf 0 h festsetzen ##
+
+Eingabe:
+
+**!**
+
+Erläuterung: 
+
+Dieser Tag wird mit 0 geleisteten Stunden bei der prognostizierten Arbeitszeit eingerechnet.
 
 
 

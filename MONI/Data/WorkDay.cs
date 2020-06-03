@@ -135,7 +135,7 @@ namespace MONI.Data
 
         public bool IsEmpty()
         {
-            return string.IsNullOrWhiteSpace(this.OriginalString);
+            return string.IsNullOrWhiteSpace(this.OriginalString) && this.Items.Count() == 0;
         }
 
         private void ParseData(string value)
@@ -166,9 +166,9 @@ namespace MONI.Data
             }
         }
 
-        public double HoursDuration
+        public double? HoursDuration
         {
-            get { return this.Items.Sum(i => i.HoursDuration); }
+            get { return this.IsEmpty() ? null : (double?)this.Items.Sum(i => i.HoursDuration); }
         }
 
         public DayOfWeek DayOfWeek { get; set; }

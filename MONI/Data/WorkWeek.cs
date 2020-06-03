@@ -27,7 +27,7 @@ namespace MONI.Data
 
         public double HoursDuration
         {
-            get { return this.Days.Sum(i => i.HoursDuration); }
+            get { return this.Days.Sum(i => i.HoursDuration ?? 0); }
         }
 
         public IEnumerable<WorkDay> Days
