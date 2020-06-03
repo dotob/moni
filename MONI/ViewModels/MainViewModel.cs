@@ -359,26 +359,28 @@ namespace MONI.ViewModels
 
         private string DetermineSettingsFile()
         {
-            logger.Debug("determine settingsfile location");
-            // check if there is a settings file in userdir
-            var fileName = "settings.json";
-            var moniAppData = Utils.MoniAppDataPath();
-            var moniAppDataSettingsFile = Path.Combine(moniAppData, fileName);
-            if (File.Exists(moniAppDataSettingsFile))
+            logger.Debug("determine settings file location");
+            
+            const string fileName = "settings.json";
+            var appDataPath = Utils.MoniAppDataPath();
+            var appDataSettingsFile = Path.Combine(appDataPath, fileName);
+
+            // check if there is a settings file in appdata
+            if (File.Exists(appDataSettingsFile))
             {
-                logger.Debug("found settingsfile in appdata: {0}", moniAppDataSettingsFile);
-                return moniAppDataSettingsFile;
+                logger.Debug($"found settings file in appdata: {appDataSettingsFile}");
+                return appDataSettingsFile;
             }
 
-            // check if we can create settings file in exe dir
+            // check if we can create a settings file in current folder
             if (Utils.CanCreateFile("."))
             {
-                logger.Debug("could write in currentdir: {0} use {1} as settingsfile", Directory.GetCurrentDirectory(), fileName);
+                logger.Debug($"could write in currentdir: {Directory.GetCurrentDirectory()} use {fileName} as settings file");
                 return fileName;
             }
 
-            logger.Debug("create new settingsfile in appdata: {0}", moniAppDataSettingsFile);
-            return moniAppDataSettingsFile;
+            logger.Debug($"create new settings file in appdata: {appDataSettingsFile}");
+            return appDataSettingsFile;
         }
 
         private async void throttleSaveAndCalc_Tick(object sender, EventArgs e)
@@ -404,23 +406,31 @@ namespace MONI.ViewModels
 
         private static MoniSettings ReadSettingsInternal(string settingsFile)
         {
-            if (File.Exists(settingsFile))
+            var defaultSettings = MoniSettings.GetEmptySettings();
+
+            try
             {
-                var jsonString = File.ReadAllText(settingsFile);
-                logger.Debug("read settings from {0}: {1}", settingsFile, jsonString);
-                return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+                if (File.Exists(settingsFile))
+                {
+                    var jsonString = File.ReadAllText(settingsFile);
+                    logger.Debug("read settings from {0}: {1}", settingsFile, jsonString);
+                    return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+                }
+
+                // no settings file found, try to read sample settings
+                settingsFile = "settings.json.skeleton";
+                if (File.Exists(settingsFile))
+                {
+                    string jsonString = File.ReadAllText(settingsFile);
+                    return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Error(e, $"Could not deserialize settings file {settingsFile}");
             }
 
-            // no settingsfile found, try to read sample settings
-            string settingsJsonSkeleton = "settings.json.skeleton";
-            if (File.Exists(settingsJsonSkeleton))
-            {
-                string jsonString = File.ReadAllText(settingsJsonSkeleton);
-                return JsonConvert.DeserializeObject<MoniSettings>(jsonString);
-            }
-
-            // no samplesettings, use default
-            return MoniSettings.GetEmptySettings();
+            return defaultSettings;
         }
 
         private static async Task WriteSettingsAsync(MoniSettings settings, string settingsFile)
