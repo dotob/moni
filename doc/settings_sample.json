@@ -9,19 +9,19 @@
         "ShortCuts": [
             {
                 "Key": "af",
-                "Expansion": "25487-420(features a)",
+                "Expansion": "12345-420(features a)",
                 "WholeDayExpansion": false,
                 "ValidFrom": "0001-01-01T00:00:00"
             },
             {
                 "Key": "ap",
-                "Expansion": "25481-811(performanceverbesserungen a)",
+                "Expansion": "12345-811(performanceverbesserungen a)",
                 "WholeDayExpansion": false,
                 "ValidFrom": "0001-01-01T00:00:00"
             },
             {
                 "Key": "u",
-                "Expansion": "20030-000(urlaub)",
+                "Expansion": "54321-000(urlaub)",
                 "WholeDayExpansion": false,
                 "ValidFrom": "0001-01-01T00:00:00"
             },

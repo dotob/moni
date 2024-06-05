@@ -173,12 +173,12 @@ Beschreibungen können pro Eintrag in **Klammern** angegeben werden. Es können 
 
 Konfiguration:
 
-- **ctb => 12345-000**
-- **ktl => 54321-000(spezifikation)**
+- **proj1 => 12345-000**
+- **proj2 => 54321-000(spezifikation)**
 
 Eingabe: 
 
-**8:30,4.25;ctb,3.75;ktl**
+**8:30,4.25;proj1,3.75;proj2**
 
 Ausgabe: 
 
@@ -189,12 +189,12 @@ Ausgabe:
 
 Konfiguration:
 
-- **ctb => 12345-000**
-- **ktl => 54321-000(spezifikation)**
+- **proj1 => 12345-000**
+- **proj2 => 54321-000(spezifikation)**
 
 Eingabe: 
 
-**8:30,4.25;ctb,3.75;ktl-123**
+**8:30,4.25;proj1,3.75;proj2-123**
 
 Ausgabe: 
 
@@ -209,18 +209,18 @@ Die in der Abkürzung gespeicherte Positionsnummer kann von Fall zu Fall übersc
 
 Konfiguration:
 
-- **ctb => 12345-000**
-- **ktl => 54321-000(spezifikation)**
+- **proj1 => 12345-000**
+- **proj2 => 54321-000(spezifikation)**
 
 Eingabe: 
 
-**8:30,4.25;ctb(support),2.75;ktl(schnittstelle spezifiziert),1;ktl(+ bahnschnittstelle)**
+**8:30,4.25;proj1(support),2.75;proj2(schnittstelle spezifiziert),1;proj2(+ bahnschnittstelle)**
 
 Ausgabe: 
 
 - 8:30-12:45 12345-000  support
 - 12:45-15:30 54321-000  schnittstelle spezifiziert
-- 15:30-17:30 54321-000  spezifikation bahnschnittstelle
+- 15:30-17:30 54321-000  spezifikation testschnittstelle
 
 Erläuterung: 
 

@@ -1,2 +1,0 @@
-/home/mtools/monistat/monistat > /tmp/monistat
-sendemail -t skraemer@inform-software.com jkarger@inform-software.com -f skraemer@inform-ac.com -u monistat -s gw.inform-ac.com -o message-file=/tmp/monistat
